@@ -57,16 +57,16 @@ function draw() {
   list.innerHTML = items.map(i => {
     const p = productBy(i.slug), pl = p.plans[i.plan];
     return `<div class="citem"><img src="${p.img}" alt="">
-      <div><b>${esc(p.name)}</b><small>${esc(pl.n)} · ${money(pl.p)} each</small></div>
-      <div class="right"><div class="qty"><button data-a="dec" data-s="${i.slug}" data-p="${i.plan}">−</button><span>${i.qty}</span><button data-a="inc" data-s="${i.slug}" data-p="${i.plan}">+</button></div>
-      <div class="lp">${money(pl.p * i.qty)}</div>
-      <button class="rm" data-a="rm" data-s="${i.slug}" data-p="${i.plan}" aria-label="Remove">${ico.trash}</button></div></div>`;
+      <div><b>${esc(p.name)}</b><small>${esc(pl.n)} · ${money(pl.p)} each</small>${i.any ? `<span class="addtag">+ ${esc(CONFIG.addon.name)} ${money(CONFIG.addon.price)}</span>` : ""}</div>
+      <div class="right"><div class="qty"><button data-a="dec" data-s="${i.slug}" data-p="${i.plan}" data-any="${i.any ? 1 : 0}">−</button><span>${i.qty}</span><button data-a="inc" data-s="${i.slug}" data-p="${i.plan}" data-any="${i.any ? 1 : 0}">+</button></div>
+      <div class="lp">${money(Cart.unit(i) * i.qty)}</div>
+      <button class="rm" data-a="rm" data-s="${i.slug}" data-p="${i.plan}" data-any="${i.any ? 1 : 0}" aria-label="Remove">${ico.trash}</button></div></div>`;
   }).join("");
 }
 document.getElementById("list").addEventListener("click", e => {
   const b = e.target.closest("button[data-a]"); if (!b) return;
-  const it = Cart.items().find(i => i.slug === b.dataset.s && i.plan === +b.dataset.p); if (!it) return;
-  Cart.setQty(it.slug, it.plan, b.dataset.a === "inc" ? it.qty + 1 : b.dataset.a === "dec" ? it.qty - 1 : 0);
+  const it = Cart.items().find(i => i.slug === b.dataset.s && i.plan === +b.dataset.p && !!i.any === (b.dataset.any === "1")); if (!it) return;
+  Cart.setQty(it.slug, it.plan, b.dataset.a === "inc" ? it.qty + 1 : b.dataset.a === "dec" ? it.qty - 1 : 0, it.any);
   draw();
 });
 draw();

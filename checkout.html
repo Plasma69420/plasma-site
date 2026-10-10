@@ -51,7 +51,8 @@ const items = Cart.items();
 if (!items.length) location.replace("cart.html");
 document.getElementById("lines").innerHTML = items.map(i => {
   const p = productBy(i.slug), pl = p.plans[i.plan];
-  return `<div class="row"><span>${esc(p.name)} · ${esc(pl.n)} × ${i.qty}</span><b>${money(pl.p * i.qty)}</b></div>`;
+  return `<div class="row"><span>${esc(p.name)} · ${esc(pl.n)} × ${i.qty}</span><b>${money(pl.p * i.qty)}</b></div>` +
+    (i.any ? `<div class="row"><span>${esc(CONFIG.addon.name)} × ${i.qty}</span><b>${money(CONFIG.addon.price * i.qty)}</b></div>` : "");
 }).join("");
 document.getElementById("tot").textContent = money(Cart.total());
 const au = Auth.get();
@@ -70,9 +71,14 @@ pay.addEventListener("click", async () => {
   const email = document.getElementById("email").value.trim();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return say("Enter a valid email address.");
   if (!document.getElementById("terms").checked) return say("You need to agree to the terms to continue.");
+  // cart lines -> SellApp variants (the add-on is its own variant, once per unit)
+  const lines = items.map(i => ({ variant: productBy(i.slug).plans[i.plan].v, qty: i.qty }));
+  const addons = items.reduce((a, i) => a + (i.any ? i.qty : 0), 0);
+  if (addons) lines.push({ variant: CONFIG.addon.v, qty: addons });
+  if (lines.some(l => !l.variant)) return say("One of these items isn't available to buy yet. Open a ticket in our Discord and we'll set you up.");
   pay.disabled = true; pay.textContent = "Creating your order...";
   try {
-    const r = await Api.post("/api/checkout", { email, method, items: items.map(i => ({ variant: productBy(i.slug).plans[i.plan].v, qty: i.qty })) });
+    const r = await Api.post("/api/checkout", { email, method, items: lines });
     say("Redirecting to secure payment...", "ok");
     location.href = r.url;
   } catch (e) {

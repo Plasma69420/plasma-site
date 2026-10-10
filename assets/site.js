@@ -15,6 +15,45 @@ const CONFIG = {
       plans: [{ n: "Day", p: 4.99, v: 416469 }, { n: "Week", p: 14.99, v: 416470 }, { n: "Month", p: 24.99, v: 416471 }, { n: "Lifetime", p: 79.99, v: 416472 }]
     },
     {
+      slug: "r6-external", name: "R6 External", type: "External", game: "Rainbow Six Siege", img: "img/r6-external.webp",
+      desc: "External Rainbow Six Siege cheat with ESP and aim suite.",
+      features: ["Smooth aim with FOV & smoothness sliders", "Player, drone & gadget ESP", "External, stream-proof rendering"],
+      details: "External Rainbow Six Siege cheat with ESP and an aim suite. It runs externally with no game injection, renders stream-proof, and is delivered instantly with Discord support.",
+      groups: [
+        ["Aimbot", ["Smooth aim with FOV & smoothness sliders", "Bone targeting (head, chest, pelvis)", "Visibility check", "Aim key / toggle support"]],
+        ["Visuals", ["Player ESP boxes & skeleton", "Distance, name & health", "Drone & gadget ESP", "Customizable colors"]],
+        ["Security", ["External, no game injection", "BattlEye bypass updated regularly", "Stream-proof rendering"]],
+        ["Misc", ["Configurable hotkeys", "Instant delivery & Discord support"]]
+      ],
+      plans: [{ n: "Day", p: 6.99, v: null }, { n: "Week", p: 26.99, v: null }, { n: "Month", p: 59.99, v: null }, { n: "Lifetime", p: 149.99, v: null }]
+    },
+    {
+      slug: "marvel-rivals", name: "Marvel Rivals", type: "Private", game: "Marvel Rivals", img: "img/marvel-rivals.webp",
+      desc: "Hero-aware Marvel Rivals cheat with smooth aim and full ESP.",
+      features: ["Hero-aware aim with prediction", "Full player ESP & radar", "Save and load configs"],
+      details: "Hero-aware Marvel Rivals cheat with smooth aim and full ESP. Prediction is tuned per projectile hero, and everything is configurable with saveable configs.",
+      groups: [
+        ["Aimbot", ["Enable aimbot", "Aim key (rebindable)", "Require visible (occlusion check)", "Target lock (sticks to one enemy until they die / leave FOV)", "Target priority (closest to crosshair, lowest health first, closest world distance)", "Target bone (head, neck, chest, pelvis, feet, closest bone)", "Aim FOV cone", "Aim smoothing", "Vertical offset (fine-tune compensation in UU)", "Show FOV ring on screen (visualizer)"]],
+        ["Prediction", ["Enable prediction", "Hero to customize (every projectile hero in the SDK)", "Projectile speed override (UU/s)", "Projectile gravity / drop override (UU/s²)", "Reset selected hero to table defaults", "Global speed override", "Global gravity override", "Motion curve (linear, ease-out, ease-in-out, S-curve)", "Reaction delay (ms)", "Reaction variance (% random)", "Target switch grace window (ms)", "Minimum aim speed (fraction)", "Pitch vs yaw speed ratio", "Overshoot past target (%)", "Hand tremor noise (degrees)", "Breathing amount (degrees)", "Apply LEGIT preset", "Apply RAGE preset", "Reset aim key to Mouse R"]],
+        ["Visuals (ESP)", ["Enable ESP", "Players (self filter, teammates, enemies)", "Box (style: full / corner brackets / filled)", "Outline thickness", "Bracket corner length", "Filled box opacity", "Max ESP draw distance (m)", "Hide text below box height", "Player name", "Hero name", "K / D / A score", "Role badge (Strategist / Duelist / Vanguard)", "Distance", "Velocity (km/h)", "Snaplines", "Snapline origin (top, middle, bottom of screen)", "Snapline target (top, middle, bottom of box)", "Snapline thickness", "Custom snapline color (visible / occluded)", "Head dot", "Head dot vertical position (% of box)", "Health display", "Health style (bar, number, both)", "Ultimate status bar", "Only visible / visibility check", "Off-screen arrows", "Arrow size", "Screen edge margin"]],
+        ["World", ["Custom crosshair", "Crosshair style (dot, cross, circle, +dot, T)", "Crosshair size", "Crosshair line thickness", "Crosshair center gap", "Black outline (readability)", "Crosshair color", "Mini radar", "Radar screen corner (TL, TR, BL, BR)", "Radar size", "Radar detection range (meters)", "Radar background opacity", "Filter (use team filter, show teammates)"]],
+        ["Misc / Settings", ["Menu transparency", "UI scale (DPI)", "Overlay FPS cap (0 = uncapped)", "VSync", "Low-power mode when game is alt-tabbed", "Save config to file", "Load config from file", "Reset every setting to defaults"]]
+      ],
+      plans: [{ n: "1 Day", p: 5.99, v: null }, { n: "1 Week", p: 19.99, v: null }, { n: "1 Month", p: 39.99, v: null }]
+    },
+    {
+      slug: "arc-raiders", name: "Arc Raiders", type: "Private", game: "Arc Raiders", img: "img/arc-raiders.webp",
+      desc: "Premium Arc Raiders cheat for dominating every run.",
+      features: ["Smooth aim with FOV & smoothness", "Player, loot & NPC ESP", "Auto-updates with game patches"],
+      details: "Premium Arc Raiders cheat for dominating every run. Smooth aim, full ESP including loot and enemy NPCs, a stream-proof overlay, and updates that follow each Arc Raiders patch.",
+      groups: [
+        ["Aimbot", ["Smooth aim with adjustable FOV & smoothness", "Bone selection & visibility check", "Aim key / toggle modes"]],
+        ["Visuals", ["Player ESP (boxes, skeleton, healthbars)", "Loot & enemy NPC ESP", "Distance, name & class labels", "Custom color palette"]],
+        ["Misc", ["Stream-proof overlay", "Configurable hotkeys", "Instant delivery & Discord support", "Auto-updates with Arc Raiders patches"]]
+      ],
+      plans: [{ n: "1 Day", p: 5.99, v: null }, { n: "1 Week", p: 22.99, v: null }, { n: "1 Month", p: 54.99, v: null }]
+    },
+    {
       slug: "temp-spoofer", name: "Temp Spoofer", type: "Spoofer", game: "Spoofer", img: "img/temp-spoofer.webp",
       desc: "Spoofs your serials until your next restart.",
       features: ["One-click spoof", "Resets on reboot", "Intel & AMD"],
@@ -31,6 +70,13 @@ const CONFIG = {
       plans: [{ n: "One Time", p: 14.99, v: 416478 }, { n: "Lifetime", p: 49.99, v: 416479 }]
     }
   ]
+};
+
+// optional add-on sold next to any product (a separate SellApp product, filled in by variant id)
+CONFIG.addon = {
+  name: "AnyDesk Support", price: 4.99, v: null,
+  desc: "Direct setup help from Plasma via AnyDesk: loader, spoofer, drivers, and troubleshooting.",
+  fine: "Optional · Sessions scheduled by availability · Have AnyDesk or RustDesk ready before your session."
 };
 
 const STATUS = {
@@ -59,19 +105,22 @@ const ico = {
 const Cart = {
   items() { try { return (JSON.parse(localStorage.getItem("plasma_cart")) || []).filter(i => productBy(i.slug) && productBy(i.slug).plans[i.plan]); } catch { return []; } },
   save(list) { try { localStorage.setItem("plasma_cart", JSON.stringify(list)); } catch { } Cart.badge(); },
-  add(slug, plan, qty = 1) {
-    const list = Cart.items(), f = list.find(i => i.slug === slug && i.plan === plan);
-    if (f) f.qty = Math.min(10, f.qty + qty); else list.push({ slug, plan, qty });
+  // `any` = the item also includes the optional AnyDesk Support add-on (once per unit)
+  add(slug, plan, qty = 1, any = false) {
+    any = !!any;
+    const list = Cart.items(), f = list.find(i => i.slug === slug && i.plan === plan && !!i.any === any);
+    if (f) f.qty = Math.min(10, f.qty + qty); else list.push({ slug, plan, qty, any });
     Cart.save(list);
   },
-  setQty(slug, plan, qty) {
+  setQty(slug, plan, qty, any = false) {
     let list = Cart.items();
-    list = list.map(i => i.slug === slug && i.plan === plan ? { ...i, qty: Math.max(0, Math.min(10, qty)) } : i).filter(i => i.qty > 0);
+    list = list.map(i => i.slug === slug && i.plan === plan && !!i.any === !!any ? { ...i, qty: Math.max(0, Math.min(10, qty)) } : i).filter(i => i.qty > 0);
     Cart.save(list);
   },
   clear() { Cart.save([]); },
   count() { return Cart.items().reduce((a, i) => a + i.qty, 0); },
-  total() { return Cart.items().reduce((a, i) => a + productBy(i.slug).plans[i.plan].p * i.qty, 0); },
+  unit(i) { return productBy(i.slug).plans[i.plan].p + (i.any ? CONFIG.addon.price : 0); },
+  total() { return Cart.items().reduce((a, i) => a + Cart.unit(i) * i.qty, 0); },
   badge() { const n = Cart.count(); document.querySelectorAll(".cart-count").forEach(b => { b.textContent = n; b.hidden = !n; }); }
 };
 
