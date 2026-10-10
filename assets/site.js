@@ -85,6 +85,10 @@ CONFIG.addon = {
   fine: "Optional · Sessions scheduled by availability · Have AnyDesk or RustDesk ready before your session."
 };
 
+// every product gets its own AnyDesk add-on (own price, own SellApp variant id). Change a price or paste a variant id here.
+CONFIG.tickets = "https://discord.com/channels/1555806695362666618/1556013981674635344";
+CONFIG.products.forEach(p => { p.addon = Object.assign({ price: CONFIG.addon.price, v: null }, p.addon); });
+
 const STATUS = {
   undetected: ["Undetected", ""], updating: ["Updating", "updating"], maintenance: ["Maintenance", "updating"],
   detected: ["Detected", "down"], down: ["Down", "down"]
@@ -125,7 +129,9 @@ const Cart = {
   },
   clear() { Cart.save([]); },
   count() { return Cart.items().reduce((a, i) => a + i.qty, 0); },
-  unit(i) { return productBy(i.slug).plans[i.plan].p + (i.any ? CONFIG.addon.price : 0); },
+  unit(i) { const p = productBy(i.slug); return p.plans[i.plan].p + (i.any ? p.addon.price : 0); },
+  // true when every item in the cart can actually be bought (its SellApp variant exists)
+  buyable() { return Cart.items().every(i => { const p = productBy(i.slug); return p.plans[i.plan].v && (!i.any || p.addon.v); }); },
   total() { return Cart.items().reduce((a, i) => a + Cart.unit(i) * i.qty, 0); },
   badge() { const n = Cart.count(); document.querySelectorAll(".cart-count").forEach(b => { b.textContent = n; b.hidden = !n; }); }
 };

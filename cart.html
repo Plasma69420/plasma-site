@@ -32,6 +32,7 @@
       <div class="row"><span>Taxes &amp; fees</span><span>none added</span></div>
       <div class="tot"><small>TOTAL</small><b id="tot">$0.00</b></div>
       <a class="btn btn-main" id="go" href="/checkout">Checkout →</a>
+      <div class="msg err" id="warn" hidden>Some items in your cart can't be bought on the site yet. Remove them, or <a href="#" id="tk" target="_blank" rel="noopener" style="text-decoration:underline">open a ticket</a> and we'll sort you out.</div>
       <div class="notes">
         <span>Instant key delivery after payment</span>
         <span>Secure checkout, no hidden fees</span>
@@ -48,7 +49,9 @@ function draw() {
   document.getElementById("n").textContent = Cart.count();
   document.getElementById("sub2").textContent = document.getElementById("tot").textContent = money(Cart.total());
   const go = document.getElementById("go");
-  go.style.pointerEvents = items.length ? "" : "none"; go.style.opacity = items.length ? "" : ".5";
+  const ok = items.length && Cart.buyable();
+  go.style.pointerEvents = ok ? "" : "none"; go.style.opacity = ok ? "" : ".5";
+  document.getElementById("warn").hidden = !items.length || ok;
   const list = document.getElementById("list");
   if (!items.length) {
     list.innerHTML = `<div class="empty"><b>Your cart is empty</b>Pick a product and your keys are one checkout away.<div style="margin-top:16px"><a class="btn btn-main" href="/products">Browse products</a></div></div>`;
@@ -57,7 +60,7 @@ function draw() {
   list.innerHTML = items.map(i => {
     const p = productBy(i.slug), pl = p.plans[i.plan];
     return `<div class="citem"><img src="${p.img}" alt="">
-      <div><b>${esc(p.name)}</b><small>${esc(pl.n)} · ${money(pl.p)} each</small>${i.any ? `<span class="addtag">+ ${esc(CONFIG.addon.name)} ${money(CONFIG.addon.price)}</span>` : ""}</div>
+      <div><b>${esc(p.name)}</b><small>${esc(pl.n)} · ${money(pl.p)} each</small>${i.any ? `<span class="addtag">+ ${esc(CONFIG.addon.name)} ${money(p.addon.price)}</span>` : ""}</div>
       <div class="right"><div class="qty"><button data-a="dec" data-s="${i.slug}" data-p="${i.plan}" data-any="${i.any ? 1 : 0}">−</button><span>${i.qty}</span><button data-a="inc" data-s="${i.slug}" data-p="${i.plan}" data-any="${i.any ? 1 : 0}">+</button></div>
       <div class="lp">${money(Cart.unit(i) * i.qty)}</div>
       <button class="rm" data-a="rm" data-s="${i.slug}" data-p="${i.plan}" data-any="${i.any ? 1 : 0}" aria-label="Remove">${ico.trash}</button></div></div>`;
@@ -69,6 +72,7 @@ document.getElementById("list").addEventListener("click", e => {
   Cart.setQty(it.slug, it.plan, b.dataset.a === "inc" ? it.qty + 1 : b.dataset.a === "dec" ? it.qty - 1 : 0, it.any);
   draw();
 });
+document.getElementById("tk").href = CONFIG.tickets;
 draw();
 </script>
 </body>

@@ -26,7 +26,7 @@ if (!p) {
   let plan = Math.min(Math.max(+new URLSearchParams(location.search).get("plan") || 0, 0), p.plans.length - 1), qty = 1, any = false, status = "undetected";
   const draw = () => {
     const [label, cls] = STATUS[status] || STATUS.undetected;
-    const pl = p.plans[plan], unit = pl.p + (any ? CONFIG.addon.price : 0);
+    const pl = p.plans[plan], unit = pl.p + (any ? p.addon.price : 0), avail = !!pl.v;
     root.innerHTML = `
     <div class="pd">
       <div><div class="pd-img"><img src="${p.img}" alt="${esc(p.name)}"><span class="chip status ${cls}"><i></i>${label}</span></div></div>
@@ -37,15 +37,18 @@ if (!p) {
         <div class="assure"><span>${ico.bolt}Instant Delivery</span><span>${ico.shield}Secure Checkout</span><span>${ico.headset}24/7 Support</span></div>
         <div class="lbl">Choose your plan</div>
         <div class="planrow">${p.plans.map((x, j) => `<button class="plancard${j === plan ? " on" : ""}" data-j="${j}"><b>${esc(x.n)}</b><strong>${money(x.p)}</strong><small>Instant delivery</small></button>`).join("")}</div>
-        <label class="addon${any ? " on" : ""}"><input type="checkbox" id="any" ${any ? "checked" : ""}>
+        <label class="addon${any ? " on" : ""}"${avail && p.addon.v ? "" : " hidden"}><input type="checkbox" id="any" ${any ? "checked" : ""}>
           <span class="box"></span>
-          <span class="at"><b>${ico.headset}${CONFIG.addon.name} (Optional)</b><i>+${money(CONFIG.addon.price)}</i><em>${CONFIG.addon.desc}</em><small>${CONFIG.addon.fine}</small></span></label>
+          <span class="at"><b>${ico.headset}${CONFIG.addon.name} (Optional)</b><i>+${money(p.addon.price)}</i><em>${CONFIG.addon.desc}</em><small>${CONFIG.addon.fine}</small></span></label>
         <div class="totalbox">
           <div><small>TOTAL</small><b>${money(unit * qty)}</b><em>Instant delivery</em></div>
           <div class="qty"><button id="dec" aria-label="Less">−</button><span>${qty}</span><button id="inc" aria-label="More">+</button></div>
         </div>
-        <div class="buyrow"><button class="btn btn-ghost" id="add">${ico.cart}Add to cart</button><button class="btn btn-main" id="buy">Buy now ${ico.arrow}</button></div>
-        <div class="fine" id="fine">Keys are delivered instantly after payment.</div>
+        ${avail
+          ? `<div class="buyrow"><button class="btn btn-ghost" id="add">${ico.cart}Add to cart</button><button class="btn btn-main" id="buy">Buy now ${ico.arrow}</button></div>
+        <div class="fine" id="fine">Keys are delivered instantly after payment.</div>`
+          : `<div class="buyrow" style="grid-template-columns:1fr"><a class="btn btn-main" href="${CONFIG.tickets}" target="_blank" rel="noopener">Open a ticket to buy</a></div>
+        <div class="fine" id="fine">This plan isn't available to buy on the site yet. Open a ticket in our Discord and we'll sort you out.</div>`}
       </div>
     </div>
     <div class="sec-h">Product Details</div>
@@ -56,8 +59,10 @@ if (!p) {
     root.querySelector("#dec").onclick = () => { qty = Math.max(1, qty - 1); draw(); };
     root.querySelector("#inc").onclick = () => { qty = Math.min(10, qty + 1); draw(); };
     root.querySelector("#any").onchange = e => { any = e.target.checked; draw(); };
-    root.querySelector("#add").onclick = () => { Cart.add(p.slug, plan, qty, any); root.querySelector("#fine").innerHTML = `Added to your cart. <a href="/cart" style="color:var(--accent-2);text-decoration:underline">View cart</a>`; };
-    root.querySelector("#buy").onclick = () => { Cart.save([{ slug: p.slug, plan, qty, any }]); location.href = "/checkout"; };
+    if (avail) {
+      root.querySelector("#add").onclick = () => { Cart.add(p.slug, plan, qty, any); root.querySelector("#fine").innerHTML = `Added to your cart. <a href="/cart" style="color:var(--accent-2);text-decoration:underline">View cart</a>`; };
+      root.querySelector("#buy").onclick = () => { Cart.save([{ slug: p.slug, plan, qty, any }]); location.href = "/checkout"; };
+    }
   };
   draw();
   Api.status().then(s => { if (s[p.slug]) { status = s[p.slug].status; draw(); } });
