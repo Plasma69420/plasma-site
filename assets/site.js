@@ -7,6 +7,8 @@ const CONFIG = {
   discord: "https://discord.gg/2nmZpcrC2",
   discordClientId: "1558554710384844972",
   api: "https://plasma-bot-production.up.railway.app",
+  // invite to your separate Media Discord (leave empty to use the main Discord)
+  mediaDiscord: "",
   // Paste your YouTube video link here (e.g. https://www.youtube.com/watch?v=XXXXXXXXXXX). Empty hides the showcase.
   showcaseYouTube: "",
   products: [
@@ -180,7 +182,7 @@ const Api = {
   <div class="nav-bar"><div class="nav-in">
     <a href="/" class="brand"><img src="/img/logo.png" alt="">Plasma</a>
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/reviews", "Reviews", "reviews")}${link("/status", "Status", "status")}
+      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/reviews", "Reviews", "reviews")}${link("/status", "Status", "status")}${link("/media", "Media", "media")}
     </nav>
     <div class="nav-right">
       <a class="nav-btn" href="${CONFIG.discord}" target="_blank" rel="noopener">${ico.discord}<span>Discord</span></a>
@@ -196,7 +198,7 @@ const Api = {
   <div class="wrap">
     <a href="/" class="brand"><img src="/img/logo.png" alt="">Plasma</a>
     <nav>
-      <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/status">Status</a>
+      <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/status">Status</a><a href="/media">Media</a>
       <a href="${CONFIG.discord}" target="_blank" rel="noopener">Discord</a>
     </nav>
     <small>© ${new Date().getFullYear()} Plasma. All rights reserved.</small>

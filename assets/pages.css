@@ -255,3 +255,32 @@
 /* recovered vouches */
 .rec-note{margin:-4px 0 16px;font-size:13px;color:var(--dim)}
 .recn{font:700 13px/1 var(--display);color:var(--accent-2)}
+
+/* media page */
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.mcards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.mcard{padding:20px}
+.mico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(var(--accent-rgb),.14);border:1px solid rgba(var(--accent-rgb),.3);color:var(--accent-2);flex-shrink:0}
+.mico svg{width:19px;height:19px}
+.mico.big{width:52px;height:52px;border-radius:50%;margin:0 auto;background:none;border:0;color:var(--accent-2)}
+.mico.big svg{width:40px;height:40px}
+.mico.yt,.mico.tt{background:none;border:0;width:28px;height:28px;border-radius:0}
+.mcard b{display:block;margin-top:14px;font-size:15px;color:#fff}
+.mcard p{margin-top:6px;font-size:13px;color:var(--muted)}
+.mlook{margin-top:16px;padding:26px 28px}
+.mh{font:700 22px/1.2 var(--display);color:var(--accent-2);letter-spacing:-.01em}
+.mh.center{text-align:center;margin:44px 0 18px}
+.mlook .mh{text-align:center}
+.mrow{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:20px}
+.mitem{display:flex;gap:14px;align-items:flex-start}
+.mitem b{display:block;color:#fff;font-size:16px}
+.mitem p{margin-top:6px;font-size:13px;color:var(--muted)}
+.mreq{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mreqi{display:flex;align-items:center;gap:12px;padding:14px 16px;font-size:13.5px;color:var(--body)}
+.mreqi:last-child:nth-child(odd){grid-column:1/-1}
+.ck{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(var(--accent-rgb),.5);background:rgba(var(--accent-rgb),.12);color:var(--accent-2);flex-shrink:0}
+.ck svg{width:12px;height:12px}
+.mcta{margin-top:30px;padding:34px 24px;text-align:center}
+.mcta h2{margin-top:12px;font:700 24px/1.2 var(--display);color:#fff}
+.mcta p{margin:8px auto 20px;max-width:480px;font-size:14px;color:var(--muted)}
+@media (max-width:760px){.mcards,.mrow,.mreq{grid-template-columns:1fr}}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Media Team – Plasma</title>
+<meta name="description" content="Join the Plasma media team. Create content, get paid in free keys or cash.">
+<meta name="theme-color" content="#b026ff">
+<link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/pages.css">
+</head>
+<body>
+<main class="page"><div class="wrap" style="max-width:1000px">
+  <div class="page-head">
+    <span class="pill"><span class="live-dot"></span>MEDIA</span>
+    <h1>Join Our Media Team</h1>
+    <p>We're hiring talented content creators every day to showcase our products and grow our community. Get paid in free keys or <b class="accent">cash</b>!</p>
+  </div>
+
+  <div class="mcards">
+    <div class="card mcard"><span class="mico" id="i1"></span><b>Get Paid</b><p>Earn money or free product keys for creating quality content featuring our tools.</p></div>
+    <div class="card mcard"><span class="mico" id="i2"></span><b>Free Access</b><p>Get free lifetime access to all our products to create authentic content.</p></div>
+    <div class="card mcard"><span class="mico" id="i3"></span><b>Grow Your Brand</b><p>Partner with a trusted brand and grow your audience with exclusive content.</p></div>
+  </div>
+
+  <div class="card mlook">
+    <h2 class="mh">What We're Looking For</h2>
+    <div class="mrow">
+      <div class="mitem"><span class="mico yt" id="i4"></span><div><b>YouTube Creators</b><p>Gameplay videos, tutorials, reviews, and showcases featuring our products. Perfect for long-form content and in-depth demonstrations.</p></div></div>
+      <div class="mitem"><span class="mico tt" id="i5"></span><div><b>TikTok Creators</b><p>Short-form content, highlights, and viral clips showcasing our products. Great for quick demos and trending content.</p></div></div>
+    </div>
+  </div>
+
+  <h2 class="mh center">Requirements</h2>
+  <div class="mreq" id="req"></div>
+
+  <div class="card mcta">
+    <span class="mico big" id="i6"></span>
+    <h2>Ready to Get Started?</h2>
+    <p>Join our Media Discord server to apply and start creating content with us today!</p>
+    <a class="btn btn-main" id="join" href="#" target="_blank" rel="noopener">Join Media Discord</a>
+  </div>
+</div></main>
+<script src="/assets/site.js"></script>
+<script>
+const svg = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+document.getElementById("i1").innerHTML = svg('<path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>');
+document.getElementById("i2").innerHTML = svg('<circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 9.2-9.2M16 7l3 3M14 9l2 2"/>');
+document.getElementById("i3").innerHTML = svg('<path d="m12 2 3 6.5 7 .8-5.2 4.8 1.4 6.9L12 17.5 5.8 21l1.4-6.9L2 9.3l7-.8z"/>');
+document.getElementById("i4").innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8ZM10 15V9l5.2 3Z"/></svg>';
+document.getElementById("i5").innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3a5 5 0 0 0 4 4.4v3.2a8 8 0 0 1-4-1.2v6.1a6.5 6.5 0 1 1-6.5-6.4v3.3a3.2 3.2 0 1 0 3.2 3.1V3Z"/></svg>';
+document.getElementById("i6").innerHTML = ico.discord;
+document.getElementById("join").href = CONFIG.mediaDiscord || CONFIG.discord;
+document.getElementById("req").innerHTML = [
+  "Active social media presence (any platform)", "Ability to create high-quality gaming content",
+  "Consistent upload/streaming schedule", "Professional attitude and communication", "Willingness to follow brand guidelines"
+].map(t => `<div class="card mreqi"><span class="ck">${ico.check}</span>${t}</div>`).join("");
+</script>
+</body>
+</html>
