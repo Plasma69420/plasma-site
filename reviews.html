@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reviews – Plasma</title>
-<meta name="description" content="Real customer reviews of Plasma, posted by verified buyers in our Discord.">
+<meta name="description" content="Customer vouches for Plasma, posted in our Discord.">
 <meta name="theme-color" content="#b026ff">
 <link rel="icon" type="image/png" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,12 +19,13 @@
   <div class="page-head">
     <span class="pill">Loved by Players</span>
     <h1>Customer Reviews</h1>
-    <p>Reviews are posted by verified customers through the <b>/vouch</b> command in our Discord.</p>
+    <p>Vouches from our customers. New reviews are posted with <b>/vouch</b> in our Discord, and vouches recovered from our previous server are listed below them.</p>
   </div>
   <div class="rgrid">
-    <div class="card rsum"><div class="avg" id="avg">0.0<small>/5</small></div><div class="stars-row" id="avgStars"></div><p id="cnt">0 verified reviews</p></div>
+    <div class="card rsum"><div class="avg" id="avg">0</div><div class="stars-row" id="avgStars"></div><p id="cnt">Loading...</p></div>
     <div class="card rdist" id="dist"></div>
   </div>
+  <div class="sec-h" id="newHead" hidden>New reviews</div>
   <div class="reviews" id="list"></div>
   <div class="empty" id="none" hidden><b>No reviews yet</b>Be the first. Buy a product, claim the Customer role in our Discord, then run /vouch.
     <div style="margin-top:16px"><a class="btn btn-main" href="/products">Browse products</a></div></div>
@@ -35,37 +36,63 @@
 <script src="/assets/site.js"></script>
 <script>
 const stars = n => Array.from({ length: 5 }, (_, k) => ico.star.replace("<svg", `<svg class="${k < Math.round(n) ? "" : "off"}"`)).join("");
-document.getElementById("avgStars").innerHTML = stars(0);
-document.getElementById("dist").innerHTML = [5, 4, 3, 2, 1].map(n => `<div class="row"><span>${n} ★</span><div class="bar"><i style="width:0"></i></div><span>0</span></div>`).join("");
-Api.get("/api/vouches").then(d => {
-  document.getElementById("avg").innerHTML = d.average.toFixed(1) + "<small>/5</small>";
-  document.getElementById("avgStars").innerHTML = stars(d.average);
-  document.getElementById("cnt").textContent = `${d.total} verified review${d.total === 1 ? "" : "s"}`;
-  document.getElementById("dist").innerHTML = [5, 4, 3, 2, 1].map(n => {
-    const c = d.distribution[n - 1], pct = d.total ? c / d.total * 100 : 0;
-    return `<div class="row"><span>${n} ★</span><div class="bar"><i style="width:${pct}%"></i></div><span>${c}</span></div>`;
-  }).join("");
-  document.getElementById("none").hidden = d.total > 0;
-  document.getElementById("list").innerHTML = d.reviews.map(r => `<article class="card rev reveal">
-    <div class="rt"><div style="display:flex;align-items:center"><span class="stars-row">${stars(r.stars)}</span><span class="ver">✓ Verified</span></div><span>${new Date(r.at).toLocaleDateString([], { month: "short", day: "2-digit", year: "numeric" })}</span></div>
-    <p>${esc(r.message)}</p>
-    <div class="rf"><img src="${esc(r.avatar || "/img/logo.png")}" alt="">${esc(r.username)}</div></article>`).join("");
-  revealAll();
-}).catch(() => { document.getElementById("none").hidden = false; });
+const cleanText = t => esc(t.replace(/<{1,2}@(\d+)>{1,2}/g, (_, id) => id === "1049111331850166372" ? "@Owner" : "@member")
+  .replace(":songglasses:", "😎").replace(":hot:", "🔥").replace(" :Unrealfort:", "").trim() || "(no message)");
+const get = (url) => fetch(url).then(r => r.ok ? r.json() : Promise.reject());
 
-// recovered vouches from our previous server (not part of the star rating above)
-fetch("/assets/recovered-vouches.json").then(r => r.json()).then(list => {
-  const clean = t => esc(t.replace(/<{1,2}@(\d+)>{1,2}/g, (_, id) => id === "1049111331850166372" ? "@Owner" : "@member")
-    .replace(":songglasses:", "😎").replace(":hot:", "🔥").replace(" :Unrealfort:", "").trim() || "(no message)");
-  document.getElementById("recHead").hidden = false;
-  const note = document.getElementById("recNote");
-  note.hidden = false;
-  note.textContent = list.length + " vouches recovered from our previous server, listed 1 to " + list.length + ". They are shown as written and are not counted in the rating above.";
-  document.getElementById("rec").innerHTML = list.map(v => `<article class="card rev">
-    <div class="rt"><span class="recn">#${v.n}</span><span>${new Date(v.at.replace(" ", "T") + "Z").toLocaleDateString([], { month: "short", day: "2-digit", year: "numeric", timeZone: "UTC" })}</span></div>
-    <p>${clean(v.text)}</p>
-    <div class="rf"><img src="/img/logo.png" alt="">Recovered vouch</div></article>`).join("");
-}).catch(() => { });
+Promise.allSettled([Api.get("/api/vouches"), get("/assets/recovered-vouches.json")]).then(([a, b]) => {
+  const live = a.status === "fulfilled" ? a.value : { total: 0, average: 0, distribution: [0, 0, 0, 0, 0], reviews: [] };
+  const rec = b.status === "fulfilled" ? b.value : [];
+  const all = live.total + rec.length;
+
+  // summary card: the headline number is every vouch on this page
+  if (live.total > 0) {
+    document.getElementById("avg").innerHTML = live.average.toFixed(1) + "<small>/5</small>";
+    document.getElementById("avgStars").innerHTML = stars(live.average);
+    document.getElementById("cnt").textContent = `${live.total} star review${live.total === 1 ? "" : "s"}` + (rec.length ? ` + ${rec.length} recovered vouches` : "");
+  } else {
+    document.getElementById("avg").textContent = all;
+    document.getElementById("avgStars").innerHTML = "";
+    document.getElementById("cnt").textContent = all ? `total vouches, recovered from our previous server` : "No vouches yet";
+  }
+
+  // breakdown card
+  const dist = document.getElementById("dist");
+  if (live.total > 0) {
+    dist.innerHTML = [5, 4, 3, 2, 1].map(n => {
+      const c = live.distribution[n - 1], pct = c / live.total * 100;
+      return `<div class="row"><span>${n} ★</span><div class="bar"><i style="width:${pct}%"></i></div><span>${c}</span></div>`;
+    }).join("");
+  } else {
+    dist.innerHTML = `<div class="row2"><span>Recovered vouches</span><b>${rec.length}</b></div>
+      <div class="row2"><span>New star reviews</span><b>${live.total}</b></div>
+      <p class="rnote">Recovered vouches don't include star ratings. The star average appears here once new reviews are posted with /vouch.</p>`;
+  }
+
+  document.getElementById("none").hidden = all > 0;
+
+  // new (rated) reviews
+  if (live.total > 0) {
+    document.getElementById("newHead").hidden = false;
+    document.getElementById("list").innerHTML = live.reviews.map(r => `<article class="card rev reveal">
+      <div class="rt"><div style="display:flex;align-items:center"><span class="stars-row">${stars(r.stars)}</span><span class="ver">✓ Verified</span></div><span>${new Date(r.at).toLocaleDateString([], { month: "short", day: "2-digit", year: "numeric" })}</span></div>
+      <p>${esc(r.message)}</p>
+      <div class="rf"><img src="${esc(r.avatar || "/img/logo.png")}" alt="">${esc(r.username)}</div></article>`).join("");
+  }
+
+  // recovered vouches
+  if (rec.length) {
+    document.getElementById("recHead").hidden = false;
+    const note = document.getElementById("recNote");
+    note.hidden = false;
+    note.textContent = `${rec.length} vouches recovered from our previous server, listed 1 to ${rec.length}. They are shown as written.`;
+    document.getElementById("rec").innerHTML = rec.map(v => `<article class="card rev">
+      <div class="rt"><span class="recn">#${v.n}</span><span>${new Date(v.at.replace(" ", "T") + "Z").toLocaleDateString([], { month: "short", day: "2-digit", year: "numeric", timeZone: "UTC" })}</span></div>
+      <p>${cleanText(v.text)}</p>
+      <div class="rf"><img src="/img/logo.png" alt="">Recovered vouch</div></article>`).join("");
+  }
+  revealAll();
+});
 </script>
 </body>
 </html>

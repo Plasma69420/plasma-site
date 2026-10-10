@@ -200,13 +200,20 @@ const star = ico.star;
 document.querySelectorAll("[data-discord]").forEach(a => a.href = CONFIG.discord);
 
 // rating pill (live from the Discord /vouch reviews)
-const setRating = (avg, n) => {
-  document.querySelector(".stars-ico").innerHTML = Array.from({ length: 5 }, (_, k) =>
-    star.replace("<svg", `<svg class="${k < Math.round(avg) ? "" : "off"}"`)).join("");
-  document.getElementById("ratingText").innerHTML = `<b>${avg.toFixed(2)}</b> from ${n} review${n === 1 ? "" : "s"}`;
+// stars + average only come from star reviews; recovered vouches add to the total count
+const setRating = (avg, rated, total) => {
+  const el = document.querySelector(".stars-ico");
+  el.innerHTML = rated ? Array.from({ length: 5 }, (_, k) =>
+    star.replace("<svg", `<svg class="${k < Math.round(avg) ? "" : "off"}"`)).join("") : star.replace("<svg", '<svg class="on"');
+  document.getElementById("ratingText").innerHTML = rated
+    ? `<b>${avg.toFixed(2)}</b> from ${total} review${total === 1 ? "" : "s"}`
+    : `<b>${total}</b> customer vouch${total === 1 ? "" : "es"}`;
 };
-setRating(0, 0);
-Api.get("/api/vouches").then(d => setRating(d.average, d.total)).catch(() => {});
+Promise.allSettled([Api.get("/api/vouches"), fetch("/assets/recovered-vouches.json").then(r => r.json())]).then(([a, b]) => {
+  const live = a.status === "fulfilled" ? a.value : { average: 0, total: 0 };
+  const rec = b.status === "fulfilled" ? b.value.length : 0;
+  setRating(live.average, live.total, live.total + rec);
+});
 
 // products
 const grid = document.getElementById("productGrid");
