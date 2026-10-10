@@ -1,4 +1,8 @@
 /* Plasma storefront: shared config, cart, Discord login, layout */
+// show clean URLs: /status instead of /status.html (the file still works either way)
+if (/.html$/.test(location.pathname)) {
+  history.replaceState(null, "", (location.pathname.replace(/(\/index)?\.html$/, "") || "/") + location.search + location.hash);
+}
 const CONFIG = {
   discord: "https://discord.gg/2nmZpcrC2",
   discordClientId: "1558554710384844972",
@@ -7,7 +11,7 @@ const CONFIG = {
   showcaseYouTube: "",
   products: [
     {
-      slug: "fortnite-private", name: "Fortnite Private", type: "Private", game: "Fortnite", img: "img/fortnite.webp",
+      slug: "fortnite-private", name: "Fortnite Private", type: "Private", game: "Fortnite", img: "/img/fortnite.webp",
       desc: "Smooth private build with a clean in-game menu.",
       features: ["ESP & visibility checks", "Smooth aim assist", "Stream-proof menu"],
       details: "Plasma Fortnite Private is a private build with a clean in-game menu, visibility checks and smooth aim assist. Your key and loader are delivered instantly after payment, and support is available in our Discord.",
@@ -15,7 +19,7 @@ const CONFIG = {
       plans: [{ n: "Day", p: 4.99, v: 416469 }, { n: "Week", p: 14.99, v: 416470 }, { n: "Month", p: 24.99, v: 416471 }, { n: "Lifetime", p: 79.99, v: 416472 }]
     },
     {
-      slug: "r6-external", name: "R6 External", type: "External", game: "Rainbow Six Siege", img: "img/r6-external.webp",
+      slug: "r6-external", name: "R6 External", type: "External", game: "Rainbow Six Siege", img: "/img/r6-external.webp",
       desc: "External Rainbow Six Siege cheat with ESP and aim suite.",
       features: ["Smooth aim with FOV & smoothness sliders", "Player, drone & gadget ESP", "External, stream-proof rendering"],
       details: "External Rainbow Six Siege cheat with ESP and an aim suite. It runs externally with no game injection, renders stream-proof, and is delivered instantly with Discord support.",
@@ -28,7 +32,7 @@ const CONFIG = {
       plans: [{ n: "Day", p: 6.99, v: null }, { n: "Week", p: 26.99, v: null }, { n: "Month", p: 59.99, v: null }, { n: "Lifetime", p: 149.99, v: null }]
     },
     {
-      slug: "marvel-rivals", name: "Marvel Rivals", type: "Private", game: "Marvel Rivals", img: "img/marvel-rivals.webp",
+      slug: "marvel-rivals", name: "Marvel Rivals", type: "Private", game: "Marvel Rivals", img: "/img/marvel-rivals.webp",
       desc: "Hero-aware Marvel Rivals cheat with smooth aim and full ESP.",
       features: ["Hero-aware aim with prediction", "Full player ESP & radar", "Save and load configs"],
       details: "Hero-aware Marvel Rivals cheat with smooth aim and full ESP. Prediction is tuned per projectile hero, and everything is configurable with saveable configs.",
@@ -42,7 +46,7 @@ const CONFIG = {
       plans: [{ n: "1 Day", p: 5.99, v: null }, { n: "1 Week", p: 19.99, v: null }, { n: "1 Month", p: 39.99, v: null }]
     },
     {
-      slug: "arc-raiders", name: "Arc Raiders", type: "Private", game: "Arc Raiders", img: "img/arc-raiders.webp",
+      slug: "arc-raiders", name: "Arc Raiders", type: "Private", game: "Arc Raiders", img: "/img/arc-raiders.webp",
       desc: "Premium Arc Raiders cheat for dominating every run.",
       features: ["Smooth aim with FOV & smoothness", "Player, loot & NPC ESP", "Auto-updates with game patches"],
       details: "Premium Arc Raiders cheat for dominating every run. Smooth aim, full ESP including loot and enemy NPCs, a stream-proof overlay, and updates that follow each Arc Raiders patch.",
@@ -54,7 +58,7 @@ const CONFIG = {
       plans: [{ n: "1 Day", p: 5.99, v: null }, { n: "1 Week", p: 22.99, v: null }, { n: "1 Month", p: 54.99, v: null }]
     },
     {
-      slug: "temp-spoofer", name: "Temp Spoofer", type: "Spoofer", game: "Spoofer", img: "img/temp-spoofer.webp",
+      slug: "temp-spoofer", name: "Temp Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/temp-spoofer.webp",
       desc: "Spoofs your serials until your next restart.",
       features: ["One-click spoof", "Resets on reboot", "Intel & AMD"],
       details: "Temporary HWID spoofer. It changes your hardware identifiers until your next restart, supports Intel and AMD, and runs in one click.",
@@ -62,7 +66,7 @@ const CONFIG = {
       plans: [{ n: "Week", p: 14.99, v: 416474 }, { n: "Month", p: 29.99, v: 416475 }, { n: "Lifetime", p: 124.99, v: 416476 }]
     },
     {
-      slug: "perm-spoofer", name: "Perm Spoofer", type: "Spoofer", game: "Spoofer", img: "img/perm-spoofer.webp",
+      slug: "perm-spoofer", name: "Perm Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/perm-spoofer.webp",
       desc: "Permanently changes your serials. Run it once.",
       features: ["Permanent change", "Disk & NIC support", "Intel & AMD"],
       details: "Permanent HWID spoofer. It changes your serials for good, so you only run it once. Supports disk and network adapters on Intel and AMD.",
@@ -128,7 +132,7 @@ const Cart = {
 const Auth = {
   get() { try { const a = JSON.parse(localStorage.getItem("plasma_auth") || "null"); if (a && a.exp > Date.now()) return a; } catch { } return null; },
   set(a) { try { localStorage.setItem("plasma_auth", JSON.stringify(a)); } catch { } },
-  logout() { try { localStorage.removeItem("plasma_auth"); } catch { } location.href = "index.html"; },
+  logout() { try { localStorage.removeItem("plasma_auth"); } catch { } location.href = "/"; },
   redirectUri() { return location.origin + "/login.html"; },
   loginUrl() {
     const state = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2));
@@ -161,26 +165,27 @@ const Api = {
 
 /* ---------- shared layout ---------- */
 (() => {
-  const here = (location.pathname.split("/").pop() || "index.html").replace(/\.html$/, "") || "index";
+  const seg = location.pathname.replace(/^\/|\/$|\.html$/g, "") || "index";
+  const here = productBy(seg) ? "products" : seg;
   const link = (href, label, key) => `<a href="${href}"${key === here ? ' class="on"' : ""}>${label}</a>`;
   const u = Auth.get();
   const userBtn = u
-    ? `<a class="nav-btn" href="account.html"><img class="nav-av" src="${Auth.avatar(u.user)}" alt=""><span>${esc(u.user.global_name || u.user.username)}</span></a>`
-    : `<a class="nav-btn" href="login.html">${ico.user}<span>Login</span></a>`;
+    ? `<a class="nav-btn" href="/account"><img class="nav-av" src="${Auth.avatar(u.user)}" alt=""><span>${esc(u.user.global_name || u.user.username)}</span></a>`
+    : `<a class="nav-btn" href="/login">${ico.user}<span>Login</span></a>`;
 
   document.body.insertAdjacentHTML("afterbegin", `
 <div class="bgfx" aria-hidden="true"><div class="top"></div></div>
 <canvas class="stars" id="stars"></canvas>
 <header class="nav" id="nav">
   <div class="nav-bar"><div class="nav-in">
-    <a href="index.html" class="brand"><img src="img/logo.png" alt="">Plasma</a>
+    <a href="/" class="brand"><img src="/img/logo.png" alt="">Plasma</a>
     <nav class="nav-links" id="navLinks">
-      ${link("index.html", "Home", "index")}${link("products.html", "Products", "products")}${link("reviews.html", "Reviews", "reviews")}${link("status.html", "Status", "status")}
+      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/reviews", "Reviews", "reviews")}${link("/status", "Status", "status")}
     </nav>
     <div class="nav-right">
       <a class="nav-btn" href="${CONFIG.discord}" target="_blank" rel="noopener">${ico.discord}<span>Discord</span></a>
       ${userBtn}
-      <a class="nav-btn icon cart-btn" href="cart.html" aria-label="Cart">${ico.cart}<b class="cart-count" hidden>0</b></a>
+      <a class="nav-btn icon cart-btn" href="/cart" aria-label="Cart">${ico.cart}<b class="cart-count" hidden>0</b></a>
       <button class="nav-btn icon burger" id="burger" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div></div>
@@ -189,9 +194,9 @@ const Api = {
   document.body.insertAdjacentHTML("beforeend", `
 <footer>
   <div class="wrap">
-    <a href="index.html" class="brand"><img src="img/logo.png" alt="">Plasma</a>
+    <a href="/" class="brand"><img src="/img/logo.png" alt="">Plasma</a>
     <nav>
-      <a href="index.html">Home</a><a href="products.html">Products</a><a href="reviews.html">Reviews</a><a href="status.html">Status</a>
+      <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/status">Status</a>
       <a href="${CONFIG.discord}" target="_blank" rel="noopener">Discord</a>
     </nav>
     <small>© ${new Date().getFullYear()} Plasma. All rights reserved.</small>

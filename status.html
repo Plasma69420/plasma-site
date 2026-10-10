@@ -6,13 +6,13 @@
 <title>Status – Plasma</title>
 <meta name="description" content="Live status of every Plasma product.">
 <meta name="theme-color" content="#b026ff">
-<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="icon" type="image/png" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
-<link rel="stylesheet" href="assets/pages.css">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/pages.css">
 </head>
 <body>
 <main class="page"><div class="wrap" style="max-width:1100px">
@@ -31,7 +31,7 @@
     <span><i style="background:var(--bad)"></i>Detected / Down: known issue, fix in progress</span>
   </div>
 </div></main>
-<script src="assets/site.js"></script>
+<script src="/assets/site.js"></script>
 <script>
 const fmt = t => t ? new Date(t).toLocaleString([], { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).replace(",", "") : "";
 async function load() {
@@ -42,7 +42,7 @@ async function load() {
     const [label, cls] = STATUS[s.status] || STATUS.undetected;
     if (cls) bad++;
     if (s.updated) last = Math.max(last, s.updated);
-    return `<a class="scard" href="product.html?p=${p.slug}"><img src="${p.img}" alt=""><div>
+    return `<a class="scard" href="/${p.slug}"><img src="${p.img}" alt=""><div>
       <div class="t"><b>${esc(p.name)}</b><time>${fmt(s.updated)}</time></div>
       <span class="tag ${cls}"><i></i>${label}</span><div class="g">${esc(p.game)} · ${esc(p.type)}</div></div></a>`;
   }).join("");

@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Login – Plasma</title>
 <meta name="theme-color" content="#b026ff">
-<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="icon" type="image/png" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
-<link rel="stylesheet" href="assets/pages.css">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/pages.css">
 </head>
 <body>
 <main class="page"><div class="wrap auth">
@@ -24,7 +24,7 @@
     <small>We only read your Discord name, avatar and email. We never post for you.</small>
   </div>
 </div></main>
-<script src="assets/site.js"></script>
+<script src="/assets/site.js"></script>
 <script>
 document.getElementById("lockIco").innerHTML = ico.lock;
 const btn = document.getElementById("dbtn"), msg = document.getElementById("msg");
@@ -45,11 +45,11 @@ const fail = t => { msg.className = "msg err"; msg.textContent = t; };
       if (!r.ok) throw 0;
       const user = await r.json();
       Auth.set({ token: h.get("access_token"), exp: Date.now() + Math.max(60, +h.get("expires_in") || 604800) * 1000 - 60000, user });
-      location.replace("account.html");
+      location.replace("/account");
     } catch { document.getElementById("h").textContent = "Welcome back"; fail("Could not read your Discord profile. Try again."); }
     return;
   }
-  if (Auth.get()) location.replace("account.html");
+  if (Auth.get()) location.replace("/account");
 })();
 btn.addEventListener("click", e => { e.preventDefault(); location.href = Auth.loginUrl(); });
 </script>

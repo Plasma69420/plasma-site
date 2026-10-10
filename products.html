@@ -6,13 +6,13 @@
 <title>Products – Plasma</title>
 <meta name="description" content="Browse every Plasma product: Fortnite private and HWID spoofers.">
 <meta name="theme-color" content="#b026ff">
-<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="icon" type="image/png" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
-<link rel="stylesheet" href="assets/pages.css">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/pages.css">
 </head>
 <body>
 <main class="page"><div class="wrap">
@@ -25,7 +25,7 @@
   <div class="pgrid" id="grid"></div>
   <div class="empty" id="none" hidden><b>No products found</b>Try a different search.</div>
 </div></main>
-<script src="assets/site.js"></script>
+<script src="/assets/site.js"></script>
 <script>
 const grid = document.getElementById("grid"), none = document.getElementById("none");
 let live = {};
@@ -36,7 +36,7 @@ function render() {
   grid.innerHTML = list.map(p => {
     const [label, cls] = STATUS[(live[p.slug] || {}).status] || STATUS.undetected;
     const from = Math.min(...p.plans.map(x => x.p));
-    return `<a class="pcard reveal in" href="product.html?p=${p.slug}">
+    return `<a class="pcard reveal in" href="/${p.slug}">
       <div class="thumb"><img src="${p.img}" alt="${esc(p.name)}" loading="lazy">
         <span class="chip status ${cls}"><i></i>${label}</span><span class="chip type">${esc(p.type)}</span></div>
       <div class="body">

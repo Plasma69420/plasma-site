@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product – Plasma</title>
+<meta name="theme-color" content="#b026ff">
+<link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/pages.css">
+</head>
+<body>
+<main class="page"><div class="wrap" style="max-width:1100px" id="root"></div></main>
+<script src="/assets/site.js"></script>
+<script>
+const root = document.getElementById("root");
+const p = productBy(new URLSearchParams(location.search).get("p") || location.pathname.replace(/^\/|\/$|\.html$/g, ""));
+if (!p) {
+  root.innerHTML = `<div class="empty"><b>Product not found</b><a class="btn btn-main" style="margin-top:14px" href="/products">Browse products</a></div>`;
+} else {
+  document.title = p.name + " – Plasma";
+  let plan = Math.min(Math.max(+new URLSearchParams(location.search).get("plan") || 0, 0), p.plans.length - 1), qty = 1, any = false, status = "undetected";
+  const draw = () => {
+    const [label, cls] = STATUS[status] || STATUS.undetected;
+    const pl = p.plans[plan], unit = pl.p + (any ? CONFIG.addon.price : 0);
+    root.innerHTML = `
+    <div class="pd">
+      <div><div class="pd-img"><img src="${p.img}" alt="${esc(p.name)}"><span class="chip status ${cls}"><i></i>${label}</span></div></div>
+      <div>
+        <div class="pd-top"><span class="tag ${cls}"><i></i>${label}</span><span class="tag">${esc(p.type)}</span><span class="tag">${esc(p.game)}</span></div>
+        <h1>${esc(p.name)}</h1>
+        <div class="type">${esc(p.type)}</div>
+        <div class="assure"><span>${ico.bolt}Instant Delivery</span><span>${ico.shield}Secure Checkout</span><span>${ico.headset}24/7 Support</span></div>
+        <div class="lbl">Choose your plan</div>
+        <div class="planrow">${p.plans.map((x, j) => `<button class="plancard${j === plan ? " on" : ""}" data-j="${j}"><b>${esc(x.n)}</b><strong>${money(x.p)}</strong><small>Instant delivery</small></button>`).join("")}</div>
+        <label class="addon${any ? " on" : ""}"><input type="checkbox" id="any" ${any ? "checked" : ""}>
+          <span class="box"></span>
+          <span class="at"><b>${ico.headset}${CONFIG.addon.name} (Optional)</b><i>+${money(CONFIG.addon.price)}</i><em>${CONFIG.addon.desc}</em><small>${CONFIG.addon.fine}</small></span></label>
+        <div class="totalbox">
+          <div><small>TOTAL</small><b>${money(unit * qty)}</b><em>Instant delivery</em></div>
+          <div class="qty"><button id="dec" aria-label="Less">−</button><span>${qty}</span><button id="inc" aria-label="More">+</button></div>
+        </div>
+        <div class="buyrow"><button class="btn btn-ghost" id="add">${ico.cart}Add to cart</button><button class="btn btn-main" id="buy">Buy now ${ico.arrow}</button></div>
+        <div class="fine" id="fine">Keys are delivered instantly after payment.</div>
+      </div>
+    </div>
+    <div class="sec-h">Product Details</div>
+    <div class="card detail"><h4>Description</h4><p>${esc(p.details)}</p>
+      ${p.groups ? "" : `<ul>${p.features.map(f => `<li>${ico.check}${esc(f)}</li>`).join("")}</ul>`}</div>
+    ${p.groups ? `<div class="sec-h">Features</div><div class="fgroups">${p.groups.map(([t, list], gi) => `<details class="card fgroup" ${gi === 0 ? "open" : ""}><summary>${esc(t)}<em>${list.length}</em></summary><ul>${list.map(f => `<li>${ico.check}${esc(f)}</li>`).join("")}</ul></details>`).join("")}</div>` : ""}`;
+    root.querySelectorAll(".plancard").forEach(b => b.onclick = () => { plan = +b.dataset.j; draw(); });
+    root.querySelector("#dec").onclick = () => { qty = Math.max(1, qty - 1); draw(); };
+    root.querySelector("#inc").onclick = () => { qty = Math.min(10, qty + 1); draw(); };
+    root.querySelector("#any").onchange = e => { any = e.target.checked; draw(); };
+    root.querySelector("#add").onclick = () => { Cart.add(p.slug, plan, qty, any); root.querySelector("#fine").innerHTML = `Added to your cart. <a href="/cart" style="color:var(--accent-2);text-decoration:underline">View cart</a>`; };
+    root.querySelector("#buy").onclick = () => { Cart.save([{ slug: p.slug, plan, qty, any }]); location.href = "/checkout"; };
+  };
+  draw();
+  Api.status().then(s => { if (s[p.slug]) { status = s[p.slug].status; draw(); } });
+}
+</script>
+</body>
+</html>

@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cart – Plasma</title>
 <meta name="theme-color" content="#b026ff">
-<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="icon" type="image/png" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
-<link rel="stylesheet" href="assets/pages.css">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/pages.css">
 </head>
 <body>
 <main class="page"><div class="wrap" style="max-width:1100px">
@@ -21,7 +21,7 @@
       <h1>Shopping Cart</h1>
       <p id="sub">Nothing in here yet.</p>
     </div>
-    <a href="products.html" style="color:var(--accent-2);text-decoration:underline;font-size:14px">Continue shopping</a>
+    <a href="/products" style="color:var(--accent-2);text-decoration:underline;font-size:14px">Continue shopping</a>
   </div>
   <div class="cart-layout">
     <div class="cart-list" id="list"></div>
@@ -31,7 +31,7 @@
       <div class="row"><span>Subtotal</span><b id="sub2">$0.00</b></div>
       <div class="row"><span>Taxes &amp; fees</span><span>none added</span></div>
       <div class="tot"><small>TOTAL</small><b id="tot">$0.00</b></div>
-      <a class="btn btn-main" id="go" href="checkout.html">Checkout →</a>
+      <a class="btn btn-main" id="go" href="/checkout">Checkout →</a>
       <div class="notes">
         <span>Instant key delivery after payment</span>
         <span>Secure checkout, no hidden fees</span>
@@ -40,7 +40,7 @@
     </aside>
   </div>
 </div></main>
-<script src="assets/site.js"></script>
+<script src="/assets/site.js"></script>
 <script>
 function draw() {
   const items = Cart.items();
@@ -51,7 +51,7 @@ function draw() {
   go.style.pointerEvents = items.length ? "" : "none"; go.style.opacity = items.length ? "" : ".5";
   const list = document.getElementById("list");
   if (!items.length) {
-    list.innerHTML = `<div class="empty"><b>Your cart is empty</b>Pick a product and your keys are one checkout away.<div style="margin-top:16px"><a class="btn btn-main" href="products.html">Browse products</a></div></div>`;
+    list.innerHTML = `<div class="empty"><b>Your cart is empty</b>Pick a product and your keys are one checkout away.<div style="margin-top:16px"><a class="btn btn-main" href="/products">Browse products</a></div></div>`;
     return;
   }
   list.innerHTML = items.map(i => {

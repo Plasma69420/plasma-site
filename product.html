@@ -5,22 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Product – Plasma</title>
 <meta name="theme-color" content="#b026ff">
-<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="icon" type="image/png" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
-<link rel="stylesheet" href="assets/pages.css">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/pages.css">
 </head>
 <body>
 <main class="page"><div class="wrap" style="max-width:1100px" id="root"></div></main>
-<script src="assets/site.js"></script>
+<script src="/assets/site.js"></script>
 <script>
 const root = document.getElementById("root");
-const p = productBy(new URLSearchParams(location.search).get("p"));
+const p = productBy(new URLSearchParams(location.search).get("p") || location.pathname.replace(/^\/|\/$|\.html$/g, ""));
 if (!p) {
-  root.innerHTML = `<div class="empty"><b>Product not found</b><a class="btn btn-main" style="margin-top:14px" href="products.html">Browse products</a></div>`;
+  root.innerHTML = `<div class="empty"><b>Product not found</b><a class="btn btn-main" style="margin-top:14px" href="/products">Browse products</a></div>`;
 } else {
   document.title = p.name + " – Plasma";
   let plan = Math.min(Math.max(+new URLSearchParams(location.search).get("plan") || 0, 0), p.plans.length - 1), qty = 1, any = false, status = "undetected";
@@ -56,8 +56,8 @@ if (!p) {
     root.querySelector("#dec").onclick = () => { qty = Math.max(1, qty - 1); draw(); };
     root.querySelector("#inc").onclick = () => { qty = Math.min(10, qty + 1); draw(); };
     root.querySelector("#any").onchange = e => { any = e.target.checked; draw(); };
-    root.querySelector("#add").onclick = () => { Cart.add(p.slug, plan, qty, any); root.querySelector("#fine").innerHTML = `Added to your cart. <a href="cart.html" style="color:var(--accent-2);text-decoration:underline">View cart</a>`; };
-    root.querySelector("#buy").onclick = () => { Cart.save([{ slug: p.slug, plan, qty, any }]); location.href = "checkout.html"; };
+    root.querySelector("#add").onclick = () => { Cart.add(p.slug, plan, qty, any); root.querySelector("#fine").innerHTML = `Added to your cart. <a href="/cart" style="color:var(--accent-2);text-decoration:underline">View cart</a>`; };
+    root.querySelector("#buy").onclick = () => { Cart.save([{ slug: p.slug, plan, qty, any }]); location.href = "/checkout"; };
   };
   draw();
   Api.status().then(s => { if (s[p.slug]) { status = s[p.slug].status; draw(); } });
