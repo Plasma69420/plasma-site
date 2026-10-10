@@ -251,3 +251,7 @@
 .fgroup li svg{width:16px;height:16px;padding:3px;margin-top:2px;border-radius:50%;background:rgba(var(--accent-rgb),.15);color:var(--accent);flex-shrink:0}
 .citem .addtag{display:inline-block;margin-top:5px;padding:3px 9px;border-radius:99px;background:rgba(var(--accent-rgb),.14);color:var(--accent-2);font-size:11px;font-weight:700}
 @media (max-width:760px){.fgroups{grid-template-columns:1fr}}
+
+/* recovered vouches */
+.rec-note{margin:-4px 0 16px;font-size:13px;color:var(--dim)}
+.recn{font:700 13px/1 var(--display);color:var(--accent-2)}
