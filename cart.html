@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cart – Plasma</title>
+<meta name="theme-color" content="#b026ff">
+<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/pages.css">
+</head>
+<body>
+<main class="page"><div class="wrap" style="max-width:1100px">
+  <div class="stat-top" style="align-items:flex-end">
+    <div class="page-head left" style="margin:0">
+      <span class="pill">Your cart</span>
+      <h1>Shopping Cart</h1>
+      <p id="sub">Nothing in here yet.</p>
+    </div>
+    <a href="products.html" style="color:var(--accent-2);text-decoration:underline;font-size:14px">Continue shopping</a>
+  </div>
+  <div class="cart-layout">
+    <div class="cart-list" id="list"></div>
+    <aside class="card summary">
+      <h3>Order summary</h3>
+      <div class="row" style="margin-top:8px"><span>Items</span><b id="n">0</b></div>
+      <div class="row"><span>Subtotal</span><b id="sub2">$0.00</b></div>
+      <div class="row"><span>Taxes &amp; fees</span><span>none added</span></div>
+      <div class="tot"><small>TOTAL</small><b id="tot">$0.00</b></div>
+      <a class="btn btn-main" id="go" href="checkout.html">Checkout →</a>
+      <div class="notes">
+        <span>Instant key delivery after payment</span>
+        <span>Secure checkout, no hidden fees</span>
+        <span>24/7 support on Discord</span>
+      </div>
+    </aside>
+  </div>
+</div></main>
+<script src="assets/site.js"></script>
+<script>
+function draw() {
+  const items = Cart.items();
+  document.getElementById("sub").textContent = items.length ? `${Cart.count()} item${Cart.count() > 1 ? "s" : ""} ready for checkout.` : "Nothing in here yet.";
+  document.getElementById("n").textContent = Cart.count();
+  document.getElementById("sub2").textContent = document.getElementById("tot").textContent = money(Cart.total());
+  const go = document.getElementById("go");
+  go.style.pointerEvents = items.length ? "" : "none"; go.style.opacity = items.length ? "" : ".5";
+  const list = document.getElementById("list");
+  if (!items.length) {
+    list.innerHTML = `<div class="empty"><b>Your cart is empty</b>Pick a product and your keys are one checkout away.<div style="margin-top:16px"><a class="btn btn-main" href="products.html">Browse products</a></div></div>`;
+    return;
+  }
+  list.innerHTML = items.map(i => {
+    const p = productBy(i.slug), pl = p.plans[i.plan];
+    return `<div class="citem"><img src="${p.img}" alt="">
+      <div><b>${esc(p.name)}</b><small>${esc(pl.n)} · ${money(pl.p)} each</small></div>
+      <div class="right"><div class="qty"><button data-a="dec" data-s="${i.slug}" data-p="${i.plan}">−</button><span>${i.qty}</span><button data-a="inc" data-s="${i.slug}" data-p="${i.plan}">+</button></div>
+      <div class="lp">${money(pl.p * i.qty)}</div>
+      <button class="rm" data-a="rm" data-s="${i.slug}" data-p="${i.plan}" aria-label="Remove">${ico.trash}</button></div></div>`;
+  }).join("");
+}
+document.getElementById("list").addEventListener("click", e => {
+  const b = e.target.closest("button[data-a]"); if (!b) return;
+  const it = Cart.items().find(i => i.slug === b.dataset.s && i.plan === +b.dataset.p); if (!it) return;
+  Cart.setQty(it.slug, it.plan, b.dataset.a === "inc" ? it.qty + 1 : b.dataset.a === "dec" ? it.qty - 1 : 0);
+  draw();
+});
+draw();
+</script>
+</body>
+</html>

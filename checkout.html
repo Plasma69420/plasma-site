@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout – Plasma</title>
+<meta name="theme-color" content="#b026ff">
+<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/pages.css">
+</head>
+<body>
+<main class="page"><div class="wrap" style="max-width:1100px">
+  <div class="page-head left">
+    <span class="pill">Secure checkout</span>
+    <h1>Checkout</h1>
+    <p>Enter your email, choose how to pay, and you will be taken to the secure payment page.</p>
+  </div>
+  <div class="cart-layout">
+    <section class="card pad">
+      <div class="field" style="margin-top:0"><label for="email">Email address (your key is sent here)</label><input id="email" type="email" autocomplete="email" placeholder="name@domain.com"></div>
+      <div class="lbl">Payment method</div>
+      <div class="methods" id="methods">
+        <button class="method on" data-m="PAYPAL"><span class="dot"></span><span><b>PayPal</b><small>Pay with your PayPal balance or card</small></span></button>
+        <button class="method" data-m="CASHAPP"><span class="dot"></span><span><b>Cash App</b><small>Pay with Cash App</small></span></button>
+        <button class="method" data-m="SOL"><span class="dot"></span><span><b>Crypto (Solana)</b><small>Pay with SOL</small></span></button>
+      </div>
+      <label class="terms"><input type="checkbox" id="terms"><span>I agree to the terms of service and understand that digital products are delivered instantly and may not be refundable.</span></label>
+      <div class="msg" id="msg"></div>
+    </section>
+    <aside class="card summary">
+      <h3>Order summary</h3>
+      <div id="lines"></div>
+      <div class="tot"><small>TOTAL</small><b id="tot">$0.00</b></div>
+      <button class="btn btn-main" id="pay">Pay securely →</button>
+      <div class="notes">
+        <span>Instant key delivery after payment</span>
+        <span>Payments are processed by SellApp</span>
+        <span>Problems? Open a ticket in our Discord</span>
+      </div>
+    </aside>
+  </div>
+</div></main>
+<script src="assets/site.js"></script>
+<script>
+const items = Cart.items();
+if (!items.length) location.replace("cart.html");
+document.getElementById("lines").innerHTML = items.map(i => {
+  const p = productBy(i.slug), pl = p.plans[i.plan];
+  return `<div class="row"><span>${esc(p.name)} · ${esc(pl.n)} × ${i.qty}</span><b>${money(pl.p * i.qty)}</b></div>`;
+}).join("");
+document.getElementById("tot").textContent = money(Cart.total());
+const au = Auth.get();
+if (au && au.user.email) document.getElementById("email").value = au.user.email;
+
+let method = "PAYPAL";
+document.getElementById("methods").addEventListener("click", e => {
+  const b = e.target.closest(".method"); if (!b) return;
+  document.querySelectorAll(".method").forEach(x => x.classList.toggle("on", x === b));
+  method = b.dataset.m;
+});
+
+const msg = document.getElementById("msg"), pay = document.getElementById("pay");
+const say = (t, k = "err") => { msg.className = "msg " + k; msg.textContent = t; };
+pay.addEventListener("click", async () => {
+  const email = document.getElementById("email").value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return say("Enter a valid email address.");
+  if (!document.getElementById("terms").checked) return say("You need to agree to the terms to continue.");
+  pay.disabled = true; pay.textContent = "Creating your order...";
+  try {
+    const r = await Api.post("/api/checkout", { email, method, items: items.map(i => ({ variant: productBy(i.slug).plans[i.plan].v, qty: i.qty })) });
+    say("Redirecting to secure payment...", "ok");
+    location.href = r.url;
+  } catch (e) {
+    say(e.message + " If this keeps happening, open a ticket in our Discord.");
+    pay.disabled = false; pay.textContent = "Pay securely →";
+  }
+});
+</script>
+</body>
+</html>

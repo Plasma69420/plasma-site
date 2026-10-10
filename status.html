@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Status – Plasma</title>
+<meta name="description" content="Live status of every Plasma product.">
+<meta name="theme-color" content="#b026ff">
+<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/pages.css">
+</head>
+<body>
+<main class="page"><div class="wrap" style="max-width:1100px">
+  <div class="stat-top">
+    <div class="page-head left" style="margin:0">
+      <span class="pill">Status</span>
+      <h1>Current product status</h1>
+      <p>Live health of every Plasma product, matching the statuses shown on each product card across the store.</p>
+    </div>
+    <div class="attn" id="attn"><i></i><div><b id="attnT">Checking...</b><small id="attnS">&nbsp;</small></div></div>
+  </div>
+  <div class="sgrid" id="grid"></div>
+  <div class="legend">
+    <span><i style="background:var(--ok)"></i>Undetected: fully working</span>
+    <span><i style="background:var(--warn)"></i>Updating: temporarily offline for an update</span>
+    <span><i style="background:var(--bad)"></i>Detected / Down: known issue, fix in progress</span>
+  </div>
+</div></main>
+<script src="assets/site.js"></script>
+<script>
+const fmt = t => t ? new Date(t).toLocaleString([], { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).replace(",", "") : "";
+async function load() {
+  const live = await Api.status();
+  let bad = 0, last = 0;
+  document.getElementById("grid").innerHTML = CONFIG.products.map(p => {
+    const s = live[p.slug] || { status: "undetected" };
+    const [label, cls] = STATUS[s.status] || STATUS.undetected;
+    if (cls) bad++;
+    if (s.updated) last = Math.max(last, s.updated);
+    return `<a class="scard" href="product.html?p=${p.slug}"><img src="${p.img}" alt=""><div>
+      <div class="t"><b>${esc(p.name)}</b><time>${fmt(s.updated)}</time></div>
+      <span class="tag ${cls}"><i></i>${label}</span><div class="g">${esc(p.game)} · ${esc(p.type)}</div></div></a>`;
+  }).join("");
+  const a = document.getElementById("attn");
+  a.classList.toggle("warn", bad > 0);
+  document.getElementById("attnT").textContent = bad ? `${bad} item${bad > 1 ? "s" : ""} need${bad > 1 ? "" : "s"} attention` : "All systems operational";
+  document.getElementById("attnS").textContent = last ? "Last update " + new Date(last).toISOString().slice(0, 16).replace("T", " ") : "Checked just now";
+}
+load(); setInterval(load, 60000);
+</script>
+</body>
+</html>

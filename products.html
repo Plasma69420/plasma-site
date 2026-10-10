@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Products – Plasma</title>
+<meta name="description" content="Browse every Plasma product: Fortnite private and HWID spoofers.">
+<meta name="theme-color" content="#b026ff">
+<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/pages.css">
+</head>
+<body>
+<main class="page"><div class="wrap">
+  <div class="page-head">
+    <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.5L22 8H6"/></svg>Explore our collection</span>
+    <h1>All Products</h1>
+    <p>Browse everything we offer, all in one place.</p>
+  </div>
+  <div class="searchbar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search products..." autocomplete="off"></div>
+  <div class="pgrid" id="grid"></div>
+  <div class="empty" id="none" hidden><b>No products found</b>Try a different search.</div>
+</div></main>
+<script src="assets/site.js"></script>
+<script>
+const grid = document.getElementById("grid"), none = document.getElementById("none");
+let live = {};
+function render() {
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const list = CONFIG.products.filter(p => (p.name + " " + p.type + " " + p.game).toLowerCase().includes(q));
+  none.hidden = list.length > 0;
+  grid.innerHTML = list.map(p => {
+    const [label, cls] = STATUS[(live[p.slug] || {}).status] || STATUS.undetected;
+    const from = Math.min(...p.plans.map(x => x.p));
+    return `<a class="pcard reveal in" href="product.html?p=${p.slug}">
+      <div class="thumb"><img src="${p.img}" alt="${esc(p.name)}" loading="lazy">
+        <span class="chip status ${cls}"><i></i>${label}</span><span class="chip type">${esc(p.type)}</span></div>
+      <div class="body">
+        <h3>${esc(p.name)}</h3><div class="sub">${esc(p.type)}</div>
+        <div class="meta">${esc(p.game)}<i>·</i>${p.plans.length} options<i>·</i><span class="ok">Instant delivery</span></div>
+        <div class="foot"><div class="from"><small>From</small><b>${money(from)}</b></div><span class="vbtn">View ${ico.arrow}</span></div>
+      </div></a>`;
+  }).join("");
+}
+document.getElementById("q").addEventListener("input", render);
+render();
+Api.status().then(s => { live = s; render(); });
+</script>
+</body>
+</html>
