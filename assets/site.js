@@ -33,7 +33,7 @@ const CONFIG = {
         ["Security", ["External, no game injection", "BattlEye bypass updated regularly", "Stream-proof rendering"]],
         ["Extras", ["Configurable hotkeys", "Instant delivery & Discord support"]]
       ],
-      plans: [{ n: "Day", p: 6.99, v: null }, { n: "Week", p: 26.99, v: null }, { n: "Month", p: 59.99, v: null }, { n: "Lifetime", p: 149.99, v: null }]
+      plans: [{ n: "Day", p: 6.99, v: 416712 }, { n: "Week", p: 26.99, v: 416705 }, { n: "Month", p: 59.99, v: 416716 }, { n: "Lifetime", p: 149.99, v: 416735 }]
     },
     {
       slug: "marvel-rivals", name: "Marvel Rivals", type: "Private", game: "Marvel Rivals", img: "/img/marvel-rivals.webp",
@@ -47,7 +47,7 @@ const CONFIG = {
         ["World", ["Custom crosshair", "Crosshair style (dot, cross, circle, +dot, T)", "Crosshair size", "Crosshair line thickness", "Crosshair center gap", "Black outline (readability)", "Crosshair color", "Mini radar", "Radar screen corner (TL, TR, BL, BR)", "Radar size", "Radar detection range (meters)", "Radar background opacity", "Filter (use team filter, show teammates)"]],
         ["Settings", ["Menu transparency", "UI scale (DPI)", "Overlay FPS cap (0 = uncapped)", "VSync", "Low-power mode when game is alt-tabbed", "Save config to file", "Load config from file", "Reset every setting to defaults"]]
       ],
-      plans: [{ n: "1 Day", p: 5.99, v: null }, { n: "1 Week", p: 19.99, v: null }, { n: "1 Month", p: 39.99, v: null }]
+      plans: [{ n: "1 Day", p: 5.99, v: 416737 }, { n: "1 Week", p: 19.99, v: 416738 }, { n: "1 Month", p: 39.99, v: 416739 }]
     },
     {
       slug: "arc-raiders", name: "Arc Raiders", type: "Private", game: "Arc Raiders", img: "/img/arc-raiders.webp",
@@ -59,7 +59,7 @@ const CONFIG = {
         ["Visuals", ["Player ESP (boxes, skeleton, healthbars)", "Loot & enemy NPC ESP", "Distance, name & class labels", "Custom color palette"]],
         ["Extras", ["Stream-proof overlay", "Configurable hotkeys", "Instant delivery & Discord support", "Auto-updates with Arc Raiders patches"]]
       ],
-      plans: [{ n: "1 Day", p: 5.99, v: null }, { n: "1 Week", p: 22.99, v: null }, { n: "1 Month", p: 54.99, v: null }]
+      plans: [{ n: "1 Day", p: 5.99, v: 416741 }, { n: "1 Week", p: 22.99, v: 416742 }, { n: "1 Month", p: 54.99, v: 416743 }]
     },
     {
       slug: "temp-spoofer", name: "Temp Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/temp-spoofer.webp",
@@ -82,14 +82,14 @@ const CONFIG = {
 
 // optional add-on sold next to any product (a separate SellApp product, filled in by variant id)
 CONFIG.addon = {
-  name: "AnyDesk Support", price: 4.99, v: null,
+  name: "AnyDesk Support", price: 4.99, v: 416744,
   desc: "Direct setup help from Plasma via AnyDesk: loader, spoofer, drivers, and troubleshooting.",
   fine: "Optional · Sessions scheduled by availability · Have AnyDesk or RustDesk ready before your session."
 };
 
 // every product gets its own AnyDesk add-on (own price, own SellApp variant id). Change a price or paste a variant id here.
 CONFIG.tickets = "https://discord.com/channels/1555806695362666618/1556013981674635344";
-CONFIG.products.forEach(p => { p.addon = Object.assign({ price: CONFIG.addon.price, v: null }, p.addon); });
+CONFIG.products.forEach(p => { p.addon = Object.assign({ price: CONFIG.addon.price, v: CONFIG.addon.v }, p.addon); });
 
 const STATUS = {
   undetected: ["Undetected", ""], updating: ["Updating", "updating"], maintenance: ["Maintenance", "updating"],
