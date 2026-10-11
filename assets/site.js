@@ -148,6 +148,17 @@ const STATUS = {
   detected: ["Detected", "down"], down: ["Down", "down"]
 };
 const money = n => "$" + Number(n).toFixed(2);
+// purple trust pills (footer + product pages)
+const trustHtml = (() => {
+  const i = d => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>';
+  const L = '<rect x="5" y="11" width="14" height="9" rx="2.2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>';
+  return '<div class="trustrow">' + [
+    [L, "Secure SSL"],
+    ['<path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/>', "Secure Checkout"],
+    [L + '<circle cx="12" cy="15.5" r="1.3"/>', "SSL Encrypted"],
+    ['<path d="M13 3 5 13h6l-1 8 8-10h-6l1-8Z"/>', "Instant Delivery"]
+  ].map(t => '<span>' + i(t[0]) + t[1] + '</span>').join("") + '</div>';
+})();
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const productBy = slug => CONFIG.products.find(p => p.slug === slug);
 const ico = {
@@ -281,7 +292,7 @@ const Api = {
         <a href="${CONFIG.telegram}" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.8 15.6 9.4 20c.6 0 .9-.3 1.200-.6l2.900-2.800 6 4.400c1.100.6 1.900.3 2.200-1l3.900-18.400c.4-1.600-.6-2.300-1.700-1.900L1.100 8.500c-1.600.6-1.600 1.500-.3 1.900l5.900 1.800L20.400 4c.6-.4 1.200-.2.700.2z" transform="translate(-1 0)"/></svg></a>
       </div>
     </div>
-    <div class="trustrow"><span class="tg">🔒 Secure SSL</span><span class="tb">🛡️ Secure Checkout</span><span class="tk">🔐 SSL Encrypted</span><span class="tp">⚡ Instant Delivery</span></div>
+    ${trustHtml}
     <div class="fbar"><span>© ${new Date().getFullYear()} Plasma. All rights reserved.</span><span>Site made by <b>Punch</b></span></div>
   </div>
 </footer>`);

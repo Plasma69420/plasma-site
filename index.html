@@ -15,8 +15,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=34">
-<link rel="stylesheet" href="/assets/pages.css?v=34">
+<link rel="stylesheet" href="/assets/site.css?v=36">
+<link rel="stylesheet" href="/assets/pages.css?v=36">
 </head>
 <body>
 
@@ -72,6 +72,7 @@
       <h2>Choose your product</h2>
       <p>Pick a plan and get your key instantly after checkout.</p>
     </div>
+    <div class="ptabs cat reveal" id="catTabs" role="tablist" aria-label="Product categories"></div>
     <div class="products" id="productGrid"></div>
   </div>
 </section>
@@ -216,7 +217,7 @@
 
 
 
-<script src="/assets/site.js?v=34"></script>
+<script src="/assets/site.js?v=36"></script>
 <script>
 const star = ico.star;
 
@@ -283,6 +284,20 @@ CONFIG.products.forEach((p, i) => {
   }));
   grid.appendChild(card);
 });
+// category tabs above the grid
+(() => {
+  const cat = p => p.account ? "Accounts" : p.game === "Spoofer" ? "Spoofers" : p.game === "Rainbow Six Siege" ? "Rainbow Six" : p.game;
+  const cards = [...grid.children];
+  CONFIG.products.forEach((p, i) => { cards[i].dataset.cat = cat(p); });
+  const cats = ["All", ...new Set(CONFIG.products.map(cat))];
+  const bar = document.getElementById("catTabs");
+  bar.innerHTML = cats.map((c, i) => '<button class="ptab' + (i === 0 ? " on" : "") + '" role="tab" data-c="' + c + '">' + c + '<em>' + (c === "All" ? cards.length : cards.filter(x => x.dataset.cat === c).length) + '</em></button>').join("");
+  bar.addEventListener("click", e => {
+    const b = e.target.closest(".ptab"); if (!b) return;
+    bar.querySelectorAll(".ptab").forEach(x => x.classList.toggle("on", x === b));
+    cards.forEach(card => { card.style.display = (b.dataset.c === "All" || card.dataset.cat === b.dataset.c) ? "" : "none"; });
+  });
+})();
 // live status chips from the Discord bot
 Api.status().then(live => document.querySelectorAll(".chip.status[data-slug]:not([data-account])").forEach(c => {
   const [label, cls] = STATUS[(live[c.dataset.slug] || {}).status] || STATUS.undetected;
