@@ -19,7 +19,7 @@
   <div class="page-head">
     <span class="pill">Loved by Players</span>
     <h1>Customer Reviews</h1>
-    <p>Vouches from our customers. New reviews are posted with <b>/vouch</b> in our Discord, and vouches recovered from our previous server are listed below them.</p>
+    <p>Vouches from our customers. New reviews are posted with <b>/vouch</b> in our Discord.</p>
   </div>
   <div class="rgrid">
     <div class="card rsum"><div class="avg" id="avg">0</div><div class="stars-row" id="avgStars"></div><p id="cnt">Loading...</p></div>
@@ -27,11 +27,8 @@
   </div>
   <div class="sec-h" id="newHead" hidden>New reviews</div>
   <div class="reviews" id="list"></div>
-  <div class="empty" id="none" hidden><b>No reviews yet</b>Be the first. Buy a product, claim the Customer role in our Discord, then run /vouch.
+  <div class="empty" id="none" hidden><b>New reviews appear here</b>Bought a product? Claim the Customer role in our Discord, then run /vouch to leave a review.
     <div style="margin-top:16px"><a class="btn btn-main" href="/products">Browse products</a></div></div>
-  <div class="sec-h" id="recHead" hidden>Recovered vouches</div>
-  <p class="rec-note" id="recNote" hidden></p>
-  <div class="reviews" id="rec"></div>
 </div></main>
 <script src="/assets/site.js"></script>
 <script>
@@ -40,10 +37,9 @@ const cleanText = t => esc(t.replace(/<{1,2}@(\d+)>{1,2}/g, (_, id) => id === "1
   .replace(":songglasses:", "😎").replace(":hot:", "🔥").replace(" :Unrealfort:", "").trim() || "(no message)");
 const get = (url) => fetch(url).then(r => r.ok ? r.json() : Promise.reject());
 
-Promise.allSettled([Api.get("/api/vouches"), get("/assets/recovered-vouches.json")]).then(([a, b]) => {
+Promise.allSettled([Api.get("/api/vouches")]).then(([a]) => {
   const live = a.status === "fulfilled" ? a.value : { total: 0, average: 0, distribution: [0, 0, 0, 0, 0], reviews: [] };
-  const rec = b.status === "fulfilled" ? b.value : [];
-  const all = live.total + rec.length;
+  const all = live.total;
 
   const L = CONFIG.legacy;
   // summary card: headline = the public MyVouch rating of our previous server
@@ -71,17 +67,6 @@ Promise.allSettled([Api.get("/api/vouches"), get("/assets/recovered-vouches.json
       <div class="rf"><img src="${esc(r.avatar || "/img/logo.png")}" alt="">${esc(r.username)}</div></article>`).join("");
   }
 
-  // recovered vouches
-  if (rec.length) {
-    document.getElementById("recHead").hidden = false;
-    const note = document.getElementById("recNote");
-    note.hidden = false;
-    note.textContent = `${rec.length} vouches recovered from our previous server, listed 1 to ${rec.length}. They are shown as written.`;
-    document.getElementById("rec").innerHTML = rec.map(v => `<article class="card rev">
-      <div class="rt"><span class="recn">#${v.n}</span><span>${new Date(v.at.replace(" ", "T") + "Z").toLocaleDateString([], { month: "short", day: "2-digit", year: "numeric", timeZone: "UTC" })}</span></div>
-      <p>${cleanText(v.text)}</p>
-      <div class="rf"><img src="/img/logo.png" alt="">Recovered vouch</div></article>`).join("");
-  }
   revealAll();
 });
 </script>
