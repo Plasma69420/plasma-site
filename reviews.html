@@ -4,61 +4,52 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reviews – Plasma</title>
-<meta name="description" content="Customer reviews of Plasma, posted by verified buyers in our Discord.">
+<meta name="description" content="Real customer reviews of Plasma, posted by verified buyers in our Discord.">
 <meta name="theme-color" content="#b026ff">
 <link rel="icon" type="image/png" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css">
-<link rel="stylesheet" href="/assets/pages.css">
+<link rel="stylesheet" href="/assets/site.css?v=7">
+<link rel="stylesheet" href="/assets/pages.css?v=7">
 </head>
 <body>
 <main class="page"><div class="wrap" style="max-width:1100px">
   <div class="page-head">
     <span class="pill">Loved by Players</span>
     <h1>Customer Reviews</h1>
-    <p>Reviews from verified customers, posted with <b>/vouch</b> in our Discord.</p>
+    <p>Reviews are posted by verified customers through the <b>/vouch</b> command in our Discord.</p>
   </div>
   <div class="rgrid">
-    <div class="card rsum"><div class="avg" id="avg">–</div><div class="stars-row" id="avgStars"></div><p id="cnt">Loading...</p></div>
+    <div class="card rsum"><div class="avg" id="avg">0.0<small>/5</small></div><div class="stars-row" id="avgStars"></div><p id="cnt">0 verified reviews</p></div>
     <div class="card rdist" id="dist"></div>
   </div>
   <div class="reviews" id="list"></div>
+  <div class="empty" id="none" hidden><b>No reviews yet</b>Be the first. Buy a product, claim the Customer role in our Discord, then run /vouch.
+    <div style="margin-top:16px"><a class="btn btn-main" href="/products">Browse products</a></div></div>
 </div></main>
-<script src="/assets/site.js"></script>
+<script src="/assets/site.js?v=7"></script>
 <script>
 const stars = n => Array.from({ length: 5 }, (_, k) => ico.star.replace("<svg", `<svg class="${k < Math.round(n) ? "" : "off"}"`)).join("");
+document.getElementById("avgStars").innerHTML = stars(0);
+document.getElementById("dist").innerHTML = [5, 4, 3, 2, 1].map(n => `<div class="row"><span>${n} ★</span><div class="bar"><i style="width:0"></i></div><span>0</span></div>`).join("");
 
 Api.get("/api/vouches").then(d => {
-  const has = d.total > 0;
-  document.getElementById("avg").innerHTML = has ? d.average.toFixed(1) + "<small>/5</small>" : "<span style='font-size:30px'>No reviews yet</span>";
-  document.getElementById("avgStars").innerHTML = stars(has ? d.average : 0);
-  document.getElementById("cnt").textContent = has ? `${d.total} verified review${d.total === 1 ? "" : "s"}` : "Be the first to leave one";
-
-  const dist = document.getElementById("dist");
-  if (has) {
-    dist.innerHTML = [5, 4, 3, 2, 1].map(n => {
-      const c = d.distribution[n - 1], pct = c / d.total * 100;
-      return `<div class="row"><span>${n} ★</span><div class="bar"><i style="width:${pct}%"></i></div><span>${c}</span></div>`;
-    }).join("");
-    document.getElementById("list").innerHTML = d.reviews.map(r => `<article class="card rev reveal">
-      <div class="rt"><div style="display:flex;align-items:center"><span class="stars-row">${stars(r.stars)}</span><span class="ver">✓ Verified</span></div><span>${new Date(r.at).toLocaleDateString([], { month: "short", day: "2-digit", year: "numeric" })}</span></div>
-      <p>${esc(r.message)}</p>
-      <div class="rf"><img src="${esc(r.avatar || "/img/logo.png")}" alt="">${esc(r.username)}</div></article>`).join("");
-    revealAll();
-  } else {
-    dist.innerHTML = `<div class="src">
-      <div class="srch"><span class="chk">${ico.star}</span><b>Leave the first review</b></div>
-      <p>Bought a product? Claim the <b>Customer</b> role in our Discord, then run <b>/vouch</b> with your rating and message. Your review shows up here.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-main" href="/products">Browse products</a><a class="btn btn-ghost" href="${CONFIG.discord}" target="_blank" rel="noopener">Open Discord ${ico.arrow}</a></div>
-    </div>`;
-  }
-}).catch(() => {
-  document.getElementById("avg").textContent = "–";
-  document.getElementById("cnt").textContent = "Reviews are unavailable right now";
-});
+  document.getElementById("avg").innerHTML = d.average.toFixed(1) + "<small>/5</small>";
+  document.getElementById("avgStars").innerHTML = stars(d.average);
+  document.getElementById("cnt").textContent = `${d.total} verified review${d.total === 1 ? "" : "s"}`;
+  document.getElementById("dist").innerHTML = [5, 4, 3, 2, 1].map(n => {
+    const c = d.distribution[n - 1], pct = d.total ? c / d.total * 100 : 0;
+    return `<div class="row"><span>${n} ★</span><div class="bar"><i style="width:${pct}%"></i></div><span>${c}</span></div>`;
+  }).join("");
+  document.getElementById("none").hidden = d.total > 0;
+  document.getElementById("list").innerHTML = d.reviews.map(r => `<article class="card rev reveal">
+    <div class="rt"><div style="display:flex;align-items:center"><span class="stars-row">${stars(r.stars)}</span><span class="ver">✓ Verified</span></div><span>${new Date(r.at).toLocaleDateString([], { month: "short", day: "2-digit", year: "numeric" })}</span></div>
+    <p>${esc(r.message)}</p>
+    <div class="rf"><img src="${esc(r.avatar || "/img/logo.png")}" alt="">${esc(r.username)}</div></article>`).join("");
+  revealAll();
+}).catch(() => { document.getElementById("none").hidden = false; });
 </script>
 </body>
 </html>
