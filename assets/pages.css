@@ -727,3 +727,8 @@ footer.foot .wrap{display:block;text-align:left;padding:0}
 .hero-girl.kiss .hg-aura{width:520px;height:520px;top:46%}
 .hero-girl.kiss .hg-fig{height:350px;width:auto;overflow:visible;-webkit-mask-image:linear-gradient(180deg,#000 0,#000 78%,transparent 100%);mask-image:linear-gradient(180deg,#000 0,#000 78%,transparent 100%)}
 .hero-girl.kiss img{height:350px;width:auto;filter:drop-shadow(0 0 18px rgba(var(--accent-rgb),.5)) drop-shadow(0 12px 22px rgba(0,0,0,.5))}
+
+/* v6: no clipped glow (that made the visible box), fade applied to the picture only, slightly smaller so the soft source stays clean */
+.hero-girl.kiss{height:320px;top:140px}
+.hero-girl.kiss .hg-fig{height:320px;overflow:visible;-webkit-mask-image:none;mask-image:none}
+.hero-girl.kiss img{height:320px;width:auto;filter:none;-webkit-mask-image:linear-gradient(180deg,#000 0,#000 76%,transparent 100%);mask-image:linear-gradient(180deg,#000 0,#000 76%,transparent 100%)}
