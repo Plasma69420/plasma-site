@@ -5,6 +5,7 @@ if (/.html$/.test(location.pathname)) {
 }
 const CONFIG = {
   discord: "https://discord.gg/2nmZpcrC2",
+  telegram: "https://t.me/+szYZUy4Er4EyZjkx",
   discordClientId: "1558554710384844972",
   api: "https://plasma-bot-production.up.railway.app",
   // invite to your separate Media Discord (leave empty to use the main Discord)
@@ -210,6 +211,7 @@ const Api = {
     <nav>
       <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/status">Status</a><a href="/media">Media</a>
       <a href="${CONFIG.discord}" target="_blank" rel="noopener">Discord</a>
+      <a href="${CONFIG.telegram}" target="_blank" rel="noopener">Telegram</a>
     </nav>
     <small>© ${new Date().getFullYear()} Plasma. All rights reserved.</small>
   </div>
