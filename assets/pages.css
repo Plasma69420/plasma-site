@@ -469,3 +469,6 @@ footer small a:hover{color:#fff}
 .ucount{margin-left:auto;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:rgba(var(--accent-rgb),.22);color:#e9c2ff;font-style:normal;font-size:12px;font-weight:700;display:grid;place-items:center}
 .panel{scroll-margin-top:92px}
 @media (max-width:640px){.udrop>.nav-btn span{display:none}.umenu{right:-44px}}
+
+/* hero artwork removed: back to the normal page background */
+.hero-bg,.hero-bg i{display:none!important}
