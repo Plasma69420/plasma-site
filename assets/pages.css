@@ -689,3 +689,12 @@ footer.foot .wrap{display:block;text-align:left;padding:0}
 .ptabs.cat{margin:0 auto 36px}
 #products .sec-head{margin-bottom:26px}
 @media (max-width:1100px){.products{gap:24px}}
+
+/* hero character, right side */
+.hero-girl{position:absolute;right:max(24px,calc(50% - 600px));top:140px;height:330px;width:auto;z-index:0;pointer-events:none;
+  filter:drop-shadow(0 0 28px rgba(var(--accent-rgb),.55)) drop-shadow(0 10px 30px rgba(0,0,0,.5));animation:girlfloat 6s ease-in-out infinite}
+@keyframes girlfloat{50%{transform:translateY(-10px)}}
+.hero .wrap{position:relative;z-index:1}
+@media (max-width:1100px){.hero-girl{display:none}}
+@media (prefers-reduced-motion:reduce){.hero-girl{animation:none}}
+.hero-girl{-webkit-mask-image:linear-gradient(180deg,#000 72%,transparent 100%);mask-image:linear-gradient(180deg,#000 72%,transparent 100%)}
