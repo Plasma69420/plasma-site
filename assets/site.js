@@ -77,9 +77,41 @@ const CONFIG = {
       details: "Permanent HWID spoofer. It changes your serials for good, so you only run it once. Supports disk and network adapters on Intel and AMD.",
       hosted: "https://plasmacheats.sell.app/product/perm-spoofer",
       plans: [{ n: "One Time", p: 14.99, v: 416478 }, { n: "Lifetime", p: 49.99, v: 416479 }]
+    },
+    {
+      slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "/img/fortnite-accounts.webp",
+      desc: "Full access Fortnite accounts with verified inventories.",
+      features: ["Verified skin & item counts", "Original email full access", "Login details + recovery email"],
+      details: "Hand-picked full access Fortnite accounts with verified inventories. Pick a package, pay at checkout, then open a ticket in our Discord with your invoice ID to receive your account.",
+      groups: [
+        ["Account Quality", ["Verified skin & item counts", "Original email full access", "Account age & V-Bucks listed up front"]],
+        ["Delivery", ["Delivered in a ticket after purchase (include your invoice ID)", "Login credentials + recovery email", "Cross-platform compatible"]],
+        ["Support", ["Replacement policy on login issues", "Direct Discord support"]]
+      ],
+      plans: []
     }
   ]
 };
+
+// Fortnite Accounts packages: [group, label, price, stock shown, SellApp variant id]
+// The stock number is a display value you control (edit it here to match what you really have). Variant ids come from SellApp.
+const FA_PACKAGES = [
+  ["Guaranteed Skins", "25-35 Skins", 4.50, 18], ["Guaranteed Skins", "35-45 Skins", 6.50, 14],
+  ["Guaranteed Skins", "45-55 Skins", 8.50, 11], ["Guaranteed Skins", "55-65 Skins", 10.50, 9],
+  ["Guaranteed Skins", "100-200 Skins", 16.99, 7], ["Guaranteed Skins", "200-400 Skins", 49.99, 4],
+  ["Rare & OG Skins", "Chani", 12.99, 8], ["Rare & OG Skins", "Travis Scott", 39.99, 5],
+  ["Rare & OG Skins", "Sparkle Specialist", 54.99, 4], ["Rare & OG Skins", "Galaxy", 59.99, 6],
+  ["Rare & OG Skins", "Ikonik", 62.99, 3], ["Rare & OG Skins", "Black Knight", 79.99, 3],
+  ["Rare & OG Skins", "Wildcat", 99.99, 2], ["Rare & OG Skins", "OG Skull Trooper (Purple)", 629.99, 1],
+  ["Rare & OG Skins", "OG Aerial Assault Trooper", 899.99, 1], ["Rare & OG Skins", "OG Renegade Raider", 949.99, 1],
+  ["Rare & OG Skins", "OG Ghoul Trooper (Pink)", 1099.99, 1],
+  ["Rare Pickaxes", "Star Wand", 3.99, 16], ["Rare Pickaxes", "Cold Snap", 3.99, 13],
+  ["Rare Pickaxes", "Vision", 5.99, 12], ["Rare Pickaxes", "Axe Of Champions 2.0", 5.99, 9],
+  ["Rare Pickaxes", "Candy Axe", 7.99, 8], ["Rare Pickaxes", "Leviathan Axe", 19.99, 5],
+  ["Rare Pickaxes", "Merry Mint Axe", 19.99, 5], ["Rare Pickaxes", "Trusty No. 2", 24.99, 4]
+];
+const FA_VARIANTS = [];   // SellApp variant ids, same order as FA_PACKAGES
+CONFIG.products.find(p => p.slug === "fortnite-accounts").plans = FA_PACKAGES.map(([g, s, p, stock], i) => ({ n: g + " · " + s, g, s, p, stock, v: FA_VARIANTS[i] || null }));
 
 // optional add-on sold next to any product (a separate SellApp product, filled in by variant id)
 CONFIG.addon = {
@@ -233,6 +265,7 @@ const Api = {
         <a href="${CONFIG.telegram}" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.8 15.6 9.4 20c.6 0 .9-.3 1.200-.6l2.900-2.800 6 4.400c1.100.6 1.900.3 2.200-1l3.900-18.400c.4-1.600-.6-2.300-1.700-1.900L1.100 8.500c-1.600.6-1.600 1.500-.3 1.900l5.900 1.800L20.400 4c.6-.4 1.200-.2.700.2z" transform="translate(-1 0)"/></svg></a>
       </div>
     </div>
+    <div class="trustrow"><span class="tg">🔒 Secure SSL</span><span class="tb">🛡️ Secure Checkout</span><span class="tk">🔐 SSL Encrypted</span><span class="tp">⚡ Instant Delivery</span></div>
     <div class="fbar"><span>© ${new Date().getFullYear()} Plasma. All rights reserved.</span><span>Site made by <b>Punch</b></span></div>
   </div>
 </footer>`);

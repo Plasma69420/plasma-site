@@ -15,8 +15,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=32">
-<link rel="stylesheet" href="/assets/pages.css?v=32">
+<link rel="stylesheet" href="/assets/site.css?v=33">
+<link rel="stylesheet" href="/assets/pages.css?v=33">
 </head>
 <body>
 
@@ -216,7 +216,7 @@
 
 
 
-<script src="/assets/site.js?v=32"></script>
+<script src="/assets/site.js?v=33"></script>
 <script>
 const star = ico.star;
 
@@ -257,21 +257,22 @@ CONFIG.products.forEach((p, i) => {
   card.innerHTML = `
     <div class="prod-img">
       <img src="${p.img}" alt="${p.name}" loading="lazy">
-      <span class="chip status" data-slug="${p.slug}"><i></i><b>Undetected</b></span>
+      <span class="chip status" data-slug="${p.slug}"><i></i><b>${p.account ? "In Stock" : "Undetected"}</b></span>
       <span class="chip type">${p.type}</span>
     </div>
     <div class="prod-body">
       <h3>${p.name}</h3>
       <p class="desc">${p.desc}</p>
       <ul class="feat-list">${p.features.map(f => `<li>${ico.check}${f}</li>`).join("")}</ul>
-      <div class="tiers">${p.plans.map((x, j) => `<button class="tier${j === 0 ? " on" : ""}" data-j="${j}">${x.n}</button>`).join("")}</div>
+      ${p.account ? `<div class="tiers"><span class="tier on" style="cursor:default">${p.plans.length} packages</span><span class="tier" style="cursor:default">Skins</span><span class="tier" style="cursor:default">Pickaxes</span></div>` : `<div class="tiers">${p.plans.map((x, j) => `<button class="tier${j === 0 ? " on" : ""}" data-j="${j}">${x.n}</button>`).join("")}</div>`}
       <div class="prod-foot">
-        <div class="price"><small>Price</small><b>${money(p.plans[0].p)}</b><em>/ ${p.plans[0].n}</em></div>
+        ${p.account ? `<div class="price"><small>From</small><b>${money(Math.min(...p.plans.map(x => x.p)))}</b><em>/ account</em></div>` : `<div class="price"><small>Price</small><b>${money(p.plans[0].p)}</b><em>/ ${p.plans[0].n}</em></div>`}
         <a class="view" aria-label="View ${p.name}" href="${href(0)}">${eye}</a>
         <a class="btn btn-main buy" href="${href(0)}">Purchase</a>
       </div>
     </div>`;
-  card.querySelectorAll(".tier").forEach(t => t.addEventListener("click", () => {
+  if (p.account) card.querySelector(".chip.status").setAttribute("data-account", "1");
+  card.querySelectorAll(".tier[data-j]").forEach(t => t.addEventListener("click", () => {
     card.querySelectorAll(".tier").forEach(x => x.classList.remove("on"));
     t.classList.add("on");
     const j = +t.dataset.j, pl = p.plans[j];
@@ -283,7 +284,7 @@ CONFIG.products.forEach((p, i) => {
   grid.appendChild(card);
 });
 // live status chips from the Discord bot
-Api.status().then(live => document.querySelectorAll(".chip.status[data-slug]").forEach(c => {
+Api.status().then(live => document.querySelectorAll(".chip.status[data-slug]:not([data-account])").forEach(c => {
   const [label, cls] = STATUS[(live[c.dataset.slug] || {}).status] || STATUS.undetected;
   c.className = "chip status " + cls; c.querySelector("b").textContent = label;
 }));

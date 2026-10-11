@@ -71,7 +71,7 @@
         <section class="card panel"><h3>Your completed orders <em>${done.length}</em></h3>${done.length ? orderRows(done) : empty("No completed orders yet.")}</section>`;
     } else {
       const owned = p => done.some(o => o.items.some(i => (i.title || "").toLowerCase().includes(p.name.toLowerCase())));
-      main.innerHTML = `<div class="dls">` + CONFIG.products.map(p => {
+      main.innerHTML = `<div class="dls">` + CONFIG.products.filter(p => !p.account).map(p => {
         const has = owned(p), link = (CONFIG.downloads || {})[p.slug];
         const action = !has ? `${btn("/" + p.slug, "Get " + esc(p.name))}`
           : link ? `<a class="btn btn-main abtn" href="${esc(link)}" target="_blank" rel="noopener">${svg('<path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/>')}Download</a>`
