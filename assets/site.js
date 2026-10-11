@@ -11,6 +11,8 @@ const CONFIG = {
   mediaDiscord: "",
   // optional banner on the home page, e.g. { text: "10% off your first order, use code", code: "PLASMA10", href: "/products" }. Only set a code that exists as a coupon in SellApp.
   promo: null,
+  // Rating from our previous server, as shown on its public MyVouch page (anyone can check the link). Update these two numbers if the page changes.
+  legacy: { rating: 4.9, count: 2508, url: "https://myvouch.es/plasmatech" },
   // Paste your YouTube video link here (e.g. https://www.youtube.com/watch?v=XXXXXXXXXXX). Empty hides the showcase.
   showcaseYouTube: "",
   products: [

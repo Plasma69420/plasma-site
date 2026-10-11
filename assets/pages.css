@@ -374,3 +374,13 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .mqc:hover{transform:translateY(-4px);border-color:rgba(var(--accent-rgb),.6);box-shadow:0 20px 50px -24px rgba(var(--accent-rgb),.6)}
 @keyframes mqslide{to{transform:translateX(calc(-50% - 8px))}}
 @media (max-width:760px){.mqc{width:260px}.hero-stats{gap:14px 22px;margin-top:34px}}
+
+/* verified-source panel on the reviews page */
+.src{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.srch{display:flex;align-items:center;gap:10px;color:#fff;font:700 18px/1 var(--display)}
+.srch .chk{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(62,224,143,.14);border:1px solid rgba(62,224,143,.4);color:var(--ok)}
+.srch .chk svg{width:14px;height:14px}
+.src p{font-size:14px;color:var(--muted);max-width:620px}
+.src p b{color:#fff}
+.src .btn{padding:11px 18px;font-size:14px}
+.src .rnote{font-size:13px}

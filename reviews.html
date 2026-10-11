@@ -45,23 +45,20 @@ Promise.allSettled([Api.get("/api/vouches"), get("/assets/recovered-vouches.json
   const rec = b.status === "fulfilled" ? b.value : [];
   const all = live.total + rec.length;
 
-  // summary card: the headline number is every vouch on this page
-  if (live.total > 0) {
-    document.getElementById("avg").innerHTML = live.average.toFixed(1) + "<small>/5</small>";
-    document.getElementById("avgStars").innerHTML = stars(live.average);
-    document.getElementById("cnt").textContent = `${live.total} star review${live.total === 1 ? "" : "s"}` + (rec.length ? ` + ${rec.length} recovered vouches` : "");
-  } else {
-    document.getElementById("avg").innerHTML = `${all}<small> vouches</small>`;
-    document.getElementById("avgStars").innerHTML = stars(0);
-    document.getElementById("cnt").textContent = all ? "Star ratings start with new /vouch reviews" : "No vouches yet";
-  }
+  const L = CONFIG.legacy;
+  // summary card: headline = the public MyVouch rating of our previous server
+  document.getElementById("avg").innerHTML = L.rating.toFixed(1) + "<small>/5</small>";
+  document.getElementById("avgStars").innerHTML = stars(L.rating);
+  document.getElementById("cnt").textContent = L.count.toLocaleString() + " vouches";
 
-  // breakdown card
+  // right card: where the number comes from (verifiable), plus anything new on this site
   const dist = document.getElementById("dist");
-  dist.innerHTML = [5, 4, 3, 2, 1].map(n => {
-    const c = live.distribution[n - 1], pct = live.total ? c / live.total * 100 : 0;
-    return `<div class="row"><span>${n} ★</span><div class="bar"><i style="width:${pct}%"></i></div><span>${c}</span></div>`;
-  }).join("") + (live.total ? "" : `<p class="rnote">The ${rec.length} recovered vouches below have no star ratings, so the bars fill in as new reviews come in with /vouch.</p>`);
+  dist.innerHTML = `<div class="src">
+      <div class="srch"><span class="chk">${ico.check}</span><b>Verified on MyVouch</b></div>
+      <p>Our rating comes from the public vouch page of our previous server: <b>${L.rating.toFixed(1)} / 5</b> across <b>${L.count.toLocaleString()}</b> vouches. You can check every vouch yourself.</p>
+      <a class="btn btn-ghost" href="${L.url}" target="_blank" rel="noopener">View all ${L.count.toLocaleString()} vouches ${ico.arrow}</a>
+      ${live.total ? `<p class="rnote">New reviews on this site: <b>${live.average.toFixed(1)}</b> / 5 from ${live.total}.</p>` : ""}
+    </div>`;
 
   document.getElementById("none").hidden = all > 0;
 

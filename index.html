@@ -207,7 +207,7 @@ document.querySelectorAll("[data-discord]").forEach(a => a.href = CONFIG.discord
 
 // rating pill (live from the Discord /vouch reviews)
 // stars + average only come from star reviews; recovered vouches add to the total count
-const setRating = (avg, rated, total) => {
+const setRatingOld = (avg, rated, total) => {
   const el = document.querySelector(".stars-ico");
   el.innerHTML = Array.from({ length: 5 }, (_, k) =>
     star.replace("<svg", `<svg class="${rated && k < Math.round(avg) ? "" : "off"}"`)).join("");
@@ -215,11 +215,12 @@ const setRating = (avg, rated, total) => {
     ? `<b>${avg.toFixed(2)}</b> from ${total} review${total === 1 ? "" : "s"}`
     : `<b>${total}</b> customer vouch${total === 1 ? "" : "es"}`;
 };
-Promise.allSettled([Api.get("/api/vouches"), fetch("/assets/recovered-vouches.json").then(r => r.json())]).then(([a, b]) => {
-  const live = a.status === "fulfilled" ? a.value : { average: 0, total: 0 };
-  const rec = b.status === "fulfilled" ? b.value.length : 0;
-  setRating(live.average, live.total, live.total + rec);
-});
+{
+  const L = CONFIG.legacy;
+  document.querySelector(".stars-ico").innerHTML = Array.from({ length: 5 }, (_, k) =>
+    star.replace("<svg", `<svg class="${k < Math.round(L.rating) ? "" : "off"}"`)).join("");
+  document.getElementById("ratingText").innerHTML = `<b>${L.rating.toFixed(1)}</b> from ${L.count.toLocaleString()} vouches`;
+}
 
 // promo banner: set CONFIG.promo in assets/site.js to show it (leave null to hide)
 (() => {
