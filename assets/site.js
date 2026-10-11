@@ -182,8 +182,20 @@ const Api = {
   const here = productBy(seg) ? "products" : seg;
   const link = (href, label, key) => `<a href="${href}"${key === here ? ' class="on"' : ""}>${label}</a>`;
   const u = Auth.get();
+  const mi = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+  const uname = u ? esc(u.user.global_name || u.user.username) : "";
   const userBtn = u
-    ? `<a class="nav-btn" href="/account"><img class="nav-av" src="${Auth.avatar(u.user)}" alt=""><span>${esc(u.user.global_name || u.user.username)}</span></a>`
+    ? `<div class="udrop" id="udrop">
+        <button class="nav-btn" id="uTrig" aria-haspopup="true" aria-expanded="false"><img class="nav-av" src="${Auth.avatar(u.user)}" alt=""><span>${uname}</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="umenu" id="uMenu" role="menu">
+          <div class="uhead"><img src="${Auth.avatar(u.user)}" alt=""><div><b>${uname}</b><small>${esc(u.user.email || "")}</small></div></div>
+          <a href="/account" role="menuitem">${mi('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>')}My account</a>
+          <a href="/account#orders" role="menuitem">${mi('<path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/>')}My orders<i class="ucount" id="uOrders">0</i></a>
+          <a href="/account#keys" role="menuitem">${mi('<circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 9.2-9.2M16 7l3 3M14 9l2 2"/>')}My keys</a>
+          <a href="/account#keys" role="menuitem">${mi('<path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/>')}Downloads</a>
+          <button type="button" id="uOut" role="menuitem">${mi('<path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9"/>')}Logout</button>
+        </div>
+      </div>`
     : `<a class="nav-btn" href="/login">${ico.user}<span>Login</span></a>`;
 
   document.body.insertAdjacentHTML("afterbegin", `
@@ -217,7 +229,18 @@ const Api = {
   </div>
 </footer>`);
 
-  // nav: full-width strip at the top, floating bar once scrolled
+  // account dropdown
+  if (u) {
+    const dd = document.getElementById("udrop"), trig = document.getElementById("uTrig");
+    const setOpen = o => { dd.classList.toggle("open", o); trig.setAttribute("aria-expanded", o); };
+    trig.addEventListener("click", e => { e.stopPropagation(); setOpen(!dd.classList.contains("open")); });
+    document.addEventListener("click", e => { if (!dd.contains(e.target)) setOpen(false); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") setOpen(false); });
+    document.getElementById("uOut").addEventListener("click", () => Auth.logout());
+    Api.get("/api/orders", u.token).then(d => { document.getElementById("uOrders").textContent = d.orders.length; }).catch(() => { });
+  }
+
+  // nav: floating bar on every page
   const nav = document.getElementById("nav");
   const onScroll = () => nav.classList.toggle("scrolled", scrollY > 30);
   addEventListener("scroll", onScroll, { passive: true }); onScroll();
