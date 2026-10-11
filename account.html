@@ -4,60 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>My Account – Plasma</title>
+<meta name="description" content="Your Plasma account, orders, keys and downloads.">
 <meta name="theme-color" content="#b026ff">
 <link rel="icon" type="image/png" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=30">
-<link rel="stylesheet" href="/assets/pages.css?v=30">
+<link rel="stylesheet" href="/assets/site.css?v=32">
+<link rel="stylesheet" href="/assets/pages.css?v=32">
 </head>
 <body>
-<main class="page"><div class="wrap" style="max-width:1100px">
-  <div class="page-head left"><span class="pill">Dashboard</span><h1>My Account</h1></div>
-  <div class="acct">
-    <aside class="card prof" id="prof"></aside>
-    <div>
-      <section class="card panel"><h3>My orders <em id="oc">0</em></h3><div id="orders"><p style="margin-top:10px;font-size:13px;color:var(--muted)">Loading...</p></div></section>
-      <section class="card panel" id="keys"><h3>My keys &amp; downloads</h3><p>Your key and download are shown on the payment thank-you page and emailed to you right after payment. Lost them? Open a Delivery ticket in our Discord with your order number.</p>
-        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-ghost" style="padding:11px 16px;font-size:14px" href="" id="dl" target="_blank" rel="noopener">Open Discord</a><a class="btn btn-ghost" style="padding:11px 16px;font-size:14px" href="/products">Browse products</a></div></section>
-      <section class="card panel"><h3>Customer role</h3><p>After your first purchase, claim the Customer role in our Discord (use the claim-role channel and your order number) to unlock private channels, priority support and the ability to leave a review with /vouch.</p></section>
-    </div>
-  </div>
-</div></main>
-<script src="/assets/site.js?v=30"></script>
-<script>
-const au = Auth.get();
-if (!au) location.replace("/login");
-else {
-  const u = au.user;
-  document.getElementById("dl").href = CONFIG.discord;
-  const created = new Date(Number((BigInt(u.id) >> 22n) + 1420070400000n));
-  document.getElementById("prof").innerHTML = `
-    <div class="who"><img src="${Auth.avatar(u)}" alt=""><div><b>${esc(u.global_name || u.username)}</b><small>${esc(u.email || "No email on this Discord account")}</small></div></div>
-    <div class="kv">
-      <div><span>Email</span><b>${u.email ? (u.verified ? "verified" : "unverified") : "none"}</b></div>
-      <div><span>Discord</span><b>${esc(u.username)}</b></div>
-      <div><span>Discord since</span><b>${created.toISOString().slice(0, 10)}</b></div>
-    </div>
-    <button class="btn btn-ghost" id="out">Logout</button>`;
-  document.getElementById("out").onclick = () => Auth.logout();
-
-  Api.get("/api/orders", au.token).then(d => {
-    document.getElementById("oc").textContent = d.orders.length;
-    const box = document.getElementById("orders");
-    if (!d.orders.length) {
-      box.innerHTML = `<p style="margin-top:10px;font-size:13px;color:var(--muted)">${esc(d.note || "No orders yet for " + (u.email || "your account") + ".")} Orders appear here when they were placed with your Discord email.</p><div style="margin-top:14px"><a class="btn btn-ghost" style="padding:11px 16px;font-size:14px" href="/products">Browse products</a></div>`;
-      return;
-    }
-    box.innerHTML = `<div class="orders">` + d.orders.map(o => `<div class="order"><div><b>Order #${o.id}</b><small>${esc(o.items.map(i => i.title + (i.variant ? " · " + i.variant : "") + " × " + i.qty).join(", "))} · ${new Date(o.created).toLocaleDateString()}</small></div>
-      <div style="display:flex;align-items:center;gap:12px"><span class="st ${o.status === "COMPLETED" ? "done" : ""}">${esc(o.status)}</span><span class="amt">${money(o.total)}</span></div></div>`).join("") + `</div>`;
-  }).catch(e => {
-    if (e.status === 401) { try { localStorage.removeItem("plasma_auth"); } catch { } location.replace("/login"); return; }
-    document.getElementById("orders").innerHTML = `<p style="margin-top:10px;font-size:13px;color:var(--bad)">Could not load your orders right now.</p>`;
-  });
-}
-</script>
+<main class="page"><div class="wrap" style="max-width:1100px" id="acctRoot"></div></main>
+<script src="/assets/site.js?v=32"></script>
+<script>window.ACCT_PAGE = "account";</script>
+<script src="/assets/account.js?v=32"></script>
 </body>
 </html>

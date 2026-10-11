@@ -90,6 +90,9 @@ CONFIG.addon = {
 
 // every product gets its own AnyDesk add-on (own price, own SellApp variant id). Change a price or paste a variant id here.
 CONFIG.tickets = "https://discord.com/channels/1555806695362666618/1556013981674635344";
+// loader download links per product slug. Paste a URL to turn on the Download button on the /downloads page
+// for customers who own that product; without one they get a "Request your download" ticket button.
+CONFIG.downloads = { "fortnite-private": "", "r6-external": "", "marvel-rivals": "", "arc-raiders": "", "temp-spoofer": "", "perm-spoofer": "" };
 CONFIG.products.forEach(p => { p.addon = Object.assign({ price: CONFIG.addon.price, v: CONFIG.addon.v }, p.addon); });
 
 const STATUS = {
@@ -190,9 +193,9 @@ const Api = {
         <div class="umenu" id="uMenu" role="menu">
           <div class="uhead"><img src="${Auth.avatar(u.user)}" alt=""><div><b>${uname}</b><small>${esc(u.user.email || "")}</small></div></div>
           <a href="/account" role="menuitem">${mi('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>')}My account</a>
-          <a href="/account#orders" role="menuitem">${mi('<path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/>')}My orders<i class="ucount" id="uOrders">0</i></a>
-          <a href="/account#keys" role="menuitem">${mi('<circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 9.2-9.2M16 7l3 3M14 9l2 2"/>')}My keys</a>
-          <a href="/account#keys" role="menuitem">${mi('<path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/>')}Downloads</a>
+          <a href="/orders" role="menuitem">${mi('<path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/>')}My orders<i class="ucount" id="uOrders">0</i></a>
+          <a href="/keys" role="menuitem">${mi('<circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 9.2-9.2M16 7l3 3M14 9l2 2"/>')}My keys</a>
+          <a href="/downloads" role="menuitem">${mi('<path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/>')}Downloads</a>
           <button type="button" id="uOut" role="menuitem">${mi('<path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9"/>')}Logout</button>
         </div>
       </div>`
@@ -217,15 +220,20 @@ const Api = {
 </header>`);
 
   document.body.insertAdjacentHTML("beforeend", `
-<footer>
+<footer class="foot">
+  <div class="fglow"></div>
   <div class="wrap">
-    <a href="/" class="brand"><img src="/img/logo.png" alt="">Plasma</a>
-    <nav>
-      <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/status">Status</a><a href="/media">Media</a>
-      <a href="${CONFIG.discord}" target="_blank" rel="noopener">Discord</a>
-      <a href="${CONFIG.telegram}" target="_blank" rel="noopener">Telegram</a>
-    </nav>
-    <small>© ${new Date().getFullYear()} Plasma · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a> · Site made by Punch</small>
+    <div class="frow">
+      <a href="/" class="brand" aria-label="Plasma"><img src="/img/logo.png" alt="">Plasma</a>
+      <nav>
+        <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/status">Status</a><a href="/media">Media</a><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a>
+      </nav>
+      <div class="fsoc">
+        <a href="${CONFIG.discord}" target="_blank" rel="noopener" aria-label="Discord">${ico.discord}</a>
+        <a href="${CONFIG.telegram}" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.8 15.6 9.4 20c.6 0 .9-.3 1.200-.6l2.900-2.800 6 4.400c1.100.6 1.900.3 2.200-1l3.900-18.400c.4-1.600-.6-2.300-1.700-1.900L1.100 8.500c-1.600.6-1.600 1.500-.3 1.900l5.900 1.800L20.400 4c.6-.4 1.200-.2.700.2z" transform="translate(-1 0)"/></svg></a>
+      </div>
+    </div>
+    <div class="fbar"><span>© ${new Date().getFullYear()} Plasma. All rights reserved.</span><span>Site made by <b>Punch</b></span></div>
   </div>
 </footer>`);
 

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Refund Policy – Plasma</title>
+<meta name="description" content="When a purchase can be fixed or replaced, and when it cannot.">
+<meta name="theme-color" content="#b026ff">
+<link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=32">
+<link rel="stylesheet" href="/assets/pages.css?v=32">
+</head>
+<body>
+<main class="page"><div class="wrap lgl">
+  <nav class="ltabs" aria-label="Legal pages"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/refund" class="on">Refunds</a></nav>
+  <header class="lhead"><h1>Refund Policy</h1><p>When a purchase can be fixed or replaced, and when it cannot.</p><small>Effective <b>October 11, 2026</b><i></i>Plasma</small></header>
+  <div class="llayout">
+    <aside class="ltoc"><span>On this page</span><a href="#s1" data-t="s1"><span>1</span>Digital products are final</a><a href="#s2" data-t="s2"><span>2</span>When we will fix an order</a><a href="#s3" data-t="s3"><span>3</span>Not covered</a><a href="#s4" data-t="s4"><span>4</span>Crypto payments</a><a href="#s5" data-t="s5"><span>5</span>Chargebacks and disputes</a><a href="#s6" data-t="s6"><span>6</span>How to get help with an order</a></aside>
+    <article class="lbody"><section id="s1"><h2><span>1</span>Digital products are final</h2><p>All Products are digital and delivered right after payment. Once a license key has been delivered, the sale is final. There is no refund for a change of mind, for buying the wrong Product or duration, or for not using the Product.</p></section><section id="s2"><h2><span>2</span>When we will fix an order</h2><div class="ltable"><table><thead><tr><th>Situation</th><th>What we do</th></tr></thead><tbody><tr><td><b>Payment confirmed but your key was not delivered</b></td><td>We check the order and deliver your key</td></tr><tr><td><b>Key is invalid or will not activate when delivered</b></td><td>We replace the key with a working one</td></tr><tr><td><b>Key was delivered to the wrong email because of a typo at checkout</b></td><td>We verify the order and re-send the key to the right address</td></tr></tbody></table></div><p>Staff look at every case individually, based on the order, the key and the license records. Decisions are final.</p></section><section id="s3"><h2><span>3</span>Not covered</h2><ul><li>Bans, suspensions or restrictions on your game accounts, hardware or any third-party platform. Using the Products is at your own risk (see section 8 of our <a href="/terms">Terms of Service</a>).</li><li>Maintenance, updates, downtime or a Product being temporarily detected or offline.</li><li>Compatibility with your hardware, operating system, antivirus or other software.</li><li>Keys that were shared, resold, leaked, or used in breach of the Terms.</li><li>Lost keys, when the delivery email was received. Check your inbox and spam folder first.</li><li>Sales, discount codes or price changes that happened after your purchase.</li><li>Payments sent outside the checkout, to a wrong address, on a wrong network or in a wrong amount.</li></ul></section><section id="s4"><h2><span>4</span>Crypto payments</h2><p>Solana payments are final on the blockchain and we cannot reverse them. Only the amount shown at checkout, sent to the address shown at checkout, can be matched to an order.</p></section><section id="s5"><h2><span>5</span>Chargebacks and disputes</h2><p>Opening a dispute or chargeback before contacting support is treated as fraud: all licenses are revoked and you are blacklisted from our services. Contact us first. Almost every problem is solved in a ticket.</p></section><section id="s6"><h2><span>6</span>How to get help with an order</h2><ol><li>Open a ticket in our Discord server as soon as you notice the problem.</li><li>Include your order number, your key and what happened. Screenshots and error messages help.</li><li>Staff review the order and reply in the ticket.</li></ol></section>
+      <div class="lcta"><div><b>Questions about this policy?</b><small>Open a ticket in our Discord server and our team will help.</small></div><a class="btn btn-main" id="lcta" href="#" target="_blank" rel="noopener">Open Discord</a></div>
+    </article>
+  </div>
+</div></main>
+<script src="/assets/site.js?v=32"></script>
+<script>
+document.getElementById("lcta").href = CONFIG.discord;
+// table of contents: smooth jump without putting a #hash in the address bar, plus scroll highlight
+const links = [...document.querySelectorAll(".ltoc a")], secs = links.map(a => document.getElementById(a.dataset.t));
+links.forEach(a => a.addEventListener("click", e => { e.preventDefault(); document.getElementById(a.dataset.t).scrollIntoView({ behavior: "smooth", block: "start" }); }));
+const spy = () => { let cur = 0; secs.forEach((s, i) => { if (s.getBoundingClientRect().top < 140) cur = i; }); links.forEach((a, i) => a.classList.toggle("on", i === cur)); };
+addEventListener("scroll", spy, { passive: true }); spy();
+</script>
+</body>
+</html>
