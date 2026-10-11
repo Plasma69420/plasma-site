@@ -421,3 +421,6 @@ footer small a:hover{color:#fff}
 .hero-bg .glow{background:radial-gradient(ellipse 60% 65% at 50% 100%,rgba(var(--accent-rgb),.42),rgba(var(--accent-rgb),.1) 55%,transparent 75%)}
 /* sharp full-width art (auto-enabled when a large img/hero-op.png is dropped in) */
 .hero-bg.hd .op{inset:0;width:auto;right:auto;left:0;background-size:cover;background-position:68% top;filter:grayscale(1) contrast(1.08) brightness(.95);-webkit-mask-image:none;mask-image:none}
+
+/* hero backdrop stays off (normal page background) until a sharp hero-op.png is provided */
+.hero-bg:not(.hd) i{display:none}
