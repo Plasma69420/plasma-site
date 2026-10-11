@@ -408,3 +408,8 @@ footer small a:hover{color:#fff}
 .hero-bg .shade{background:radial-gradient(ellipse 70% 55% at 50% 38%,rgba(20,18,26,.55),transparent 75%),linear-gradient(180deg,rgba(0,0,0,.18),transparent 30%)}
 .hero-bg .glow{top:auto;height:520px;background:radial-gradient(ellipse 60% 65% at 50% 100%,rgba(var(--accent-rgb),.34),rgba(var(--accent-rgb),.08) 55%,transparent 75%)}
 @media (max-width:980px){.hero-bg .op{width:100%;right:-30%;opacity:.4}}
+
+/* hero overlay: same layering as the reference (image under a page-colour wash that fades to solid) */
+.hero-bg .shade{background:linear-gradient(180deg,rgba(11,10,14,.5) 0%,rgba(11,10,14,.66) 58%,#0b0a0e 97%)}
+.hero-bg .op{filter:grayscale(.3) brightness(.85) contrast(1.1) blur(2px)}
+.hero-bg{-webkit-mask-image:none;mask-image:none}
