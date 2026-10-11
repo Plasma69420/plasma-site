@@ -402,7 +402,7 @@ footer small a:hover{color:#fff}
   -webkit-mask-image:linear-gradient(180deg,#000 62%,transparent 100%);mask-image:linear-gradient(180deg,#000 62%,transparent 100%)}
 .hero-bg i{position:absolute;display:block;inset:0}
 .hero-bg .slate{background:linear-gradient(180deg,#4b4852 0%,#34313a 28%,#201e26 60%,#0b0a0e 100%)}
-.hero-bg .op{left:auto;right:-2%;top:30px;width:62%;background:url("/img/hero-op.png") no-repeat 52% -330px/auto 310%;filter:grayscale(.3) brightness(.6) contrast(1.1) blur(2px);opacity:.95;
+.hero-bg .op{left:auto;right:-2%;top:30px;width:62%;background:url("/img/hero-op.png") no-repeat 52% -215px/auto 310%;filter:grayscale(.3) brightness(.6) contrast(1.1) blur(2px);opacity:.95;
   -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 38%),linear-gradient(180deg,#000 40%,transparent 85%);-webkit-mask-composite:source-in;
   mask-image:linear-gradient(90deg,transparent 0%,#000 38%),linear-gradient(180deg,#000 40%,transparent 85%);mask-composite:intersect}
 .hero-bg .shade{background:radial-gradient(ellipse 70% 55% at 50% 38%,rgba(20,18,26,.55),transparent 75%),linear-gradient(180deg,rgba(0,0,0,.18),transparent 30%)}
