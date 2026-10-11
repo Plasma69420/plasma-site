@@ -721,3 +721,9 @@ footer.foot .wrap{display:block;text-align:left;padding:0}
 .hero-girl .hg-aura{width:640px;height:640px;top:46%}
 .hero-girl .hg-fig{width:auto;height:510px;overflow:visible;-webkit-mask-image:none;mask-image:none}
 .hero-girl img{height:510px;width:auto;filter:drop-shadow(0 0 22px rgba(var(--accent-rgb),.5)) drop-shadow(0 18px 28px rgba(0,0,0,.55))}
+
+/* hero character v5: the kiss pose, old position (right of the headline, about 350px tall, thighs fade out) */
+.hero-girl.kiss{right:max(28px,calc(50% - 600px));top:128px;height:350px;width:auto}
+.hero-girl.kiss .hg-aura{width:520px;height:520px;top:46%}
+.hero-girl.kiss .hg-fig{height:350px;width:auto;overflow:visible;-webkit-mask-image:linear-gradient(180deg,#000 0,#000 78%,transparent 100%);mask-image:linear-gradient(180deg,#000 0,#000 78%,transparent 100%)}
+.hero-girl.kiss img{height:350px;width:auto;filter:drop-shadow(0 0 18px rgba(var(--accent-rgb),.5)) drop-shadow(0 12px 22px rgba(0,0,0,.5))}
