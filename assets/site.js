@@ -36,8 +36,9 @@ const CONFIG = {
         ["Misc", ["Slot guarantees performance, no overcrowded servers", "Discord support included", "Lifetime updates on slotted plan"]]
       ],
       os: "Windows 10/11",
+      steps: [["Buy your slot", "Pick your tier and pay with PayPal, Cash App or Solana. About 30 seconds."], ["Activate your slot", "Right after payment you will see exactly how to activate your slot and get the loader."], ["Queue and play", "Launch the game and play like normal. No sketchy accounts or extra steps."]],
       // slots = max slots in that tier, days = for the per-day price. v = SellApp variant id (null until the product is created in SellApp)
-      plans: [{ n: "Week", p: 29.99, v: null, slots: 15, days: 7 }, { n: "Month", p: 69.99, v: null, slots: 10, days: 30 }, { n: "3 Months", p: 129.99, v: null, slots: 5, days: 90 }]
+      plans: [{ n: "Week", p: 29.99, v: 416783, slots: 15, days: 7 }, { n: "Month", p: 69.99, v: 416784, slots: 10, days: 30 }, { n: "3 Months", p: 129.99, v: 416785, slots: 5, days: 90 }]
     },
     {
       slug: "r6-external", name: "R6 External", type: "External", game: "Rainbow Six Siege", img: "/img/r6-external.webp",
