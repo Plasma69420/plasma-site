@@ -396,3 +396,15 @@ footer small a:hover{color:#fff}
 .legal ul{margin:8px 0 8px 22px;color:var(--muted);font-size:15px;line-height:1.7;list-style:disc}
 .legal a{color:var(--accent-2);text-decoration:underline}
 @media (max-width:640px){.legal{padding:24px 20px}}
+
+/* home hero backdrop: slate wash, operator art fading in on the right, glow under the showcase */
+.hero-bg{left:50%;right:auto;width:100vw;transform:translateX(-50%);height:1180px;
+  -webkit-mask-image:linear-gradient(180deg,#000 62%,transparent 100%);mask-image:linear-gradient(180deg,#000 62%,transparent 100%)}
+.hero-bg i{position:absolute;display:block;inset:0}
+.hero-bg .slate{background:linear-gradient(180deg,#4b4852 0%,#34313a 28%,#201e26 60%,#0b0a0e 100%)}
+.hero-bg .op{left:auto;right:-2%;top:30px;width:62%;background:url("/img/hero-op.png") no-repeat 52% -330px/auto 310%;filter:grayscale(.3) brightness(.6) contrast(1.1) blur(2px);opacity:.95;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 38%),linear-gradient(180deg,#000 40%,transparent 85%);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(90deg,transparent 0%,#000 38%),linear-gradient(180deg,#000 40%,transparent 85%);mask-composite:intersect}
+.hero-bg .shade{background:radial-gradient(ellipse 70% 55% at 50% 38%,rgba(20,18,26,.55),transparent 75%),linear-gradient(180deg,rgba(0,0,0,.18),transparent 30%)}
+.hero-bg .glow{top:auto;height:520px;background:radial-gradient(ellipse 60% 65% at 50% 100%,rgba(var(--accent-rgb),.34),rgba(var(--accent-rgb),.08) 55%,transparent 75%)}
+@media (max-width:980px){.hero-bg .op{width:100%;right:-30%;opacity:.4}}
