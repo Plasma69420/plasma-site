@@ -15,8 +15,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=55">
-<link rel="stylesheet" href="/assets/pages.css?v=55">
+<link rel="stylesheet" href="/assets/site.css?v=56">
+<link rel="stylesheet" href="/assets/pages.css?v=56">
 </head>
 <body>
 
@@ -217,7 +217,7 @@
 
 
 
-<script src="/assets/site.js?v=55"></script>
+<script src="/assets/site.js?v=56"></script>
 <script>
 const star = ico.star;
 
@@ -390,7 +390,7 @@ Api.get("/api/vouches").then(d => {
   const starsRow = n => Array.from({ length: 5 }, (_, k) => star.replace("<svg", '<svg class="' + (k < Math.round(n) ? "" : "off") + '"')).join("");
   const card = r => '<article class="card rev"><div class="rt"><div style="display:flex;align-items:center"><span class="stars-row">' + starsRow(r.stars) +
     '</span><span class="ver">✓ Verified</span></div><span>' + new Date(r.at).toLocaleDateString([], { month: "short", day: "2-digit", year: "numeric" }) + '</span></div><p>' +
-    esc(r.message) + '</p><div class="rf"><img src="' + esc(r.avatar || "/img/logo.png") + '" alt="">' + esc(r.username) + '</div></article>';
+    esc(r.message) + '</p>' + (r.proof ? '<a class="rproof" href="' + esc(CONFIG.api + r.proof) + '" target="_blank" rel="noopener"><img src="' + esc(CONFIG.api + r.proof) + '" alt="Picture from this review" loading="lazy"></a>' : '') + '<div class="rf"><img src="' + esc(r.avatar || "/img/logo.png") + '" alt="">' + esc(r.username) + '</div></article>';
   wall.hidden = false;
   if (d.total < 3) { wall.className = "rwall still"; wall.innerHTML = d.reviews.map(card).join(""); return; }
   const cols = [[], [], []];
