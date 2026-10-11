@@ -37,7 +37,7 @@ if (!p) {
         <div class="assure"><span>${ico.bolt}Instant Delivery</span><span>${ico.shield}Secure Checkout</span><span>${ico.headset}24/7 Support</span></div>
         <div class="lbl">Choose your plan</div>
         <div class="planrow">${p.plans.map((x, j) => `<button class="plancard${j === plan ? " on" : ""}" data-j="${j}"><b>${esc(x.n)}</b><strong>${money(x.p)}</strong><small>Instant delivery</small></button>`).join("")}</div>
-        <label class="addon${any ? " on" : ""}"${avail && p.addon.v ? "" : " hidden"}><input type="checkbox" id="any" ${any ? "checked" : ""}>
+        <label class="addon${any ? " on" : ""}"><input type="checkbox" id="any" ${any ? "checked" : ""}>
           <span class="box"></span>
           <span class="at"><b>${ico.headset}${CONFIG.addon.name} (Optional)</b><i>+${money(p.addon.price)}</i><em>${CONFIG.addon.desc}</em><small>${CONFIG.addon.fine}</small></span></label>
         <div class="totalbox">

@@ -31,7 +31,7 @@ const CONFIG = {
         ["Aimbot", ["Smooth aim with FOV & smoothness sliders", "Bone targeting (head, chest, pelvis)", "Visibility check", "Aim key / toggle support"]],
         ["Visuals", ["Player ESP boxes & skeleton", "Distance, name & health", "Drone & gadget ESP", "Customizable colors"]],
         ["Security", ["External, no game injection", "BattlEye bypass updated regularly", "Stream-proof rendering"]],
-        ["Misc", ["Configurable hotkeys", "Instant delivery & Discord support"]]
+        ["Extras", ["Configurable hotkeys", "Instant delivery & Discord support"]]
       ],
       plans: [{ n: "Day", p: 6.99, v: null }, { n: "Week", p: 26.99, v: null }, { n: "Month", p: 59.99, v: null }, { n: "Lifetime", p: 149.99, v: null }]
     },
@@ -45,7 +45,7 @@ const CONFIG = {
         ["Prediction", ["Enable prediction", "Hero to customize (every projectile hero in the SDK)", "Projectile speed override (UU/s)", "Projectile gravity / drop override (UU/s²)", "Reset selected hero to table defaults", "Global speed override", "Global gravity override", "Motion curve (linear, ease-out, ease-in-out, S-curve)", "Reaction delay (ms)", "Reaction variance (% random)", "Target switch grace window (ms)", "Minimum aim speed (fraction)", "Pitch vs yaw speed ratio", "Overshoot past target (%)", "Hand tremor noise (degrees)", "Breathing amount (degrees)", "Apply LEGIT preset", "Apply RAGE preset", "Reset aim key to Mouse R"]],
         ["Visuals (ESP)", ["Enable ESP", "Players (self filter, teammates, enemies)", "Box (style: full / corner brackets / filled)", "Outline thickness", "Bracket corner length", "Filled box opacity", "Max ESP draw distance (m)", "Hide text below box height", "Player name", "Hero name", "K / D / A score", "Role badge (Strategist / Duelist / Vanguard)", "Distance", "Velocity (km/h)", "Snaplines", "Snapline origin (top, middle, bottom of screen)", "Snapline target (top, middle, bottom of box)", "Snapline thickness", "Custom snapline color (visible / occluded)", "Head dot", "Head dot vertical position (% of box)", "Health display", "Health style (bar, number, both)", "Ultimate status bar", "Only visible / visibility check", "Off-screen arrows", "Arrow size", "Screen edge margin"]],
         ["World", ["Custom crosshair", "Crosshair style (dot, cross, circle, +dot, T)", "Crosshair size", "Crosshair line thickness", "Crosshair center gap", "Black outline (readability)", "Crosshair color", "Mini radar", "Radar screen corner (TL, TR, BL, BR)", "Radar size", "Radar detection range (meters)", "Radar background opacity", "Filter (use team filter, show teammates)"]],
-        ["Misc / Settings", ["Menu transparency", "UI scale (DPI)", "Overlay FPS cap (0 = uncapped)", "VSync", "Low-power mode when game is alt-tabbed", "Save config to file", "Load config from file", "Reset every setting to defaults"]]
+        ["Settings", ["Menu transparency", "UI scale (DPI)", "Overlay FPS cap (0 = uncapped)", "VSync", "Low-power mode when game is alt-tabbed", "Save config to file", "Load config from file", "Reset every setting to defaults"]]
       ],
       plans: [{ n: "1 Day", p: 5.99, v: null }, { n: "1 Week", p: 19.99, v: null }, { n: "1 Month", p: 39.99, v: null }]
     },
@@ -57,7 +57,7 @@ const CONFIG = {
       groups: [
         ["Aimbot", ["Smooth aim with adjustable FOV & smoothness", "Bone selection & visibility check", "Aim key / toggle modes"]],
         ["Visuals", ["Player ESP (boxes, skeleton, healthbars)", "Loot & enemy NPC ESP", "Distance, name & class labels", "Custom color palette"]],
-        ["Misc", ["Stream-proof overlay", "Configurable hotkeys", "Instant delivery & Discord support", "Auto-updates with Arc Raiders patches"]]
+        ["Extras", ["Stream-proof overlay", "Configurable hotkeys", "Instant delivery & Discord support", "Auto-updates with Arc Raiders patches"]]
       ],
       plans: [{ n: "1 Day", p: 5.99, v: null }, { n: "1 Week", p: 22.99, v: null }, { n: "1 Month", p: 54.99, v: null }]
     },

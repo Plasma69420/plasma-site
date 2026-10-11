@@ -37,8 +37,6 @@
     <a class="btn btn-main" href="#products">Choose your product
       <svg viewBox="0 0 18 18" fill="currentColor"><path d="M17.6 11.8 15.6 5c-.3-1.2-1.4-2-2.6-2H5c-1.2 0-2.3.8-2.6 2L.4 11.8c-.1.2-.1.5-.1.7A2.5 2.5 0 0 0 4.8 14l1-1.5h6.4l1 1.5a2.5 2.5 0 0 0 4.5-1.5c0-.2 0-.5-.1-.7ZM7.5 8.5H7V9a.75.75 0 0 1-1.5 0v-.5H5A.75.75 0 0 1 5 7h.5v-.5a.75.75 0 0 1 1.5 0V7h.5a.75.75 0 0 1 0 1.5Zm3.3 1a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Zm1.5-2a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"/></svg></a>
 
-    <div class="fan" id="fan" aria-label="Plasma products"></div>
-
     <div class="stage reveal" id="showcaseStage" hidden>
       <div class="aurora"></div>
       <div class="window" id="showcase">
@@ -217,15 +215,6 @@ Api.get("/api/vouches").then(d => {
   if (!p || !p.text) return;
   el.hidden = false; el.href = p.href || "#products";
   el.innerHTML = '<i class="pdot"></i><span>' + p.text + '</span>' + (p.code ? '<code>' + p.code + '</code>' : '');
-})();
-
-// hero visual: the product banners fanned out in 3D (centre = first product)
-(() => {
-  const pos = ["c", "l1", "r1", "l2", "r2"];
-  document.getElementById("fan").innerHTML = pos.map((cls, k) => {
-    const p = CONFIG.products[k]; if (!p) return "";
-    return '<a class="fc ' + cls + '" href="/' + p.slug + '" aria-label="' + p.name + '"><img src="' + p.img + '" alt="' + p.name + '"></a>';
-  }).join("");
 })();
 
 // products
