@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Community – Plasma</title>
+<meta name="description" content="Chat with other Plasma members.">
+<meta name="theme-color" content="#b026ff">
+<link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/pages.css">
+</head>
+<body>
+<main class="page"><div class="wrap" style="max-width:1100px">
+  <div class="page-head">
+    <span class="pill"><span class="live-dot"></span>COMMUNITY</span>
+    <h1>Plasma Community</h1>
+    <p>Chat with other Plasma members. Log in with Discord to join in.</p>
+  </div>
+
+  <div class="chatbox">
+    <aside class="cside">
+      <div class="csrv"><img src="/img/logo.png" alt=""><b>Plasma</b></div>
+      <div class="clbl">TEXT CHANNELS</div>
+      <a class="chn on" href="/community"><i>#</i>community-chat</a>
+      <a class="chn" href="" id="chSupport" target="_blank" rel="noopener"><i>#</i>support</a>
+      <a class="chn" href="" id="chProducts" target="_blank" rel="noopener"><i>#</i>products</a>
+      <div class="cme" id="me"></div>
+    </aside>
+
+    <section class="cmain">
+      <header class="chead"><i>#</i><b>community-chat</b><span>Be respectful. No links, ads or begging for keys.</span></header>
+      <div class="cfeed" id="feed"><div class="cempty">Loading messages...</div></div>
+      <form class="cform" id="form" autocomplete="off">
+        <textarea id="msg" rows="1" maxlength="500" placeholder="Message #community-chat" disabled></textarea>
+        <button class="btn btn-main" id="send" type="submit" disabled>Send</button>
+      </form>
+      <div class="cnote" id="note"></div>
+    </section>
+  </div>
+</div></main>
+<script src="/assets/site.js"></script>
+<script>
+document.getElementById("chSupport").href = CONFIG.tickets;
+document.getElementById("chProducts").href = "/products";
+document.getElementById("chProducts").removeAttribute("target");
+
+const au = Auth.get(), feed = document.getElementById("feed"), msg = document.getElementById("msg"),
+  send = document.getElementById("send"), note = document.getElementById("note"), me = document.getElementById("me");
+let state = { me: null }, lastKey = "";
+
+const fmt = t => {
+  const d = new Date(t), today = new Date();
+  const time = d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  return d.toDateString() === today.toDateString() ? "Today at " + time : d.toLocaleDateString([], { month: "short", day: "numeric" }) + " " + time;
+};
+const say = (t, bad) => { note.textContent = t || ""; note.className = "cnote" + (bad ? " bad" : ""); };
+
+function drawMe() {
+  if (!au) {
+    me.innerHTML = `<a class="btn btn-main" href="/login">Log in with Discord</a>`;
+    msg.placeholder = "Log in with Discord to chat";
+    note.innerHTML = `<a href="/login" style="color:var(--accent-2);text-decoration:underline">Log in with Discord</a> to join the chat.`;
+    return;
+  }
+  const u = au.user;
+  me.innerHTML = `<img src="${Auth.avatar(u)}" alt=""><div><b>${esc(u.global_name || u.username)}</b><small>${state.me && state.me.staff ? "Staff" : "Online"}</small></div>`;
+  if (state.me && !state.me.member) {
+    msg.placeholder = "Join our Discord server to chat";
+    say("You need to be in our Discord server to chat here.", true);
+    note.insertAdjacentHTML("beforeend", ` <a href="${CONFIG.discord}" target="_blank" rel="noopener" style="text-decoration:underline">Join Discord</a>`);
+    msg.disabled = send.disabled = true;
+  } else if (state.me) {
+    msg.disabled = send.disabled = false; msg.placeholder = "Message #community-chat";
+  }
+}
+
+function drawFeed(posts) {
+  const key = posts.map(p => p.id).join(",");
+  if (key === lastKey) return;
+  const atBottom = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 80;
+  lastKey = key;
+  if (!posts.length) { feed.innerHTML = `<div class="cempty">No messages yet. Say hi!</div>`; return; }
+  let prev = null;
+  feed.innerHTML = posts.map(p => {
+    const group = prev && prev.uid === p.uid && p.at - prev.at < 5 * 60000;
+    prev = p;
+    const canDel = state.me && (state.me.id === p.uid || state.me.staff);
+    return `<div class="cmsg${group ? " grp" : ""}" data-id="${p.id}">
+      ${group ? `<span class="cgap"></span>` : `<img src="${esc(p.avatar)}" alt="">`}
+      <div class="cbody">
+        ${group ? "" : `<div class="cmeta"><b>${esc(p.name)}</b>${p.staff ? `<em>STAFF</em>` : ""}<time>${fmt(p.at)}</time></div>`}
+        <div class="ctext">${esc(p.text)}</div>
+      </div>
+      ${canDel ? `<button class="cdel" data-id="${p.id}" aria-label="Delete message" title="Delete">${ico.trash}</button>` : ""}
+    </div>`;
+  }).join("");
+  if (atBottom || feed.dataset.first !== "1") { feed.scrollTop = feed.scrollHeight; feed.dataset.first = "1"; }
+}
+
+async function load() {
+  try {
+    const d = await Api.get("/api/community", au && au.token);
+    state.me = d.me; drawMe(); drawFeed(d.posts);
+  } catch { feed.innerHTML = `<div class="cempty">Chat is unavailable right now. Try again in a moment.</div>`; }
+}
+
+feed.addEventListener("click", async e => {
+  const b = e.target.closest(".cdel"); if (!b) return;
+  try { await Api.post("/api/community/delete", { id: b.dataset.id }, au.token); lastKey = ""; load(); } catch (err) { say(err.message, true); }
+});
+
+const form = document.getElementById("form");
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  const text = msg.value.trim(); if (!text || !au) return;
+  send.disabled = true; say("");
+  try {
+    await Api.post("/api/community/post", { text }, au.token);
+    msg.value = ""; msg.style.height = ""; lastKey = ""; await load(); feed.scrollTop = feed.scrollHeight;
+  } catch (err) {
+    if (err.status === 401) { try { localStorage.removeItem("plasma_auth"); } catch { } location.reload(); return; }
+    say(err.message, true);
+  }
+  send.disabled = false; msg.focus();
+});
+msg.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); } });
+msg.addEventListener("input", () => { msg.style.height = "auto"; msg.style.height = Math.min(msg.scrollHeight, 120) + "px"; });
+
+drawMe(); load(); setInterval(load, 8000);
+</script>
+</body>
+</html>

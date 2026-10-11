@@ -51,23 +51,17 @@ Promise.allSettled([Api.get("/api/vouches"), get("/assets/recovered-vouches.json
     document.getElementById("avgStars").innerHTML = stars(live.average);
     document.getElementById("cnt").textContent = `${live.total} star review${live.total === 1 ? "" : "s"}` + (rec.length ? ` + ${rec.length} recovered vouches` : "");
   } else {
-    document.getElementById("avg").textContent = all;
-    document.getElementById("avgStars").innerHTML = "";
-    document.getElementById("cnt").textContent = all ? `total vouches, recovered from our previous server` : "No vouches yet";
+    document.getElementById("avg").innerHTML = `${all}<small> vouches</small>`;
+    document.getElementById("avgStars").innerHTML = stars(0);
+    document.getElementById("cnt").textContent = all ? "Star ratings start with new /vouch reviews" : "No vouches yet";
   }
 
   // breakdown card
   const dist = document.getElementById("dist");
-  if (live.total > 0) {
-    dist.innerHTML = [5, 4, 3, 2, 1].map(n => {
-      const c = live.distribution[n - 1], pct = c / live.total * 100;
-      return `<div class="row"><span>${n} ★</span><div class="bar"><i style="width:${pct}%"></i></div><span>${c}</span></div>`;
-    }).join("");
-  } else {
-    dist.innerHTML = `<div class="row2"><span>Recovered vouches</span><b>${rec.length}</b></div>
-      <div class="row2"><span>New star reviews</span><b>${live.total}</b></div>
-      <p class="rnote">Recovered vouches don't include star ratings. The star average appears here once new reviews are posted with /vouch.</p>`;
-  }
+  dist.innerHTML = [5, 4, 3, 2, 1].map(n => {
+    const c = live.distribution[n - 1], pct = live.total ? c / live.total * 100 : 0;
+    return `<div class="row"><span>${n} ★</span><div class="bar"><i style="width:${pct}%"></i></div><span>${c}</span></div>`;
+  }).join("") + (live.total ? "" : `<p class="rnote">The ${rec.length} recovered vouches below have no star ratings, so the bars fill in as new reviews come in with /vouch.</p>`);
 
   document.getElementById("none").hidden = all > 0;
 

@@ -27,6 +27,7 @@
 <section class="hero">
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="wrap">
+    <a class="promo" id="promo" hidden></a>
     <a href="/reviews" class="rating" id="rating">
       <span class="stars-ico"></span>
       <span id="ratingText"></span>
@@ -35,6 +36,8 @@
     <p class="lede">Private Fortnite software and HWID spoofers with instant key delivery, live status updates and real support whenever you need it.</p>
     <a class="btn btn-main" href="#products">Choose your product
       <svg viewBox="0 0 18 18" fill="currentColor"><path d="M17.6 11.8 15.6 5c-.3-1.2-1.4-2-2.6-2H5c-1.2 0-2.3.8-2.6 2L.4 11.8c-.1.2-.1.5-.1.7A2.5 2.5 0 0 0 4.8 14l1-1.5h6.4l1 1.5a2.5 2.5 0 0 0 4.5-1.5c0-.2 0-.5-.1-.7ZM7.5 8.5H7V9a.75.75 0 0 1-1.5 0v-.5H5A.75.75 0 0 1 5 7h.5v-.5a.75.75 0 0 1 1.5 0V7h.5a.75.75 0 0 1 0 1.5Zm3.3 1a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Zm1.5-2a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"/></svg></a>
+
+    <div class="hero-stats" id="heroStats"></div>
 
     <div class="stage reveal" id="showcaseStage" hidden>
       <div class="aurora"></div>
@@ -46,6 +49,9 @@
 
   </div>
 </section>
+
+<!-- ============ PRODUCT SHOWCASE STRIP ============ -->
+<section class="mqsec"><div class="mq" id="mq" aria-label="Plasma products"></div></section>
 
 <!-- ============ DISCORD BAR ============ -->
 <section class="sec" style="padding-top:90px;padding-bottom:0">
@@ -203,8 +209,8 @@ document.querySelectorAll("[data-discord]").forEach(a => a.href = CONFIG.discord
 // stars + average only come from star reviews; recovered vouches add to the total count
 const setRating = (avg, rated, total) => {
   const el = document.querySelector(".stars-ico");
-  el.innerHTML = rated ? Array.from({ length: 5 }, (_, k) =>
-    star.replace("<svg", `<svg class="${k < Math.round(avg) ? "" : "off"}"`)).join("") : star.replace("<svg", '<svg class="on"');
+  el.innerHTML = Array.from({ length: 5 }, (_, k) =>
+    star.replace("<svg", `<svg class="${rated && k < Math.round(avg) ? "" : "off"}"`)).join("");
   document.getElementById("ratingText").innerHTML = rated
     ? `<b>${avg.toFixed(2)}</b> from ${total} review${total === 1 ? "" : "s"}`
     : `<b>${total}</b> customer vouch${total === 1 ? "" : "es"}`;
@@ -214,6 +220,25 @@ Promise.allSettled([Api.get("/api/vouches"), fetch("/assets/recovered-vouches.js
   const rec = b.status === "fulfilled" ? b.value.length : 0;
   setRating(live.average, live.total, live.total + rec);
 });
+
+// promo banner: set CONFIG.promo in assets/site.js to show it (leave null to hide)
+(() => {
+  const el = document.getElementById("promo"), p = CONFIG.promo;
+  if (!p || !p.text) return;
+  el.hidden = false; el.href = p.href || "#products";
+  el.innerHTML = '<i class="pdot"></i><span>' + p.text + '</span>' + (p.code ? '<code>' + p.code + '</code>' : '');
+})();
+
+// quick facts under the button (all real: product count, payment options, delivery, support)
+document.getElementById("heroStats").innerHTML = [
+  [String(CONFIG.products.length), "products"], ["Instant", "key delivery"], ["PayPal · Cash App · Crypto", "accepted"], ["24/7", "Discord support"]
+].map(([b, s]) => '<div><b>' + b + '</b><span>' + s + '</span></div>').join("");
+
+// scrolling strip of the product banners
+(() => {
+  const cards = CONFIG.products.map(p => '<a class="mqc" href="/' + p.slug + '"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy"></a>').join("");
+  document.getElementById("mq").innerHTML = '<div class="mqt">' + cards + cards + '</div>';
+})();
 
 // products
 const grid = document.getElementById("productGrid");

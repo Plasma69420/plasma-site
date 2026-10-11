@@ -9,6 +9,8 @@ const CONFIG = {
   api: "https://plasma-bot-production.up.railway.app",
   // invite to your separate Media Discord (leave empty to use the main Discord)
   mediaDiscord: "",
+  // optional banner on the home page, e.g. { text: "10% off your first order, use code", code: "PLASMA10", href: "/products" }. Only set a code that exists as a coupon in SellApp.
+  promo: null,
   // Paste your YouTube video link here (e.g. https://www.youtube.com/watch?v=XXXXXXXXXXX). Empty hides the showcase.
   showcaseYouTube: "",
   products: [
@@ -162,8 +164,10 @@ const Api = {
     if (!r.ok) throw Object.assign(new Error(j.error || "Request failed"), { status: r.status });
     return j;
   },
-  async post(path, body) {
-    const r = await fetch(CONFIG.api + path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  async post(path, body, token) {
+    const headers = { "Content-Type": "application/json" };
+    if (token) headers.Authorization = "Bearer " + token;
+    const r = await fetch(CONFIG.api + path, { method: "POST", headers, body: JSON.stringify(body) });
     const j = await r.json().catch(() => ({}));
     if (!r.ok) throw Object.assign(new Error(j.error || "Request failed"), { status: r.status });
     return j;
@@ -188,7 +192,7 @@ const Api = {
   <div class="nav-bar"><div class="nav-in">
     <a href="/" class="brand"><img src="/img/logo.png" alt="">Plasma</a>
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/reviews", "Reviews", "reviews")}${link("/status", "Status", "status")}${link("/media", "Media", "media")}
+      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/reviews", "Reviews", "reviews")}${link("/status", "Status", "status")}${link("/community", "Community", "community")}${link("/media", "Media", "media")}
     </nav>
     <div class="nav-right">
       <a class="nav-btn" href="${CONFIG.discord}" target="_blank" rel="noopener">${ico.discord}<span>Discord</span></a>
@@ -204,7 +208,7 @@ const Api = {
   <div class="wrap">
     <a href="/" class="brand"><img src="/img/logo.png" alt="">Plasma</a>
     <nav>
-      <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/status">Status</a><a href="/media">Media</a>
+      <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/status">Status</a><a href="/community">Community</a><a href="/media">Media</a>
       <a href="${CONFIG.discord}" target="_blank" rel="noopener">Discord</a>
     </nav>
     <small>© ${new Date().getFullYear()} Plasma. All rights reserved.</small>

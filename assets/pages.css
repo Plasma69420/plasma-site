@@ -298,3 +298,79 @@ main{flex:1 0 auto;width:100%}
 footer{flex-shrink:0}
 /* browser autofill should not turn inputs light blue */
 input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus{-webkit-box-shadow:0 0 0 100px #1a1620 inset!important;-webkit-text-fill-color:#fff!important;caret-color:#fff;transition:background-color 9999s}
+
+/* payment ring: let the glow spill past the svg box (that clipping was the square) and keep the label inside the ring */
+.ring,.ring svg{overflow:visible}
+.ring .val{filter:drop-shadow(0 0 6px rgba(var(--accent-rgb),.55))}
+.ring .lbl{padding:0 26px;text-align:center}
+.ring .lbl small{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+
+/* community chat (Discord-style) */
+.chatbox{display:grid;grid-template-columns:230px 1fr;height:640px;border-radius:18px;overflow:hidden;border:1px solid var(--line-2);background:#0f0e13;box-shadow:0 30px 80px -40px #000}
+.cside{display:flex;flex-direction:column;background:#131217;border-right:1px solid var(--line);padding:0 0 12px}
+.csrv{display:flex;align-items:center;gap:10px;height:52px;padding:0 16px;border-bottom:1px solid var(--line);color:#fff;font-size:15px}
+.csrv img{width:22px;height:22px}
+.clbl{padding:16px 16px 6px;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--dim)}
+.chn{display:flex;align-items:center;gap:8px;margin:1px 8px;padding:8px 10px;border-radius:8px;font-size:14px;font-weight:600;color:var(--muted);transition:.15s}
+.chn i{font-style:normal;color:var(--dim);font-weight:500;font-size:18px;line-height:1}
+.chn:hover{background:rgba(255,255,255,.05);color:#fff}
+.chn.on{background:rgba(var(--accent-rgb),.16);color:#fff}
+.chn.on i{color:var(--accent-2)}
+.cme{margin:auto 8px 0;padding:10px;border-radius:12px;background:#0d0c11;border:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.cme .btn{width:100%;justify-content:center;padding:11px;font-size:13px}
+.cme img{width:34px;height:34px;border-radius:50%}
+.cme b{display:block;font-size:13px;color:#fff;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cme small{font-size:11px;color:var(--ok)}
+.cmain{display:flex;flex-direction:column;min-width:0;min-height:0}
+.chead{display:flex;align-items:center;gap:8px;height:52px;padding:0 18px;border-bottom:1px solid var(--line);flex-shrink:0}
+.chead i{font-style:normal;font-size:20px;color:var(--dim)}
+.chead b{color:#fff;font-size:15px}
+.chead span{margin-left:10px;padding-left:12px;border-left:1px solid var(--line-2);font-size:12px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cfeed{flex:1;overflow-y:auto;padding:14px 0;scrollbar-width:thin;scrollbar-color:#2a2733 transparent}
+.cempty{height:100%;display:grid;place-items:center;color:var(--dim);font-size:14px;padding:20px;text-align:center}
+.cmsg{position:relative;display:flex;gap:14px;padding:3px 18px 3px 18px}
+.cmsg:not(.grp){margin-top:14px}
+.cmsg:hover{background:rgba(255,255,255,.025)}
+.cmsg img{width:40px;height:40px;border-radius:50%;flex-shrink:0;margin-top:2px}
+.cgap{width:40px;flex-shrink:0}
+.cbody{min-width:0;flex:1}
+.cmeta{display:flex;align-items:baseline;gap:8px}
+.cmeta b{color:#fff;font-size:15px}
+.cmeta em{font-style:normal;font-size:10px;font-weight:800;letter-spacing:.05em;padding:2px 6px;border-radius:5px;background:var(--accent);color:var(--on-accent)}
+.cmeta time{font-size:11px;color:var(--dim)}
+.ctext{font-size:14.5px;color:var(--body);overflow-wrap:anywhere;white-space:pre-wrap}
+.cdel{position:absolute;right:16px;top:2px;width:28px;height:28px;border-radius:8px;display:none;place-items:center;background:#1c1a22;border:1px solid var(--line-2);color:var(--muted)}
+.cdel svg{width:14px;height:14px}
+.cmsg:hover .cdel{display:grid}
+.cdel:hover{color:var(--bad)}
+.cform{display:flex;gap:10px;align-items:flex-end;padding:12px 16px 6px;flex-shrink:0}
+.cform textarea{flex:1;resize:none;max-height:120px;padding:12px 14px;border-radius:12px;border:1px solid var(--line-2);background:#18171d;color:#fff;font:500 14.5px/1.4 'Urbanist';outline:0}
+.cform textarea:focus{border-color:rgba(var(--accent-rgb),.6)}
+.cform textarea:disabled{opacity:.6}
+.cform .btn{padding:12px 20px;font-size:14px}
+.cnote{min-height:22px;padding:0 18px 10px;font-size:12px;color:var(--dim)}
+.cnote.bad{color:#ff9fb0}
+@media (max-width:760px){
+  .chatbox{grid-template-columns:1fr;height:620px}
+  .cside{display:none}
+  .chead span{display:none}
+}
+
+/* home: promo banner, quick facts and product strip */
+.promo{display:inline-flex;align-items:center;gap:10px;margin:0 auto 14px;padding:7px 8px 7px 14px;border-radius:999px;background:linear-gradient(90deg,rgba(var(--accent-rgb),.22),rgba(var(--accent-rgb),.08));border:1px solid rgba(var(--accent-rgb),.5);font-size:13px;font-weight:700;color:#fff;box-shadow:0 0 30px -8px rgba(var(--accent-rgb),.6)}
+.promo[hidden]{display:none}
+.promo .pdot{width:7px;height:7px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 10px var(--accent-2);animation:blink 1.6s infinite}
+.promo code{padding:4px 10px;border-radius:999px;background:var(--accent);color:var(--on-accent);font:800 12px/1 'Urbanist';letter-spacing:.06em}
+.hero-stats{display:flex;justify-content:center;flex-wrap:wrap;gap:12px 36px;margin:44px auto 0;max-width:900px}
+.hero-stats div{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:120px}
+.hero-stats b{font:700 20px/1.1 var(--display);color:#fff;letter-spacing:-.01em}
+.hero-stats span{font-size:12px;color:var(--dim);font-weight:600}
+.mqsec{padding:34px 0 0;overflow:hidden}
+.mq{position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.mqt{display:flex;gap:16px;width:max-content;animation:mqslide 60s linear infinite}
+.mq:hover .mqt{animation-play-state:paused}
+.mqc{flex:0 0 auto;width:340px;aspect-ratio:2/1;border-radius:16px;overflow:hidden;border:1px solid var(--line-2);background:#0b0b0b;transition:transform .3s,border-color .3s,box-shadow .3s}
+.mqc img{width:100%;height:100%;object-fit:cover}
+.mqc:hover{transform:translateY(-4px);border-color:rgba(var(--accent-rgb),.6);box-shadow:0 20px 50px -24px rgba(var(--accent-rgb),.6)}
+@keyframes mqslide{to{transform:translateX(calc(-50% - 8px))}}
+@media (max-width:760px){.mqc{width:260px}.hero-stats{gap:14px 22px;margin-top:34px}}
