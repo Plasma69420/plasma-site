@@ -368,3 +368,18 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .fgroups{display:block;columns:2;column-gap:14px}
 .fgroup{break-inside:avoid;margin-bottom:14px}
 @media (max-width:760px){.fgroups{columns:1}}
+
+/* home: customer reviews wall */
+.rwall{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;height:560px;overflow:hidden;-webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent)}
+.rwall.still{height:auto;overflow:visible;-webkit-mask-image:none;mask-image:none;align-items:start}
+.rcol{display:flex;flex-direction:column;animation:rwup 36s linear infinite;will-change:transform}
+.rcol .rev{margin-bottom:14px;flex-shrink:0}
+.rwall:hover .rcol{animation-play-state:paused}
+@keyframes rwup{to{transform:translateY(-50%)}}
+.rwempty{max-width:640px;margin:0 auto;padding:30px 24px;text-align:center;border-radius:18px;border:1px dashed var(--line-2);background:rgba(255,255,255,.015)}
+.rwempty b{display:block;color:#fff;font:700 20px/1.2 var(--display);margin-bottom:6px}
+.rwempty p{color:var(--muted);font-size:14px}
+.rwmore{display:flex;justify-content:center;margin-top:30px}
+@media (max-width:980px){.rwall{grid-template-columns:repeat(2,1fr)}.rwall .rcol:nth-child(3){display:none}}
+@media (max-width:640px){.rwall{grid-template-columns:1fr;height:480px}.rwall .rcol:nth-child(n+2){display:none}}
+@media (prefers-reduced-motion:reduce){.rcol{animation:none}.rwall{height:auto;overflow:visible;-webkit-mask-image:none;mask-image:none}}

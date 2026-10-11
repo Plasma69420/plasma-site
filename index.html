@@ -15,8 +15,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=7">
-<link rel="stylesheet" href="/assets/pages.css?v=7">
+<link rel="stylesheet" href="/assets/site.css?v=8">
+<link rel="stylesheet" href="/assets/pages.css?v=8">
 </head>
 <body>
 
@@ -190,11 +190,28 @@
     </div>
   </div>
 </section>
+
+<!-- ============ CUSTOMER REVIEWS WALL ============ -->
+<section class="sec" id="reviews" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">Loved by Players</span>
+      <h2>Customer Reviews</h2>
+      <p>Hear what our customers have to say about our products.</p>
+    </div>
+    <div class="rwall" id="rwall" hidden></div>
+    <div class="rwempty" id="rwempty" hidden>
+      <b>Reviews are coming in</b>
+      <p>Bought a product? Claim the Customer role in our Discord, then run <b>/vouch</b> to leave the first review.</p>
+    </div>
+    <div class="rwmore"><a class="btn btn-main" href="/reviews">View all feedbacks <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  </div>
+</section>
 </main>
 
 
 
-<script src="/assets/site.js?v=7"></script>
+<script src="/assets/site.js?v=8"></script>
 <script>
 const star = ico.star;
 
@@ -337,6 +354,25 @@ Api.status().then(live => document.querySelectorAll(".chip.status[data-slug]").f
   fill("prow2", [...chips].reverse());
 })();
 
+
+// customer reviews wall: real /vouch reviews only. 3+ reviews scroll in columns, fewer show as a static row.
+Api.get("/api/vouches").then(d => {
+  const wall = document.getElementById("rwall"), empty = document.getElementById("rwempty");
+  if (!d.total) { empty.hidden = false; return; }
+  const starsRow = n => Array.from({ length: 5 }, (_, k) => star.replace("<svg", '<svg class="' + (k < Math.round(n) ? "" : "off") + '"')).join("");
+  const card = r => '<article class="card rev"><div class="rt"><div style="display:flex;align-items:center"><span class="stars-row">' + starsRow(r.stars) +
+    '</span><span class="ver">✓ Verified</span></div><span>' + new Date(r.at).toLocaleDateString([], { month: "short", day: "2-digit", year: "numeric" }) + '</span></div><p>' +
+    esc(r.message) + '</p><div class="rf"><img src="' + esc(r.avatar || "/img/logo.png") + '" alt="">' + esc(r.username) + '</div></article>';
+  wall.hidden = false;
+  if (d.total < 3) { wall.className = "rwall still"; wall.innerHTML = d.reviews.map(card).join(""); return; }
+  const cols = [[], [], []];
+  d.reviews.forEach((r, i) => cols[i % 3].push(r));
+  wall.innerHTML = cols.map((list, c) => {
+    let set = list.slice(); while (set.length < 4) set = set.concat(list);   // enough cards to fill the height
+    const html = set.map(card).join("");
+    return '<div class="rcol" style="animation-duration:' + (34 + c * 6) + 's;' + (c === 1 ? "animation-direction:reverse" : "") + '">' + html + html + '</div>';
+  }).join("");
+}).catch(() => { document.getElementById("rwempty").hidden = false; });
 </script>
 </body>
 </html>
