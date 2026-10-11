@@ -435,3 +435,11 @@ footer small a:hover{color:#fff}
 .hero-bg.hd .op{filter:grayscale(1) contrast(1.35) brightness(.62)}
 .hero-bg.hd .shade{background:linear-gradient(180deg,rgba(14,4,30,.12) 0%,rgba(12,4,26,.42) 60%,#0b0a0e 97%)}
 .hero-bg.hd .glow{background:radial-gradient(ellipse 60% 65% at 50% 100%,rgba(176,38,255,.45),rgba(176,38,255,.1) 55%,transparent 75%)}
+
+/* same construction as the reference: full-colour art under a page-colour wash, colours rotated blue -> logo purple */
+.hero-bg.hd .slate{display:none}
+.hero-bg.hd .op{mix-blend-mode:normal;background-size:cover;background-position:68% top;filter:hue-rotate(70deg) saturate(1.35) contrast(1.05) brightness(.95)}
+.hero-bg.hd .shade{background:linear-gradient(180deg,rgba(13,7,22,.62) 0%,rgba(13,7,22,.74) 50%,rgba(11,10,14,.9) 80%,#0b0a0e 97%)}
+.hero-bg.hd .glow{height:600px;background:radial-gradient(ellipse 60% 70% at 50% 100%,rgba(176,38,255,.32),rgba(176,38,255,.07) 55%,transparent 75%)}
+.hero-bg.hd .op{filter:hue-rotate(68deg) saturate(2.6) contrast(1.1) brightness(1.02)}
+.hero-bg.hd .shade{background:linear-gradient(180deg,rgba(18,6,34,.5) 0%,rgba(16,6,30,.64) 50%,rgba(11,10,14,.88) 80%,#0b0a0e 97%)}
