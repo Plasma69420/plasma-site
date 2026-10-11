@@ -28,7 +28,7 @@
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="wrap">
     <a class="promo" id="promo" hidden></a>
-    <a href="/reviews" class="rating" id="rating">
+    <a href="/reviews" class="rating" id="rating" hidden>
       <span class="stars-ico"></span>
       <span id="ratingText"></span>
     </a>
@@ -205,22 +205,14 @@ const star = ico.star;
 
 document.querySelectorAll("[data-discord]").forEach(a => a.href = CONFIG.discord);
 
-// rating pill (live from the Discord /vouch reviews)
-// stars + average only come from star reviews; recovered vouches add to the total count
-const setRatingOld = (avg, rated, total) => {
-  const el = document.querySelector(".stars-ico");
-  el.innerHTML = Array.from({ length: 5 }, (_, k) =>
-    star.replace("<svg", `<svg class="${rated && k < Math.round(avg) ? "" : "off"}"`)).join("");
-  document.getElementById("ratingText").innerHTML = rated
-    ? `<b>${avg.toFixed(2)}</b> from ${total} review${total === 1 ? "" : "s"}`
-    : `<b>${total}</b> customer vouch${total === 1 ? "" : "es"}`;
-};
-{
-  const L = CONFIG.legacy;
+// rating badge: only shows once real /vouch reviews exist
+Api.get("/api/vouches").then(d => {
+  if (!d.total) return;
   document.querySelector(".stars-ico").innerHTML = Array.from({ length: 5 }, (_, k) =>
-    star.replace("<svg", `<svg class="${k < Math.round(L.rating) ? "" : "off"}"`)).join("");
-  document.getElementById("ratingText").innerHTML = `<b>${L.rating.toFixed(1)}</b> from ${L.count.toLocaleString()} vouches`;
-}
+    star.replace("<svg", `<svg class="${k < Math.round(d.average) ? "" : "off"}"`)).join("");
+  document.getElementById("ratingText").innerHTML = `<b>${d.average.toFixed(1)}</b> from ${d.total} review${d.total === 1 ? "" : "s"}`;
+  document.getElementById("rating").hidden = false;
+}).catch(() => {});
 
 // promo banner: set CONFIG.promo in assets/site.js to show it (leave null to hide)
 (() => {
