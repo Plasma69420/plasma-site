@@ -213,9 +213,7 @@ const Api = {
       <a href="${CONFIG.discord}" target="_blank" rel="noopener">Discord</a>
       <a href="${CONFIG.telegram}" target="_blank" rel="noopener">Telegram</a>
     </nav>
-    <nav class="legal-links"><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a></nav>
-    <small>© ${new Date().getFullYear()} Plasma. All rights reserved.</small>
-    <small class="madeby">Site made by Punch</small>
+    <small>© ${new Date().getFullYear()} Plasma · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a> · Site made by Punch</small>
   </div>
 </footer>`);
 

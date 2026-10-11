@@ -385,8 +385,10 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 @media (prefers-reduced-motion:reduce){.rcol{animation:none}.rwall{height:auto;overflow:visible;-webkit-mask-image:none;mask-image:none}}
 
 /* footer extras + legal pages */
-footer .legal-links{font-size:13px;gap:18px}
-footer .madeby{margin-top:-8px;color:var(--muted)}
+footer{margin-top:32px}
+footer .wrap{padding:22px 0 18px;gap:10px}
+footer small a{color:inherit}
+footer small a:hover{color:#fff}
 .legal{padding:34px 36px}
 .legal h2{font:700 20px/1.2 var(--display);color:#fff;margin:30px 0 10px}
 .legal p{color:var(--muted);font-size:15px;line-height:1.7;margin:8px 0}
