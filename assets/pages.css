@@ -413,3 +413,11 @@ footer small a:hover{color:#fff}
 .hero-bg .shade{background:linear-gradient(180deg,rgba(11,10,14,.5) 0%,rgba(11,10,14,.66) 58%,#0b0a0e 97%)}
 .hero-bg .op{filter:grayscale(.3) brightness(.85) contrast(1.1) blur(2px)}
 .hero-bg{-webkit-mask-image:none;mask-image:none}
+
+/* purple treatment: purple slate, operator blended in by luminosity so it takes the purple, no grey */
+.hero-bg .slate{background:linear-gradient(180deg,#52307a 0%,#3a2158 26%,#241338 56%,#0b0a0e 100%)}
+.hero-bg .op{mix-blend-mode:luminosity;filter:grayscale(1) contrast(1.15) brightness(1.05) blur(1.5px);opacity:1}
+.hero-bg .shade{background:linear-gradient(180deg,rgba(24,10,40,.38) 0%,rgba(18,8,32,.6) 58%,#0b0a0e 97%)}
+.hero-bg .glow{background:radial-gradient(ellipse 60% 65% at 50% 100%,rgba(var(--accent-rgb),.42),rgba(var(--accent-rgb),.1) 55%,transparent 75%)}
+/* sharp full-width art (auto-enabled when a large img/hero-op.png is dropped in) */
+.hero-bg.hd .op{inset:0;width:auto;right:auto;left:0;background-size:cover;background-position:68% top;filter:grayscale(1) contrast(1.08) brightness(.95);-webkit-mask-image:none;mask-image:none}
