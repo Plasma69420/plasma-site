@@ -24,6 +24,22 @@ const CONFIG = {
       plans: [{ n: "Day", p: 4.99, v: 416469 }, { n: "Week", p: 14.99, v: 416470 }, { n: "Month", p: 24.99, v: 416471 }, { n: "Lifetime", p: 79.99, v: 416472 }]
     },
     {
+      slug: "fortnite-slotted", name: "Fortnite Slotted", type: "Slotted", game: "Fortnite", img: "/img/fortnite-slotted.webp",
+      desc: "Slotted Fortnite cheat with limited slots per tier.",
+      features: ["Aimbot with FOV, smoothing & prediction", "Player, loot & weapon ESP", "Limited slots for stable performance"],
+      details: "Slotted Fortnite cheat with limited slots per tier. Premium features, stable performance and instant delivery, built for serious players. Slots refill slowly: once a tier is sold out, access closes until a slot expires.",
+      slotNote: "Slots refill slowly. Once sold out, access closes until a slot expires.",
+      groups: [
+        ["Aimbot", ["High-precision aimbot with FOV slider", "Smoothness, prediction & visibility check", "Aim bone selection", "Silent aim option"]],
+        ["Visuals", ["Player ESP (boxes, skeleton, healthbars)", "Loot & weapon ESP", "Vehicle highlighting", "Custom color palette"]],
+        ["Performance", ["Optimized for low input delay", "Stream-proof rendering", "Stable 240Hz+ tickrate"]],
+        ["Misc", ["Slot guarantees performance, no overcrowded servers", "Discord support included", "Lifetime updates on slotted plan"]]
+      ],
+      os: "Windows 10/11",
+      // slots = max slots in that tier, days = for the per-day price. v = SellApp variant id (null until the product is created in SellApp)
+      plans: [{ n: "Week", p: 29.99, v: null, slots: 15, days: 7 }, { n: "Month", p: 69.99, v: null, slots: 10, days: 30 }, { n: "3 Months", p: 129.99, v: null, slots: 5, days: 90 }]
+    },
+    {
       slug: "r6-external", name: "R6 External", type: "External", game: "Rainbow Six Siege", img: "/img/r6-external.webp",
       desc: "External Rainbow Six Siege cheat with ESP and aim suite.",
       features: ["Smooth aim with FOV & smoothness sliders", "Player, drone & gadget ESP", "External, stream-proof rendering"],

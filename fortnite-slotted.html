@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product – Plasma</title>
+<meta name="theme-color" content="#b026ff">
+<link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=34">
+<link rel="stylesheet" href="/assets/pages.css?v=34">
+</head>
+<body>
+<main class="page"><div class="wrap" style="max-width:1100px" id="root"></div></main>
+<script src="/assets/site.js?v=34"></script>
+<script>
+const root = document.getElementById("root");
+const p = productBy(new URLSearchParams(location.search).get("p") || location.pathname.replace(/^\/|\/$|\.html$/g, ""));
+if (!p) {
+  root.innerHTML = `<div class="empty"><b>Product not found</b><a class="btn btn-main" style="margin-top:14px" href="/products">Browse products</a></div>`;
+} else {
+  document.title = p.name + " – Plasma";
+  let plan = Math.min(Math.max(+new URLSearchParams(location.search).get("plan") || 0, 0), p.plans.length - 1), qty = 1, any = false, status = "undetected";
+  // "How it works" card shown on every product
+  const howCard = steps => `<div class="card how">
+      <span class="hk">HOW IT WORKS</span>
+      <h3>Checkout to gameplay — under 5 minutes</h3>
+      <p>Buying ${esc(p.name)}? Exactly what happens after you click Purchase.</p>
+      <div class="hsteps">${steps.map((s, i) => `<div class="hstep"><i>${i + 1}</i><b>${s[0]}</b><p>${s[1]}</p></div>`).join("")}</div>
+      <a class="btn btn-ghost abtn2" href="${CONFIG.discord}" target="_blank" rel="noopener">${ico.headset}Need help?</a></div>`;
+  const softSteps = [["Buy your key", "Pick your plan and pay with PayPal, Cash App or Solana. About 30 seconds."], ["Get the loader", "Your key is emailed to you instantly. Grab the loader in our Discord and follow the 2-minute setup."], ["Queue and play", "Launch the game and play like normal. No sketchy accounts or extra steps."]];
+  const totalSlots = p.plans.reduce((s, x) => s + (x.slots || 0), 0);
+  const draw = () => {
+    const [label, cls] = STATUS[status] || STATUS.undetected;
+    const pl = p.plans[plan], unit = pl.p + (any ? p.addon.price : 0), avail = !!pl.v;
+    root.innerHTML = `
+    <div class="pd">
+      <div class="pdl2"><div class="pd-img"><img src="${p.img}" alt="${esc(p.name)}"><span class="chip status ${cls}"><i></i>${label}</span></div>
+        ${totalSlots ? `<div class="slotbadge">⚠️ Limited slots: only ${totalSlots} total across all tiers</div>` : ""}
+        ${howCard(softSteps)}</div>
+      <div>
+        <div class="pd-top"><span class="tag ${cls}"><i></i>${label}</span><span class="tag">${esc(p.type)}</span><span class="tag">${esc(p.game)}</span></div>
+        <h1>${esc(p.name)}</h1>
+        <div class="type">${esc(p.type)}</div>
+        <div class="assure"><span>${ico.bolt}Instant Delivery</span><span>${ico.shield}Secure Checkout</span><span>${ico.headset}24/7 Support</span></div>
+        ${p.slotNote ? `<div class="slotwarn">${esc(p.slotNote)}</div>` : ""}
+        <div class="lbl">Choose your plan</div>
+        <div class="planrow">${p.plans.map((x, j) => `<button class="plancard${j === plan ? " on" : ""}" data-j="${j}"><b>${esc(x.n)}</b><strong>${money(x.p)}</strong>${x.days ? `<em class="perday">${money(x.p / x.days)}/day</em>` : ""}<small${x.slots ? ' class="lim"' : ""}>${x.slots ? "Limited: " + x.slots + " slots max" : "Instant delivery"}</small></button>`).join("")}</div>
+        <label class="addon${any ? " on" : ""}"><input type="checkbox" id="any" ${any ? "checked" : ""}>
+          <span class="box"></span>
+          <span class="at"><b>${ico.headset}${CONFIG.addon.name} (Optional)</b><i>+${money(p.addon.price)}</i><em>${CONFIG.addon.desc}</em><small>${CONFIG.addon.fine}</small></span></label>
+        <div class="totalbox">
+          <div><small>TOTAL</small><b>${money(unit * qty)}</b><em>Instant delivery</em></div>
+          <div class="qty"><button id="dec" aria-label="Less">−</button><span>${qty}</span><button id="inc" aria-label="More">+</button></div>
+        </div>
+        ${avail
+          ? `<div class="buyrow"><button class="btn btn-ghost" id="add">${ico.cart}Add to cart</button><button class="btn btn-main" id="buy">Buy now ${ico.arrow}</button></div>
+        <div class="fine" id="fine">Keys are delivered instantly after payment.</div>`
+          : `<div class="buyrow" style="grid-template-columns:1fr"><a class="btn btn-main" href="${CONFIG.tickets}" target="_blank" rel="noopener">Open a ticket to buy</a></div>
+        <div class="fine" id="fine">This plan isn't available to buy on the site yet. Open a ticket in our Discord and we'll sort you out.</div>`}
+      </div>
+    </div>
+    <div class="sec-h">Product Details</div>
+    <div class="card detail"><h4>Description</h4><p>${esc(p.details)}</p>
+      ${p.groups ? "" : `<ul>${p.features.map(f => `<li>${ico.check}${esc(f)}</li>`).join("")}</ul>`}</div>
+    ${p.groups ? `<div class="sec-h">Features</div><div class="fgroups">${p.groups.map(([t, list], gi) => `<details class="card fgroup" ${gi === 0 ? "open" : ""}><summary>${esc(t)}<em>${list.length}</em></summary><ul>${list.map(f => `<li>${ico.check}${esc(f)}</li>`).join("")}</ul></details>`).join("")}</div>` : ""}`;
+    root.querySelectorAll(".plancard").forEach(b => b.onclick = () => { plan = +b.dataset.j; draw(); });
+    root.querySelector("#dec").onclick = () => { qty = Math.max(1, qty - 1); draw(); };
+    root.querySelector("#inc").onclick = () => { qty = Math.min(10, qty + 1); draw(); };
+    root.querySelector("#any").onchange = e => { any = e.target.checked; draw(); };
+    if (avail) {
+      root.querySelector("#add").onclick = () => { Cart.add(p.slug, plan, qty, any); root.querySelector("#fine").innerHTML = `Added to your cart. <a href="/cart" style="color:var(--accent-2);text-decoration:underline">View cart</a>`; };
+      root.querySelector("#buy").onclick = () => { Cart.save([{ slug: p.slug, plan, qty, any }]); location.href = "/checkout"; };
+    }
+  };
+  // account products (Fortnite Accounts): package grid, stock notes, ticket-based delivery
+  const drawAcc = () => {
+    const pl = p.plans[plan], unit = pl.p + (any ? p.addon.price : 0), avail = !!pl.v, maxQ = Math.max(1, Math.min(10, pl.stock || 10));
+    qty = Math.min(qty, maxQ);
+    const low = n => n <= 10;
+    const st = n => `<span class="stk${low(n) ? " low" : ""}">${low(n) ? "Only " + n + " left" : n + " in stock"}</span>`;
+    const step = (n, t, d) => `<div class="hstep"><i>${n}</i><b>${t}</b><p>${d}</p></div>`;
+    root.innerHTML = `
+    <div class="pd acc">
+      <div class="pdl">
+        <div class="pd-img"><img src="${p.img}" alt="${esc(p.name)}"></div>
+        <div class="card astat">
+          <h3>${ico.shield}Status</h3>
+          <div class="arow2"><i class="d ok"></i><b class="okt">Available</b></div>
+          <div class="arow2"><i class="d">${ico.clock || ""}</i><span>Last Update: ${esc(p.updated || "")}</span></div>
+          <div class="arow2"><i class="d"></i><span>Supported OS: All Platforms</span></div>
+          <div class="arow2"><i class="d"></i><span>Delivery: In a ticket after purchase</span></div>
+        </div>
+        <div class="card how">
+          <span class="hk">HOW IT WORKS</span>
+          <h3>Get your account in minutes</h3>
+          <p>Buying full access accounts? Here is exactly what happens after you click Purchase.</p>
+          <div class="hsteps">
+            ${step(1, "Pick a package", "Choose your package and pay with PayPal, Cash App or Solana. About 30 seconds.")}
+            ${step(2, "Open a ticket", "When the payment is done, open a ticket in our Discord and include your invoice ID.")}
+            ${step(3, "Receive your account", "Staff send your login details and recovery email in the ticket.")}
+          </div>
+          <a class="btn btn-ghost abtn2" href="${CONFIG.tickets}" target="_blank" rel="noopener">${ico.headset}Need help?</a>
+        </div>
+      </div>
+      <div class="pdr">
+        <h2 class="pkg-h">Package Details</h2>
+        <div class="lbl">Choose Your Package</div>
+        <div class="pkgs">${p.plans.map((x, j) => `<button class="pkg${j === plan ? " on" : ""}" data-j="${j}"><i class="rd"></i><span class="pt"><b>${esc(x.g)}</b><small>${esc(x.s)}</small>${st(x.stock)}</span><strong>${money(x.p)}</strong></button>`).join("")}</div>
+        <label class="addon${any ? " on" : ""}"><input type="checkbox" id="any" ${any ? "checked" : ""}>
+          <span class="box"></span>
+          <span class="at"><b>${ico.headset}${CONFIG.addon.name} (Optional)</b><i>+${money(p.addon.price)}</i><em>${CONFIG.addon.desc}</em><small>${CONFIG.addon.fine}</small></span></label>
+        <div class="selpkg"><i class="rd on"></i><span><b>${esc(pl.g)}</b><small>${esc(pl.s)}</small></span><strong>${money(pl.p)}</strong></div>
+        <div class="qline"><span>Quantity</span><div class="qty"><button id="dec" aria-label="Less">−</button><span>${qty}</span><button id="inc" aria-label="More">+</button></div></div>
+        <div class="totline"><span>Total:</span><b>${money(unit * qty)}</b></div>
+        ${avail
+          ? `<button class="btn btn-main bigbuy" id="buy">${ico.bolt}Buy Now — ${money(unit * qty)}</button>
+        <button class="btn btn-ghost bigadd" id="add">${ico.cart}Add to Cart</button>
+        <a class="vcart" href="/cart" id="fine">View cart</a>`
+          : `<a class="btn btn-main bigbuy" href="${CONFIG.tickets}" target="_blank" rel="noopener">Open a ticket to buy</a>
+        <div class="fine" id="fine">This package isn't available to buy on the site yet. Open a ticket in our Discord and we'll sort you out.</div>`}
+        <div class="after">After you pay, open a ticket in our Discord and include your <b>invoice ID</b> to receive your account.</div>
+        <div class="trust"><span class="tg">🔒 Secure Checkout</span><span class="tb">🛡️ SSL Encrypted</span><span class="tp">⚡ Instant Delivery</span></div>
+      </div>
+    </div>
+    <div class="sec-h">Features</div>
+    <div class="fgroups">${p.groups.map(([t, list], gi) => `<details class="card fgroup" ${gi === 0 ? "open" : ""}><summary>${esc(t)}<em>${list.length}</em></summary><ul>${list.map(f => `<li>${ico.check}${esc(f)}</li>`).join("")}</ul></details>`).join("")}</div>`;
+    root.querySelectorAll(".pkg").forEach(b => b.onclick = () => { plan = +b.dataset.j; qty = 1; drawAcc(); });
+    root.querySelector("#dec").onclick = () => { qty = Math.max(1, qty - 1); drawAcc(); };
+    root.querySelector("#inc").onclick = () => { qty = Math.min(maxQ, qty + 1); drawAcc(); };
+    root.querySelector("#any").onchange = e => { any = e.target.checked; drawAcc(); };
+    if (avail) {
+      root.querySelector("#add").onclick = () => { Cart.add(p.slug, plan, qty, any); root.querySelector("#fine").textContent = "Added to your cart. View cart"; };
+      root.querySelector("#buy").onclick = () => { Cart.save([{ slug: p.slug, plan, qty, any }]); location.href = "/checkout"; };
+    }
+  };
+  if (p.account) drawAcc(); else {
+    draw();
+    Api.status().then(s => { if (s[p.slug]) { status = s[p.slug].status; draw(); } });
+  }
+}
+</script>
+</body>
+</html>

@@ -10,12 +10,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=33">
-<link rel="stylesheet" href="/assets/pages.css?v=33">
+<link rel="stylesheet" href="/assets/site.css?v=34">
+<link rel="stylesheet" href="/assets/pages.css?v=34">
 </head>
 <body>
 <main class="page"><div class="wrap" style="max-width:1100px" id="root"></div></main>
-<script src="/assets/site.js?v=33"></script>
+<script src="/assets/site.js?v=34"></script>
 <script>
 const root = document.getElementById("root");
 const p = productBy(new URLSearchParams(location.search).get("p") || location.pathname.replace(/^\/|\/$|\.html$/g, ""));
@@ -24,19 +24,31 @@ if (!p) {
 } else {
   document.title = p.name + " – Plasma";
   let plan = Math.min(Math.max(+new URLSearchParams(location.search).get("plan") || 0, 0), p.plans.length - 1), qty = 1, any = false, status = "undetected";
+  // "How it works" card shown on every product
+  const howCard = steps => `<div class="card how">
+      <span class="hk">HOW IT WORKS</span>
+      <h3>Checkout to gameplay — under 5 minutes</h3>
+      <p>Buying ${esc(p.name)}? Exactly what happens after you click Purchase.</p>
+      <div class="hsteps">${steps.map((s, i) => `<div class="hstep"><i>${i + 1}</i><b>${s[0]}</b><p>${s[1]}</p></div>`).join("")}</div>
+      <a class="btn btn-ghost abtn2" href="${CONFIG.discord}" target="_blank" rel="noopener">${ico.headset}Need help?</a></div>`;
+  const softSteps = [["Buy your key", "Pick your plan and pay with PayPal, Cash App or Solana. About 30 seconds."], ["Get the loader", "Your key is emailed to you instantly. Grab the loader in our Discord and follow the 2-minute setup."], ["Queue and play", "Launch the game and play like normal. No sketchy accounts or extra steps."]];
+  const totalSlots = p.plans.reduce((s, x) => s + (x.slots || 0), 0);
   const draw = () => {
     const [label, cls] = STATUS[status] || STATUS.undetected;
     const pl = p.plans[plan], unit = pl.p + (any ? p.addon.price : 0), avail = !!pl.v;
     root.innerHTML = `
     <div class="pd">
-      <div><div class="pd-img"><img src="${p.img}" alt="${esc(p.name)}"><span class="chip status ${cls}"><i></i>${label}</span></div></div>
+      <div class="pdl2"><div class="pd-img"><img src="${p.img}" alt="${esc(p.name)}"><span class="chip status ${cls}"><i></i>${label}</span></div>
+        ${totalSlots ? `<div class="slotbadge">⚠️ Limited slots: only ${totalSlots} total across all tiers</div>` : ""}
+        ${howCard(softSteps)}</div>
       <div>
         <div class="pd-top"><span class="tag ${cls}"><i></i>${label}</span><span class="tag">${esc(p.type)}</span><span class="tag">${esc(p.game)}</span></div>
         <h1>${esc(p.name)}</h1>
         <div class="type">${esc(p.type)}</div>
         <div class="assure"><span>${ico.bolt}Instant Delivery</span><span>${ico.shield}Secure Checkout</span><span>${ico.headset}24/7 Support</span></div>
+        ${p.slotNote ? `<div class="slotwarn">${esc(p.slotNote)}</div>` : ""}
         <div class="lbl">Choose your plan</div>
-        <div class="planrow">${p.plans.map((x, j) => `<button class="plancard${j === plan ? " on" : ""}" data-j="${j}"><b>${esc(x.n)}</b><strong>${money(x.p)}</strong><small>Instant delivery</small></button>`).join("")}</div>
+        <div class="planrow">${p.plans.map((x, j) => `<button class="plancard${j === plan ? " on" : ""}" data-j="${j}"><b>${esc(x.n)}</b><strong>${money(x.p)}</strong>${x.days ? `<em class="perday">${money(x.p / x.days)}/day</em>` : ""}<small${x.slots ? ' class="lim"' : ""}>${x.slots ? "Limited: " + x.slots + " slots max" : "Instant delivery"}</small></button>`).join("")}</div>
         <label class="addon${any ? " on" : ""}"><input type="checkbox" id="any" ${any ? "checked" : ""}>
           <span class="box"></span>
           <span class="at"><b>${ico.headset}${CONFIG.addon.name} (Optional)</b><i>+${money(p.addon.price)}</i><em>${CONFIG.addon.desc}</em><small>${CONFIG.addon.fine}</small></span></label>

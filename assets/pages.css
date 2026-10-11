@@ -616,3 +616,11 @@ footer.foot .wrap{display:block;text-align:left;padding:0}
 .trustrow .tk{border-color:rgba(255,200,87,.4);color:#ffd987;background:rgba(255,200,87,.08)}
 .foot .trustrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:6px 0 22px}
 @media (max-width:900px){.pd.acc{grid-template-columns:1fr}.pd.acc .pdl{position:static}.pkgs{grid-template-columns:1fr}}
+
+/* software product pages: how-it-works under the image, slot notices */
+.pdl2{display:grid;gap:16px;align-content:start}
+.pdl2 .how{margin:0}
+.slotbadge{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,181,71,.45);background:rgba(255,181,71,.08);color:#ffcf86;font-size:13px;font-weight:600}
+.slotwarn{margin:14px 0 4px;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,181,71,.4);background:rgba(255,181,71,.07);color:#ffd28a;font-size:13.5px;font-weight:600}
+.plancard .perday{display:block;font-style:normal;font-size:11.5px;color:var(--dim);margin-top:2px}
+.plancard small.lim{color:var(--warn)}
