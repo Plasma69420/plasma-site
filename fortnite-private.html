@@ -10,12 +10,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=67">
-<link rel="stylesheet" href="/assets/pages.css?v=67">
+<link rel="stylesheet" href="/assets/site.css?v=68">
+<link rel="stylesheet" href="/assets/pages.css?v=68">
 </head>
 <body>
 <main class="page"><div class="wrap" style="max-width:1100px" id="root"></div></main>
-<script src="/assets/site.js?v=67"></script>
+<script src="/assets/site.js?v=68"></script>
 <script>
 const root = document.getElementById("root");
 const p = productBy(new URLSearchParams(location.search).get("p") || location.pathname.replace(/^\/|\/$|\.html$/g, ""));
@@ -23,7 +23,11 @@ if (!p) {
   root.innerHTML = `<div class="empty"><b>Product not found</b><a class="btn btn-main" style="margin-top:14px" href="/products">Browse products</a></div>`;
 } else {
   document.title = p.name + " – Plasma";
-  let plan = Math.min(Math.max(+new URLSearchParams(location.search).get("plan") || 0, 0), p.plans.length - 1), qty = 1, any = false, status = p.down ? "down" : "undetected";
+  // plan chosen on the home grid arrives via sessionStorage (or a legacy ?plan=); keep the address bar clean either way
+  let want = +new URLSearchParams(location.search).get("plan") || 0;
+  try { const [s, n] = (sessionStorage.getItem("plasma_plan") || "").split(":"); if (s === p.slug) want = +n || 0; sessionStorage.removeItem("plasma_plan"); } catch { }
+  if (/[?&]plan=/.test(location.search)) history.replaceState(null, "", location.pathname + location.hash);
+  let plan = Math.min(Math.max(want, 0), p.plans.length - 1), qty = 1, any = false, status = p.down ? "down" : "undetected";
   // "How it works" card shown on every product
   const howCard = steps => `<div class="card how">
       <span class="hk">HOW IT WORKS</span>
