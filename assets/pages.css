@@ -787,14 +787,6 @@ footer.foot .wrap{display:block;text-align:left;padding:0}
 .btn-out{background:rgba(255,255,255,.04);border:1px solid rgba(var(--accent-rgb),.4);color:#fff;box-shadow:0 0 0 0 transparent;transition:.2s}
 .btn-out:hover{background:rgba(var(--accent-rgb),.14);border-color:rgba(var(--accent-rgb),.75);transform:translateY(-2px)}
 
-/* ---------- "Trust" as living plasma: flowing violet/magenta/blue energy + breathing glow ---------- */
-.hero h1 .hl{position:relative;display:inline-block;color:transparent;text-shadow:none;
-  background:linear-gradient(100deg,#7c3aed 0%,#c04dff 22%,#ff7bf0 38%,#8b9bff 55%,#c04dff 72%,#7c3aed 100%);background-size:240% 100%;
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  animation:hlIn .9s cubic-bezier(.2,.7,.2,1) forwards,plasmaFlow 5s linear infinite}
-.hero h1 .hl::after{content:"";position:absolute;inset:-18% -8%;z-index:-1;pointer-events:none;border-radius:50%;
-  background:radial-gradient(ellipse at 50% 55%,rgba(var(--accent-rgb),.38),transparent 68%);animation:plasmaPulse 3.2s ease-in-out infinite}
-@keyframes hlIn{from{opacity:0;transform:translateY(24px);filter:blur(10px)}to{opacity:1;transform:none;filter:drop-shadow(0 0 14px rgba(var(--accent-rgb),.75)) drop-shadow(0 0 40px rgba(var(--accent-rgb),.45))}}
-@keyframes plasmaFlow{to{background-position:-240% 0}}
-@keyframes plasmaPulse{0%,100%{opacity:.55;transform:scale(.94)}50%{opacity:1;transform:scale(1.08)}}
-@media (prefers-reduced-motion:reduce){.hero h1 .hl,.hero h1 .hl::after{animation:none}}
+/* ---------- hero slogan: soft white-grey headline, solid purple brand word with glow ---------- */
+.hero h1{font-size:clamp(34px,5.4vw,76px);color:#eceef5}
+.hero h1 .hl{color:var(--accent);-webkit-text-fill-color:var(--accent);background:none;text-shadow:0 0 22px rgba(var(--accent-rgb),.7),0 0 60px rgba(var(--accent-rgb),.4)}
