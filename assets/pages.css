@@ -770,3 +770,19 @@ footer.foot .wrap{display:block;text-align:left;padding:0}
 @media (max-width:640px){.reviews{column-count:1}}
 .foot .fbar a{color:inherit;transition:opacity .2s}
 .foot .fbar a:hover{opacity:.8}
+
+/* ---------- hero v2: grid + glow, pill badge, big headline with a lit word, two buttons ---------- */
+.hero{padding-top:clamp(120px,17vh,190px);padding-bottom:70px;overflow:visible}
+.hero::before{content:"";position:absolute;inset:0 0 -20px;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(var(--accent-rgb),.075) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--accent-rgb),.075) 1px,transparent 1px);background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(ellipse 72% 68% at 50% 36%,#000 0,transparent 78%);mask-image:radial-gradient(ellipse 72% 68% at 50% 36%,#000 0,transparent 78%)}
+.hero::after{content:"";position:absolute;left:0;right:0;top:-60px;height:520px;z-index:0;pointer-events:none;background:radial-gradient(ellipse 52% 60% at 50% 0%,rgba(var(--accent-rgb),.30),rgba(var(--accent-rgb),.08) 55%,transparent 76%)}
+.hero .wrap{position:relative;z-index:1}
+.hero .rating{display:inline-flex;margin-top:0;padding:8px 18px;border-radius:999px;border:1px solid rgba(var(--accent-rgb),.38);background:rgba(20,10,32,.72);font-size:12.5px;color:#e6d4f7;box-shadow:0 0 26px -10px rgba(var(--accent-rgb),.7)}
+.hero h1{margin-top:30px;font-family:'Inter','Urbanist',system-ui,sans-serif;font-weight:700;font-size:clamp(40px,6.2vw,84px);line-height:1.05;letter-spacing:-.035em;color:#f4f4fa}
+.hero h1 .hl{color:var(--accent);text-shadow:0 0 26px rgba(var(--accent-rgb),.75),0 0 64px rgba(var(--accent-rgb),.4)}
+.hero .lede{margin-top:22px;max-width:600px;font-size:16.5px;color:#a9a9b6}
+.hero-cta{margin-top:34px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero-cta .btn{margin-top:0;border-radius:12px;padding:14px 24px}
+.btn-out{background:rgba(255,255,255,.04);border:1px solid rgba(var(--accent-rgb),.4);color:#fff;box-shadow:0 0 0 0 transparent;transition:.2s}
+.btn-out:hover{background:rgba(var(--accent-rgb),.14);border-color:rgba(var(--accent-rgb),.75);transform:translateY(-2px)}
