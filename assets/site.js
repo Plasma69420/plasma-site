@@ -294,7 +294,7 @@ const Api = {
       </div>
     </div>
     ${trustHtml}
-    <div class="fbar"><span>© ${new Date().getFullYear()} Plasma. All rights reserved.</span><span>Site made by <b>Punch</b></span></div>
+    <div class="fbar"><span>© ${new Date().getFullYear()} Plasma. All rights reserved.</span><span>Site made by <a href="/dev"><b>Punch</b></a></span></div>
   </div>
 </footer>`);
 
