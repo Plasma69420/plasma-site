@@ -80,6 +80,19 @@ const CONFIG = {
       plans: [{ n: "1 Day", p: 5.99, v: 416741 }, { n: "1 Week", p: 22.99, v: 416742 }, { n: "1 Month", p: 54.99, v: 416743 }]
     },
     {
+      slug: "roblox-external", name: "Roblox External", type: "External", game: "Roblox", img: "/img/roblox-external.webp", down: true,
+      desc: "Secure, stable and silent Roblox external with a built-in menu.",
+      features: ["Smooth UI & built-in menu", "Cloud-based loader, no FPS loss", "Auto-updates & maintenance included"],
+      details: "Plasma Roblox is a premium Roblox external built to be secure, stable and silent. It ships with a smooth built-in menu, a lightweight cloud-based loader with no FPS or lag issues, and auto-updates included. Lifetime license is $7.99 or 1,000 Robux. NOTICE: this product is currently down, so purchases will not work until it is back online. Join our Discord for updates.",
+      groups: [
+        ["Why Plasma?", ["Active support team, help available when you need it", "Smooth UI & built-in menu with clean visuals", "Built to avoid Roblox detection systems", "Instant setup & fast launch", "Legit-friendly & exploit-safe"]],
+        ["Secure & Lightweight", ["Cloud-based loader", "No FPS or lag issues", "Auto-updates & maintenance included"]],
+        ["Compatibility", ["Windows 10 & 11", "Intel & AMD CPUs"]]
+      ],
+      os: "Windows 10/11",
+      plans: [{ n: "Lifetime", p: 7.99, v: null, alt: "or 1,000 Robux" }]
+    },
+    {
       slug: "temp-spoofer", name: "Temp Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/temp-spoofer.webp",
       desc: "Spoofs your serials until your next restart.",
       features: ["One-click spoof", "Resets on reboot", "Intel & AMD"],
@@ -148,6 +161,8 @@ const STATUS = {
   undetected: ["Undetected", ""], updating: ["Updating", "updating"], maintenance: ["Maintenance", "updating"],
   detected: ["Detected", "down"], down: ["Down", "down"]
 };
+// products flagged down: true always show as Down, whatever the bot says
+const statusOf = (p, live) => p.down ? "down" : ((live || {})[p.slug] || {}).status;
 const money = n => "$" + Number(n).toFixed(2);
 // purple trust pills (footer + product pages)
 const trustHtml = (() => {

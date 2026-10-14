@@ -10,12 +10,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=65">
-<link rel="stylesheet" href="/assets/pages.css?v=65">
+<link rel="stylesheet" href="/assets/site.css?v=67">
+<link rel="stylesheet" href="/assets/pages.css?v=67">
 </head>
 <body>
 <main class="page"><div class="wrap" style="max-width:1100px" id="root"></div></main>
-<script src="/assets/site.js?v=65"></script>
+<script src="/assets/site.js?v=67"></script>
 <script>
 const root = document.getElementById("root");
 const p = productBy(new URLSearchParams(location.search).get("p") || location.pathname.replace(/^\/|\/$|\.html$/g, ""));
@@ -23,7 +23,7 @@ if (!p) {
   root.innerHTML = `<div class="empty"><b>Product not found</b><a class="btn btn-main" style="margin-top:14px" href="/products">Browse products</a></div>`;
 } else {
   document.title = p.name + " – Plasma";
-  let plan = Math.min(Math.max(+new URLSearchParams(location.search).get("plan") || 0, 0), p.plans.length - 1), qty = 1, any = false, status = "undetected";
+  let plan = Math.min(Math.max(+new URLSearchParams(location.search).get("plan") || 0, 0), p.plans.length - 1), qty = 1, any = false, status = p.down ? "down" : "undetected";
   // "How it works" card shown on every product
   const howCard = steps => `<div class="card how">
       <span class="hk">HOW IT WORKS</span>
@@ -47,16 +47,20 @@ if (!p) {
         <div class="type">${esc(p.type)}</div>
         <div class="assure"><span>${ico.bolt}Instant Delivery</span><span>${ico.shield}Secure Checkout</span><span>${ico.headset}24/7 Support</span></div>
         ${p.slotNote ? `<div class="slotwarn">${esc(p.slotNote)}</div>` : ""}
+        ${p.down ? `<div class="slotwarn downwarn">⚠️ This product is currently down. You can try to purchase, but it will not work until it is back online.</div>` : ""}
         <div class="lbl">Choose your plan</div>
-        <div class="planrow">${p.plans.map((x, j) => `<button class="plancard${j === plan ? " on" : ""}" data-j="${j}"><b>${esc(x.n)}</b><strong>${money(x.p)}</strong>${x.days ? `<em class="perday">${money(x.p / x.days)}/day</em>` : ""}<small${x.slots ? ' class="lim"' : ""}>${x.slots ? "Limited: " + x.slots + " slots max" : "Instant delivery"}</small></button>`).join("")}</div>
-        <label class="addon${any ? " on" : ""}"><input type="checkbox" id="any" ${any ? "checked" : ""}>
+        <div class="planrow">${p.plans.map((x, j) => `<button class="plancard${j === plan ? " on" : ""}" data-j="${j}"><b>${esc(x.n)}</b><strong>${money(x.p)}</strong>${x.alt ? `<em class="perday">${esc(x.alt)}</em>` : ""}${x.days ? `<em class="perday">${money(x.p / x.days)}/day</em>` : ""}<small${x.slots ? ' class="lim"' : ""}>${x.slots ? "Limited: " + x.slots + " slots max" : "Instant delivery"}</small></button>`).join("")}</div>
+        ${p.down ? "" : `<label class="addon${any ? " on" : ""}"><input type="checkbox" id="any" ${any ? "checked" : ""}>
           <span class="box"></span>
-          <span class="at"><b>${ico.headset}${CONFIG.addon.name} (Optional)</b><i>+${money(p.addon.price)}</i><em>${CONFIG.addon.desc}</em><small>${CONFIG.addon.fine}</small></span></label>
+          <span class="at"><b>${ico.headset}${CONFIG.addon.name} (Optional)</b><i>+${money(p.addon.price)}</i><em>${CONFIG.addon.desc}</em><small>${CONFIG.addon.fine}</small></span></label>`}
         <div class="totalbox">
           <div><small>TOTAL</small><b>${money(unit * qty)}</b><em>Instant delivery</em></div>
           <div class="qty"><button id="dec" aria-label="Less">−</button><span>${qty}</span><button id="inc" aria-label="More">+</button></div>
         </div>
-        ${avail
+        ${p.down
+          ? `<div class="buyrow" style="grid-template-columns:1fr"><button class="btn btn-main" id="buyDown">Buy now ${ico.arrow}</button></div>
+        <div class="fine" id="fine">Currently down. Join our Discord for updates on when it is back.</div>`
+          : avail
           ? `<div class="buyrow"><button class="btn btn-ghost" id="add">${ico.cart}Add to cart</button><button class="btn btn-main" id="buy">Buy now ${ico.arrow}</button></div>
         <div class="fine" id="fine">Keys are delivered instantly after payment.</div>`
           : `<div class="buyrow" style="grid-template-columns:1fr"><a class="btn btn-main" href="${CONFIG.tickets}" target="_blank" rel="noopener">Open a ticket to buy</a></div>
@@ -70,8 +74,10 @@ if (!p) {
     root.querySelectorAll(".plancard").forEach(b => b.onclick = () => { plan = +b.dataset.j; draw(); });
     root.querySelector("#dec").onclick = () => { qty = Math.max(1, qty - 1); draw(); };
     root.querySelector("#inc").onclick = () => { qty = Math.min(10, qty + 1); draw(); };
-    root.querySelector("#any").onchange = e => { any = e.target.checked; draw(); };
-    if (avail) {
+    if (root.querySelector("#any")) root.querySelector("#any").onchange = e => { any = e.target.checked; draw(); };
+    if (p.down) {
+      root.querySelector("#buyDown").onclick = () => { root.querySelector("#fine").innerHTML = `<b style="color:#ff8a8a">Purchase will not work.</b> ${esc(p.name)} is currently down, so it can't be bought or used right now. <a href="${CONFIG.discord}" target="_blank" rel="noopener" style="color:var(--accent-2);text-decoration:underline">Join our Discord</a> for updates.`; };
+    } else if (avail) {
       root.querySelector("#add").onclick = () => { Cart.add(p.slug, plan, qty, any); root.querySelector("#fine").innerHTML = `Added to your cart. <a href="/cart" style="color:var(--accent-2);text-decoration:underline">View cart</a>`; };
       root.querySelector("#buy").onclick = () => { Cart.save([{ slug: p.slug, plan, qty, any }]); location.href = "/checkout"; };
     }
@@ -141,7 +147,7 @@ if (!p) {
   };
   if (p.account) drawAcc(); else {
     draw();
-    Api.status().then(s => { if (s[p.slug]) { status = s[p.slug].status; draw(); } });
+    Api.status().then(s => { if (!p.down && s[p.slug]) { status = s[p.slug].status; draw(); } });
   }
 }
 </script>

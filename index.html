@@ -16,8 +16,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=65">
-<link rel="stylesheet" href="/assets/pages.css?v=65">
+<link rel="stylesheet" href="/assets/site.css?v=67">
+<link rel="stylesheet" href="/assets/pages.css?v=67">
 </head>
 <body>
 
@@ -220,7 +220,7 @@
 
 
 
-<script src="/assets/site.js?v=65"></script>
+<script src="/assets/site.js?v=67"></script>
 <script>
 const star = ico.star;
 
@@ -303,7 +303,7 @@ CONFIG.products.forEach((p, i) => {
 })();
 // live status chips from the Discord bot
 Api.status().then(live => document.querySelectorAll(".chip.status[data-slug]:not([data-account])").forEach(c => {
-  const [label, cls] = STATUS[(live[c.dataset.slug] || {}).status] || STATUS.undetected;
+  const [label, cls] = STATUS[statusOf(CONFIG.products.find(x => x.slug === c.dataset.slug) || {}, live)] || STATUS.undetected;
   c.className = "chip status " + cls; c.querySelector("b").textContent = label;
 }));
 

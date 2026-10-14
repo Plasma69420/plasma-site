@@ -11,8 +11,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=65">
-<link rel="stylesheet" href="/assets/pages.css?v=65">
+<link rel="stylesheet" href="/assets/site.css?v=67">
+<link rel="stylesheet" href="/assets/pages.css?v=67">
 </head>
 <body>
 <main class="page"><div class="wrap" style="max-width:1100px">
@@ -31,14 +31,14 @@
     <span><i style="background:var(--bad)"></i>Detected / Down: known issue, fix in progress</span>
   </div>
 </div></main>
-<script src="/assets/site.js?v=65"></script>
+<script src="/assets/site.js?v=67"></script>
 <script>
 const fmt = t => t ? new Date(t).toLocaleString([], { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).replace(",", "") : "";
 async function load() {
   const live = await Api.status();
   let bad = 0, last = 0;
   document.getElementById("grid").innerHTML = CONFIG.products.filter(p => !p.account).map(p => {
-    const s = live[p.slug] || { status: "undetected" };
+    const s = p.down ? { status: "down" } : (live[p.slug] || { status: "undetected" });
     const [label, cls] = STATUS[s.status] || STATUS.undetected;
     if (cls) bad++;
     if (s.updated) last = Math.max(last, s.updated);
