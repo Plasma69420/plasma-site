@@ -75,10 +75,12 @@
         const has = owned(p), link = (CONFIG.downloads || {})[p.slug];
         const action = !has ? `${btn("/" + p.slug, "Get " + esc(p.name))}`
           : link ? `<a class="btn btn-main abtn" href="${esc(link)}" target="_blank" rel="noopener">${svg('<path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/>')}Download</a>`
-            : d.owner ? "" : `${btn(CONFIG.tickets, "Request your download", true)}`;
-        return `<div class="card dl${has ? " on" : ""}"><img src="${p.img}" alt=""><div class="dli"><b>${esc(p.name)}</b><small>${has ? (link ? "Ready to download" : d.owner ? "Owner access (no download link set yet)" : "Open a ticket and staff will send your loader") : "Not purchased yet"}</small></div>${action}</div>`;
+            : `<button type="button" class="btn btn-main abtn dlsoon">${svg('<path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/>')}Download</button>`;
+        return `<div class="card dl${has ? " on" : ""}"><img src="${p.img}" alt=""><div class="dli"><b>${esc(p.name)}</b><small>${has ? (link ? "Ready to download" : "Access unlocked. Download link coming soon") : "Not purchased yet"}</small></div>${action}</div>`;
       }).join("") + `</div>
         <p class="muted" style="margin-top:14px;font-size:13px">Downloads unlock for products on a completed order placed with your Discord email. Use your key in the loader after downloading.</p>`;
+      // loader links are not live yet: the button is there, it just tells you so
+      main.querySelectorAll(".dlsoon").forEach(b => b.addEventListener("click", () => { const s = b.closest(".dl").querySelector("small"); s.textContent = "The download is not available yet. It will unlock here soon."; }));
     }
   };
 
