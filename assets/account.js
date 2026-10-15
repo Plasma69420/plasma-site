@@ -70,7 +70,7 @@
           <div class="arow">${btn(CONFIG.tickets, "Open a ticket", true)}${btn("/orders", "View my orders")}</div></section>
         <section class="card panel"><h3>Your completed orders <em>${done.length}</em></h3>${done.length ? orderRows(done) : empty("No completed orders yet.")}</section>`;
     } else {
-      const owned = p => d.owner || done.some(o => o.items.some(i => (i.title || "").toLowerCase().includes(p.name.toLowerCase())));
+      const owned = p => d.owner || (d.granted || []).includes(p.slug) || done.some(o => o.items.some(i => (i.title || "").toLowerCase().includes(p.name.toLowerCase())));
       main.innerHTML = `<div class="dls">` + CONFIG.products.filter(p => !p.account).map(p => {
         const has = owned(p), link = (CONFIG.downloads || {})[p.slug];
         const action = !has ? `${btn("/" + p.slug, "Get " + esc(p.name))}`
