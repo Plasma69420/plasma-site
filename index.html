@@ -16,8 +16,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=71">
-<link rel="stylesheet" href="/assets/pages.css?v=71">
+<link rel="stylesheet" href="/assets/site.css?v=72">
+<link rel="stylesheet" href="/assets/pages.css?v=72">
 </head>
 <body>
 
@@ -220,7 +220,7 @@
 
 
 
-<script src="/assets/site.js?v=71"></script>
+<script src="/assets/site.js?v=72"></script>
 <script>
 const star = ico.star;
 
@@ -404,7 +404,7 @@ Api.get("/api/vouches").then(d => {
   wall.innerHTML = cols.map((list, c) => {
     let set = list.slice(); while (set.length < 4) set = set.concat(list);   // enough cards to fill the height
     const html = set.map(card).join("");
-    return '<div class="rcol" style="animation-duration:' + (34 + c * 6) + 's;' + (c === 1 ? "animation-direction:reverse" : "") + '">' + html + html + '</div>';
+    return '<div class="rcol" style="animation-duration:' + (34 + c * 6) + 's">' + html + html + '</div>';
   }).join("");
 }).catch(() => { document.getElementById("rwempty").hidden = false; });
 </script>
