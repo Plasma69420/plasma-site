@@ -70,13 +70,13 @@
           <div class="arow">${btn(CONFIG.tickets, "Open a ticket", true)}${btn("/orders", "View my orders")}</div></section>
         <section class="card panel"><h3>Your completed orders <em>${done.length}</em></h3>${done.length ? orderRows(done) : empty("No completed orders yet.")}</section>`;
     } else {
-      const owned = p => done.some(o => o.items.some(i => (i.title || "").toLowerCase().includes(p.name.toLowerCase())));
+      const owned = p => d.owner || done.some(o => o.items.some(i => (i.title || "").toLowerCase().includes(p.name.toLowerCase())));
       main.innerHTML = `<div class="dls">` + CONFIG.products.filter(p => !p.account).map(p => {
         const has = owned(p), link = (CONFIG.downloads || {})[p.slug];
         const action = !has ? `${btn("/" + p.slug, "Get " + esc(p.name))}`
           : link ? `<a class="btn btn-main abtn" href="${esc(link)}" target="_blank" rel="noopener">${svg('<path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/>')}Download</a>`
-            : `${btn(CONFIG.tickets, "Request your download", true)}`;
-        return `<div class="card dl${has ? " on" : ""}"><img src="${p.img}" alt=""><div class="dli"><b>${esc(p.name)}</b><small>${has ? (link ? "Ready to download" : "Open a ticket and staff will send your loader") : "Not purchased yet"}</small></div>${action}</div>`;
+            : d.owner ? "" : `${btn(CONFIG.tickets, "Request your download", true)}`;
+        return `<div class="card dl${has ? " on" : ""}"><img src="${p.img}" alt=""><div class="dli"><b>${esc(p.name)}</b><small>${has ? (link ? "Ready to download" : d.owner ? "Owner access (no download link set yet)" : "Open a ticket and staff will send your loader") : "Not purchased yet"}</small></div>${action}</div>`;
       }).join("") + `</div>
         <p class="muted" style="margin-top:14px;font-size:13px">Downloads unlock for products on a completed order placed with your Discord email. Use your key in the loader after downloading.</p>`;
     }
