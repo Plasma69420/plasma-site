@@ -154,7 +154,7 @@ CONFIG.addon = {
 CONFIG.tickets = "https://discord.com/channels/1555806695362666618/1556013981674635344";
 // loader download links per product slug. Paste a URL to turn on the Download button on the /downloads page
 // for customers who own that product; without one they get a "Request your download" ticket button.
-CONFIG.downloads = { "fortnite-private": "", "r6-external": "", "marvel-rivals": "", "arc-raiders": "", "temp-spoofer": "", "perm-spoofer": "" };
+CONFIG.downloads = { "fortnite-private": "https://gofile.io/d/lIL9f9j0", "r6-external": "", "marvel-rivals": "", "arc-raiders": "", "temp-spoofer": "", "perm-spoofer": "" };
 CONFIG.products.forEach(p => { p.addon = Object.assign({ price: CONFIG.addon.price, v: CONFIG.addon.v }, p.addon); });
 
 const STATUS = {
