@@ -172,6 +172,7 @@
             return `<div class="row key"><div class="t"><b class="mono copy" data-k="${esc(k.key)}" title="Click to copy">${esc(k.key)}</b>
               <small>${esc(k.product)} · ${esc(k.duration)} · ${owner}${k.activatedAt ? " · activated " + date(k.activatedAt) : ""}${k.hwidTail ? " · device …" + esc(k.hwidTail) : ""}</small></div>
               <div class="kr"><span class="when">${esc(when)}</span><span class="stt ${k.status}">${k.status}</span>
+              ${can("startkeys") && k.startable ? `<button class="btn btn-main sm" data-a="start" data-k="${esc(k.key)}">Start now</button>` : ""}
               ${can("revoke") ? (k.status === "revoked" ? `<button class="btn btn-ghost sm" data-a="restore" data-k="${esc(k.key)}">Restore</button>` : `<button class="btn btn-ghost sm bad" data-a="revoke" data-k="${esc(k.key)}">Revoke</button>`) : ""}
               ${can("blacklist") && k.hwidTail ? `<button class="btn btn-ghost sm bad" data-a="hwid" data-k="${esc(k.key)}">Ban device</button>` : ""}</div></div>`;
           }).join("") : `<div class="none">No keys match.</div>`;
@@ -191,6 +192,7 @@
           const a = b.dataset.a, k = b.dataset.k;
           try {
             if (a === "hwid") { if (!confirm("Blacklist the device this key is bound to?\nAny key used from that device will stop working.")) return; await post("/api/admin/blacklist/add", { type: "hwid", fromKey: k, reason: "From key " + k.slice(-5) }); msg.className = "msg ok"; msg.textContent = "Device blacklisted."; }
+            else if (a === "start") { if (!confirm("Start this key's duration now?\nThe clock begins immediately instead of on first use.")) return; await post("/api/admin/keys/start", { key: k }); msg.className = "msg ok"; msg.textContent = "Duration started."; loadKeys(); }
             else if (a === "revoke") { if (!confirm("Revoke this key? The license (and any Fortnite account made with it) stops working.")) return; await post("/api/admin/keys/revoke", { key: k, revoked: true }); msg.className = "msg ok"; msg.textContent = "Key revoked."; loadKeys(); }
             else { await post("/api/admin/keys/revoke", { key: k, revoked: false }); msg.className = "msg ok"; msg.textContent = "Key restored."; loadKeys(); }
           } catch (err) { if (!expired(err)) { msg.className = "msg err"; msg.textContent = err.message; } }
