@@ -9,7 +9,7 @@
   const left = t => { const s = (t - Date.now()) / 1000 | 0; if (s <= 0) return "ended"; return s < 3600 ? (s / 60 | 0) + "m left" : s < 172800 ? (s / 3600 | 0) + "h left" : (s / 86400 | 0) + "d left"; };
   const date = t => t ? new Date(t).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }) : "";
   const av = u => u.avatar ? `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=64` : `https://cdn.discordapp.com/embed/avatars/${Number((BigInt(u.id) >> 22n) % 6n)}.png`;
-  const PRODUCTS = [["fortnite", "Fortnite Private"], ["r6", "R6 External"], ["marvel", "Marvel Rivals"], ["arc", "Arc Raiders Private"], ["tempspoof", "Temporary Swoofer"], ["permspoof", "Permanent Swoofer"]];
+  const PRODUCTS = [["fortnite", "Fortnite Private"], ["r6", "R6 External"], ["marvel", "Marvel Rivals"], ["arc", "Arc Raiders Private"], ["roblox", "Roblox External"], ["tempspoof", "Temporary Swoofer"], ["permspoof", "Permanent Swoofer"]];
   const DURATIONS = [["1d", "1 Day"], ["3d", "3 Days"], ["1w", "1 Week"], ["1m", "1 Month"], ["3m", "3 Months"], ["6m", "6 Months"], ["lifetime", "Lifetime"]];
   const opts = list => list.map(([v, l]) => `<option value="${v}">${l}</option>`).join("");
   let timers = [];
