@@ -19,5 +19,18 @@
     <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn btn-main" href="/">Go home</a><a class="btn btn-ghost" href="/products">Browse products</a></div></div>
 </div></main>
 <script src="/assets/site.js?v=77"></script>
+<script>
+/* unlisted staff page: only a hash of the private path is stored here, never the path itself */
+(async () => {
+  try {
+    const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(location.pathname.replace(/[/]+$/, "")));
+    if ([...new Uint8Array(d)].map(b => b.toString(16).padStart(2, "0")).join("") !== "143a114dc1434515bbca3723614d91dcd96751eca8333cfccc523b6aeb9e9bae") return;
+    document.title = "Plasma";
+    document.head.insertAdjacentHTML("beforeend", '<meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer"><link rel="stylesheet" href="/assets/staff.css">');
+    document.querySelector("main.page").innerHTML = '<div class="wrap" style="max-width:1100px" id="root"></div>';
+    document.body.appendChild(Object.assign(document.createElement("script"), { src: "/assets/staff.js" }));
+  } catch { }
+})();
+</script>
 </body>
 </html>

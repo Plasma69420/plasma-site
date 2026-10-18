@@ -1,0 +1,24 @@
+.adm{display:grid;gap:16px}
+.adm-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.adm-top h1{font:700 28px/1.1 var(--display);color:#fff}
+.adm-top h1 em{font-style:normal;color:var(--accent-2)}
+.adm-top .who{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.adm-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;align-items:start}
+.adm .panel{margin:0}
+.adm .panel h3 .pill{margin-left:auto;font:700 11px/1 'Urbanist';letter-spacing:.06em;padding:5px 10px;border-radius:99px;background:rgba(var(--accent-rgb),.14);color:var(--accent-2)}
+.adm .field{display:grid;gap:6px;margin-top:14px;font-size:12px;color:var(--muted)}
+.adm .field input{height:46px;padding:0 14px;border-radius:12px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);color:#fff;font:500 15px 'Urbanist';outline:0;width:100%}
+.adm .field input:focus{border-color:rgba(var(--accent-rgb),.6)}
+.adm .msg{margin-top:12px;font-size:13px;min-height:18px;color:var(--muted)}
+.adm .msg.err{color:var(--bad)} .adm .msg.ok{color:var(--ok)}
+.adm .row{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.adm .row img{width:36px;height:36px;border-radius:50%;flex:none}
+.adm .row .t{flex:1;min-width:0}
+.adm .row b{display:block;color:#fff;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.adm .row small{color:var(--dim);font-size:12px}
+.adm .list{margin-top:14px;display:grid;gap:10px}
+.adm .btn.sm{height:34px;padding:0 14px;font-size:13px}
+.adm .tag{font-size:11px;font-weight:800;letter-spacing:.06em;padding:4px 10px;border-radius:99px;background:rgba(62,224,143,.12);color:var(--ok)}
+.adm .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(62,224,143,.15);flex:none}
+.adm .none{padding:22px;text-align:center;font-size:13px;color:var(--dim)}
+@media (max-width:900px){.adm-grid{grid-template-columns:1fr}}
