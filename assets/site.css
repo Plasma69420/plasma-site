@@ -333,3 +333,6 @@ footer small{color:var(--dim);font-size:13px}
   .social .go span{display:none}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.hero h1 .w,.reveal{opacity:1;transform:none;filter:none}}
+
+/* Discord avatars: solid backdrop so transparent avatars don't vanish into the dark cards */
+.nav-av,.prof .who img,.uhead img{background:#2a2730;object-fit:cover}

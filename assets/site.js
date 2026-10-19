@@ -230,10 +230,20 @@ const Auth = {
       "&scope=" + encodeURIComponent("identify email") + "&state=" + state + "&redirect_uri=" + encodeURIComponent(Auth.redirectUri());
   },
   avatar(u) {
-    if (u.avatar) return `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=128`;
+    // animated avatars (hash starts with a_) have a transparent first PNG frame, so use the gif for those
+    if (u.avatar) return `https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.${String(u.avatar).startsWith("a_") ? "gif" : "png"}?size=256`;
     return `https://cdn.discordapp.com/embed/avatars/${Number((BigInt(u.id) >> 22n) % 6n)}.png`;
   }
 };
+
+// if a Discord avatar fails to load, fall back to the user's default avatar instead of a broken image
+document.addEventListener("error", e => {
+  const el = e.target;
+  if (!(el instanceof HTMLImageElement) || el.dataset.fb || !/cdn\.discordapp\.com\/avatars\//.test(el.src)) return;
+  el.dataset.fb = "1";
+  const id = (/avatars\/(\d+)\//.exec(el.src) || [])[1];
+  el.src = "https://cdn.discordapp.com/embed/avatars/" + (id ? Number((BigInt(id) >> 22n) % 6n) : 0) + ".png";
+}, true);
 
 /* ---------- API ---------- */
 const Api = {
