@@ -16,7 +16,7 @@ const CONFIG = {
   showcaseYouTube: "",
   products: [
     {
-      slug: "fortnite-private", name: "Fortnite Private", type: "Private", game: "Fortnite", img: "/img/cover-fortnite-private.svg",
+      slug: "fortnite-private", name: "Fortnite Private", type: "Private", game: "Fortnite", img: "/img/fortnite.webp",
       desc: "Smooth private build with a clean in-game menu.",
       features: ["ESP & visibility checks", "Smooth aim assist", "Stream-proof menu"],
       details: "Strive Cheats Fortnite Private is a private build with a clean in-game menu, visibility checks and smooth aim assist. Your key and loader are delivered instantly after payment, and support is available in our Discord.",
@@ -24,7 +24,7 @@ const CONFIG = {
       plans: [{ n: "Day", p: 4.99, v: 416469 }, { n: "Week", p: 14.99, v: 416470 }, { n: "Month", p: 24.99, v: 416471 }, { n: "Lifetime", p: 79.99, v: 416472 }]
     },
     {
-      slug: "fortnite-slotted", name: "Fortnite Slotted", type: "Slotted", game: "Fortnite", img: "/img/cover-fortnite-slotted.svg",
+      slug: "fortnite-slotted", name: "Fortnite Slotted", type: "Slotted", game: "Fortnite", img: "/img/fortnite-slotted.webp",
       desc: "Slotted Fortnite cheat with limited slots per tier.",
       features: ["Aimbot with FOV, smoothing & prediction", "Player, loot & weapon ESP", "Limited slots for stable performance"],
       details: "Slotted Fortnite cheat with limited slots per tier. Premium features, stable performance and instant delivery, built for serious players. Slots refill slowly: once a tier is sold out, access closes until a slot expires.",
@@ -41,7 +41,7 @@ const CONFIG = {
       plans: [{ n: "Week", p: 29.99, v: 416783, slots: 15, days: 7 }, { n: "Month", p: 69.99, v: 416784, slots: 10, days: 30 }, { n: "3 Months", p: 129.99, v: 416785, slots: 5, days: 90 }]
     },
     {
-      slug: "r6-external", name: "R6 External", type: "External", game: "Rainbow Six Siege", img: "/img/cover-r6-external.svg",
+      slug: "r6-external", name: "R6 External", type: "External", game: "Rainbow Six Siege", img: "/img/r6-external.webp",
       desc: "External Rainbow Six Siege cheat with ESP and aim suite.",
       features: ["Smooth aim with FOV & smoothness sliders", "Player, drone & gadget ESP", "External, stream-proof rendering"],
       details: "External Rainbow Six Siege cheat with ESP and an aim suite. It runs externally with no game injection, renders stream-proof, and is delivered instantly with Discord support.",
@@ -54,7 +54,7 @@ const CONFIG = {
       plans: [{ n: "Day", p: 6.99, v: 416712 }, { n: "Week", p: 26.99, v: 416705 }, { n: "Month", p: 59.99, v: 416716 }, { n: "Lifetime", p: 149.99, v: 416735 }]
     },
     {
-      slug: "marvel-rivals", name: "Marvel Rivals", type: "Private", game: "Marvel Rivals", img: "/img/cover-marvel-rivals.svg",
+      slug: "marvel-rivals", name: "Marvel Rivals", type: "Private", game: "Marvel Rivals", img: "/img/marvel-rivals.webp",
       desc: "Hero-aware Marvel Rivals cheat with smooth aim and full ESP.",
       features: ["Hero-aware aim with prediction", "Full player ESP & radar", "Save and load configs"],
       details: "Hero-aware Marvel Rivals cheat with smooth aim and full ESP. Prediction is tuned per projectile hero, and everything is configurable with saveable configs.",
@@ -68,7 +68,7 @@ const CONFIG = {
       plans: [{ n: "1 Day", p: 5.99, v: 416737 }, { n: "1 Week", p: 19.99, v: 416738 }, { n: "1 Month", p: 39.99, v: 416739 }]
     },
     {
-      slug: "arc-raiders", name: "Arc Raiders", type: "Private", game: "Arc Raiders", img: "/img/cover-arc-raiders.svg",
+      slug: "arc-raiders", name: "Arc Raiders", type: "Private", game: "Arc Raiders", img: "/img/arc-raiders.webp",
       desc: "Premium Arc Raiders cheat for dominating every run.",
       features: ["Smooth aim with FOV & smoothness", "Player, loot & NPC ESP", "Auto-updates with game patches"],
       details: "Premium Arc Raiders cheat for dominating every run. Smooth aim, full ESP including loot and enemy NPCs, a stream-proof overlay, and updates that follow each Arc Raiders patch.",
@@ -80,7 +80,7 @@ const CONFIG = {
       plans: [{ n: "1 Day", p: 5.99, v: 416741 }, { n: "1 Week", p: 22.99, v: 416742 }, { n: "1 Month", p: 54.99, v: 416743 }]
     },
     {
-      slug: "roblox-external", name: "Roblox External", type: "External", game: "Roblox", img: "/img/cover-roblox-external.svg", down: true,
+      slug: "roblox-external", name: "Roblox External", type: "External", game: "Roblox", img: "/img/roblox-external.webp", down: true,
       desc: "Secure, stable and silent Roblox external with a built-in menu.",
       features: ["Smooth UI & built-in menu", "Cloud-based loader, no FPS loss", "Auto-updates & maintenance included"],
       details: "Strive Cheats Roblox is a premium Roblox external built to be secure, stable and silent. It ships with a smooth built-in menu, a lightweight cloud-based loader with no FPS or lag issues, and auto-updates included. Lifetime license is $7.99 or 1,000 Robux. NOTICE: this product is currently down, so purchases will not work until it is back online. Join our Discord for updates.",
@@ -93,7 +93,7 @@ const CONFIG = {
       plans: [{ n: "Lifetime", p: 7.99, v: null, alt: "or 1,000 Robux" }]
     },
     {
-      slug: "temp-spoofer", name: "Temp Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/cover-temp-spoofer.svg",
+      slug: "temp-spoofer", name: "Temp Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/temp-spoofer.webp",
       desc: "Spoofs your serials until your next restart.",
       features: ["One-click spoof", "Resets on reboot", "Intel & AMD"],
       details: "Temporary HWID spoofer. It changes your hardware identifiers until your next restart, supports Intel and AMD, and runs in one click.",
@@ -101,7 +101,7 @@ const CONFIG = {
       plans: [{ n: "Day", p: 7.99, v: 416473 }, { n: "3 Days", p: 11.99, v: 417606 }, { n: "Week", p: 19.99, v: 416474 }, { n: "Month", p: 49.99, v: 416475 }, { n: "Lifetime", p: 109.99, v: 416476 }]
     },
     {
-      slug: "perm-spoofer", name: "Perm Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/cover-perm-spoofer.svg",
+      slug: "perm-spoofer", name: "Perm Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/perm-spoofer.webp",
       desc: "Permanently changes your serials. Run it once.",
       features: ["Permanent change", "Disk & NIC support", "Intel & AMD"],
       details: "Permanent HWID spoofer. It changes your serials for good, so you only run it once. Supports disk and network adapters on Intel and AMD.",
@@ -109,7 +109,7 @@ const CONFIG = {
       plans: [{ n: "One Time", p: 14.99, v: 416478 }, { n: "Lifetime", p: 49.99, v: 416479 }]
     },
     {
-      slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "/img/cover-fortnite-accounts.svg",
+      slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "/img/fortnite-accounts.webp",
       desc: "Full access Fortnite accounts with verified inventories.",
       features: ["Verified skin & item counts", "Original email full access", "Login details + recovery email"],
       details: "Hand-picked full access Fortnite accounts with verified inventories. Pick a package, pay at checkout, then open a ticket in our Discord with your invoice ID to receive your account.",
