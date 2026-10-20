@@ -1,4 +1,4 @@
-/* Plasma storefront: shared config, cart, Discord login, layout */
+/* Strive Cheats storefront: shared config, cart, Discord login, layout */
 // show clean URLs: /status instead of /status.html (the file still works either way)
 if (/.html$/.test(location.pathname)) {
   history.replaceState(null, "", (location.pathname.replace(/(\/index)?\.html$/, "") || "/") + location.search + location.hash);
@@ -19,7 +19,7 @@ const CONFIG = {
       slug: "fortnite-private", name: "Fortnite Private", type: "Private", game: "Fortnite", img: "/img/fortnite.webp",
       desc: "Smooth private build with a clean in-game menu.",
       features: ["ESP & visibility checks", "Smooth aim assist", "Stream-proof menu"],
-      details: "Plasma Fortnite Private is a private build with a clean in-game menu, visibility checks and smooth aim assist. Your key and loader are delivered instantly after payment, and support is available in our Discord.",
+      details: "Strive Cheats Fortnite Private is a private build with a clean in-game menu, visibility checks and smooth aim assist. Your key and loader are delivered instantly after payment, and support is available in our Discord.",
       hosted: "https://plasmacheats.sell.app/product/fortnite-private",
       plans: [{ n: "Day", p: 4.99, v: 416469 }, { n: "Week", p: 14.99, v: 416470 }, { n: "Month", p: 24.99, v: 416471 }, { n: "Lifetime", p: 79.99, v: 416472 }]
     },
@@ -83,9 +83,9 @@ const CONFIG = {
       slug: "roblox-external", name: "Roblox External", type: "External", game: "Roblox", img: "/img/roblox-external.webp", down: true,
       desc: "Secure, stable and silent Roblox external with a built-in menu.",
       features: ["Smooth UI & built-in menu", "Cloud-based loader, no FPS loss", "Auto-updates & maintenance included"],
-      details: "Plasma Roblox is a premium Roblox external built to be secure, stable and silent. It ships with a smooth built-in menu, a lightweight cloud-based loader with no FPS or lag issues, and auto-updates included. Lifetime license is $7.99 or 1,000 Robux. NOTICE: this product is currently down, so purchases will not work until it is back online. Join our Discord for updates.",
+      details: "Strive Cheats Roblox is a premium Roblox external built to be secure, stable and silent. It ships with a smooth built-in menu, a lightweight cloud-based loader with no FPS or lag issues, and auto-updates included. Lifetime license is $7.99 or 1,000 Robux. NOTICE: this product is currently down, so purchases will not work until it is back online. Join our Discord for updates.",
       groups: [
-        ["Why Plasma?", ["Active support team, help available when you need it", "Smooth UI & built-in menu with clean visuals", "Built to avoid Roblox detection systems", "Instant setup & fast launch", "Legit-friendly & exploit-safe"]],
+        ["Why Strive Cheats?", ["Active support team, help available when you need it", "Smooth UI & built-in menu with clean visuals", "Built to avoid Roblox detection systems", "Instant setup & fast launch", "Legit-friendly & exploit-safe"]],
         ["Secure & Lightweight", ["Cloud-based loader", "No FPS or lag issues", "Auto-updates & maintenance included"]],
         ["Compatibility", ["Windows 10 & 11", "Intel & AMD CPUs"]]
       ],
@@ -146,7 +146,7 @@ CONFIG.products.find(p => p.slug === "fortnite-accounts").plans = FA_PACKAGES.ma
 // optional add-on sold next to any product (a separate SellApp product, filled in by variant id)
 CONFIG.addon = {
   name: "AnyDesk Support", price: 4.99, v: 416744,
-  desc: "Direct setup help from Plasma via AnyDesk: loader, spoofer, drivers, and troubleshooting.",
+  desc: "Direct setup help from Strive Cheats via AnyDesk: loader, spoofer, drivers, and troubleshooting.",
   fine: "Optional · Sessions scheduled by availability · Have AnyDesk or RustDesk ready before your session."
 };
 
@@ -291,7 +291,7 @@ const Api = {
 <canvas class="stars" id="stars"></canvas>
 <header class="nav" id="nav">
   <div class="nav-bar"><div class="nav-in">
-    <a href="/" class="brand"><img src="/img/logo.png" alt="">Plasma</a>
+    <a href="/" class="brand"><img src="/img/logo.png" alt="">Strive Cheats</a>
     <nav class="nav-links" id="navLinks">
       ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/reviews", "Reviews", "reviews")}${link("/status", "Status", "status")}${link("/media", "Media", "media")}
     </nav>
@@ -309,7 +309,7 @@ const Api = {
   <div class="fglow"></div>
   <div class="wrap">
     <div class="frow">
-      <a href="/" class="brand" aria-label="Plasma"><img src="/img/logo.png" alt="">Plasma</a>
+      <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="">Strive Cheats</a>
       <nav>
         <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/status">Status</a><a href="/media">Media</a><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a>
       </nav>
@@ -319,7 +319,7 @@ const Api = {
       </div>
     </div>
     ${trustHtml}
-    <div class="fbar"><span>© ${new Date().getFullYear()} Plasma. All rights reserved.</span><span>Site made by <b>Punch</b></span></div>
+    <div class="fbar"><span>© ${new Date().getFullYear()} Strive Cheats. All rights reserved.</span><span>Site made by <b>Punch</b></span></div>
   </div>
 </footer>`);
 

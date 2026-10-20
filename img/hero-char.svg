@@ -1,28 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100">
   <defs>
     <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#3a3342"/><stop offset=".5" stop-color="#211d27"/><stop offset="1" stop-color="#0f0d13"/>
+      <stop offset="0" stop-color="#333e42"/><stop offset=".5" stop-color="#1d2427"/><stop offset="1" stop-color="#0d1213"/>
     </linearGradient>
     <linearGradient id="fabric" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#2c2733"/><stop offset=".6" stop-color="#18151d"/><stop offset="1" stop-color="#0c0b10"/>
+      <stop offset="0" stop-color="#273033"/><stop offset=".6" stop-color="#151b1d"/><stop offset="1" stop-color="#0b0f10"/>
     </linearGradient>
     <linearGradient id="plate" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#34303b"/><stop offset=".45" stop-color="#1f1c25"/><stop offset="1" stop-color="#121016"/>
+      <stop offset="0" stop-color="#30383b"/><stop offset=".45" stop-color="#1c2325"/><stop offset="1" stop-color="#101516"/>
     </linearGradient>
     <linearGradient id="helm" x1=".1" y1="0" x2=".9" y2="1">
-      <stop offset="0" stop-color="#4a4255"/><stop offset=".35" stop-color="#2a2531"/><stop offset="1" stop-color="#0f0d13"/>
+      <stop offset="0" stop-color="#425055"/><stop offset=".35" stop-color="#252e31"/><stop offset="1" stop-color="#0d1213"/>
     </linearGradient>
     <linearGradient id="visor" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#f6c9ff"/><stop offset=".3" stop-color="#d36bff"/><stop offset=".7" stop-color="#9b2fe0"/><stop offset="1" stop-color="#4b1275"/>
+      <stop offset="0" stop-color="#c9eaff"/><stop offset=".3" stop-color="#6bccff"/><stop offset=".7" stop-color="#2fa8e0"/><stop offset="1" stop-color="#125775"/>
     </linearGradient>
     <linearGradient id="visorSheen" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="rimL" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#e29bff"/><stop offset=".4" stop-color="#c04dff" stop-opacity=".6"/><stop offset="1" stop-color="#c04dff" stop-opacity="0"/>
+      <stop offset="0" stop-color="#9bdcff"/><stop offset=".4" stop-color="#4dc5ff" stop-opacity=".6"/><stop offset="1" stop-color="#4dc5ff" stop-opacity="0"/>
     </linearGradient>
     <radialGradient id="bounce" cx=".5" cy=".42" r=".5">
-      <stop offset="0" stop-color="#c04dff" stop-opacity=".35"/><stop offset="1" stop-color="#c04dff" stop-opacity="0"/>
+      <stop offset="0" stop-color="#4dc5ff" stop-opacity=".35"/><stop offset="1" stop-color="#4dc5ff" stop-opacity="0"/>
     </radialGradient>
     <filter id="glow" x="-60%" y="-200%" width="220%" height="500%"><feGaussianBlur stdDeviation="18"/></filter>
     <filter id="soft"><feGaussianBlur stdDeviation="2.2"/></filter>
@@ -35,85 +35,85 @@
   <!-- ===== torso: hoodie / jacket ===== -->
   <path d="M40 1100 C55 930 110 820 230 770 L330 735 C380 760 520 760 570 735 L670 770 C790 820 845 930 860 1100 Z" fill="url(#fabric)"/>
   <!-- sleeve seams -->
-  <path d="M175 820 C150 900 140 1000 138 1100" stroke="#0b0a0e" stroke-width="10" opacity=".7" fill="none"/>
-  <path d="M725 820 C750 900 760 1000 762 1100" stroke="#0b0a0e" stroke-width="10" opacity=".7" fill="none"/>
+  <path d="M175 820 C150 900 140 1000 138 1100" stroke="#0a0d0e" stroke-width="10" opacity=".7" fill="none"/>
+  <path d="M725 820 C750 900 760 1000 762 1100" stroke="#0a0d0e" stroke-width="10" opacity=".7" fill="none"/>
   <!-- shoulder pads -->
-  <path d="M150 840 C170 790 220 765 270 760 L285 830 C235 840 195 860 165 900 Z" fill="#26222c" stroke="#3a3443" stroke-width="3"/>
-  <path d="M750 840 C730 790 680 765 630 760 L615 830 C665 840 705 860 735 900 Z" fill="#1c1922" stroke="#2c2733" stroke-width="3"/>
+  <path d="M150 840 C170 790 220 765 270 760 L285 830 C235 840 195 860 165 900 Z" fill="#22292c" stroke="#343f43" stroke-width="3"/>
+  <path d="M750 840 C730 790 680 765 630 760 L615 830 C665 840 705 860 735 900 Z" fill="#192022" stroke="#273033" stroke-width="3"/>
 
   <!-- ===== plate carrier ===== -->
-  <path d="M255 790 L645 790 L690 1100 L210 1100 Z" fill="url(#plate)" stroke="#3b3545" stroke-width="3"/>
+  <path d="M255 790 L645 790 L690 1100 L210 1100 Z" fill="url(#plate)" stroke="#354145" stroke-width="3"/>
   <!-- shoulder straps -->
-  <path d="M290 745 L340 795 L300 800 L262 760 Z" fill="#1d1a22" stroke="#3b3545" stroke-width="3"/>
-  <path d="M610 745 L560 795 L600 800 L638 760 Z" fill="#17151c" stroke="#2f2a36" stroke-width="3"/>
+  <path d="M290 745 L340 795 L300 800 L262 760 Z" fill="#1a2022" stroke="#354145" stroke-width="3"/>
+  <path d="M610 745 L560 795 L600 800 L638 760 Z" fill="#151a1c" stroke="#2a3336" stroke-width="3"/>
   <!-- molle webbing rows -->
-  <g stroke="#0d0c11" stroke-width="6" opacity=".85">
+  <g stroke="#0c1011" stroke-width="6" opacity=".85">
     <path d="M245 900 H655"/><path d="M240 935 H660"/><path d="M236 970 H664"/>
   </g>
-  <g stroke="#3a3443" stroke-width="2" opacity=".6">
+  <g stroke="#343f43" stroke-width="2" opacity=".6">
     <path d="M300 892 V978"/><path d="M360 892 V978"/><path d="M420 892 V978"/><path d="M480 892 V978"/><path d="M540 892 V978"/><path d="M600 892 V978"/>
   </g>
   <!-- mag pouches -->
-  <g fill="#1a171f" stroke="#3a3443" stroke-width="3">
+  <g fill="#171d1f" stroke="#343f43" stroke-width="3">
     <rect x="270" y="985" width="88" height="115" rx="10"/>
     <rect x="368" y="985" width="88" height="115" rx="10"/>
     <rect x="466" y="985" width="88" height="115" rx="10"/>
     <rect x="564" y="985" width="80" height="115" rx="10"/>
   </g>
-  <g fill="#2a2631"><rect x="278" y="985" width="72" height="22" rx="6"/><rect x="376" y="985" width="72" height="22" rx="6"/><rect x="474" y="985" width="72" height="22" rx="6"/><rect x="572" y="985" width="64" height="22" rx="6"/></g>
-  <!-- chest patch with Plasma P -->
-  <rect x="395" y="815" width="110" height="64" rx="10" fill="#121016" stroke="#c04dff" stroke-width="3"/>
-  <path d="M428 832 h30 a14 14 0 0 1 0 28 h-16 v10 h-14 z M442 845 v2 h16 a1 1 0 0 0 0 -2 z" fill="#c04dff"/>
-  <rect x="470" y="832" width="22" height="7" rx="3" fill="#c04dff" opacity=".6"/>
-  <rect x="470" y="846" width="22" height="7" rx="3" fill="#c04dff" opacity=".35"/>
+  <g fill="#262e31"><rect x="278" y="985" width="72" height="22" rx="6"/><rect x="376" y="985" width="72" height="22" rx="6"/><rect x="474" y="985" width="72" height="22" rx="6"/><rect x="572" y="985" width="64" height="22" rx="6"/></g>
+  <!-- chest patch with Strive Cheats P -->
+  <rect x="395" y="815" width="110" height="64" rx="10" fill="#101516" stroke="#4dc5ff" stroke-width="3"/>
+  <path d="M428 832 h30 a14 14 0 0 1 0 28 h-16 v10 h-14 z M442 845 v2 h16 a1 1 0 0 0 0 -2 z" fill="#4dc5ff"/>
+  <rect x="470" y="832" width="22" height="7" rx="3" fill="#4dc5ff" opacity=".6"/>
+  <rect x="470" y="846" width="22" height="7" rx="3" fill="#4dc5ff" opacity=".35"/>
   <!-- radio on left strap -->
-  <rect x="262" y="800" width="34" height="78" rx="8" fill="#141217" stroke="#3a3443" stroke-width="3"/>
-  <rect x="270" y="772" width="6" height="32" rx="3" fill="#2a2631"/>
+  <rect x="262" y="800" width="34" height="78" rx="8" fill="#121617" stroke="#343f43" stroke-width="3"/>
+  <rect x="270" y="772" width="6" height="32" rx="3" fill="#262e31"/>
   <circle cx="279" cy="820" r="4" fill="#3ee08f" opacity=".85"/>
 
   <!-- ===== neck / balaclava ===== -->
-  <path d="M330 640 C335 720 565 720 570 640 L585 735 C520 790 380 790 315 735 Z" fill="#141217" stroke="#2b2731" stroke-width="3"/>
-  <path d="M345 700 C400 735 500 735 555 700" stroke="#26222c" stroke-width="5" fill="none"/>
+  <path d="M330 640 C335 720 565 720 570 640 L585 735 C520 790 380 790 315 735 Z" fill="#121617" stroke="#272e31" stroke-width="3"/>
+  <path d="M345 700 C400 735 500 735 555 700" stroke="#22292c" stroke-width="5" fill="none"/>
 
   <!-- ===== head ===== -->
   <ellipse cx="450" cy="485" rx="160" ry="200" fill="url(#skin)"/>
   <!-- faceless mask (lower face) -->
-  <path d="M318 520 C322 620 380 690 450 695 C520 690 578 620 582 520 C540 560 360 560 318 520 Z" fill="#0e0c12"/>
-  <path d="M340 585 C400 610 500 610 560 585" stroke="#1d1a22" stroke-width="4" fill="none"/>
-  <path d="M355 625 C410 645 490 645 545 625" stroke="#1d1a22" stroke-width="4" fill="none"/>
+  <path d="M318 520 C322 620 380 690 450 695 C520 690 578 620 582 520 C540 560 360 560 318 520 Z" fill="#0c1112"/>
+  <path d="M340 585 C400 610 500 610 560 585" stroke="#1a2022" stroke-width="4" fill="none"/>
+  <path d="M355 625 C410 645 490 645 545 625" stroke="#1a2022" stroke-width="4" fill="none"/>
 
   <!-- ===== helmet ===== -->
   <path d="M262 500 C250 300 340 190 450 185 C560 190 650 300 638 500 L612 512 C610 360 545 268 450 265 C355 268 290 360 288 512 Z" fill="url(#helm)"/>
   <!-- helmet shell lower edge / brim -->
-  <path d="M262 500 C300 470 600 470 638 500 L630 520 C590 495 310 495 270 520 Z" fill="#1a171f"/>
+  <path d="M262 500 C300 470 600 470 638 500 L630 520 C590 495 310 495 270 520 Z" fill="#171d1f"/>
   <!-- rail system -->
-  <rect x="268" y="400" width="20" height="90" rx="6" fill="#1a171f" stroke="#3a3443" stroke-width="2"/>
-  <rect x="612" y="400" width="20" height="90" rx="6" fill="#141217" stroke="#2c2733" stroke-width="2"/>
+  <rect x="268" y="400" width="20" height="90" rx="6" fill="#171d1f" stroke="#343f43" stroke-width="2"/>
+  <rect x="612" y="400" width="20" height="90" rx="6" fill="#121617" stroke="#273033" stroke-width="2"/>
   <!-- NVG mount -->
-  <path d="M410 222 h80 l8 34 h-96 z" fill="#1a171f" stroke="#3a3443" stroke-width="3"/>
-  <rect x="432" y="232" width="36" height="14" rx="4" fill="#0d0c11"/>
+  <path d="M410 222 h80 l8 34 h-96 z" fill="#171d1f" stroke="#343f43" stroke-width="3"/>
+  <rect x="432" y="232" width="36" height="14" rx="4" fill="#0c1011"/>
   <!-- helmet panel lines -->
-  <path d="M450 186 V262" stroke="#4d4558" stroke-width="3" opacity=".6"/>
-  <path d="M330 300 C380 260 520 260 570 300" stroke="#0d0c11" stroke-width="4" opacity=".5" fill="none"/>
+  <path d="M450 186 V262" stroke="#455358" stroke-width="3" opacity=".6"/>
+  <path d="M330 300 C380 260 520 260 570 300" stroke="#0c1011" stroke-width="4" opacity=".5" fill="none"/>
   <!-- helmet strap -->
-  <path d="M300 520 C300 600 330 650 360 680" stroke="#1b1820" stroke-width="12" fill="none"/>
-  <path d="M600 520 C600 600 570 650 540 680" stroke="#141217" stroke-width="12" fill="none"/>
+  <path d="M300 520 C300 600 330 650 360 680" stroke="#181e20" stroke-width="12" fill="none"/>
+  <path d="M600 520 C600 600 570 650 540 680" stroke="#121617" stroke-width="12" fill="none"/>
 
   <!-- ===== headset ===== -->
-  <path d="M290 330 C300 250 360 215 400 210" stroke="#1c1922" stroke-width="16" fill="none"/>
-  <ellipse cx="262" cy="530" rx="50" ry="82" fill="#211e27" stroke="#3e3748" stroke-width="4"/>
-  <ellipse cx="262" cy="530" rx="30" ry="55" fill="#16141a"/>
-  <ellipse cx="638" cy="530" rx="50" ry="82" fill="#18161d" stroke="#2c2733" stroke-width="4"/>
-  <ellipse cx="638" cy="530" rx="30" ry="55" fill="#111015"/>
+  <path d="M290 330 C300 250 360 215 400 210" stroke="#192022" stroke-width="16" fill="none"/>
+  <ellipse cx="262" cy="530" rx="50" ry="82" fill="#1e2527" stroke="#374448" stroke-width="4"/>
+  <ellipse cx="262" cy="530" rx="30" ry="55" fill="#14191a"/>
+  <ellipse cx="638" cy="530" rx="50" ry="82" fill="#161b1d" stroke="#273033" stroke-width="4"/>
+  <ellipse cx="638" cy="530" rx="30" ry="55" fill="#101415"/>
   <!-- boom mic -->
-  <path d="M262 600 C262 660 300 690 360 700" stroke="#2a2631" stroke-width="7" fill="none" stroke-linecap="round"/>
-  <ellipse cx="368" cy="700" rx="14" ry="10" fill="#1a171f" stroke="#3a3443" stroke-width="2"/>
+  <path d="M262 600 C262 660 300 690 360 700" stroke="#262e31" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <ellipse cx="368" cy="700" rx="14" ry="10" fill="#171d1f" stroke="#343f43" stroke-width="2"/>
 
   <!-- ===== visor ===== -->
   <path d="M300 440 C360 405 540 405 600 440 L592 520 C530 495 370 495 308 520 Z" fill="url(#visor)" filter="url(#glow)" opacity=".85"/>
   <path d="M300 440 C360 405 540 405 600 440 L592 520 C530 495 370 495 308 520 Z" fill="url(#visor)"/>
   <path d="M300 440 C360 405 540 405 600 440 L592 520 C530 495 370 495 308 520 Z" fill="url(#visorSheen)"/>
-  <path d="M300 440 C360 405 540 405 600 440 L592 520 C530 495 370 495 308 520 Z" fill="none" stroke="#120f16" stroke-width="6"/>
+  <path d="M300 440 C360 405 540 405 600 440 L592 520 C530 495 370 495 308 520 Z" fill="none" stroke="#0f1416" stroke-width="6"/>
   <path d="M325 448 C380 425 520 425 575 448" stroke="#fff" stroke-width="3" opacity=".6" fill="none" filter="url(#soft)"/>
   <!-- HUD ticks in the visor -->
   <g stroke="#fff" stroke-width="2" opacity=".45">
@@ -129,7 +129,7 @@
     <path d="M255 790 L210 1100" stroke-width="4"/>
   </g>
   <!-- visor bounce on mask and vest -->
-  <ellipse cx="450" cy="560" rx="130" ry="40" fill="#c04dff" opacity=".12" filter="url(#glow)"/>
+  <ellipse cx="450" cy="560" rx="130" ry="40" fill="#4dc5ff" opacity=".12" filter="url(#glow)"/>
 
   <!-- film grain for a rendered feel -->
   <rect width="900" height="1100" fill="#fff" filter="url(#grain)" opacity=".5"/>

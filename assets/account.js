@@ -20,7 +20,7 @@
     keys: "Where your license keys are delivered and how to get them again.",
     downloads: "Loaders for the products you own."
   };
-  document.title = titles[page] + " – Plasma";
+  document.title = titles[page] + " – Strive Cheats";
 
   root.innerHTML = `
     <div class="page-head left"><span class="pill">Dashboard</span><h1>${titles[page]}</h1><p>${subs[page]}</p></div>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Product – Plasma</title>
-<meta name="theme-color" content="#b026ff">
+<title>Product – Strive Cheats</title>
+<meta name="theme-color" content="#26b9ff">
 <link rel="icon" type="image/png" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +22,7 @@ const p = productBy(new URLSearchParams(location.search).get("p") || location.pa
 if (!p) {
   root.innerHTML = `<div class="empty"><b>Product not found</b><a class="btn btn-main" style="margin-top:14px" href="/products">Browse products</a></div>`;
 } else {
-  document.title = p.name + " – Plasma";
+  document.title = p.name + " – Strive Cheats";
   // plan chosen on the home grid arrives via sessionStorage (or a legacy ?plan=); keep the address bar clean either way
   let want = +new URLSearchParams(location.search).get("plan") || 0;
   try { const [s, n] = (sessionStorage.getItem("plasma_plan") || "").split(":"); if (s === p.slug) want = +n || 0; sessionStorage.removeItem("plasma_plan"); } catch { }
