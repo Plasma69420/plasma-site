@@ -299,9 +299,9 @@ const Api = {
 <canvas class="stars" id="stars"></canvas>
 <header class="nav" id="nav">
   <div class="nav-bar"><div class="nav-in">
-    <a href="/" class="brand"><img src="/img/logo.png" alt="">Strive Cheats</a>
+    <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"></a>
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link("/reviews", "Reviews", "reviews")}${link("/media", "Media", "media")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Support", "support")}
+      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Support", "support")}
     </nav>
     <div class="nav-right">
       <a class="nav-btn icon" href="${CONFIG.discord}" target="_blank" rel="noopener" aria-label="Discord">${ico.discord}</a>
@@ -316,20 +316,14 @@ const Api = {
 
   document.body.insertAdjacentHTML("beforeend", `
 <footer class="foot">
-  <div class="fglow"></div>
-  <div class="wrap">
+  <div class="wrap" style="width:min(1300px,100% - 32px)">
     <div class="frow">
-      <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="">Strive Cheats</a>
+      <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"></a>
       <nav>
-        <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/status">Status</a><a href="/media">Media</a><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a>
+        <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="${CONFIG.discord}" target="_blank" rel="noopener">Support</a><a href="/account">Client Area</a>
       </nav>
-      <div class="fsoc">
-        <a href="${CONFIG.discord}" target="_blank" rel="noopener" aria-label="Discord">${ico.discord}</a>
-        <a href="${CONFIG.telegram}" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.8 15.6 9.4 20c.6 0 .9-.3 1.200-.6l2.900-2.800 6 4.400c1.100.6 1.900.3 2.200-1l3.900-18.400c.4-1.600-.6-2.300-1.700-1.900L1.100 8.500c-1.600.6-1.600 1.500-.3 1.900l5.900 1.800L20.400 4c.6-.4 1.200-.2.700.2z" transform="translate(-1 0)"/></svg></a>
-      </div>
     </div>
-    ${trustHtml}
-    <div class="fbar"><span>© ${new Date().getFullYear()} Strive Cheats. All rights reserved.</span><span>Site made by <b>Punch</b></span></div>
+    <div class="fbar"><span>© ${new Date().getFullYear()} Strive Cheats. All rights reserved.</span><span class="ftlinks"><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a></span></div>
   </div>
 </footer>`);
 
