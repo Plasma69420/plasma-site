@@ -291,7 +291,7 @@ const Api = {
 <canvas class="stars" id="stars"></canvas>
 <header class="nav" id="nav">
   <div class="nav-bar"><div class="nav-in">
-    <a href="/" class="brand"><img src="/img/logo.png" alt="">Strive Cheats</a>
+    <a href="/" class="brand">Strive Cheats</a>
     <nav class="nav-links" id="navLinks">
       ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/reviews", "Reviews", "reviews")}${link("/status", "Status", "status")}${link("/media", "Media", "media")}
     </nav>
@@ -309,7 +309,7 @@ const Api = {
   <div class="fglow"></div>
   <div class="wrap">
     <div class="frow">
-      <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="">Strive Cheats</a>
+      <a href="/" class="brand" aria-label="Strive Cheats">Strive Cheats</a>
       <nav>
         <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/status">Status</a><a href="/media">Media</a><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a>
       </nav>
