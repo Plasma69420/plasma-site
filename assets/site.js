@@ -370,12 +370,3 @@ const Api = {
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .08 });
 const revealAll = () => document.querySelectorAll(".reveal:not(.in)").forEach(el => io.observe(el));
 addEventListener("DOMContentLoaded", revealAll);
-
-/* ---------- presence: lets staff see which signed-in Discord users are on the site (no IPs) ---------- */
-(() => {
-  const a = Auth.get();
-  if (!a || !a.token) return;
-  const page = () => location.pathname.replace(/\.html$/, "") || "/";
-  const beat = () => { if (!document.hidden) Api.post("/api/presence", { page: page() }, a.token).catch(() => { }); };
-  beat(); setInterval(beat, 60000);
-})();
