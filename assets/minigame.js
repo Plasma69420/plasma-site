@@ -139,7 +139,7 @@
   function spawn(boss) {
     let x, z, tries = 0; do { const a = rnd(0, 6.283), d = rnd(22, 42); x = P.x + Math.sin(a) * d; z = P.z + Math.cos(a) * d; } while ((blocked(x, z, boss ? 3 : 1) || Math.abs(x) > 52 || Math.abs(z) > 52) && ++tries < 40);
     const n = { x, z, hp: 100, max: 100, tx: 0, tz: 0, shoot: rnd(1, 2.5), name: NAMES[(Math.random() * NAMES.length) | 0], dead: false, t: Math.random() * 9, scale: 1, boss: false, flash: 0, speed: rnd(1.6, 2.6), ry: 0, ph: 0, vm: 0, pal: PALS[(Math.random() * PALS.length) | 0], seed: rnd(0, 6) };
-    if (boss) { n.boss = true; n.name = "BRUNO"; n.hp = n.max = 2500; n.scale = 2.6; n.speed = 4.2; n.orb = Math.random() < 0.5 ? 1 : -1; n.phase = 0; n.lunge = 0; n.bite = 0; n.x = Math.max(-50, Math.min(50, P.x + Math.sin(P.yaw) * 30)); n.z = Math.max(-50, Math.min(50, P.z + Math.cos(P.yaw) * 30)); }
+    if (boss) { n.boss = true; n.name = "ZEN THE LOSER"; n.hp = n.max = 2500; n.scale = 2.6; n.speed = 4.2; n.orb = Math.random() < 0.5 ? 1 : -1; n.phase = 0; n.lunge = 0; n.bite = 0; n.x = Math.max(-50, Math.min(50, P.x + Math.sin(P.yaw) * 30)); n.z = Math.max(-50, Math.min(50, P.z + Math.cos(P.yaw) * 30)); }
     pick(n); npcs.push(n); return n;
   }
   function pick(n) { for (let i = 0; i < 20; i++) { const a = rnd(0, 6.28), d = rnd(6, 26), x = n.x + Math.sin(a) * d, z = n.z + Math.cos(a) * d; if (Math.abs(x) < 52 && Math.abs(z) < 52 && !blocked(x, z, 1)) { n.tx = x; n.tz = z; return; } } n.tx = n.x; n.tz = n.z; }
@@ -289,7 +289,7 @@
     n.vm = mv > 0.002 ? 1 : 0; n.ph += dt * 11 * n.vm;
     if (cfg.shootBack && n.lunge > 0 && Math.hypot(P.x - n.x, P.z - n.z) < 4.4 && n.bite <= 0) { n.bite = 0.8; hurt(16, n, "bit you"); }
   }
-  function spawnBoss() { bossDone = true; spawn(true); toast("BRUNO THE DOG HAS ARRIVED"); tone(90, 0.8, "sawtooth", 0.25, 45); }
+  function spawnBoss() { bossDone = true; spawn(true); toast("ZEN THE LOSER HAS ARRIVED"); tone(90, 0.8, "sawtooth", 0.25, 45); }
   function hurt(d, n, verb) {
     if (P.prot > 0) return;
     if (n) { hits.push({ n, x: n.x, z: n.z, name: n.name, t: 1.6 }); feed.unshift({ text: n.name + " " + (verb || "shot you") + "  -" + d, boss: n.boss, t: 4 }); if (feed.length > 5) feed.pop(); lastBy = n.name; }
@@ -328,7 +328,7 @@
     feed.unshift({ text: "+15 HP  ·  MAX HP " + P.max, boss: false, good: true, t: 2.5 }); if (feed.length > 5) feed.pop();
     if (P.t - P.lastKill < 4) P.mult = Math.min(5, P.mult + 1); P.lastKill = P.t;
     const base = n.boss ? 5000 : head ? 250 : 100; P.score += base * P.mult;
-    if (n.boss) toast("BRUNO DOWN  +" + (5000 * P.mult).toLocaleString()); else if (P.mult > 1) toast("x" + P.mult + " CHAIN");
+    if (n.boss) toast("ZEN THE LOSER IS DOWN  +" + (5000 * P.mult).toLocaleString()); else if (P.mult > 1) toast("x" + P.mult + " CHAIN");
     tone(520, 0.18, "triangle", 0.2, 880);
   }
   function reload() { if (P.reloading > 0) return; P.reloading = WEAPONS[cfg.weapon].reload; tone(300, 0.15, "square", 0.08); }
@@ -430,11 +430,11 @@
     ctx.textAlign = "left"; ctx.font = "700 13px Manrope,sans-serif"; feed.forEach((f, i) => { ctx.globalAlpha = Math.min(1, f.t); ctx.fillStyle = f.good ? "#44e08a" : f.boss ? "#ffd34d" : "#ff7a6b"; ctx.fillText(f.text, 16, H - 62 - i * 18); }); ctx.globalAlpha = 1;
     ctx.fillStyle = "#ffd34d"; const acc = P.shots ? Math.round(P.hits / P.shots * 100) : 0;
     ctx.fillText(`Kills ${P.kills}  ·  Headshots ${P.heads}  ·  Accuracy ${acc}%`, 16, 24); ctx.fillText(`Score ${P.score.toLocaleString()}${P.mult > 1 ? "   x" + P.mult : ""}   ·   Best ${Math.max(best, P.score).toLocaleString()}`, 16, 44);
-    if (!bossDone) { ctx.fillStyle = "#ff9b4a"; ctx.fillText("Bruno in " + Math.max(0, 10 - P.kills) + " kills", 16, 64); }
+    if (!bossDone) { ctx.fillStyle = "#ff9b4a"; ctx.fillText("Zen the Loser in " + Math.max(0, 10 - P.kills) + " kills", 16, 64); }
     ctx.fillStyle = "rgba(0,0,0,.55)"; ctx.fillRect(16, H - 34, 190, 12); ctx.fillStyle = P.hp > P.max * 0.4 ? "#44e08a" : "#ff4d4d"; ctx.fillRect(16, H - 34, 190 * Math.max(0, P.hp) / P.max, 12);
     ctx.fillStyle = "#fff"; ctx.fillText(Math.max(0, Math.ceil(P.hp)) + " / " + P.max + " HP", 214, H - 24);
     if (P.reloading > 0) { ctx.textAlign = "center"; ctx.font = "800 14px Manrope,sans-serif"; ctx.fillStyle = "#ffd34d"; ctx.fillText("RELOADING...", cx, H - 62); }
-    const b = npcs.find(n => n.boss && !n.dead); if (b) { const bw = Math.min(420, W * 0.5), bx = cx - bw / 2; ctx.fillStyle = "rgba(0,0,0,.6)"; ctx.fillRect(bx, 16, bw, 12); ctx.fillStyle = "#ff4a3d"; ctx.fillRect(bx, 16, bw * Math.max(0, b.hp / b.max), 12); ctx.textAlign = "center"; ctx.fillStyle = "#ffd34d"; ctx.font = "800 12px Manrope,sans-serif"; ctx.fillText("BRUNO", cx, 46); }
+    const b = npcs.find(n => n.boss && !n.dead); if (b) { const bw = Math.min(420, W * 0.5), bx = cx - bw / 2; ctx.fillStyle = "rgba(0,0,0,.6)"; ctx.fillRect(bx, 16, bw, 12); ctx.fillStyle = "#ff4a3d"; ctx.fillRect(bx, 16, bw * Math.max(0, b.hp / b.max), 12); ctx.textAlign = "center"; ctx.fillStyle = "#ffd34d"; ctx.font = "800 12px Manrope,sans-serif"; ctx.fillText("ZEN THE LOSER", cx, 46); }
     if (cfg.radar) {
       const R = 52, rx = W - R - 18, ry = R + 18; ctx.fillStyle = "rgba(4,20,27,.7)"; ctx.beginPath(); ctx.arc(rx, ry, R, 0, 6.3); ctx.fill(); ctx.strokeStyle = "rgba(31,182,255,.5)"; ctx.lineWidth = 1.2; ctx.stroke();
       ctx.beginPath(); ctx.moveTo(rx - R, ry); ctx.lineTo(rx + R, ry); ctx.moveTo(rx, ry - R); ctx.lineTo(rx, ry + R); ctx.strokeStyle = "rgba(31,182,255,.18)"; ctx.stroke();
@@ -499,7 +499,7 @@
   }
   if ("IntersectionObserver" in window) new IntersectionObserver(es => { onScreen = es[0].isIntersecting; }, { threshold: 0.01 }).observe(stage);
   function showOverlay(title, html, label) { $("mgTitle").textContent = title; $("mgText").innerHTML = html; btn.textContent = label; over.hidden = false; }
-  const DESC = "Hunt down the NPC players in a 3D arena. Hold right click to lock onto the nearest target inside your FOV circle. Every kill heals 15 HP, raises your max health and chains a score multiplier, and watch out: they shoot back. Reach 10 kills and Bruno, a huge dog, comes for you.";
+  const DESC = "Hunt down the NPC players in a 3D arena. Hold right click to lock onto the nearest target inside your FOV circle. Every kill heals 15 HP, raises your max health and chains a score multiplier, and watch out: they shoot back. Reach 10 kills and Zen the Loser, a huge dog, comes for you.";
   function pause() { if (!running) return; running = false; mouseL = mouseR = false; for (const k in keys) keys[k] = false; showOverlay("Paused", DESC, "Click to Play"); submitScore(); }
   function start() {
     audio(); if (ac && ac.state === "suspended") ac.resume();
