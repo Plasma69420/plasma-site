@@ -336,14 +336,17 @@ const Api = {
   const c = document.getElementById("stars"), x = c.getContext("2d");
   let w, h, dots = [];
   const size = () => {
-    const d = devicePixelRatio || 1;
+    const d = 1;
     w = c.width = innerWidth * d; h = c.height = innerHeight * d;
     c.style.width = innerWidth + "px"; c.style.height = innerHeight + "px";
-    dots = Array.from({ length: Math.round(innerWidth / 12) }, () => ({ x: Math.random() * w, y: Math.random() * h, r: (Math.random() * 1.1 + .3) * d, v: (Math.random() * .2 + .04) * d, a: Math.random() * 6.28 }));
+    dots = Array.from({ length: Math.min(70, Math.round(innerWidth / 26)) }, () => ({ x: Math.random() * w, y: Math.random() * h, r: (Math.random() * 1.1 + .3) * d, v: (Math.random() * .2 + .04) * d, a: Math.random() * 6.28 }));
   };
   size(); addEventListener("resize", size);
-  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const tick = () => {
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches || (navigator.hardwareConcurrency || 8) <= 2;
+  let lastT = 0;
+  const tick = t => {
+    if (!still) requestAnimationFrame(tick);
+    if (document.hidden || t - lastT < 33) return; lastT = t;
     x.clearRect(0, 0, w, h);
     for (const s of dots) {
       s.y -= s.v; s.a += .015;
@@ -351,12 +354,23 @@ const Api = {
       x.globalAlpha = .15 + Math.abs(Math.sin(s.a)) * .5; x.fillStyle = "#fff";
       x.beginPath(); x.arc(s.x, s.y, s.r, 0, 7); x.fill();
     }
-    if (!still) requestAnimationFrame(tick);
   };
-  tick();
+  tick(0);
 })();
 
 // reveal-on-scroll; call revealAll() after adding .reveal elements dynamically
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .08 });
 const revealAll = () => document.querySelectorAll(".reveal:not(.in)").forEach(el => io.observe(el));
 addEventListener("DOMContentLoaded", revealAll);
+
+// ---- performance: pause what nobody can see ----
+(() => {
+  const io = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(e => {
+    const el = e.target; el.classList.toggle("offscreen", !e.isIntersecting);
+    if (el.tagName === "VIDEO") { if (e.isIntersecting && !document.hidden) el.play().catch(() => { }); else el.pause(); }
+  }), { rootMargin: "120px" }) : null;
+  const watch = () => { if (!io) return; document.querySelectorAll("video, .gtrack, .rmq3, .shield, .deliver").forEach(el => { if (!el.__w) { el.__w = 1; io.observe(el); } }); };
+  watch(); addEventListener("load", watch); setTimeout(watch, 1500);
+  document.addEventListener("visibilitychange", () => document.querySelectorAll("video").forEach(v => { if (document.hidden) v.pause(); else if (!v.classList.contains("offscreen")) v.play().catch(() => { }); }));
+  document.querySelectorAll("img:not([loading])").forEach(i => { i.loading = "lazy"; i.decoding = "async"; });
+})();

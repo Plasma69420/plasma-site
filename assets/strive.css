@@ -18,7 +18,7 @@ a{color:inherit}
 .stars{opacity:.45}
 
 /* ---------- header ---------- */
-.nav,.nav.scrolled{position:fixed;padding:0;top:0;left:0;right:0;background:rgba(6,6,6,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav,.nav.scrolled{position:fixed;padding:0;top:0;left:0;right:0;background:rgba(6,6,6,.94);backdrop-filter:none;-webkit-backdrop-filter:none;--x:blur(12px);border-bottom:1px solid var(--line)}
 .nav-bar,.nav.scrolled .nav-bar{max-width:none;height:64px;border-radius:0;background:none;border:0;box-shadow:none;backdrop-filter:none}
 .nav-in{width:min(1300px,100% - 32px);height:100%;margin:0 auto;padding:0;grid-template-columns:auto 1fr auto;gap:12px}
 .brand{font:700 15px/1 'Manrope';gap:10px;color:#fff}
@@ -320,7 +320,7 @@ a{color:inherit}
 .fcta::before{background:radial-gradient(ellipse at center,rgba(31,182,255,.14),transparent 70%)}
 .stats3 .s b{color:#fff}
 .foot{border-top-color:rgba(110,200,255,.14)}
-.nav,.nav.scrolled{background:rgba(4,20,27,.82);border-bottom-color:rgba(110,200,255,.14)}
+.nav,.nav.scrolled{background:rgba(4,20,27,.95);border-bottom-color:rgba(110,200,255,.14)}
 .lp-img{background:linear-gradient(135deg,#0b2530,#04141b)}
 .cw-sl input{background:linear-gradient(90deg,#1fb6ff var(--p,40%),#123a49 var(--p,40%))}
 
@@ -581,7 +581,7 @@ main.lwrap #groups{max-width:1000px;margin-left:auto;margin-right:auto}
 .mg-stage{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#04141b;border:1px solid rgba(110,200,255,.14)}
 .mg-stage:fullscreen{aspect-ratio:auto;border-radius:0;width:100vw;height:100vh}
 .mg-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair}
-.mg-over{position:absolute;inset:0;display:grid;place-items:center;background:rgba(2,13,18,.82);backdrop-filter:blur(3px);padding:16px;overflow:auto}
+.mg-over{position:absolute;inset:0;display:grid;place-items:center;background:rgba(2,13,18,.82);padding:16px;overflow:auto}
 .mg-over[hidden]{display:none}
 .mg-box{max-width:620px;text-align:center}
 .mg-box h2{font:800 clamp(22px,3vw,30px) 'Manrope';color:#fff;margin-bottom:10px}
@@ -607,3 +607,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 6px;margin-right:3px;border-
 .mg-pn input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:0;cursor:pointer}
 @media (max-width:900px){.mg-panels{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.mg-panels{grid-template-columns:1fr}}
+
+/* ===== v20: performance ===== */
+.offscreen,.offscreen *{animation-play-state:paused!important}
+.hsec{content-visibility:auto;contain-intrinsic-size:auto 700px}
+.gtrack,.rmq,.rv-row{will-change:transform}
+.catcard,.lcard,.scard2,.spc{contain:layout paint}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media (max-width:760px){.mg-over{backdrop-filter:none;background:rgba(2,13,18,.92)}}

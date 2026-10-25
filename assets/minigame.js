@@ -4,7 +4,8 @@
   const over = document.getElementById("mgOver"), btn = document.getElementById("mgPlay");
   const $ = id => document.getElementById(id);
   let W = 800, H = 450, dpr = 1;
-  const resize = () => { dpr = Math.min(2, devicePixelRatio || 1); W = stage.clientWidth; H = stage.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+  let q = 1, onScreen = true;
+  const resize = () => { dpr = Math.min(1.5, devicePixelRatio || 1) * q; W = stage.clientWidth; H = stage.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
   addEventListener("resize", resize); document.addEventListener("fullscreenchange", () => setTimeout(resize, 60)); resize();
 
   // ---------- settings (bound to the panels under the game) ----------
@@ -187,7 +188,7 @@
 
   // ---------- render ----------
   function render() {
-    const sx = (Math.random() - 0.5) * fx.shake * 7, sy = (Math.random() - 0.5) * fx.shake * 7;
+    const sx = q < 0.75 ? 0 : (Math.random() - 0.5) * fx.shake * 7, sy = q < 0.75 ? 0 : (Math.random() - 0.5) * fx.shake * 7;
     ctx.save(); ctx.translate(sx, sy);
     const f = focal(), hor = H / 2 + Math.tan(P.pitch) * f;
     // sky + ground
@@ -195,7 +196,7 @@
     const gr = ctx.createLinearGradient(0, hor, 0, H); gr.addColorStop(0, "#0a2a37"); gr.addColorStop(1, "#04141b"); ctx.fillStyle = gr; ctx.fillRect(-10, Math.max(0, hor), W + 20, H);
     ctx.strokeStyle = "rgba(31,182,255,.18)"; ctx.lineWidth = 1;
     const gx = Math.round(P.x / 4) * 4, gz = Math.round(P.z / 4) * 4;
-    for (let i = -14; i <= 14; i++) { line3(gx + i * 4, 0, gz - 56, gx + i * 4, 0, gz + 56); line3(gx - 56, 0, gz + i * 4, gx + 56, 0, gz + i * 4); }
+    for (let i = -7; i <= 7; i++) { line3(gx + i * 4, 0, gz - 40, gx + i * 4, 0, gz + 40); line3(gx - 40, 0, gz + i * 4, gx + 40, 0, gz + i * 4); }
     // drawables sorted far -> near
     const items = [];
     for (const b of boxes) { const p = proj(b.x, 0, b.z); if (p) items.push({ z: p.z, kind: "box", b }); }
@@ -351,7 +352,20 @@
   }
 
   // ---------- loop + overlay ----------
-  function frame(t) { requestAnimationFrame(frame); const dt = Math.min(0.05, (t - last) / 1000 || 0); last = t; if (running) update(dt); render(); }
+  let slow = 0, fast = 0, idle = 0;
+  function frame(t) {
+    requestAnimationFrame(frame); const raw = (t - last) || 16; last = t;
+    if (document.hidden || !onScreen) return;
+    const dt = Math.min(0.05, raw / 1000);
+    if (running) {
+      update(dt); render();
+      // adaptive resolution: drop it when frames get slow, bring it back when there is headroom
+      if (raw > 30) { slow++; fast = 0; } else if (raw < 20) { fast++; slow = Math.max(0, slow - 1); }
+      if (slow > 25 && q > 0.5) { q = Math.max(0.5, q - 0.25); slow = 0; resize(); }
+      else if (fast > 400 && q < 1) { q = Math.min(1, q + 0.25); fast = 0; resize(); }
+    } else if (++idle % 20 === 0) render();   // paused: keep the backdrop alive without burning the GPU
+  }
+  if ("IntersectionObserver" in window) new IntersectionObserver(es => { onScreen = es[0].isIntersecting; }, { threshold: 0.01 }).observe(stage);
   function showOverlay(title, html, label) { $("mgTitle").textContent = title; $("mgText").innerHTML = html; btn.textContent = label; over.hidden = false; }
   const DESC = "Hunt down the NPC players. Hold right click to lock onto the nearest target inside your FOV circle. Every kill heals 15 HP and chains a score multiplier, and watch out: they shoot back. Reach 10 kills and Bruno, a huge dog, comes for you.";
   function start() {
@@ -360,8 +374,10 @@
     over.hidden = true; running = true; music(cfg.music);
     try { const r = cv.requestPointerLock(); if (r && r.catch) r.catch(() => { }); } catch { }
   }
+  if (matchMedia("(pointer:coarse)").matches && !matchMedia("(pointer:fine)").matches) { $("mgText").textContent = "This trainer needs a mouse and keyboard. Open it on a PC to play."; btn.textContent = "Try anyway"; }
   btn.addEventListener("click", start);
   cv.addEventListener("click", () => { if (running && !document.pointerLockElement) { try { const r = cv.requestPointerLock(); if (r && r.catch) r.catch(() => { }); } catch { } } });
+  document.addEventListener("visibilitychange", () => { if (document.hidden && running) { running = false; mouseL = mouseR = false; for (const k in keys) keys[k] = false; showOverlay("Paused", DESC, "Click to Play"); } });
   document.addEventListener("pointerlockchange", () => { locked = document.pointerLockElement === cv; if (!locked && running && !dead) { running = false; showOverlay("Paused", DESC, "Click to Play"); mouseL = mouseR = false; } });
   document.addEventListener("mousemove", e => { if (!running) return; const k = cfg.weapon === "sniper" && mouseR ? 0.0007 : 0.0022; P.yaw += e.movementX * k * cfg.sens; P.pitch -= e.movementY * k * cfg.sens; });
   cv.addEventListener("mousedown", e => { if (!running) return; if (e.button === 0) mouseL = { fired: false }; if (e.button === 2) mouseR = true; });
