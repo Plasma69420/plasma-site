@@ -54,14 +54,14 @@ const CONFIG = {
       plans: [{ n: "Day", p: 6.99, v: 416712 }, { n: "Week", p: 26.99, v: 416705 }, { n: "Month", p: 59.99, v: 416716 }, { n: "Lifetime", p: 149.99, v: 416735 }]
     },
     {
-      slug: "rust-hydra", name: "Rust Hydra", type: "Private", game: "Rust", img: "/img/box-rust.webp",
-      desc: "Take your Rust experience to the next level with Hydra: aimbot, ESP, loot ESP and a clean, fully configurable interface.",
+      slug: "rust-private", name: "Rust Private", type: "Private", game: "Rust", img: "/img/box-rust.webp",
+      desc: "Take your Rust experience to the next level with Rust Private: aimbot, ESP, loot ESP and a clean, fully configurable interface.",
       features: ["Customizable aimbot and targeting", "Player, loot & distance ESP", "Controller & keyboard support"],
-      details: "Take your Rust experience to the next level with Hydra, featuring a powerful selection of customizable features, a clean interface, and regular updates designed around a smooth user experience.",
+      details: "Take your Rust experience to the next level with Rust Private, featuring a powerful selection of customizable features, a clean interface, and regular updates designed around a smooth user experience.",
       groups: [
         ["System Information", ["Controller & Keyboard Support", "Private Access", "Instant License Delivery", "Frequent Updates", "Windows 10 & Windows 11 Support", "Easy Setup Guide Included", "Dedicated Customer Support"]],
         ["Features", ["Aimbot: customizable targeting and aim settings", "ESP: player information, boxes, distance & more", "Player ESP: track players with ease", "Loot ESP: easily locate relevant items", "Custom Targeting: configure targeting to your preferences", "Fully Configurable: adjust features to your playstyle", "Clean Interface: modern and easy to navigate"]],
-        ["Why Choose Hydra?", ["Instant Delivery: immediate access after purchase", "Private Access: exclusive software access", "Powerful Features: aimbot, ESP and more", "Easy Configuration: simple and intuitive settings", "Clean Interface: modern and straightforward design", "Regular Updates: ongoing development and compatibility updates", "Simple Setup: setup guide included", "Dedicated Support: assistance whenever you need it"]]
+        ["Why Choose Rust Private?", ["Instant Delivery: immediate access after purchase", "Private Access: exclusive software access", "Powerful Features: aimbot, ESP and more", "Easy Configuration: simple and intuitive settings", "Clean Interface: modern and straightforward design", "Regular Updates: ongoing development and compatibility updates", "Simple Setup: setup guide included", "Dedicated Support: assistance whenever you need it"]]
       ],
       plans: [{ n: "1 Day", p: 9.99 }, { n: "3 Day", p: 17.99 }, { n: "7 Day", p: 29.99 }, { n: "30 Day", p: 59.99 }]
     },
