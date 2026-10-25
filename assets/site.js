@@ -287,7 +287,7 @@ const Api = {
   <div class="nav-bar"><div class="nav-in">
     <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"></a>
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Support", "support")}
+      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link("/reviews", "Reviews", "reviews")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Support", "support")}
     </nav>
     <div class="nav-right">
       <a class="nav-btn icon" href="${CONFIG.discord}" target="_blank" rel="noopener" aria-label="Discord">${ico.discord}</a>

@@ -4,55 +4,59 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reviews – Strive Cheats</title>
-<meta name="description" content="Real customer reviews of Strive Cheats, posted by verified buyers in our Discord.">
-<meta name="theme-color" content="#0b0b0c">
+<meta name="description" content="Real customer reviews and product pictures from verified Strive Cheats buyers.">
+<meta name="theme-color" content="#04141b">
+<link rel="canonical" href="https://strivecheats.store/reviews">
 <link rel="icon" type="image/png" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=8">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/strive.css?v=9">
 </head>
 <body>
-<main class="page"><div class="wrap" style="max-width:1100px">
-  <div class="page-head">
-    <span class="pill">Loved by Players</span>
+<main class="lwrap" style="padding-top:100px">
+  <div class="rvhead">
     <h1>Customer Reviews</h1>
-    <p>Reviews are posted by verified customers through the <b>/vouch</b> command in our Discord.</p>
+    <p>Real reviews and pictures from verified buyers</p>
+    <div class="rvsum" id="sum" hidden><b id="avg"></b><div><span class="st" id="avgStars"></span><small id="cnt"></small></div></div>
   </div>
-  <div class="rgrid">
-    <div class="card rsum"><div class="avg" id="avg">0.0<small>/5</small></div><div class="stars-row" id="avgStars"></div><p id="cnt">0 verified reviews</p></div>
-    <div class="card rdist" id="dist"></div>
-  </div>
-  <div class="reviews" id="list"></div>
-  <div class="empty" id="none" hidden><b>No reviews yet</b>Be the first. Buy a product, claim the Customer role in our Discord, then run /vouch.
-    <div style="margin-top:16px"><a class="btn btn-main" href="/products">Browse products</a></div></div>
-</div></main>
+  <div class="rvtabs" id="tabs" hidden><button class="on" data-t="all">All reviews</button><button data-t="pics">Product pictures <span id="picCount"></span></button></div>
+  <div class="rvgrid" id="grid"></div>
+  <div class="rvgal" id="gal" hidden></div>
+  <div class="empty" id="none" hidden><b>No reviews yet</b>Bought a product? Claim the Customer role in our Discord, then run /vouch to leave the first review.</div>
+</main>
+<div class="lightbox" id="lb"><img alt=""></div>
 <script src="/assets/site.js?v=79"></script>
 <script>
-const stars = n => Array.from({ length: 5 }, (_, k) => ico.star.replace("<svg", `<svg class="${k < Math.round(n) ? "" : "off"}"`)).join("");
-document.getElementById("avgStars").innerHTML = stars(0);
-document.getElementById("dist").innerHTML = [5, 4, 3, 2, 1].map(n => `<div class="row"><span>${n} ★</span><div class="bar"><i style="width:0"></i></div><span>0</span></div>`).join("");
-
+const grid = document.getElementById("grid"), gal = document.getElementById("gal"), lb = document.getElementById("lb");
+const pic = r => CONFIG.api + r.proof;
 Api.get("/api/vouches").then(d => {
-  document.getElementById("avg").innerHTML = d.average.toFixed(1) + "<small>/5</small>";
-  document.getElementById("avgStars").innerHTML = stars(d.average);
-  document.getElementById("cnt").textContent = `${d.total} verified review${d.total === 1 ? "" : "s"}`;
-  document.getElementById("dist").innerHTML = [5, 4, 3, 2, 1].map(n => {
-    const c = d.distribution[n - 1], pct = d.total ? c / d.total * 100 : 0;
-    return `<div class="row"><span>${n} ★</span><div class="bar"><i style="width:${pct}%"></i></div><span>${c}</span></div>`;
-  }).join("");
-  document.getElementById("none").hidden = d.total > 0;
-  document.getElementById("list").innerHTML = d.reviews.map(r => `<article class="card rev reveal">
-    <div class="rt"><div style="display:flex;align-items:center"><span class="stars-row">${stars(r.stars)}</span><span class="ver">✓ Verified</span></div><span>${new Date(r.at).toLocaleDateString([], { month: "short", day: "2-digit", year: "numeric" })}</span></div>
-    <p>${esc(r.message)}</p>
-    ${r.proof ? `<a class="rproof" href="${esc(CONFIG.api + r.proof)}" target="_blank" rel="noopener"><img src="${esc(CONFIG.api + r.proof)}" alt="Picture from this review" loading="lazy"></a>` : ""}
-    <div class="rf"><img src="${esc(r.avatar || "/img/logo.png")}" alt="">${esc(r.username)}</div></article>`).join("");
-  revealAll();
+  if (!d.total) { document.getElementById("none").hidden = false; return; }
+  const n = Math.round(d.average);
+  document.getElementById("avg").textContent = d.average.toFixed(1);
+  document.getElementById("avgStars").textContent = "★".repeat(n) + "☆".repeat(5 - n);
+  document.getElementById("cnt").textContent = d.total + " review" + (d.total === 1 ? "" : "s");
+  document.getElementById("sum").hidden = false;
+  const withPics = d.reviews.filter(r => r.proof);
+  grid.innerHTML = d.reviews.map(r => `<article class="rvcard">${r.proof ? `<a class="pic" data-src="${esc(pic(r))}"><img src="${esc(pic(r))}" alt="Product picture from ${esc(r.username || "a customer")}" loading="lazy"></a>` : ""}
+    <div class="bd"><div class="top"><span><span class="st">${"★".repeat(r.stars)}<span style="opacity:.3">${"★".repeat(5 - r.stars)}</span></span><span class="ver">✓ VERIFIED</span></span><span>${new Date(r.at).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })}</span></div>
+    <p>${esc(r.message)}</p><div class="by"><img src="${esc(r.avatar || "https://cdn.discordapp.com/embed/avatars/0.png")}" alt="">${esc(r.username || "Customer")}</div></div></article>`).join("");
+  gal.innerHTML = withPics.map(r => `<a data-src="${esc(pic(r))}"><img src="${esc(pic(r))}" alt="Product picture" loading="lazy"></a>`).join("");
+  if (withPics.length) { document.getElementById("tabs").hidden = false; document.getElementById("picCount").textContent = "(" + withPics.length + ")"; }
+  document.getElementById("tabs").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    document.querySelectorAll("#tabs button").forEach(x => x.classList.toggle("on", x === b));
+    const pics = b.dataset.t === "pics"; grid.hidden = pics; gal.hidden = !pics;
+  });
 }).catch(() => { document.getElementById("none").hidden = false; });
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-src]");
+  if (a) { lb.querySelector("img").src = a.dataset.src; lb.classList.add("on"); return; }
+  if (lb.classList.contains("on")) lb.classList.remove("on");
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape") lb.classList.remove("on"); });
 </script>
 </body>
 </html>
