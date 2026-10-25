@@ -8,7 +8,7 @@
   addEventListener("resize", resize); document.addEventListener("fullscreenchange", () => setTimeout(resize, 60)); resize();
 
   // ---------- settings (bound to the panels under the game) ----------
-  const cfg = { weapon: "rifle", shootBack: true, skel: true, box: true, name: true, radar: true, fovCircle: true, bone: "head", radius: 150, smooth: 60, vol: 0.7, music: true, mute: false };
+  const cfg = { weapon: "rifle", shootBack: true, skel: true, box: true, name: true, radar: true, tracers: true, hpbar: true, aimbot: true, trigger: false, fovCircle: true, bone: "head", radius: 150, smooth: 60, vol: 0.7, music: true, mute: false };
   const WEAPONS = {
     rifle: { label: "RIFLE", auto: true, rate: 0.095, mag: 30, body: 22, head: 60, reload: 1.6, recoil: 0.012 },
     pistol: { label: "PISTOL", auto: false, rate: 0.2, mag: 12, body: 34, head: 90, reload: 1.2, recoil: 0.02 },
@@ -17,14 +17,14 @@
   const NAMES = ["Nova", "Raze", "Vex", "Kilo", "Echo", "Jinx", "Onyx", "Ryu", "Blitz", "Zed", "Mako", "Sable"];
 
   // ---------- state ----------
-  let P, npcs, boxes, fx, running = false, dead = false, bossDone = false, last = 0, locked = false;
+  let lastBy = "", hits = [], feed = [], P, npcs, boxes, fx, running = false, dead = false, bossDone = false, last = 0, locked = false;
   const keys = {}; let mouseL = false, mouseR = false;
   const ang = a => Math.atan2(Math.sin(a), Math.cos(a));
   const rnd = (a, b) => a + Math.random() * (b - a);
 
   function reset() {
     P = { x: 0, z: 0, y: 0, vy: 0, yaw: 0, pitch: 0, hp: 100, kills: 0, score: 0, mult: 1, lastKill: -99, shots: 0, hits: 0, heads: 0, ammo: WEAPONS[cfg.weapon].mag, cd: 0, reloading: 0, recoil: 0, t: 0 };
-    boxes = [[-12, 14, 4, 3.4], [10, 20, 5, 4], [-22, 30, 6, 3], [18, 36, 5, 3.6], [0, 42, 7, 4.4], [-30, 12, 3, 3], [28, 8, 4, 3.2], [-6, 26, 2.4, 2.2]].map(([x, z, w, h]) => ({ x, z, w, h }));
+    hits = []; feed = []; boxes = [[-12, 14, 4, 3.4], [10, 20, 5, 4], [-22, 30, 6, 3], [18, 36, 5, 3.6], [0, 42, 7, 4.4], [-30, 12, 3, 3], [28, 8, 4, 3.2], [-6, 26, 2.4, 2.2]].map(([x, z, w, h]) => ({ x, z, w, h }));
     npcs = []; fx = { flash: 0, shake: 0, hit: 0, toast: "", toastT: 0, hitmark: 0 }; bossDone = false;
     for (let i = 0; i < 6; i++) spawn();
   }
@@ -81,7 +81,7 @@
     P.x = Math.max(-55, Math.min(55, nx)); P.z = Math.max(-55, Math.min(55, nz));
     if (keys.Space && P.y === 0) P.vy = 5.2; P.vy -= 14 * dt; P.y = Math.max(0, P.y + P.vy * dt); if (P.y === 0 && P.vy < 0) P.vy = 0;
     // aim lock (right mouse)
-    if (mouseR) {
+    if (mouseR && cfg.aimbot) {
       const t = nearestInFov();
       if (t) {
         const by = t.n.boss ? (cfg.bone === "head" ? 3.7 : 2.6) : (cfg.bone === "head" ? 1.62 : 1.2);
@@ -91,6 +91,8 @@
       }
     }
     P.pitch = Math.max(-0.9, Math.min(0.9, P.pitch)); P.recoil *= Math.pow(0.001, dt);
+    // triggerbot: fires on its own while a target is under the crosshair
+    if (cfg.trigger && P.cd <= 0 && P.reloading <= 0 && underCrosshair()) fire();
     // shooting
     P.cd -= dt; if (P.reloading > 0) { P.reloading -= dt; if (P.reloading <= 0) P.ammo = WEAPONS[cfg.weapon].mag; }
     const w = WEAPONS[cfg.weapon];
@@ -99,7 +101,7 @@
     let alive = 0;
     for (const n of npcs) {
       if (n.dead) continue; alive++;
-      n.t += dt; n.flash = Math.max(0, n.flash - dt);
+      n.muzzle = Math.max(0, (n.muzzle || 0) - dt); n.t += dt; n.flash = Math.max(0, n.flash - dt);
       const dx = n.tx - n.x, dz = n.tz - n.z, d = Math.hypot(dx, dz);
       const pd = Math.hypot(P.x - n.x, P.z - n.z), stand = cfg.shootBack && pd < 30;
       if (d < 1) pick(n); else if (!stand || n.boss) { n.x += dx / d * n.speed * dt; n.z += dz / d * n.speed * dt; }
@@ -107,7 +109,8 @@
         n.shoot -= dt;
         if (n.shoot <= 0) {
           n.shoot = n.boss ? rnd(0.45, 0.8) : rnd(1.0, 2.4);
-          if (Math.random() < Math.max(0.1, (n.boss ? 0.75 : 0.5) - pd / 80)) { hurt(n.boss ? 11 : 7); }
+          n.muzzle = 0.12;
+          if (Math.random() < Math.max(0.1, (n.boss ? 0.75 : 0.5) - pd / 80)) { hurt(n.boss ? 11 : 7, n); }
           tone(n.boss ? 120 : 200, 0.12, "sawtooth", 0.08, 70);
         }
       }
@@ -118,11 +121,11 @@
     npcs = npcs.filter(n => !n.dead || n.fade === undefined || n.fade > 0);
     for (const n of npcs) if (n.dead) n.fade -= dt;
     if (P.t - P.lastKill > 4) P.mult = 1;
-    fx.flash = Math.max(0, fx.flash - dt * 2.2); fx.shake = Math.max(0, fx.shake - dt * 3); fx.toastT -= dt; fx.hitmark = Math.max(0, fx.hitmark - dt * 5);
+    for (const h of hits) h.t -= dt; hits = hits.filter(h => h.t > 0); for (const f of feed) f.t -= dt; feed = feed.filter(f => f.t > 0); fx.flash = Math.max(0, fx.flash - dt * 2.2); fx.shake = Math.max(0, fx.shake - dt * 3); fx.toastT -= dt; fx.hitmark = Math.max(0, fx.hitmark - dt * 5);
   }
   function spawnBoss() { bossDone = true; spawn(true); toast("BRUNO HAS ARRIVED"); tone(90, 0.8, "sawtooth", 0.25, 45); }
-  function hurt(d) { P.hp -= d; fx.flash = 1; fx.shake = 0.5; noise(0.08, 0.25); if (P.hp <= 0 && !dead) die(); }
-  function die() { dead = true; running = false; if (document.pointerLockElement) document.exitPointerLock(); showOverlay("You were eliminated", `Score <b>${P.score.toLocaleString()}</b> &nbsp;·&nbsp; Kills <b>${P.kills}</b> &nbsp;·&nbsp; Headshots <b>${P.heads}</b>`, "Play again"); }
+  function hurt(d, n) { if (n) { hits.push({ n, x: n.x, z: n.z, name: n.name, t: 1.6 }); feed.unshift({ text: n.name + " shot you  -" + d, boss: n.boss, t: 4 }); if (feed.length > 5) feed.pop(); lastBy = n.name; } P.hp -= d; fx.flash = 1; fx.shake = 0.5; noise(0.08, 0.25); if (P.hp <= 0 && !dead) die(); }
+  function die() { dead = true; feed.unshift({ text: lastBy + " eliminated you", boss: false, t: 6 }); running = false; if (document.pointerLockElement) document.exitPointerLock(); showOverlay("Eliminated by " + (lastBy || "an NPC"), `Score <b>${P.score.toLocaleString()}</b> &nbsp;·&nbsp; Kills <b>${P.kills}</b> &nbsp;·&nbsp; Headshots <b>${P.heads}</b>`, "Play again"); }
   function nearestInFov() {
     let best = null, bd = 1e9; const cx = W / 2, cy = H / 2;
     for (const n of npcs) {
@@ -130,6 +133,7 @@
       const d = Math.hypot(p.x - cx, p.y - cy); if (d < cfg.radius && d < bd) { bd = d; best = { n, p }; }
     } return best;
   }
+  function underCrosshair() { const cx = W / 2, cy = H / 2; for (const n of npcs) { if (n.dead) continue; const g = geo(n); if (g && (Math.hypot(cx - g.head.x, cy - g.head.y) <= g.head.r || (cx >= g.x0 && cx <= g.x1 && cy >= g.y0 && cy <= g.y1))) return true; } return false; }
   function fire() {
     const w = WEAPONS[cfg.weapon]; if (P.ammo <= 0) { reload(); return; }
     P.ammo--; P.cd = w.rate; P.shots++; P.recoil += w.recoil; P.pitch += w.recoil * 0.6; fx.shake = Math.max(fx.shake, 0.18);
@@ -205,6 +209,8 @@
   function drawEsp(n) {
     const g = geo(n); if (!g) return; const x0 = g.f.x - g.hw - 4, x1 = g.f.x + g.hw + 4, y0 = g.t.y - 4, y1 = g.f.y + 2, w = x1 - x0, h = y1 - y0;
     ctx.lineWidth = 1.6;
+    if (cfg.tracers) { ctx.strokeStyle = n.boss ? "rgba(255,211,77,.55)" : "rgba(255,255,255,.3)"; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(W / 2, H); ctx.lineTo(g.f.x, y1); ctx.stroke(); ctx.lineWidth = 1.6; }
+    if ((n.muzzle || 0) > 0) { ctx.fillStyle = "rgba(255,225,120,.9)"; ctx.beginPath(); ctx.arc(g.f.x + 0.35 * g.f.s * n.scale, g.f.y - 1.1 * g.f.s * n.scale, Math.max(3, 0.12 * g.f.s * n.scale), 0, 6.3); ctx.fill(); ctx.strokeStyle = "rgba(255,90,70,.9)"; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(g.f.x, g.f.y - 1.1 * g.f.s * n.scale); ctx.lineTo(W / 2 + rnd(-30, 30), H); ctx.stroke(); ctx.lineWidth = 1.6; }
     if (cfg.box) {
       ctx.strokeStyle = n.boss ? "#ffd34d" : "#ffffff"; const l = Math.max(6, Math.min(w, h) * 0.25); ctx.beginPath();
       ctx.moveTo(x0, y0 + l); ctx.lineTo(x0, y0); ctx.lineTo(x0 + l, y0); ctx.moveTo(x1 - l, y0); ctx.lineTo(x1, y0); ctx.lineTo(x1, y0 + l);
@@ -217,16 +223,20 @@
       ctx.moveTo(X, Y - 0.95 * s); ctx.lineTo(X - 0.12 * s, Y); ctx.moveTo(X, Y - 0.95 * s); ctx.lineTo(X + 0.12 * s, Y); ctx.stroke();
     }
     if (cfg.name) { ctx.fillStyle = n.boss ? "#ffd34d" : "#fff"; ctx.font = "700 " + Math.max(10, Math.min(15, 0.2 * g.f.s * n.scale)) + "px Manrope,sans-serif"; ctx.textAlign = "center"; ctx.fillText(n.name + "  " + Math.round(Math.hypot(P.x - n.x, P.z - n.z)) + "m", g.f.x, y0 - 6); }
-    if (n.hp < n.max || n.boss) { const hp = Math.max(0, n.hp / n.max); ctx.fillStyle = "rgba(0,0,0,.6)"; ctx.fillRect(x0, y1 + 4, w, 4); ctx.fillStyle = hp > 0.5 ? "#44e08a" : hp > 0.25 ? "#ffb02e" : "#ff4d4d"; ctx.fillRect(x0, y1 + 4, w * hp, 4); }
+    if (cfg.hpbar && (n.hp < n.max || n.boss)) { const hp = Math.max(0, n.hp / n.max); ctx.fillStyle = "rgba(0,0,0,.6)"; ctx.fillRect(x0, y1 + 4, w, 4); ctx.fillStyle = hp > 0.5 ? "#44e08a" : hp > 0.25 ? "#ffb02e" : "#ff4d4d"; ctx.fillRect(x0, y1 + 4, w * hp, 4); }
   }
   function drawHud() {
     const cx = W / 2, cy = H / 2;
     if (cfg.fovCircle) { ctx.strokeStyle = mouseR ? "rgba(31,182,255,.9)" : "rgba(255,255,255,.35)"; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(cx, cy, cfg.radius, 0, 6.3); ctx.stroke(); }
     ctx.strokeStyle = fx.hitmark > 0 ? "#ff5a5a" : "#fff"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx - 9, cy); ctx.lineTo(cx - 3, cy); ctx.moveTo(cx + 3, cy); ctx.lineTo(cx + 9, cy); ctx.moveTo(cx, cy - 9); ctx.lineTo(cx, cy - 3); ctx.moveTo(cx, cy + 3); ctx.lineTo(cx, cy + 9); ctx.stroke();
+    // who is shooting you: arrows around the crosshair pointing at each attacker
+    for (const h of hits) { const bearing = Math.atan2(h.x - P.x, h.z - P.z), rel = ang(bearing - P.yaw), a = -rel + Math.PI / 2 * 0; const R = Math.min(W, H) * 0.3, px = cx + Math.sin(rel) * R, py = cy - Math.cos(rel) * R; ctx.save(); ctx.globalAlpha = Math.min(1, h.t); ctx.translate(px, py); ctx.rotate(rel); ctx.fillStyle = h.n.boss ? "#ffd34d" : "#ff3b3b"; ctx.beginPath(); ctx.moveTo(0, -16); ctx.lineTo(13, 10); ctx.lineTo(0, 4); ctx.lineTo(-13, 10); ctx.closePath(); ctx.fill(); ctx.restore(); ctx.save(); ctx.globalAlpha = Math.min(1, h.t); ctx.fillStyle = "#fff"; ctx.font = "800 12px Manrope,sans-serif"; ctx.textAlign = "center"; ctx.fillText(h.name, cx + Math.sin(rel) * (R + 30), cy - Math.cos(rel) * (R + 30) + 4); ctx.restore(); }
     // hurt vignette
     if (fx.flash > 0) { const v = ctx.createRadialGradient(cx, cy, H * 0.3, cx, cy, H * 0.9); v.addColorStop(0, "rgba(255,0,0,0)"); v.addColorStop(1, "rgba(255,30,30," + 0.5 * fx.flash + ")"); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H); }
     // gun
     const gx = W - 250 + (P.recoil * 700), gy = H - 150 + P.recoil * 300; ctx.save(); ctx.translate(gx, gy); ctx.fillStyle = "#0b1a21"; ctx.fillRect(0, 40, 190, 54); ctx.fillStyle = "#16313d"; ctx.fillRect(40, 20, 150, 28); ctx.fillStyle = "#1fb6ff"; ctx.fillRect(150, 28, 30, 4); ctx.fillStyle = "#0b1a21"; ctx.fillRect(70, 94, 26, 54); ctx.restore();
+    // damage feed
+    ctx.textAlign = "left"; ctx.font = "700 13px Manrope,sans-serif"; feed.forEach((f, i) => { ctx.globalAlpha = Math.min(1, f.t); ctx.fillStyle = f.boss ? "#ffd34d" : "#ff7a6b"; ctx.fillText(f.text, 16, H - 62 - i * 18); }); ctx.globalAlpha = 1;
     // text hud
     ctx.textAlign = "left"; ctx.font = "700 13px Manrope,sans-serif"; ctx.fillStyle = "#ffd34d";
     const acc = P.shots ? Math.round(P.hits / P.shots * 100) : 0;
@@ -271,7 +281,7 @@
     if (e.code === "KeyR") reload(); if (e.code === "Digit1") setWeapon("rifle"); if (e.code === "Digit2") setWeapon("pistol"); if (e.code === "Digit3") setWeapon("sniper");
     if (e.code === "KeyX") toggle("skel"); if (e.code === "KeyC") toggle("box"); if (e.code === "KeyV") toggle("name"); if (e.code === "KeyB") toggle("fovCircle");
     if (e.code === "KeyZ") { cfg.bone = cfg.bone === "head" ? "chest" : "head"; sync(); } if (e.code === "KeyM") { cfg.mute = !cfg.mute; setVol(); sync(); }
-    if (e.code === "KeyP" && !bossDone) { spawnBoss(); }
+    if (e.code === "KeyT") toggle("trigger"); if (e.code === "KeyF") toggle("aimbot"); if (e.code === "KeyP" && !bossDone) { spawnBoss(); }
   });
   document.addEventListener("keyup", e => { keys[e.code] = false; });
   $("mgFull").addEventListener("click", () => { if (document.fullscreenElement) document.exitFullscreen(); else stage.requestFullscreen && stage.requestFullscreen(); });

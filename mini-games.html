@@ -13,7 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=18">
+<link rel="stylesheet" href="/assets/strive.css?v=19">
 </head>
 <body>
 <main class="lwrap" style="padding-top:100px">
@@ -29,7 +29,7 @@
           <button class="btn btn-main" id="mgPlay">Click to Play</button>
           <div class="mg-help">
             <span><kbd>WASD</kbd> move</span><span><kbd>Shift</kbd> sprint</span><span><kbd>Space</kbd> jump</span><span><kbd>Left click</kbd> shoot</span><span><kbd>Right click</kbd> aim lock</span><span><kbd>R</kbd> reload</span><span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> weapons</span><span><kbd>Esc</kbd> exit</span>
-            <span><kbd>X</kbd> skeleton</span><span><kbd>C</kbd> box</span><span><kbd>V</kbd> name</span><span><kbd>B</kbd> FOV circle</span><span><kbd>Z</kbd> head / chest</span><span><kbd>M</kbd> mute</span>
+            <span><kbd>X</kbd> skeleton</span><span><kbd>C</kbd> box</span><span><kbd>V</kbd> name</span><span><kbd>B</kbd> FOV circle</span><span><kbd>Z</kbd> head / chest</span><span><kbd>F</kbd> aim lock</span><span><kbd>T</kbd> triggerbot</span><span><kbd>M</kbd> mute</span>
           </div>
           <p class="mg-boss">Boss build: Bruno appears at 10 kills. Press <kbd>P</kbd> in game to summon him now.</p>
         </div>
@@ -46,8 +46,12 @@
         <label class="mg-sw"><span>Box <kbd>C</kbd></span><button data-t="box" class="on"></button></label>
         <label class="mg-sw"><span>Name <kbd>V</kbd></span><button data-t="name" class="on"></button></label>
         <label class="mg-sw"><span>Radar</span><button data-t="radar" class="on"></button></label>
+        <label class="mg-sw"><span>Tracers</span><button data-t="tracers" class="on"></button></label>
+        <label class="mg-sw"><span>Health bars</span><button data-t="hpbar" class="on"></button></label>
       </div>
       <div class="mg-pn"><h4>Aim Lock</h4>
+        <label class="mg-sw"><span>Aim lock <kbd>F</kbd></span><button data-t="aimbot" class="on"></button></label>
+        <label class="mg-sw"><span>Triggerbot <kbd>T</kbd></span><button data-t="trigger"></button></label>
         <label class="mg-sw"><span>FOV circle <kbd>B</kbd></span><button data-t="fovCircle" class="on"></button></label>
         <div class="mg-row"><button data-bone="head" class="on">Head</button><button data-bone="chest">Chest</button></div>
         <div class="mg-sl"><span>FOV radius</span><b id="mgRadiusV">150px</b></div><input id="mgRadius" type="range" min="40" max="400" value="150">
@@ -61,6 +65,6 @@
   </div>
 </main>
 <script src="/assets/site.js?v=79"></script>
-<script src="/assets/minigame.js?v=1"></script>
+<script src="/assets/minigame.js?v=2"></script>
 </body>
 </html>
