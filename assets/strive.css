@@ -340,10 +340,13 @@ a{color:inherit}
 
 
 
-/* ===== product cards: full-width 16:9 image on top, details below ===== */
-.lcard,.scard2{aspect-ratio:auto}
-.lcard .im,.scard2 .im{position:relative;aspect-ratio:16/9}
-.lcard .im img,.scard2 .im img{width:100%;height:100%;object-fit:cover;display:block}
+/* ===== product cards: the whole card is the 16:9 art, details laid over it ===== */
+.lcard,.scard2{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden}
+.lcard .im,.scard2 .im{position:absolute;inset:0;aspect-ratio:auto}
+.lcard .im img,.scard2 .im img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.lcard:hover .im img{transform:scale(1.04)}
+.lcard .bd,.scard2 .bd{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:46px 18px 16px;background:linear-gradient(180deg,transparent,rgba(2,13,18,.88) 72%)}
+.lcard .bd b,.scard2 .bd b{text-shadow:0 2px 10px rgba(0,0,0,.6)}
 .hsec .hwrap{margin-left:auto;margin-right:auto}
 
 /* ===== Advantage / FAQ / Ready To Dominate ===== */
@@ -501,3 +504,22 @@ a{color:inherit}
 @media (max-width:1000px){.ca-grid{grid-template-columns:1fr}.ca-stats{grid-template-columns:repeat(2,1fr)}.ca-stats>div:nth-child(3){border-left:0}.ca-stats>div:nth-child(n+3){border-top:1px solid rgba(110,200,255,.12)}.ca-two{grid-template-columns:1fr}.ca-table .th{display:none}.ca-table .tr{grid-template-columns:1fr auto;grid-template-areas:'o a' 'd s'}.ca-table .tr .o{grid-area:o}.ca-table .tr .a{grid-area:a;text-align:right}.ca-table .tr .d{grid-area:d}.ca-table .tr>span:nth-child(4){grid-area:s;text-align:right}.ca-table .x{display:none}}
 
 @media (max-width:700px){.ca-stats i{display:none}}
+
+/* ===== v11: wider header, bigger hero video, category meta, wider listing ===== */
+.nav-in{width:min(1180px,100% - 32px)}
+.nav,.nav.scrolled{transition:background .3s,border-color .3s}
+.nav:not(.scrolled){background:transparent;border-bottom-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
+.hero2{padding-top:112px}
+.hv{width:min(900px,100%)}
+.catcard.art .cmeta{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;padding:26px 18px 14px;background:linear-gradient(180deg,transparent,rgba(2,13,18,.78))}
+.catcard.art .cnt{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#e6f6ff}
+.catcard.art .view{padding:9px 20px;border-radius:8px;background:#1fb6ff;color:#02141c;font-size:13.5px;font-weight:700;transition:background .2s}
+.catcard.art:hover .view{background:#52c8ff}
+.lwrap{width:min(1490px,100% - 48px)}
+.lgrid{gap:32px}
+
+main.lwrap #root{max-width:1250px;margin-left:auto;margin-right:auto}
+main.lwrap #groups{max-width:1000px;margin-left:auto;margin-right:auto}
+
+.catcard.art .view{white-space:nowrap;flex:none}
+.catcard.art .cnt{min-width:0}
