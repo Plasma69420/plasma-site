@@ -63,7 +63,7 @@ const CONFIG = {
         ["Features", ["Aimbot: customizable targeting and aim settings", "ESP: player information, boxes, distance & more", "Player ESP: track players with ease", "Loot ESP: easily locate relevant items", "Custom Targeting: configure targeting to your preferences", "Fully Configurable: adjust features to your playstyle", "Clean Interface: modern and easy to navigate"]],
         ["Why Choose Rust Private?", ["Instant Delivery: immediate access after purchase", "Private Access: exclusive software access", "Powerful Features: aimbot, ESP and more", "Easy Configuration: simple and intuitive settings", "Clean Interface: modern and straightforward design", "Regular Updates: ongoing development and compatibility updates", "Simple Setup: setup guide included", "Dedicated Support: assistance whenever you need it"]]
       ],
-      plans: [{ n: "1 Day", p: 9.99 }, { n: "3 Day", p: 17.99 }, { n: "7 Day", p: 29.99 }, { n: "30 Day", p: 59.99 }]
+      plans: [{ n: "1 Day", p: 9.99, v: 419837 }, { n: "3 Day", p: 17.99, v: 419838 }, { n: "7 Day", p: 29.99, v: 419839 }, { n: "30 Day", p: 59.99, v: 419840 }]
     },
     {
       slug: "arc-raiders", name: "Arc Raiders", type: "Private", game: "Arc Raiders", img: "/img/box-arc.webp",
