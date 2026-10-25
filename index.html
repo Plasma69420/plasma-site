@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=30">
+<link rel="stylesheet" href="/assets/strive.css?v=31">
 </head>
 <body>
 
@@ -63,7 +63,12 @@
       </article>
       <article class="spc">
         <h3>Temporary Spoofer</h3>
-        <div class="pic"><img src="/img/box-temp.webp" alt="Temp Spoofer" loading="lazy"></div>
+        <div class="cmp" data-x="50" tabindex="0" role="slider" aria-label="Drag to compare banned and unbanned" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img class="b" src="/img/temp-unbanned.webp" alt="Unbanned: playing in Fortnite" loading="lazy" draggable="false">
+          <img class="a" src="/img/temp-banned.webp" alt="Banned: removed from the match" loading="lazy" draggable="false">
+          <span class="tag l">Banned</span><span class="tag r">Unbanned</span>
+          <i class="bar"><b><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></b></i>
+        </div>
         <p>Our Temporary Spoofer changes your identifiers until your next restart. Lightweight, and you decide when it is active.</p>
         <a class="btn btn-main" href="/temp-spoofer">Buy Now</a>
       </article>
