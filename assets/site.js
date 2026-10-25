@@ -16,7 +16,7 @@ const CONFIG = {
   showcaseYouTube: "",
   products: [
     {
-      slug: "fortnite-private", name: "Fortnite Private", type: "Private", game: "Fortnite", img: "/img/fortnite.webp",
+      slug: "fortnite-private", name: "Fortnite Private", type: "Private", game: "Fortnite", img: "/img/box-fortnite-private.webp",
       desc: "Smooth private build with a clean in-game menu.",
       features: ["ESP & visibility checks", "Smooth aim assist", "Stream-proof menu"],
       details: "Strive Cheats Fortnite Private is a private build with a clean in-game menu, visibility checks and smooth aim assist. Your key and loader are delivered instantly after payment, and support is available in our Discord.",
@@ -24,7 +24,7 @@ const CONFIG = {
       plans: [{ n: "Day", p: 4.99, v: 416469 }, { n: "Week", p: 14.99, v: 416470 }, { n: "Month", p: 24.99, v: 416471 }, { n: "Lifetime", p: 79.99, v: 416472 }]
     },
     {
-      slug: "fortnite-slotted", name: "Fortnite Slotted", type: "Slotted", game: "Fortnite", img: "/img/fortnite-slotted.webp",
+      slug: "fortnite-slotted", name: "Fortnite Slotted", type: "Slotted", game: "Fortnite", img: "/img/box-fortnite-slotted.webp",
       desc: "Slotted Fortnite cheat with limited slots per tier.",
       features: ["Aimbot with FOV, smoothing & prediction", "Player, loot & weapon ESP", "Limited slots for stable performance"],
       details: "Slotted Fortnite cheat with limited slots per tier. Premium features, stable performance and instant delivery, built for serious players. Slots refill slowly: once a tier is sold out, access closes until a slot expires.",
@@ -41,7 +41,7 @@ const CONFIG = {
       plans: [{ n: "Week", p: 29.99, v: 416783, slots: 15, days: 7 }, { n: "Month", p: 69.99, v: 416784, slots: 10, days: 30 }, { n: "3 Months", p: 129.99, v: 416785, slots: 5, days: 90 }]
     },
     {
-      slug: "r6-external", name: "R6 External", type: "External", game: "Rainbow Six Siege", img: "/img/r6-external.webp",
+      slug: "r6-external", name: "R6 External", type: "External", game: "Rainbow Six Siege", img: "/img/box-r6.webp",
       desc: "External Rainbow Six Siege cheat with ESP and aim suite.",
       features: ["Smooth aim with FOV & smoothness sliders", "Player, drone & gadget ESP", "External, stream-proof rendering"],
       details: "External Rainbow Six Siege cheat with ESP and an aim suite. It runs externally with no game injection, renders stream-proof, and is delivered instantly with Discord support.",
@@ -68,7 +68,7 @@ const CONFIG = {
       plans: [{ n: "1 Day", p: 5.99, v: 416737 }, { n: "1 Week", p: 19.99, v: 416738 }, { n: "1 Month", p: 39.99, v: 416739 }]
     },
     {
-      slug: "arc-raiders", name: "Arc Raiders", type: "Private", game: "Arc Raiders", img: "/img/arc-raiders.webp",
+      slug: "arc-raiders", name: "Arc Raiders", type: "Private", game: "Arc Raiders", img: "/img/box-arc.webp",
       desc: "Premium Arc Raiders cheat for dominating every run.",
       features: ["Smooth aim with FOV & smoothness", "Player, loot & NPC ESP", "Auto-updates with game patches"],
       details: "Premium Arc Raiders cheat for dominating every run. Smooth aim, full ESP including loot and enemy NPCs, a stream-proof overlay, and updates that follow each Arc Raiders patch.",
@@ -80,7 +80,7 @@ const CONFIG = {
       plans: [{ n: "1 Day", p: 5.99, v: 416741 }, { n: "1 Week", p: 22.99, v: 416742 }, { n: "1 Month", p: 54.99, v: 416743 }]
     },
     {
-      slug: "roblox-external", name: "Roblox External", type: "External", game: "Roblox", img: "/img/roblox-external.webp", down: true,
+      slug: "roblox-external", name: "Roblox External", type: "External", game: "Roblox", img: "/img/box-roblox.webp", down: true,
       desc: "Secure, stable and silent Roblox external with a built-in menu.",
       features: ["Smooth UI & built-in menu", "Cloud-based loader, no FPS loss", "Auto-updates & maintenance included"],
       details: "Strive Cheats Roblox is a premium Roblox external built to be secure, stable and silent. It ships with a smooth built-in menu, a lightweight cloud-based loader with no FPS or lag issues, and auto-updates included. Lifetime license is $7.99 or 1,000 Robux. NOTICE: this product is currently down, so purchases will not work until it is back online. Join our Discord for updates.",
@@ -93,7 +93,7 @@ const CONFIG = {
       plans: [{ n: "Lifetime", p: 7.99, v: null, alt: "or 1,000 Robux" }]
     },
     {
-      slug: "temp-spoofer", name: "Temp Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/temp-spoofer.webp",
+      slug: "temp-spoofer", name: "Temp Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/box-temp.webp",
       desc: "Spoofs your serials until your next restart.",
       features: ["One-click spoof", "Resets on reboot", "Intel & AMD"],
       details: "Temporary HWID spoofer. It changes your hardware identifiers until your next restart, supports Intel and AMD, and runs in one click.",
@@ -101,7 +101,7 @@ const CONFIG = {
       plans: [{ n: "Day", p: 7.99, v: 416473 }, { n: "3 Days", p: 11.99, v: 417606 }, { n: "Week", p: 19.99, v: 416474 }, { n: "Month", p: 49.99, v: 416475 }, { n: "Lifetime", p: 109.99, v: 416476 }]
     },
     {
-      slug: "perm-spoofer", name: "Perm Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/perm-spoofer.webp",
+      slug: "perm-spoofer", name: "Perm Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/box-perm.webp",
       desc: "Permanently changes your serials. Run it once.",
       features: ["Permanent change", "Disk & NIC support", "Intel & AMD"],
       details: "Permanent HWID spoofer. It changes your serials for good, so you only run it once. Supports disk and network adapters on Intel and AMD.",
@@ -109,7 +109,7 @@ const CONFIG = {
       plans: [{ n: "One Time", p: 14.99, v: 416478 }, { n: "Lifetime", p: 49.99, v: 416479 }]
     },
     {
-      slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "/img/fortnite-accounts.webp",
+      slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "/img/cat-accounts.webp",
       desc: "Full access Fortnite accounts with verified inventories.",
       features: ["Verified skin & item counts", "Original email full access", "Login details + recovery email"],
       details: "Hand-picked full access Fortnite accounts with verified inventories. Pick a package, pay at checkout, then open a ticket in our Discord with your invoice ID to receive your account.",
@@ -268,7 +268,15 @@ const Api = {
 (() => {
   const seg = location.pathname.replace(/^\/|\/$|\.html$/g, "") || "index";
   const here = productBy(seg) ? "products" : seg;
-  const link = (href, label, key) => `<a href="${href}"${key === here ? ' class="on"' : ""}>${label}</a>`;
+  const nav_i = {
+    index: '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/>',
+    products: '<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/>',
+    reviews: '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.500l6.100-.9z"/>',
+    status: '<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',
+    media: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3z"/>',
+    support: '<circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .9-1 1.700M12 17h.01"/>'
+  };
+  const link = (href, label, key) => `<a href="${href}"${key === here ? ' class="on"' : ""}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${nav_i[key] || ""}</svg>${label}</a>`;
   const u = Auth.get();
   const mi = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
   const uname = u ? esc(u.user.global_name || u.user.username) : "";
@@ -284,21 +292,23 @@ const Api = {
           <button type="button" id="uOut" role="menuitem">${mi('<path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9"/>')}Logout</button>
         </div>
       </div>`
-    : `<a class="nav-btn" href="/login">${ico.user}<span>Login</span></a>`;
+    : `<a class="nav-btn client" href="/login"><span>Client Area</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>`;
 
   document.body.insertAdjacentHTML("afterbegin", `
 <div class="bgfx" aria-hidden="true"><div class="top"></div></div>
 <canvas class="stars" id="stars"></canvas>
 <header class="nav" id="nav">
   <div class="nav-bar"><div class="nav-in">
-    <a href="/" class="brand">Strive Cheats</a>
+    <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"></a>
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/reviews", "Reviews", "reviews")}${link("/status", "Status", "status")}${link("/media", "Media", "media")}
+      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Support", "support")}
     </nav>
     <div class="nav-right">
-      <a class="nav-btn" href="${CONFIG.discord}" target="_blank" rel="noopener">${ico.discord}<span>Discord</span></a>
+      <a class="nav-btn icon" href="${CONFIG.discord}" target="_blank" rel="noopener" aria-label="Discord">${ico.discord}</a>
+      <a class="nav-btn icon" href="${CONFIG.telegram}" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.800 15.600 9.400 20c.6 0 .9-.3 1.200-.6l2.900-2.800 6 4.400c1.100.6 1.900.3 2.200-1l3.900-18.400c.4-1.600-.6-2.300-1.700-1.900L1.100 8.500c-1.600.6-1.600 1.500-.3 1.900l5.900 1.800L20.400 4z"/></svg></a>
+      <a class="nav-btn icon" href="/products" aria-label="Search products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.500-3.500"/></svg></a>
+      <a class="nav-btn cart-btn" href="/cart" aria-label="Cart">${ico.cart}<span class="cl">Cart</span><b class="cart-count" hidden>0</b></a>
       ${userBtn}
-      <a class="nav-btn icon cart-btn" href="/cart" aria-label="Cart">${ico.cart}<b class="cart-count" hidden>0</b></a>
       <button class="nav-btn icon burger" id="burger" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div></div>
@@ -306,20 +316,14 @@ const Api = {
 
   document.body.insertAdjacentHTML("beforeend", `
 <footer class="foot">
-  <div class="fglow"></div>
-  <div class="wrap">
+  <div class="wrap" style="width:min(1300px,100% - 32px)">
     <div class="frow">
-      <a href="/" class="brand" aria-label="Strive Cheats">Strive Cheats</a>
+      <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"></a>
       <nav>
-        <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/status">Status</a><a href="/media">Media</a><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a>
+        <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="${CONFIG.discord}" target="_blank" rel="noopener">Support</a><a href="/account">Client Area</a>
       </nav>
-      <div class="fsoc">
-        <a href="${CONFIG.discord}" target="_blank" rel="noopener" aria-label="Discord">${ico.discord}</a>
-        <a href="${CONFIG.telegram}" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.8 15.6 9.4 20c.6 0 .9-.3 1.200-.6l2.900-2.800 6 4.400c1.100.6 1.900.3 2.200-1l3.900-18.400c.4-1.600-.6-2.300-1.700-1.900L1.100 8.500c-1.600.6-1.600 1.500-.3 1.900l5.900 1.800L20.400 4c.6-.4 1.200-.2.700.2z" transform="translate(-1 0)"/></svg></a>
-      </div>
     </div>
-    ${trustHtml}
-    <div class="fbar"><span>© ${new Date().getFullYear()} Strive Cheats. All rights reserved.</span><span>Site made by <b>Punch</b></span></div>
+    <div class="fbar"><span>© ${new Date().getFullYear()} Strive Cheats. All rights reserved.</span><span class="ftlinks"><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a></span></div>
   </div>
 </footer>`);
 

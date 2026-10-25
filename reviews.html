@@ -5,14 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reviews – Strive Cheats</title>
 <meta name="description" content="Real customer reviews of Strive Cheats, posted by verified buyers in our Discord.">
-<meta name="theme-color" content="#26b9ff">
-
+<meta name="theme-color" content="#0b0b0c">
+<link rel="icon" type="image/png" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=77">
-<link rel="stylesheet" href="/assets/pages.css?v=77">
+<link rel="stylesheet" href="/assets/site.css?v=79">
+<link rel="stylesheet" href="/assets/pages.css?v=79">
+<link rel="stylesheet" href="/assets/strive.css?v=4">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 <main class="page"><div class="wrap" style="max-width:1100px">
@@ -29,7 +31,7 @@
   <div class="empty" id="none" hidden><b>No reviews yet</b>Be the first. Buy a product, claim the Customer role in our Discord, then run /vouch.
     <div style="margin-top:16px"><a class="btn btn-main" href="/products">Browse products</a></div></div>
 </div></main>
-<script src="/assets/site.js?v=77"></script>
+<script src="/assets/site.js?v=79"></script>
 <script>
 const stars = n => Array.from({ length: 5 }, (_, k) => ico.star.replace("<svg", `<svg class="${k < Math.round(n) ? "" : "off"}"`)).join("");
 document.getElementById("avgStars").innerHTML = stars(0);
@@ -48,7 +50,7 @@ Api.get("/api/vouches").then(d => {
     <div class="rt"><div style="display:flex;align-items:center"><span class="stars-row">${stars(r.stars)}</span><span class="ver">✓ Verified</span></div><span>${new Date(r.at).toLocaleDateString([], { month: "short", day: "2-digit", year: "numeric" })}</span></div>
     <p>${esc(r.message)}</p>
     ${r.proof ? `<a class="rproof" href="${esc(CONFIG.api + r.proof)}" target="_blank" rel="noopener"><img src="${esc(CONFIG.api + r.proof)}" alt="Picture from this review" loading="lazy"></a>` : ""}
-    <div class="rf"><img src="${esc(r.avatar || "https://cdn.discordapp.com/embed/avatars/0.png")}" alt="">${esc(r.username)}</div></article>`).join("");
+    <div class="rf"><img src="${esc(r.avatar || "/img/logo.png")}" alt="">${esc(r.username)}</div></article>`).join("");
   revealAll();
 }).catch(() => { document.getElementById("none").hidden = false; });
 </script>
