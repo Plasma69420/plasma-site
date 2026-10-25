@@ -162,7 +162,7 @@
     if (P.ammo <= 0) reload();
   }
   function kill(n, head) {
-    n.dead = true; n.fade = 0.5; P.kills++;
+    n.dead = true; n.fade = 0.5; P.kills++; P.hp = Math.min(100, P.hp + 15); feed.unshift({ text: "+15 HP", boss: false, good: true, t: 2 }); if (feed.length > 5) feed.pop();
     if (P.t - P.lastKill < 4) P.mult = Math.min(5, P.mult + 1); P.lastKill = P.t;
     const base = n.boss ? 5000 : head ? 250 : 100; P.score += base * P.mult;
     if (n.boss) toast("BRUNO DOWN  +" + (5000 * P.mult).toLocaleString()); else if (P.mult > 1) toast("x" + P.mult + " CHAIN");
@@ -277,7 +277,7 @@
     // gun
     drawGun(cx, cy); drawWeaponBar(cx);
     // damage feed
-    ctx.textAlign = "left"; ctx.font = "700 13px Manrope,sans-serif"; feed.forEach((f, i) => { ctx.globalAlpha = Math.min(1, f.t); ctx.fillStyle = f.boss ? "#ffd34d" : "#ff7a6b"; ctx.fillText(f.text, 16, H - 62 - i * 18); }); ctx.globalAlpha = 1;
+    ctx.textAlign = "left"; ctx.font = "700 13px Manrope,sans-serif"; feed.forEach((f, i) => { ctx.globalAlpha = Math.min(1, f.t); ctx.fillStyle = f.good ? "#44e08a" : f.boss ? "#ffd34d" : "#ff7a6b"; ctx.fillText(f.text, 16, H - 62 - i * 18); }); ctx.globalAlpha = 1;
     // text hud
     ctx.textAlign = "left"; ctx.font = "700 13px Manrope,sans-serif"; ctx.fillStyle = "#ffd34d";
     const acc = P.shots ? Math.round(P.hits / P.shots * 100) : 0;
@@ -344,7 +344,7 @@
   // ---------- loop + overlay ----------
   function frame(t) { requestAnimationFrame(frame); const dt = Math.min(0.05, (t - last) / 1000 || 0); last = t; if (running) update(dt); render(); }
   function showOverlay(title, html, label) { $("mgTitle").textContent = title; $("mgText").innerHTML = html; btn.textContent = label; over.hidden = false; }
-  const DESC = "Hunt down the NPC players. Hold right click to lock onto the nearest target inside your FOV circle. Chain kills for a score multiplier, and watch out: they shoot back. Reach 10 kills and Bruno, a huge dog, comes for you.";
+  const DESC = "Hunt down the NPC players. Hold right click to lock onto the nearest target inside your FOV circle. Every kill heals 15 HP and chains a score multiplier, and watch out: they shoot back. Reach 10 kills and Bruno, a huge dog, comes for you.";
   function start() {
     audio(); if (ac && ac.state === "suspended") ac.resume();
     if (dead || !P) { reset(); dead = false; }
