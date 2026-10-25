@@ -51,7 +51,7 @@ const CONFIG = {
         ["Security", ["External, no game injection", "BattlEye bypass updated regularly", "Stream-proof rendering"]],
         ["Extras", ["Configurable hotkeys", "Instant delivery & Discord support"]]
       ],
-      plans: [{ n: "Day", p: 6.99, v: 416712 }, { n: "Week", p: 26.99, v: 416705 }, { n: "Month", p: 59.99, v: 416716 }, { n: "Lifetime", p: 149.99, v: 416735 }]
+      plans: [{ n: "1 Day", p: 8.99, v: 416712 }, { n: "3 Day", p: 17.99, v: 416717 }, { n: "7 Day", p: 27.99, v: 416705 }, { n: "30 Day", p: 54.99, v: 416716 }]
     },
     {
       slug: "rust-private", name: "Rust Private", type: "Private", game: "Rust", img: "/img/box-rust.webp",
