@@ -301,7 +301,7 @@ const Api = {
   <div class="nav-bar"><div class="nav-in">
     <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"></a>
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link("/reviews", "Reviews", "reviews")}${link("/guides", "Guides", "guides")}${link("/mini-games", "Mini Games", "mini-games")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Support", "support")}
+      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link("/reviews", "Reviews", "reviews")}${link("/mini-games", "Mini Games", "mini-games")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Support", "support")}
     </nav>
     <div class="nav-right">
       <a class="nav-btn icon" href="${CONFIG.discord}" target="_blank" rel="noopener" aria-label="Discord">${ico.discord}</a>
@@ -320,7 +320,7 @@ const Api = {
     <div class="frow">
       <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"></a>
       <nav>
-        <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/guides">Guides</a><a href="/mini-games">Mini Games</a><a href="${CONFIG.discord}" target="_blank" rel="noopener">Support</a><a href="/account">Client Area</a>
+        <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/mini-games">Mini Games</a><a href="${CONFIG.discord}" target="_blank" rel="noopener">Support</a><a href="/account">Client Area</a>
       </nav>
     </div>
     <div class="fbar"><span>© ${new Date().getFullYear()} Strive Cheats. All rights reserved.</span><span class="ftlinks"><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a></span></div>
