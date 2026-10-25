@@ -131,8 +131,8 @@
   const turn = (a, b, k) => (a === undefined ? b : a + ang(b - a) * Math.min(1, k));
   function reset() {
     if (!mapN) buildMap(); bi = mapN;
-    P = { x: 0, z: 0, y: 0, vy: 0, yaw: 0, pitch: 0, hp: 100, max: 100, kills: 0, score: 0, mult: 1, lastKill: -99, shots: 0, hits: 0, heads: 0, ammo: WEAPONS[cfg.weapon].mag, cd: 0, reloading: 0, recoil: 0, t: 0, vx: 0, vz: 0, prot: 2.5, kp: 0, spr: 0, sw: 0, lockN: null };
-    hits = []; feed = []; npcs = []; bossDone = false; lastSent = 0;
+    P = { x: 0, z: 0, y: 0, vy: 0, yaw: 0, pitch: 0, hp: 100, max: 100, kills: 0, score: 0, mult: 1, lastKill: -99, shots: 0, hits: 0, heads: 0, ammo: WEAPONS[cfg.weapon].mag, cd: 0, reloading: 0, recoil: 0, t: 0, vx: 0, vz: 0, prot: 2.5, kp: 0, spr: 0, sw: 0, lockN: null, run: Math.random().toString(36).slice(2, 10) + Date.now().toString(36) };
+    hits = []; feed = []; npcs = []; bossDone = false; lastSent = 0; lastKills = 0;
     fx = { flash: 0, shake: 0, hit: 0, toast: "", toastT: 0, hitmark: 0, nums: [], hs: 0, mf: 0 };
     for (let i = 0; i < 6; i++) spawn();
   }
@@ -469,20 +469,23 @@
     el.innerHTML = a ? '<span class="who"><img src="' + Auth.avatar(a.user) + '" alt="">' + esc(a.user.global_name || a.user.username) + '</span>' : '<a class="btn btn-main" id="lbLogin" href="#">Log in with Discord</a>';
     const b = $("lbLogin"); if (b) b.addEventListener("click", e => { e.preventDefault(); try { sessionStorage.setItem("strive_next", "/mini-games"); } catch { } location.href = Auth.loginUrl(); });
   }
-  let lastSent = 0;
-  async function submitScore() {
-    if (!hasApi || !P) return; const a = Auth.get(), add = t => { $("mgText").innerHTML += "<br><span class='mg-rank'>" + t + "</span>"; }, note = t => { const el = $("lbNote"); if (el) el.textContent = t; };
-    if (!a) { add("Log in with your Discord account to put this score on the leaderboard."); return; }
-    if (!P.score || P.score <= lastSent) return;
-    const sent = P.score; lastSent = sent;
+  let lastSent = 0, lastKills = 0, lastSaveAt = 0;
+  async function submitScore(quiet) {
+    if (!hasApi || !P) return; const a = Auth.get(), add = t => { if (!quiet) $("mgText").innerHTML += "<br><span class='mg-rank'>" + t + "</span>"; }, note = t => { const el = $("lbNote"); if (el) el.textContent = t; };
+    if (!a) { add("Log in with your Discord account to put your kills and score on the leaderboard."); return; }
+    if (!P.score && !P.kills) return;
+    if (P.score <= lastSent && P.kills <= lastKills) return;   // nothing new since the last save
+    const sent = { s: P.score, k: P.kills }; lastSent = sent.s; lastKills = sent.k; lastSaveAt = Date.now();
     try {
-      const r = await Api.post("/api/minigame/score", { score: P.score, kills: P.kills, heads: P.heads }, a.token);
-      const t = r.best ? "New personal best: " + r.score.toLocaleString() + ". You are #" + r.rank + " on the leaderboard." : "Your best is " + r.score.toLocaleString() + " (#" + r.rank + " on the leaderboard).";
+      const r = await Api.post("/api/minigame/score", { run: P.run, score: sent.s, kills: sent.k, heads: P.heads }, a.token);
+      const t = "Saved. Your totals: " + r.score.toLocaleString() + " points and " + r.kills.toLocaleString() + " kills (#" + r.rank + " on the leaderboard).";
       add(t); note(t); loadLb();
-    } catch (e) { lastSent = 0; const t = e.status === 401 ? "Your login expired. Log in again to save scores." : "Could not save your score: " + (e.message || "network error"); add(t); note(t); }
+    } catch (e) { lastSent = 0; lastKills = 0; const t = e.status === 401 ? "Your login expired. Log in again to save scores." : e.status === 429 ? "Saving too fast, it will save again in a moment." : "Could not save your score: " + (e.message || "network error"); add(t); note(t); }
   }
-  // quit mid-run (closing the tab or leaving the page) still saves the score
-  addEventListener("pagehide", () => { if (!hasApi || !P || !P.score || P.score <= lastSent) return; const a = Auth.get(); if (!a) return; try { fetch(CONFIG.api + "/api/minigame/score", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json", Authorization: "Bearer " + a.token }, body: JSON.stringify({ score: P.score, kills: P.kills, heads: P.heads }) }); } catch { } });
+  // quit mid-run (closing the tab or leaving the page) still saves
+  addEventListener("pagehide", () => { if (!hasApi || !P || (P.score <= lastSent && P.kills <= lastKills)) return; const a = Auth.get(); if (!a) return; try { fetch(CONFIG.api + "/api/minigame/score", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json", Authorization: "Bearer " + a.token }, body: JSON.stringify({ run: P.run, score: P.score, kills: P.kills, heads: P.heads }) }); } catch { } });
+  // autosave while playing so nothing is lost
+  setInterval(() => { if (running && P && Date.now() - lastSaveAt > 15000) submitScore(true); }, 5000);
 
   // ---------- loop + overlay ----------
   let slow = 0, fast = 0, idle = 0;
