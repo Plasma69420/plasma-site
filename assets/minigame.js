@@ -37,9 +37,9 @@
   addEventListener("resize", resize); resize();
 
   // vertex buffer helpers: 10 floats per vertex (pos, normal, color, kind)
-  let buf = new Float32Array(10 * 6 * 5 * 640), bi = 0;
+  let buf = new Float32Array(10 * 6 * 5 * 960), bi = 0;
   const FACES = [[1, 3, 7, 5], [0, 4, 6, 2], [2, 6, 7, 3], [4, 5, 7, 6], [0, 2, 3, 1]];
-  const hex = c => [parseInt(c.slice(1, 3), 16) / 255, parseInt(c.slice(3, 5), 16) / 255, parseInt(c.slice(5, 7), 16) / 255];
+  const hex = c => { if (c.length === 4) c = "#" + c[1] + c[1] + c[2] + c[2] + c[3] + c[3]; return [parseInt(c.slice(1, 3), 16) / 255, parseInt(c.slice(3, 5), 16) / 255, parseInt(c.slice(5, 7), 16) / 255]; };
   const colCache = {}; const rgb = c => colCache[c] || (colCache[c] = hex(c));
   function tris(V, col, k) {
     if (bi + 300 > buf.length) return;
@@ -139,7 +139,7 @@
   function spawn(boss) {
     let x, z, tries = 0; do { const a = rnd(0, 6.283), d = rnd(22, 42); x = P.x + Math.sin(a) * d; z = P.z + Math.cos(a) * d; } while ((blocked(x, z, boss ? 3 : 1) || Math.abs(x) > 52 || Math.abs(z) > 52) && ++tries < 40);
     const n = { x, z, hp: 100, max: 100, tx: 0, tz: 0, shoot: rnd(1, 2.5), name: NAMES[(Math.random() * NAMES.length) | 0], dead: false, t: Math.random() * 9, scale: 1, boss: false, flash: 0, speed: rnd(1.6, 2.6), ry: 0, ph: 0, vm: 0, pal: PALS[(Math.random() * PALS.length) | 0], seed: rnd(0, 6) };
-    if (boss) { n.boss = true; n.name = "ZEN THE LOSER"; n.hp = n.max = 2500; n.scale = 2.6; n.speed = 4.2; n.orb = Math.random() < 0.5 ? 1 : -1; n.phase = 0; n.lunge = 0; n.bite = 0; n.x = Math.max(-50, Math.min(50, P.x + Math.sin(P.yaw) * 30)); n.z = Math.max(-50, Math.min(50, P.z + Math.cos(P.yaw) * 30)); }
+    if (boss) { n.boss = true; n.name = "ZEN THE LOSER"; n.hp = n.max = 2500; n.scale = 2.4; n.speed = 4.2; n.spCd = 5; n.spike = null; n.orb = Math.random() < 0.5 ? 1 : -1; n.phase = 0; n.lunge = 0; n.bite = 0; n.x = Math.max(-50, Math.min(50, P.x + Math.sin(P.yaw) * 30)); n.z = Math.max(-50, Math.min(50, P.z + Math.cos(P.yaw) * 30)); }
     pick(n); npcs.push(n); return n;
   }
   function pick(n) { for (let i = 0; i < 20; i++) { const a = rnd(0, 6.28), d = rnd(6, 26), x = n.x + Math.sin(a) * d, z = n.z + Math.cos(a) * d; if (Math.abs(x) < 52 && Math.abs(z) < 52 && !blocked(x, z, 1)) { n.tx = x; n.tz = z; return; } } n.tx = n.x; n.tz = n.z; }
@@ -185,23 +185,42 @@
     ];
   }
   function dogParts(n) {
-    const sw = n.vm > 0.1 ? Math.sin(n.ph) * 0.55 : 0, wag = Math.sin(n.t * 14) * 0.1, fur = "#a0714a", dk = "#5e4029", lt = "#d0a272";
+    const sw = n.vm > 0.1 ? Math.sin(n.ph) * 0.5 : 0, wag = Math.sin(n.t * 12) * 0.08, angry = n.lunge > 0 || (n.spike && n.spike.phase === "tele");
+    const fur = "#cdb48d", fur2 = "#b69a72", cream = "#f0e6c8", paw = "#7c6244", blk = "#17120e", pink = "#ff9cc0", eyeK = angry ? 2 : 0, eye = angry ? "#ff3b2e" : "#ffffff";
     return [
-      B(-0.17, 0.25, 0.45, 0.14, 0.5, 0.15, dk, sw, 0.5, 0.45), B(0.17, 0.25, 0.45, 0.14, 0.5, 0.15, dk, -sw, 0.5, 0.45), B(-0.17, 0.25, -0.45, 0.14, 0.5, 0.15, dk, -sw, 0.5, -0.45), B(0.17, 0.25, -0.45, 0.14, 0.5, 0.15, dk, sw, 0.5, -0.45),
-      B(0, 0.68, 0, 0.5, 0.46, 1.25, fur), B(0, 0.95, 0.55, 0.36, 0.42, 0.4, fur), B(0, 0.86, 0.52, 0.4, 0.1, 0.4, "#1fb6ff", 0, 0, 0, 2),
-      B(0, 1.02, 0.92, 0.34, 0.32, 0.36, fur), B(0, 0.94, 1.2, 0.18, 0.14, 0.28, lt), B(0, 0.99, 1.35, 0.09, 0.08, 0.05, "#111"),
-      B(-0.1, 1.24, 0.88, 0.07, 0.2, 0.1, dk), B(0.1, 1.24, 0.88, 0.07, 0.2, 0.1, dk), B(-0.1, 1.08, 1.1, 0.05, 0.05, 0.03, "#ffd34d", 0, 0, 0, 2), B(0.1, 1.08, 1.1, 0.05, 0.05, 0.03, "#ffd34d", 0, 0, 0, 2),
-      B(wag, 1.0, -0.8, 0.09, 0.09, 0.5, dk, 0.5, 0.95, -0.62)
+      B(-0.2, 0.22, 0.3, 0.2, 0.44, 0.22, cream, sw, 0.44, 0.3), B(0.2, 0.22, 0.3, 0.2, 0.44, 0.22, cream, -sw, 0.44, 0.3),
+      B(-0.2, 0.04, 0.36, 0.24, 0.08, 0.3, paw, sw, 0.44, 0.3), B(0.2, 0.04, 0.36, 0.24, 0.08, 0.3, paw, -sw, 0.44, 0.3),
+      B(-0.22, 0.22, -0.32, 0.22, 0.44, 0.26, fur2, -sw, 0.44, -0.32), B(0.22, 0.22, -0.32, 0.22, 0.44, 0.26, fur2, sw, 0.44, -0.32),
+      B(-0.22, 0.04, -0.27, 0.26, 0.08, 0.32, paw, -sw, 0.44, -0.32), B(0.22, 0.04, -0.27, 0.26, 0.08, 0.32, paw, sw, 0.44, -0.32),
+      B(0, 0.6, -0.05, 0.66, 0.5, 0.95, fur), B(0, 0.55, 0.38, 0.5, 0.42, 0.2, cream), B(0, 0.78, 0.38, 0.56, 0.08, 0.3, "#1fb6ff", 0, 0, 0, 2),
+      B(0, 0.98, 0.5, 0.7, 0.52, 0.5, fur), B(0, 0.9, 0.78, 0.46, 0.3, 0.12, fur2),
+      B(0, 0.86, 0.86, 0.34, 0.18, 0.1, blk), B(0, 0.95, 0.92, 0.14, 0.07, 0.05, "#f0d4e4"),
+      B(0, 0.7, 0.8, 0.34, 0.07, 0.3, blk), B(0, 0.72, 0.86, 0.16, 0.04, 0.16, pink),
+      B(-0.12, 0.775, 0.93, 0.05, 0.07, 0.03, "#fff"), B(-0.04, 0.775, 0.93, 0.05, 0.07, 0.03, "#fff"), B(0.04, 0.775, 0.93, 0.05, 0.07, 0.03, "#fff"), B(0.12, 0.775, 0.93, 0.05, 0.07, 0.03, "#fff"),
+      B(-0.08, 0.735, 0.93, 0.05, 0.06, 0.03, "#fff"), B(0.08, 0.735, 0.93, 0.05, 0.06, 0.03, "#fff"),
+      B(-0.17, 1.06, 0.76, 0.12, 0.12, 0.03, eye, 0, 0, 0, eyeK), B(0.17, 1.06, 0.76, 0.12, 0.12, 0.03, eye, 0, 0, 0, eyeK),
+      B(-0.17, 1.06, 0.78, 0.055, 0.055, 0.02, blk), B(0.17, 1.06, 0.78, 0.055, 0.055, 0.02, blk),
+      B(-0.17, 1.15, 0.76, 0.15, 0.04, 0.03, paw), B(0.17, 1.15, 0.76, 0.15, 0.04, 0.03, paw),
+      B(-0.27, 1.3, 0.45, 0.2, 0.2, 0.12, fur2), B(-0.27, 1.46, 0.45, 0.12, 0.18, 0.1, fur2), B(-0.27, 1.35, 0.52, 0.1, 0.26, 0.03, pink),
+      B(0.27, 1.3, 0.45, 0.2, 0.2, 0.12, fur2), B(0.27, 1.46, 0.45, 0.12, 0.18, 0.1, fur2), B(0.27, 1.35, 0.52, 0.1, 0.26, 0.03, pink),
+      B(wag, 0.88, -0.58, 0.12, 0.22, 0.12, fur, 0.2, 0.8, -0.5)
     ];
   }
-  function geo(n) {
+  // floor lasers (warning) and the spikes that burst up along them
+  function spikeParts(s) {
+    if (s.phase === "tele") { const on = Math.sin(s.t * 18) > 0; return [B(0, 0.03, 18, 1.1, 0.04, 32, on ? "#ff3030" : "#ff7a5a", 0, 0, 0, 2), B(0, 0.05, 18, 0.22, 0.04, 32, "#fff0f0", 0, 0, 0, 2)]; }
+    const h = (s.t < 0.2 ? s.t / 0.2 : s.t > 1.2 ? Math.max(0, 1 - (s.t - 1.2) / 0.5) : 1) * 1.25, out = [B(0, 0.03, 18, 0.5, 0.04, 32, "#ff3030", 0, 0, 0, 2)];
+    for (let i = 0; i < 12; i++) { const z = 3 + 2.6 * i; out.push(B(0, h * 0.5, z, 0.9, h, 0.9, "#8a1f1a"), B(0, h * 1.3, z, 0.55, h * 0.8, 0.55, "#d83a2e"), B(0, h * 2.0, z, 0.22, h * 0.7, 0.22, "#ffd9c9", 0, 0, 0, 2)); }
+    return out;
+  }
+    function geo(n) {
     const f = proj(n.x, 0, n.z); if (!f) return null; const sc = n.scale;
     if (n.boss) {
-      const hd = pj(n, 0, 1.02, 0.95, sc); if (!hd) return null;
+      const hd = pj(n, 0, 0.98, 0.5, sc); if (!hd) return null;
       let x0 = 1e9, x1 = -1e9, y0 = 1e9;
-      for (let i = 0; i < 8; i++) { const q2 = pj(n, ((i & 1) ? 0.25 : -0.25), ((i & 2) ? 0.93 : 0.45), ((i & 4) ? 0.6 : -0.6), sc); if (!q2) return null; x0 = Math.min(x0, q2.x); x1 = Math.max(x1, q2.x); y0 = Math.min(y0, q2.y); }
-      const r = 0.2 * sc * hd.s; x0 = Math.min(x0, hd.x - r); x1 = Math.max(x1, hd.x + r); y0 = Math.min(y0, hd.y - r);
-      const bc = pj(n, 0, 0.68, 0, sc) || f;
+      for (let i = 0; i < 8; i++) { const q2 = pj(n, ((i & 1) ? 0.4 : -0.4), ((i & 2) ? 1.2 : 0.0), ((i & 4) ? 0.9 : -0.55), sc); if (!q2) return null; x0 = Math.min(x0, q2.x); x1 = Math.max(x1, q2.x); y0 = Math.min(y0, q2.y); }
+      const r = 0.3 * sc * hd.s; x0 = Math.min(x0, hd.x - r); x1 = Math.max(x1, hd.x + r); y0 = Math.min(y0, hd.y - r);
+      const bc = pj(n, 0, 0.6, 0.1, sc) || f;
       return { f: { x: (x0 + x1) / 2, y: f.y, s: f.s }, t: { y: y0 }, head: { x: hd.x, y: hd.y, r }, x0, x1, y0, y1: f.y, hw: (x1 - x0) / 2, s: f.s * sc, aimHead: { x: hd.x, y: hd.y }, aimChest: { x: bc.x, y: bc.y } };
     }
     const t = proj(n.x, 1.95, n.z), h = proj(n.x, 1.74, n.z), ch = proj(n.x, 1.3, n.z); if (!t || !h || !ch) return null;
@@ -278,8 +297,28 @@
     fx.mf = Math.max(0, fx.mf - dt); fx.hs = Math.max(0, fx.hs - dt); P.sw = Math.max(0, P.sw - dt);
     for (const m of fx.nums) { m.t -= dt; m.y -= 40 * dt; } fx.nums = fx.nums.filter(m => m.t > 0);
   }
+  function startSpike(n) {
+    const base = Math.atan2(P.x - n.x, P.z - n.z);
+    n.spike = { t: 0, phase: "tele", ox: n.x, oz: n.z, angs: [-0.7, -0.35, 0, 0.35, 0.7].map(d => base + d), hit: false };
+    toast("LASERS ON THE FLOOR: MOVE OR JUMP!"); tone(160, 0.5, "sawtooth", 0.2, 80);
+  }
+  function updateSpike(n, dt) {
+    const s = n.spike; s.t += dt;
+    if (s.phase === "tele" && s.t > 1.5) { s.phase = "burst"; s.t = 0; n.lunge = 2.0; n.phase = 0; toast("SPIKES!"); tone(70, 0.6, "square", 0.3, 40); noise(0.3, 0.4); }
+    else if (s.phase === "burst") {
+      if (!s.hit && s.t > 0.12 && s.t < 0.8 && P.y < 1.3) {
+        for (const a of s.angs) {
+          const dx = Math.sin(a), dz = Math.cos(a), rx = P.x - s.ox, rz = P.z - s.oz, t = Math.max(2, Math.min(34, rx * dx + rz * dz));
+          if (Math.hypot(P.x - (s.ox + dx * t), P.z - (s.oz + dz * t)) < 1.25) { s.hit = true; hurt(24, n, "impaled you"); break; }
+        }
+      }
+      if (s.t > 1.7) { n.spike = null; n.spCd = rnd(9, 12); }
+    }
+  }
   function bossAI(n, dt) {
-    n.phase += dt; n.bite -= dt;
+    n.phase += dt; n.bite -= dt; n.spCd -= dt;
+    if (n.spike) { updateSpike(n, dt); if (n.spike && n.spike.phase === "tele") { n.vm = 0; n.ry = turn(n.ry, Math.atan2(P.x - n.x, P.z - n.z), dt * 4); return; } }
+    else if (n.spCd <= 0 && cfg.shootBack && Math.hypot(P.x - n.x, P.z - n.z) > 6) startSpike(n);
     if (n.lunge > 0) n.lunge -= dt; else if (n.phase > 4.5) { n.phase = 0; n.lunge = 2.2; if (Math.random() < 0.5) n.orb = -n.orb; tone(110, 0.35, "sawtooth", 0.18, 70); }
     const a = Math.atan2(n.x - P.x, n.z - P.z) + (n.lunge > 0 ? 0 : n.orb * dt * 0.55), R = n.lunge > 0 ? 2.2 : 10;
     const tx = Math.max(-52, Math.min(52, P.x + Math.sin(a) * R)), tz = Math.max(-52, Math.min(52, P.z + Math.cos(a) * R)), dx = tx - n.x, dz = tz - n.z, d = Math.hypot(dx, dz) || 1, st = Math.min(d, n.speed * (n.lunge > 0 ? 1.5 : 1) * dt);
@@ -371,6 +410,7 @@
       const fall = n.dead ? -Math.min(1.45, (0.9 - n.fade) * 2.6) : 0, sc = n.scale;
       if (!n.dead) wbox(n.x, 0.015, n.z, 1.0 * sc, 0.01, 1.0 * sc, "#000000", 5);
       emit(n, n.boss ? dogParts(n) : humanParts(n), sc, fall, n.flash > 0);
+      if (n.boss && n.spike && !n.dead) for (const a of n.spike.angs) emit({ x: n.spike.ox, z: n.spike.oz, ry: a }, spikeParts(n.spike), 1, 0, false);
     }
     gl.viewport(0, 0, glc.width, glc.height); gl.clearColor(0.04, 0.2, 0.28, 1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     drawBuf(viewProj(yaw, pit, ex, ey, ez), [ex, ey, ez]);
@@ -397,9 +437,9 @@
       ctx.strokeStyle = "#37c4ff"; ctx.beginPath();
       const J = (a, b, c) => pj(n, a, b, c, sc), L = (a, b) => { if (a && b) { ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); } };
       if (n.boss) {
-        const hd = J(0, 1.02, 0.95), sh = J(0, 0.9, 0.5), hip = J(0, 0.8, -0.5), tl = J(0, 0.98, -0.95), sn = J(0, 0.94, 1.3);
+        const hd = J(0, 0.98, 0.5), sh = J(0, 0.7, 0.3), hip = J(0, 0.6, -0.4), tl = J(0, 0.9, -0.6), sn = J(0, 0.85, 0.9);
         L(sn, hd); L(hd, sh); L(sh, hip); L(hip, tl);
-        for (const [x, z] of [[-0.17, 0.45], [0.17, 0.45], [-0.17, -0.45], [0.17, -0.45]]) { L(z > 0 ? sh : hip, J(x, 0.5, z)); L(J(x, 0.5, z), J(x, 0, z)); }
+        for (const [x, z] of [[-0.2, 0.3], [0.2, 0.3], [-0.22, -0.32], [0.22, -0.32]]) { L(z > 0 ? sh : hip, J(x, 0.22, z)); L(J(x, 0.22, z), J(x, 0, z)); }
       } else {
         const hd = J(0, 1.74, 0), nk = J(0, 1.55, 0), pl = J(0, 0.97, 0), sl = J(-0.33, 1.5, 0), sr = J(0.33, 1.5, 0), hl = J(-0.36, 0.95, 0.05), hr = J(0.31, 1.3, 0.7);
         L(hd, nk); L(nk, pl); L(sl, sr); L(sl, hl); L(sr, hr);
