@@ -687,3 +687,45 @@ kbd{display:inline-block;min-width:20px;padding:1px 6px;margin-right:3px;border-
 
 #navLinks a{white-space:nowrap}
 @media (min-width:900px){#navLinks a{padding-left:10px;padding-right:10px}}
+
+/* ===== v25: guides hub ===== */
+.gh-hero{text-align:center;padding:30px 0 10px}
+.gh-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 14px;border-radius:999px;border:1px solid rgba(31,182,255,.4);background:rgba(31,182,255,.1);color:#9fe0ff;font:700 12px 'Manrope'}
+.gh-pill svg{width:13px;height:13px}.gh-pill.soft{background:rgba(110,200,255,.06);border-color:rgba(110,200,255,.2);color:#bfdce8}
+.gh-hero h1{margin:18px 0 14px;font:800 clamp(38px,5.6vw,60px)/1.05 'Manrope';letter-spacing:-.035em;color:#fff}
+.gh-count{display:inline-block;padding:4px 12px;border-radius:999px;border:1px solid rgba(110,200,255,.2);background:#0a2029;color:#cfefff;font:600 12px 'Manrope'}
+.gh-hero>p{max-width:420px;margin:16px auto 22px;color:#8fb6c7;line-height:1.6;font-size:14.5px}
+.gh-search{display:flex;gap:10px;max-width:520px;margin:0 auto 16px}
+.gh-search label,.gh-q{flex:1;display:flex;align-items:center;gap:10px;padding:0 14px;height:46px;border-radius:12px;background:#07181f;border:1px solid rgba(110,200,255,.18);color:#6fa6bd}
+.gh-search label:focus-within,.gh-q:focus-within{border-color:#1fb6ff}
+.gh-search svg,.gh-q svg{width:18px;height:18px;flex:none}
+.gh-search input,.gh-q input{flex:1;min-width:0;background:none;border:0;outline:0;color:#fff;font:500 14px 'Manrope'}
+.gh-search button{padding:0 22px;border-radius:12px;border:0;background:#1fb6ff;color:#02141c;font:800 14px 'Manrope';cursor:pointer}.gh-search button:hover{background:#52c8ff}
+.gh-tags{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;font-size:12.5px;color:#6fa6bd}
+.gh-tags button{padding:5px 13px;border-radius:999px;border:1px solid rgba(110,200,255,.2);background:#0a2029;color:#cfefff;font:600 12px 'Manrope';cursor:pointer}.gh-tags button:hover{border-color:#1fb6ff;color:#fff}
+.gh-all{text-align:center;margin-top:70px}
+.gh-all h2{margin:14px 0 8px;font:800 clamp(28px,3.6vw,38px) 'Manrope';letter-spacing:-.03em;color:#fff}
+.gh-all>p{color:#8fb6c7;font-size:14px}.gh-all small{display:block;margin-top:6px;color:#5d8497;font-size:12.5px}
+.gh-bar{display:flex;gap:12px;max-width:1100px;margin:26px auto 14px}
+.gh-bar select{height:46px;padding:0 14px;border-radius:12px;background:#07181f;border:1px solid rgba(110,200,255,.18);color:#cfefff;font:600 13.5px 'Manrope'}
+.gh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:1100px;margin:0 auto;text-align:left}
+.gh-card{display:flex;flex-direction:column;gap:10px;padding:18px;border-radius:14px;border:1px solid rgba(110,200,255,.16);background:linear-gradient(180deg,#0a2029,#06161d);transition:border-color .2s,transform .2s}
+.gh-card:hover{border-color:rgba(31,182,255,.55);transform:translateY(-2px)}
+.gh-ct{display:flex;justify-content:space-between;gap:10px}.gh-ct h3{font:700 16px 'Manrope';color:#fff}.gh-ct span{display:block;margin-top:3px;font-size:12px;color:#6fa6bd}
+.gh-badge{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:4px 10px;border-radius:8px;border:1px solid rgba(110,200,255,.2);background:#07181f;color:#cfefff;font:700 11.5px 'Manrope';font-style:normal;white-space:nowrap}.gh-badge svg{width:12px;height:12px}
+.gh-card>p{flex:1;font-size:13px;line-height:1.6;color:#8fb6c7}
+.gh-cb{display:flex;align-items:center;gap:14px}
+.gh-open{padding:9px 16px;border-radius:9px;border:0;background:#1fb6ff;color:#02141c;font:800 13px 'Manrope';cursor:pointer}.gh-open:hover{background:#52c8ff}
+.gh-cb a{font-size:13px;font-weight:600;color:#8fb6c7}.gh-cb a:hover{color:#fff}
+.gh-card.soon{opacity:.6}.gh-wait{font-size:12.5px;font-weight:700;color:#6fa6bd}
+.gd-back{display:inline-block;margin:0 auto 16px;max-width:1320px;font-size:13.5px;font-weight:700;color:#7fd6ff}.gd-back:hover{color:#fff}
+#gdRoot>.gd-back{display:block;max-width:1320px;margin:0 auto 16px}
+.gd-modal{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:20px;background:rgba(2,10,14,.78);backdrop-filter:blur(4px)}
+.gd-mbox{width:min(400px,100%);padding:26px;border-radius:18px;background:#fff;color:#4a4f55;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.gd-mpill{display:inline-flex;align-items:center;gap:7px;padding:4px 14px;border-radius:999px;border:1.5px solid #3b3f45;color:#3b3f45;font:800 13px 'Manrope';letter-spacing:.06em}.gd-mpill svg{width:14px;height:14px}
+.gd-mbox h3{margin:16px 0 8px;font:800 21px 'Manrope';color:#14181c}.gd-mbox p{font-size:14px;line-height:1.6;color:#555b62;margin-bottom:18px}.gd-mbox p b{color:#14181c}
+.gd-yes,.gd-no{display:block;width:100%;height:44px;border-radius:10px;font:700 14px 'Manrope';cursor:pointer}
+.gd-yes{border:0;background:#1fb6ff;color:#02141c;margin-bottom:10px}.gd-yes:hover{background:#52c8ff}
+.gd-no{border:1px solid #d5dade;background:#fff;color:#2a2f35}.gd-no:hover{background:#f3f5f7}
+@media (max-width:900px){.gh-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.gh-grid{grid-template-columns:1fr}.gh-bar{flex-direction:column}.gh-search{flex-direction:column}.gh-search button{height:44px}}

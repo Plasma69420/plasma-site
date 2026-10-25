@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=24">
+<link rel="stylesheet" href="/assets/strive.css?v=25">
 </head>
 <body>
 <main class="lwrap" style="padding-top:100px;padding-bottom:70px">
@@ -68,6 +68,74 @@ function wire(scope) {
 document.getElementById("gdZoom").addEventListener("click", e => { e.currentTarget.hidden = true; });
 document.addEventListener("keydown", e => { if (e.key === "Escape") document.getElementById("gdZoom").hidden = true; });
 
+// product page for each guide (the "Details" link)
+const PAGE = { "fortnite-private": "/fortnite-private", "temp-spoofer": "/temp-spoofer", "perm-spoofer": "/perm-spoofer", "secure-fn-accounts": "/fortnite-accounts" };
+const ACK = s => "gd_ack_" + s;
+const acked = s => { try { return sessionStorage.getItem(ACK(s)) === "1"; } catch { return false; } };
+let IDX = null, AUTH = null;
+
+function askAck(slug, onYes) {
+  const m = document.createElement("div"); m.className = "gd-modal";
+  m.innerHTML = '<div class="gd-mbox" role="dialog" aria-modal="true"><span class="gd-mpill">' + ICON.warn + ' WARNING</span><h3>Do not skip any steps</h3><p>Every step in this setup guide is <b>100% required</b>. Do not skip, reorder, or skim past anything. If you miss a step, the product will not function properly.</p><button type="button" class="gd-yes">I understand, open guide</button><button type="button" class="gd-no">Cancel</button></div>';
+  const close = () => { m.remove(); document.removeEventListener("keydown", esc2); };
+  const esc2 = e => { if (e.key === "Escape") close(); };
+  m.querySelector(".gd-yes").addEventListener("click", () => { try { sessionStorage.setItem(ACK(slug), "1"); } catch { } close(); onYes(); });
+  m.querySelector(".gd-no").addEventListener("click", close);
+  m.addEventListener("click", e => { if (e.target === m) close(); });
+  document.addEventListener("keydown", esc2); document.body.appendChild(m); m.querySelector(".gd-yes").focus();
+}
+function openGuide(slug) {
+  const go = () => { history.pushState(null, "", "/guides?g=" + slug); render(); window.scrollTo({ top: 0 }); };
+  if (acked(slug)) go(); else askAck(slug, go);
+}
+
+function hub() {
+  document.title = "Setup Guides | Strive Cheats";
+  const total = IDX.guides.length, cats = ["All Guides", ...IDX.categories.filter(c => IDX.guides.some(g => g.category === c))];
+  const tags = ["Fortnite", "Spoofer", "Accounts"];
+  root.innerHTML = `<section class="gh-hero"><span class="gh-pill">${ICON.note} Setup Center</span><h1>Choose Your<br>Setup Guide</h1><span class="gh-count">${total} guide${total === 1 ? "" : "s"} available</span><p>Browse our available products and open the official setup guide to get started.</p>
+    <div class="gh-search"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input id="ghQ" type="search" placeholder="Search setup guides..." autocomplete="off"></label><button type="button" id="ghGo">Search</button></div>
+    <div class="gh-tags"><span>Popular:</span>${tags.map(t => '<button type="button" data-t="' + t + '">' + t + '</button>').join("")}</div></section>
+    <section class="gh-all"><span class="gh-pill soft">All Guides</span><h2>Setup Guides</h2><p>Browse all available products and open their setup documentation</p><small id="ghShow"></small>
+    <div class="gh-bar"><label class="gh-q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input id="ghQ2" type="search" placeholder="Search setup guides..." autocomplete="off"></label><select id="ghCat">${cats.map(c => '<option>' + esc(c) + '</option>').join("")}</select></div>
+    <div class="gh-grid" id="ghGrid"></div></section>`;
+  const grid = document.getElementById("ghGrid"), q1 = document.getElementById("ghQ"), q2 = document.getElementById("ghQ2"), cat = document.getElementById("ghCat");
+  const draw = () => {
+    const q = q2.value.trim().toLowerCase(), c = cat.value;
+    const list = IDX.guides.filter(g => (c === "All Guides" || g.category === c) && (!q || (g.title + " " + g.category + " " + g.summary).toLowerCase().includes(q)));
+    const soon = c === "All Guides" ? (IDX.soon || []).filter(s => !q || s.toLowerCase().includes(q)) : [];
+    document.getElementById("ghShow").textContent = "Showing " + list.length + " of " + total + " guides";
+    grid.innerHTML = list.map(g => `<article class="gh-card"><div class="gh-ct"><div><h3>${esc(g.title)}</h3><span>${esc(g.category)}</span></div><i class="gh-badge">${ICON.note} Guide</i></div><p>${esc(g.summary)}</p><div class="gh-cb"><button type="button" class="gh-open" data-s="${g.slug}">Open Guide <b>&rarr;</b></button>${PAGE[g.slug] ? '<a href="' + PAGE[g.slug] + '">Details <b>&rarr;</b></a>' : ""}</div></article>`).join("")
+      + soon.map(s => `<article class="gh-card soon"><div class="gh-ct"><div><h3>${esc(s)}</h3><span>Setup guide</span></div><i class="gh-badge">Soon</i></div><p>The setup guide for ${esc(s)} is on its way.</p><div class="gh-cb"><span class="gh-wait">Coming soon</span></div></article>`).join("")
+      || '<div class="gd-state" style="grid-column:1/-1"><b>No guides match your search.</b></div>';
+    grid.querySelectorAll(".gh-open").forEach(b => b.addEventListener("click", () => openGuide(b.dataset.s)));
+  };
+  const sync = v => { q1.value = v; q2.value = v; draw(); };
+  q2.addEventListener("input", () => { q1.value = q2.value; draw(); });
+  q1.addEventListener("input", () => { q2.value = q1.value; draw(); });
+  cat.addEventListener("change", draw);
+  document.getElementById("ghGo").addEventListener("click", () => { draw(); document.querySelector(".gh-all").scrollIntoView({ behavior: "smooth" }); });
+  q1.addEventListener("keydown", e => { if (e.key === "Enter") document.getElementById("ghGo").click(); });
+  root.querySelectorAll(".gh-tags button").forEach(b => b.addEventListener("click", () => { sync(b.dataset.t); document.querySelector(".gh-all").scrollIntoView({ behavior: "smooth" }); }));
+  draw();
+}
+
+function view(slug) {
+  const side = IDX.categories.map(c => { const list = IDX.guides.filter(g => g.category === c); return list.length ? '<div class="gd-cat"><span>' + esc(c) + '</span>' + list.map(g => '<a href="/guides?g=' + g.slug + '" class="' + (g.slug === slug ? "on" : "") + '" data-s="' + g.slug + '">' + esc(g.title) + '</a>').join("") + '</div>' : ""; }).join("");
+  root.innerHTML = '<a class="gd-back" href="/guides">&larr; All guides</a><div class="gd-layout"><aside class="gd-side">' + side + '</aside><article class="gd-main" id="gdMain"><div class="gd-state"><b>Loading...</b></div></article><nav class="gd-toc" id="gdToc"></nav></div>';
+  root.querySelector(".gd-back").addEventListener("click", e => { e.preventDefault(); history.pushState(null, "", "/guides"); render(); window.scrollTo({ top: 0 }); });
+  root.querySelectorAll(".gd-side a").forEach(l => l.addEventListener("click", e => { e.preventDefault(); openGuide(l.dataset.s); }));
+  show(slug, AUTH);
+}
+
+function render() {
+  const g = new URLSearchParams(location.search).get("g");
+  const found = g && IDX.guides.find(x => x.slug === g);
+  if (found && acked(found.slug)) return view(found.slug);
+  hub();
+  if (found) askAck(found.slug, () => render());
+}
+
 async function main() {
   const a = Auth.get();
   if (!a) {
@@ -75,22 +143,15 @@ async function main() {
     document.getElementById("gdLogin").addEventListener("click", e => { e.preventDefault(); try { sessionStorage.setItem("strive_next", "/guides"); } catch { } location.href = Auth.loginUrl(); });
     return;
   }
-  let idx;
-  try { idx = await Api.get("/api/guides", a.token); }
+  try { IDX = await Api.get("/api/guides", a.token); }
   catch (e) {
-    if (e.status === 401) { Auth.set(null); try { localStorage.removeItem("strive_auth"); } catch { } return gate("Session expired", "Log in with Discord again to open the guides.", '<a class="btn btn-main" href="/login">Log in</a>'); }
+    if (e.status === 401) { try { localStorage.removeItem("strive_auth"); } catch { } return gate("Session expired", "Log in with Discord again to open the guides.", '<a class="btn btn-main" href="/login">Log in</a>'); }
     if (e.status === 403) return gate("Customers only", esc(e.message) + " If you just purchased, give it a minute or open a ticket and we will sort it out.", '<div class="gd-btns"><a class="btn btn-main" href="/products">Browse products</a><a class="btn btn-ghost" href="' + CONFIG.discord + '" target="_blank" rel="noopener">Open a ticket</a></div>');
     return gate("Guides are unavailable", "We could not load the guides right now. Please try again in a minute.");
   }
-  const want = new URLSearchParams(location.search).get("g");
-  const cur = idx.guides.find(g => g.slug === want) || idx.guides[0];
-  const side = idx.categories.map(c => { const list = idx.guides.filter(g => g.category === c); return list.length ? `<div class="gd-cat"><span>${esc(c)}</span>${list.map(g => `<a href="/guides?g=${g.slug}" class="${g.slug === cur.slug ? "on" : ""}" data-s="${g.slug}">${esc(g.title)}</a>`).join("")}</div>` : ""; }).join("");
-  const soon = idx.soon && idx.soon.length ? `<div class="gd-cat soon"><span>Coming soon</span>${idx.soon.map(s => `<em>${esc(s)}</em>`).join("")}</div>` : "";
-  root.innerHTML = `<div class="gd-head"><h1>Guides</h1><p>Setup guides for your Strive products. Only customers can see this page.</p></div>
-    <div class="gd-layout"><aside class="gd-side">${side}${soon}</aside><article class="gd-main" id="gdMain"><div class="gd-state"><b>Loading...</b></div></article><nav class="gd-toc" id="gdToc"></nav></div>`;
-  root.querySelectorAll(".gd-side a").forEach(l => l.addEventListener("click", e => { e.preventDefault(); history.pushState(null, "", l.getAttribute("href")); root.querySelectorAll(".gd-side a").forEach(x => x.classList.toggle("on", x === l)); show(l.dataset.s, a); window.scrollTo({ top: 0, behavior: "smooth" }); }));
-  addEventListener("popstate", () => { const g = new URLSearchParams(location.search).get("g") || cur.slug; root.querySelectorAll(".gd-side a").forEach(x => x.classList.toggle("on", x.dataset.s === g)); show(g, a); });
-  show(cur.slug, a);
+  AUTH = a;
+  addEventListener("popstate", render);
+  render();
 }
 async function show(slug, a) {
   const m = document.getElementById("gdMain"), toc = document.getElementById("gdToc");
