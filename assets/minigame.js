@@ -8,7 +8,7 @@
   addEventListener("resize", resize); document.addEventListener("fullscreenchange", () => setTimeout(resize, 60)); resize();
 
   // ---------- settings (bound to the panels under the game) ----------
-  const cfg = { weapon: "rifle", shootBack: true, skel: true, box: true, name: true, radar: true, tracers: true, hpbar: true, aimbot: true, trigger: false, fovCircle: true, bone: "head", radius: 150, smooth: 60, vol: 0.7, music: true, mute: false };
+  const cfg = { weapon: "rifle", shootBack: true, skel: true, box: true, name: true, radar: true, tracers: true, hpbar: true, aimbot: true, trigger: false, fovCircle: true, bone: "head", radius: 150, smooth: 60, sens: 1, vol: 0.7, music: true, mute: false };
   const WEAPONS = {
     rifle: { label: "RIFLE", auto: true, rate: 0.095, mag: 30, body: 22, head: 60, reload: 1.6, recoil: 0.012 },
     pistol: { label: "PISTOL", auto: false, rate: 0.2, mag: 12, body: 34, head: 90, reload: 1.2, recoil: 0.02 },
@@ -17,19 +17,19 @@
   const NAMES = ["Nova", "Raze", "Vex", "Kilo", "Echo", "Jinx", "Onyx", "Ryu", "Blitz", "Zed", "Mako", "Sable"];
 
   // ---------- state ----------
-  let lastBy = "", hits = [], feed = [], P, npcs, boxes, fx, running = false, dead = false, bossDone = false, last = 0, locked = false;
+  let best = 0, lastBy = "", hits = [], feed = [], P, npcs, boxes, fx, running = false, dead = false, bossDone = false, last = 0, locked = false;
   const keys = {}; let mouseL = false, mouseR = false;
   const ang = a => Math.atan2(Math.sin(a), Math.cos(a));
   const rnd = (a, b) => a + Math.random() * (b - a);
 
   function reset() {
-    P = { x: 0, z: 0, y: 0, vy: 0, yaw: 0, pitch: 0, hp: 100, kills: 0, score: 0, mult: 1, lastKill: -99, shots: 0, hits: 0, heads: 0, ammo: WEAPONS[cfg.weapon].mag, cd: 0, reloading: 0, recoil: 0, t: 0 };
+    P = { x: 0, z: 0, y: 0, vy: 0, yaw: 0, pitch: 0, hp: 100, kills: 0, score: 0, mult: 1, lastKill: -99, shots: 0, hits: 0, heads: 0, ammo: WEAPONS[cfg.weapon].mag, cd: 0, reloading: 0, recoil: 0, t: 0, vx: 0, vz: 0, prot: 2.5, kp: 0, spr: 0 }; fx = { flash: 0, shake: 0, hit: 0, toast: "", toastT: 0, hitmark: 0, nums: [], hs: 0 };
     hits = []; feed = []; boxes = [[-12, 14, 4, 3.4], [10, 20, 5, 4], [-22, 30, 6, 3], [18, 36, 5, 3.6], [0, 42, 7, 4.4], [-30, 12, 3, 3], [28, 8, 4, 3.2], [-6, 26, 2.4, 2.2]].map(([x, z, w, h]) => ({ x, z, w, h }));
-    npcs = []; fx = { flash: 0, shake: 0, hit: 0, toast: "", toastT: 0, hitmark: 0 }; bossDone = false;
+    npcs = []; bossDone = false;
     for (let i = 0; i < 6; i++) spawn();
   }
   function spawn(boss) {
-    const a = rnd(0, Math.PI * 2), d = rnd(14, 34);
+    const a = rnd(0, Math.PI * 2), d = rnd(20, 38);
     const n = { x: P.x + Math.sin(a) * d, z: P.z + Math.cos(a) * d, hp: 100, max: 100, tx: 0, tz: 0, shoot: rnd(1, 2.5), name: NAMES[(Math.random() * NAMES.length) | 0], dead: false, t: Math.random() * 9, scale: 1, boss: false, flash: 0, speed: rnd(1.4, 2.4) };
     if (boss) { n.boss = true; n.name = "BRUNO"; n.hp = n.max = 2500; n.scale = 2.6; n.speed = 4.2; n.face = 1; n.orb = Math.random() < 0.5 ? 1 : -1; n.phase = 0; n.lunge = 0; n.bite = 0; n.x = P.x + Math.sin(P.yaw) * 30; n.z = P.z + Math.cos(P.yaw) * 30; }
     pick(n); npcs.push(n); return n;
@@ -50,7 +50,7 @@
   }
 
   // ---------- projection ----------
-  const hfov = () => (cfg.weapon === "sniper" && mouseR ? 0.5 : 1.3);
+  const hfov = () => (cfg.weapon === "sniper" && mouseR ? 0.5 : 1.3 + (P ? P.spr * 0.1 : 0));
   const focal = () => (W / 2) / Math.tan(hfov() / 2);
   const eye = () => 1.65 + P.y;
   function proj(x, y, z) {
@@ -76,8 +76,10 @@
     const sp = (keys.ShiftLeft || keys.ShiftRight ? 7.5 : 4.5) * dt;
     let mx = 0, mz = 0; const s = Math.sin(P.yaw), c = Math.cos(P.yaw);
     if (keys.KeyW) { mx += s; mz += c; } if (keys.KeyS) { mx -= s; mz -= c; } if (keys.KeyD) { mx += c; mz -= s; } if (keys.KeyA) { mx -= c; mz += s; }
-    const ml = Math.hypot(mx, mz) || 1; let nx = P.x + mx / ml * sp * (mx || mz ? 1 : 0), nz = P.z + mz / ml * sp * (mx || mz ? 1 : 0);
-    for (const b of boxes) if (Math.abs(nx - b.x) < b.w / 2 + 0.4 && Math.abs(nz - b.z) < 1.2 + 0.4) { nx = P.x; nz = P.z; }
+    const ml = Math.hypot(mx, mz) || 1, want = (mx || mz) ? sp / dt : 0, k = 1 - Math.exp(-(want ? 11 : 14) * dt); P.vx += (mx / ml * want - P.vx) * k; P.vz += (mz / ml * want - P.vz) * k;
+    P.spr += (((keys.ShiftLeft || keys.ShiftRight) && want ? 1 : 0) - P.spr) * Math.min(1, dt * 8); P.prot = Math.max(0, P.prot - dt);
+    let nx = P.x + P.vx * dt, nz = P.z + P.vz * dt;
+    for (const b of boxes) if (Math.abs(nx - b.x) < b.w / 2 + 0.4 && Math.abs(nz - b.z) < 1.2 + 0.4) { nx = P.x; nz = P.z; P.vx = P.vz = 0; }
     P.x = Math.max(-55, Math.min(55, nx)); P.z = Math.max(-55, Math.min(55, nz));
     if (keys.Space && P.y === 0) P.vy = 5.2; P.vy -= 14 * dt; P.y = Math.max(0, P.y + P.vy * dt); if (P.y === 0 && P.vy < 0) P.vy = 0;
     // aim lock (right mouse)
@@ -88,6 +90,7 @@
         P.yaw += Math.atan((t.pt.x - W / 2) / f) * a; P.pitch += Math.atan((H / 2 - t.pt.y) / f) * a;
       }
     }
+    { const r = P.kp * Math.min(1, dt * 5); P.kp -= r; P.pitch -= r * 0.85; }
     P.pitch = Math.max(-0.9, Math.min(0.9, P.pitch)); P.recoil *= Math.pow(0.001, dt);
     // triggerbot: fires on its own while a target is under the crosshair
     if (cfg.trigger && P.cd <= 0 && P.reloading <= 0 && underCrosshair()) fire();
@@ -107,9 +110,9 @@
       if (cfg.shootBack && pd < 38) {
         n.shoot -= dt;
         if (n.shoot <= 0) {
-          n.shoot = n.boss ? rnd(0.45, 0.8) : rnd(1.0, 2.4);
+          n.shoot = (n.boss ? rnd(0.45, 0.8) : rnd(1.2, 2.6)) * Math.max(0.6, 1 - P.kills * 0.02);
           n.muzzle = 0.12;
-          if (Math.random() < Math.max(0.1, (n.boss ? 0.75 : 0.5) - pd / 80)) { hurt(n.boss ? 11 : 7, n); }
+          if (Math.random() < Math.max(0.1, (n.boss ? 0.75 : 0.4 + Math.min(0.15, P.kills * 0.01)) - pd / 90)) { hurt(n.boss ? 11 : 7, n); }
           tone(n.boss ? 120 : 200, 0.12, "sawtooth", 0.08, 70);
         }
       }
@@ -120,7 +123,7 @@
     npcs = npcs.filter(n => !n.dead || n.fade === undefined || n.fade > 0);
     for (const n of npcs) if (n.dead) n.fade -= dt;
     if (P.t - P.lastKill > 4) P.mult = 1;
-    for (const h of hits) h.t -= dt; hits = hits.filter(h => h.t > 0); for (const f of feed) f.t -= dt; feed = feed.filter(f => f.t > 0); fx.flash = Math.max(0, fx.flash - dt * 2.2); fx.shake = Math.max(0, fx.shake - dt * 3); fx.toastT -= dt; fx.hitmark = Math.max(0, fx.hitmark - dt * 5); fx.mf = Math.max(0, (fx.mf || 0) - dt); P.sw = Math.max(0, (P.sw || 0) - dt);
+    for (const h of hits) h.t -= dt; hits = hits.filter(h => h.t > 0); for (const f of feed) f.t -= dt; feed = feed.filter(f => f.t > 0); fx.flash = Math.max(0, fx.flash - dt * 2.2); fx.shake = Math.max(0, fx.shake - dt * 3); fx.toastT -= dt; fx.hitmark = Math.max(0, fx.hitmark - dt * 5); fx.mf = Math.max(0, (fx.mf || 0) - dt); fx.hs = Math.max(0, fx.hs - dt); for (const m of fx.nums) { m.t -= dt; m.y -= 40 * dt; } fx.nums = fx.nums.filter(m => m.t > 0); P.sw = Math.max(0, (P.sw || 0) - dt);
   }
   function bossAI(n, dt) {
     n.phase += dt; n.bite -= dt;
@@ -132,8 +135,8 @@
     if (cfg.shootBack && n.lunge > 0 && Math.hypot(P.x - n.x, P.z - n.z) < 4.4 && n.bite <= 0) { n.bite = 0.8; n.muzzle = 0.15; hurt(16, n, "bit you"); }
   }
   function spawnBoss() { bossDone = true; spawn(true); toast("BRUNO THE DOG HAS ARRIVED"); tone(90, 0.8, "sawtooth", 0.25, 45); }
-  function hurt(d, n, verb) { if (n) { hits.push({ n, x: n.x, z: n.z, name: n.name, t: 1.6 }); feed.unshift({ text: n.name + " " + (verb || "shot you") + "  -" + d, boss: n.boss, t: 4 }); if (feed.length > 5) feed.pop(); lastBy = n.name; } P.hp -= d; fx.flash = 1; fx.shake = 0.5; noise(0.08, 0.25); if (P.hp <= 0 && !dead) die(); }
-  function die() { dead = true; feed.unshift({ text: lastBy + " eliminated you", boss: false, t: 6 }); running = false; if (document.pointerLockElement) document.exitPointerLock(); showOverlay("Eliminated by " + (lastBy || "an NPC"), `Score <b>${P.score.toLocaleString()}</b> &nbsp;·&nbsp; Kills <b>${P.kills}</b> &nbsp;·&nbsp; Headshots <b>${P.heads}</b>`, "Play again"); }
+  function hurt(d, n, verb) { if (P.prot > 0) return; if (n) { hits.push({ n, x: n.x, z: n.z, name: n.name, t: 1.6 }); feed.unshift({ text: n.name + " " + (verb || "shot you") + "  -" + d, boss: n.boss, t: 4 }); if (feed.length > 5) feed.pop(); lastBy = n.name; } P.hp -= d; fx.flash = 1; fx.shake = 0.5; noise(0.08, 0.25); if (P.hp <= 0 && !dead) die(); }
+  function die() { dead = true; if (P.score > best) { best = P.score; try { localStorage.setItem("strive_mg_best", best); } catch { } } feed.unshift({ text: lastBy + " eliminated you", boss: false, t: 6 }); running = false; if (document.pointerLockElement) document.exitPointerLock(); showOverlay("Eliminated by " + (lastBy || "an NPC"), `Score <b>${P.score.toLocaleString()}</b> &nbsp;·&nbsp; Kills <b>${P.kills}</b> &nbsp;·&nbsp; Headshots <b>${P.heads}</b>`, "Play again"); }
   function nearestInFov() {
     let best = null, bd = 1e9; const cx = W / 2, cy = H / 2;
     for (const n of npcs) {
@@ -145,7 +148,7 @@
   function underCrosshair() { const cx = W / 2, cy = H / 2; for (const n of npcs) { if (n.dead) continue; const g = geo(n); if (g && (Math.hypot(cx - g.head.x, cy - g.head.y) <= g.head.r || (cx >= g.x0 && cx <= g.x1 && cy >= g.y0 && cy <= g.y1))) return true; } return false; }
   function fire() {
     const w = WEAPONS[cfg.weapon]; if (P.ammo <= 0) { reload(); return; }
-    P.ammo--; fx.mf = 0.07; P.cd = w.rate; P.shots++; P.recoil += w.recoil; P.pitch += w.recoil * 0.6; fx.shake = Math.max(fx.shake, 0.18);
+    P.ammo--; fx.mf = 0.07; P.cd = w.rate; P.shots++; P.recoil += w.recoil; P.pitch += w.recoil * 0.6; P.kp += w.recoil * 0.6; fx.shake = Math.max(fx.shake, 0.18);
     noise(cfg.weapon === "sniper" ? 0.22 : 0.07, cfg.weapon === "sniper" ? 0.5 : 0.28);
     // hit test at the crosshair, nearest first
     const cx = W / 2, cy = H / 2; let hit = null;
@@ -157,6 +160,7 @@
     if (hit) {
       P.hits++; fx.hitmark = 1; const n = hit.n; n.flash = 0.12; const dmg = hit.head ? w.head : w.body;
       if (hit.head) { P.heads++; tone(1400, 0.1, "sine", 0.25); } else tone(700, 0.06, "square", 0.12);
+      { const g = geo(n); if (g) fx.nums.push({ x: hit.head ? g.head.x : g.f.x, y: hit.head ? g.head.y - g.head.r : g.aimChest.y, text: String(dmg), head: hit.head, t: 0.8 }); } if (hit.head) fx.hs = 0.6;
       n.hp -= dmg; if (n.hp <= 0) kill(n, hit.head);
     }
     if (P.ammo <= 0) reload();
@@ -270,6 +274,11 @@
     const cx = W / 2, cy = H / 2;
     if (cfg.fovCircle) { ctx.strokeStyle = mouseR ? "rgba(31,182,255,.9)" : "rgba(255,255,255,.35)"; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(cx, cy, cfg.radius, 0, 6.3); ctx.stroke(); }
     ctx.strokeStyle = fx.hitmark > 0 ? "#ff5a5a" : "#fff"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx - 9, cy); ctx.lineTo(cx - 3, cy); ctx.moveTo(cx + 3, cy); ctx.lineTo(cx + 9, cy); ctx.moveTo(cx, cy - 9); ctx.lineTo(cx, cy - 3); ctx.moveTo(cx, cy + 3); ctx.lineTo(cx, cy + 9); ctx.stroke();
+    // floating damage numbers + headshot banner
+    ctx.textAlign = "center"; for (const m of fx.nums) { ctx.globalAlpha = Math.min(1, m.t * 2); ctx.fillStyle = m.head ? "#ffd34d" : "#ffffff"; ctx.font = (m.head ? "800 20px" : "700 15px") + " Manrope,sans-serif"; ctx.fillText(m.text, m.x, m.y); } ctx.globalAlpha = 1;
+    if (fx.hs > 0) { ctx.globalAlpha = Math.min(1, fx.hs * 2); ctx.fillStyle = "#ffd34d"; ctx.font = "800 15px Manrope,sans-serif"; ctx.fillText("HEADSHOT", cx, cy + 46); ctx.globalAlpha = 1; }
+    if (P.hp < 30 && P.hp > 0) { const pu = 0.25 + 0.2 * Math.sin(P.t * 7), v2 = ctx.createRadialGradient(cx, cy, H * 0.35, cx, cy, H * 0.9); v2.addColorStop(0, "rgba(255,0,0,0)"); v2.addColorStop(1, "rgba(255,30,30," + pu + ")"); ctx.fillStyle = v2; ctx.fillRect(0, 0, W, H); }
+    if (P.prot > 0) { ctx.fillStyle = "#44e08a"; ctx.font = "700 12px Manrope,sans-serif"; ctx.fillText("SPAWN PROTECTION", cx, H * 0.2); }
     // who is shooting you: arrows around the crosshair pointing at each attacker
     for (const h of hits) { const bearing = Math.atan2(h.x - P.x, h.z - P.z), rel = ang(bearing - P.yaw), a = -rel + Math.PI / 2 * 0; const R = Math.min(W, H) * 0.3, px = cx + Math.sin(rel) * R, py = cy - Math.cos(rel) * R; ctx.save(); ctx.globalAlpha = Math.min(1, h.t); ctx.translate(px, py); ctx.rotate(rel); ctx.fillStyle = h.n.boss ? "#ffd34d" : "#ff3b3b"; ctx.beginPath(); ctx.moveTo(0, -16); ctx.lineTo(13, 10); ctx.lineTo(0, 4); ctx.lineTo(-13, 10); ctx.closePath(); ctx.fill(); ctx.restore(); ctx.save(); ctx.globalAlpha = Math.min(1, h.t); ctx.fillStyle = "#fff"; ctx.font = "800 12px Manrope,sans-serif"; ctx.textAlign = "center"; ctx.fillText(h.name, cx + Math.sin(rel) * (R + 30), cy - Math.cos(rel) * (R + 30) + 4); ctx.restore(); }
     // hurt vignette
@@ -281,7 +290,7 @@
     // text hud
     ctx.textAlign = "left"; ctx.font = "700 13px Manrope,sans-serif"; ctx.fillStyle = "#ffd34d";
     const acc = P.shots ? Math.round(P.hits / P.shots * 100) : 0;
-    ctx.fillText(`Kills ${P.kills}  ·  Headshots ${P.heads}  ·  Accuracy ${acc}%`, 16, 24); ctx.fillText(`Score ${P.score.toLocaleString()}${P.mult > 1 ? "   x" + P.mult : ""}`, 16, 44);
+    ctx.fillText(`Kills ${P.kills}  ·  Headshots ${P.heads}  ·  Accuracy ${acc}%`, 16, 24); ctx.fillText(`Score ${P.score.toLocaleString()}${P.mult > 1 ? "   x" + P.mult : ""}   ·   Best ${Math.max(best, P.score).toLocaleString()}`, 16, 44); if (!bossDone) { ctx.fillStyle = "#ff9b4a"; ctx.fillText("Bruno in " + Math.max(0, 10 - P.kills) + " kills", 16, 64); ctx.fillStyle = "#ffd34d"; }
     // health + ammo
     ctx.fillStyle = "rgba(0,0,0,.55)"; ctx.fillRect(16, H - 34, 190, 12); ctx.fillStyle = P.hp > 40 ? "#44e08a" : "#ff4d4d"; ctx.fillRect(16, H - 34, 190 * Math.max(0, P.hp) / 100, 12);
     ctx.fillStyle = "#fff"; ctx.fillText(Math.max(0, Math.ceil(P.hp)) + " HP", 214, H - 24);
@@ -354,7 +363,7 @@
   btn.addEventListener("click", start);
   cv.addEventListener("click", () => { if (running && !document.pointerLockElement) { try { const r = cv.requestPointerLock(); if (r && r.catch) r.catch(() => { }); } catch { } } });
   document.addEventListener("pointerlockchange", () => { locked = document.pointerLockElement === cv; if (!locked && running && !dead) { running = false; showOverlay("Paused", DESC, "Click to Play"); mouseL = mouseR = false; } });
-  document.addEventListener("mousemove", e => { if (!running) return; const k = cfg.weapon === "sniper" && mouseR ? 0.0007 : 0.0022; P.yaw += e.movementX * k; P.pitch -= e.movementY * k; });
+  document.addEventListener("mousemove", e => { if (!running) return; const k = cfg.weapon === "sniper" && mouseR ? 0.0007 : 0.0022; P.yaw += e.movementX * k * cfg.sens; P.pitch -= e.movementY * k * cfg.sens; });
   cv.addEventListener("mousedown", e => { if (!running) return; if (e.button === 0) mouseL = { fired: false }; if (e.button === 2) mouseR = true; });
   document.addEventListener("mouseup", e => { if (e.button === 0) mouseL = false; if (e.button === 2) mouseR = false; });
   cv.addEventListener("contextmenu", e => e.preventDefault());
@@ -382,11 +391,13 @@
   document.querySelectorAll("[data-w]").forEach(b => b.addEventListener("click", () => setWeapon(b.dataset.w)));
   document.querySelectorAll("[data-t]").forEach(b => b.addEventListener("click", () => toggle(b.dataset.t)));
   document.querySelectorAll("[data-bone]").forEach(b => b.addEventListener("click", () => { cfg.bone = b.dataset.bone; sync(); }));
+  $("mgSens").addEventListener("input", e => { cfg.sens = e.target.value / 100; $("mgSensV").textContent = e.target.value + "%"; });
   $("mgRadius").addEventListener("input", e => { cfg.radius = +e.target.value; $("mgRadiusV").textContent = cfg.radius + "px"; });
   $("mgSmooth").addEventListener("input", e => { cfg.smooth = +e.target.value; $("mgSmoothV").textContent = cfg.smooth; });
   $("mgVol").addEventListener("input", e => { cfg.vol = e.target.value / 100; $("mgVolV").textContent = e.target.value + "%"; setVol(); });
   $("mgMusic").addEventListener("click", () => { cfg.music = !cfg.music; audio(); music(cfg.music && running); sync(); });
   $("mgMute").addEventListener("click", () => { cfg.mute = !cfg.mute; setVol(); sync(); });
-  for (const id of ["mgRadius", "mgSmooth", "mgVol"]) { const el = $(id), upd = () => el.style.setProperty("--p", (el.value - el.min) / (el.max - el.min) * 100 + "%"); el.addEventListener("input", upd); upd(); }
+  for (const id of ["mgSens", "mgRadius", "mgSmooth", "mgVol"]) { const el = $(id), upd = () => el.style.setProperty("--p", (el.value - el.min) / (el.max - el.min) * 100 + "%"); el.addEventListener("input", upd); upd(); }
+  try { best = +localStorage.getItem("strive_mg_best") || 0; } catch { }
   sync(); reset(); requestAnimationFrame(frame);
 })();
