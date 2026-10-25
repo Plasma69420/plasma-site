@@ -741,3 +741,28 @@ kbd{display:inline-block;min-width:20px;padding:1px 6px;margin-right:3px;border-
 .gd-next i svg{width:20px;height:20px}
 .gd-next:hover{border-color:#1fb6ff;background:linear-gradient(90deg,rgba(31,182,255,.24),rgba(31,182,255,.08))}.gd-next:hover i{transform:translateX(4px)}
 .gd-next.done{border-color:rgba(110,200,255,.25);background:rgba(110,200,255,.05)}
+
+/* ===== v28: header matched to the reference (desktop) ===== */
+@media (min-width:1000px){
+.nav-bar{height:57px}
+.nav .nav-in{width:min(1336px,100% - 64px)!important;max-width:none!important;height:57px;display:flex;align-items:center;justify-content:flex-start;gap:0;margin:0 auto;padding:0;background:none;border:0;box-shadow:none}
+.nav .brand{margin-right:32px;display:flex;align-items:center}
+.nav .brand img{height:28px;width:auto;display:block}
+.nav .nav-links{display:flex;gap:4px;align-items:center;margin:0}
+.nav .nav-links a{height:32px;padding:0 12px;gap:8px;border-radius:8px;font-size:14px;font-weight:500;display:inline-flex;align-items:center;color:#9bb7c4;border:1px solid transparent;white-space:nowrap}
+.nav .nav-links a svg{width:16px;height:16px;flex:none}
+.nav .nav-links a:hover{color:#fff;background:rgba(31,182,255,.06)}
+.nav .nav-links a.on{color:#fff;background:rgba(31,182,255,.12);border-color:rgba(110,200,255,.16);box-shadow:0 2px 10px rgba(0,0,0,.35)}
+.nav .nav-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.nav .nav-btn{height:32px;min-height:32px;border-radius:8px;font-size:14px;font-weight:600}
+.nav .nav-btn.icon{width:32px;min-width:32px;padding:0;display:inline-grid;place-items:center}
+.nav .nav-btn.icon svg{width:16px;height:16px}
+.nav .nav-btn.cart-btn{position:relative;padding:0 12px;gap:8px;display:inline-flex;align-items:center}
+.nav .nav-btn.cart-btn .cart-count{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#1fb6ff;color:#02141c;font:800 11px/18px 'Manrope';text-align:center}
+.nav .nav-btn.client{padding:0 14px;gap:8px;display:inline-flex;align-items:center;background:#1fb6ff;color:#02141c;font-weight:700;border-color:transparent}
+.nav .nav-btn.client:hover{background:#52c8ff}
+.nav .nav-btn.burger{display:none}
+}
+@media (min-width:1000px) and (max-width:1260px){.nav .nav-links a{padding:0 9px;gap:6px}.nav .brand{margin-right:18px}}
+@media (min-width:1000px){.nav .brand{margin-right:36px}.nav .nav-btn.client{padding:0 12px}.nav .nav-btn.cart-btn{padding:0 11px}}
+@media (min-width:1000px) and (max-width:1239px){.nav .nav-links a svg{display:none}.nav .nav-links a{padding:0 10px}.nav .brand{margin-right:20px}}
