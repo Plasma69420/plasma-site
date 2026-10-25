@@ -31,7 +31,7 @@
   function spawn(boss) {
     const a = rnd(0, Math.PI * 2), d = rnd(14, 34);
     const n = { x: P.x + Math.sin(a) * d, z: P.z + Math.cos(a) * d, hp: 100, max: 100, tx: 0, tz: 0, shoot: rnd(1, 2.5), name: NAMES[(Math.random() * NAMES.length) | 0], dead: false, t: Math.random() * 9, scale: 1, boss: false, flash: 0, speed: rnd(1.4, 2.4) };
-    if (boss) { n.boss = true; n.name = "BRUNO"; n.hp = n.max = 1800; n.scale = 2.4; n.speed = 1.7; n.x = P.x + Math.sin(P.yaw) * 30; n.z = P.z + Math.cos(P.yaw) * 30; }
+    if (boss) { n.boss = true; n.name = "BRUNO"; n.hp = n.max = 2500; n.scale = 2.6; n.speed = 4.2; n.face = 1; n.orb = Math.random() < 0.5 ? 1 : -1; n.phase = 0; n.lunge = 0; n.bite = 0; n.x = P.x + Math.sin(P.yaw) * 30; n.z = P.z + Math.cos(P.yaw) * 30; }
     pick(n); npcs.push(n); return n;
   }
   const pick = n => { const a = rnd(0, 6.28), d = rnd(6, 26); n.tx = P.x + Math.sin(a) * d; n.tz = P.z + Math.cos(a) * d; };
@@ -84,10 +84,8 @@
     if (mouseR && cfg.aimbot) {
       const t = nearestInFov();
       if (t) {
-        const by = t.n.boss ? (cfg.bone === "head" ? 3.7 : 2.6) : (cfg.bone === "head" ? 1.62 : 1.2);
-        const dx = t.n.x - P.x, dz = t.n.z - P.z, ty = Math.atan2(dx, dz), tp = Math.atan2(by - eye(), Math.hypot(dx, dz));
-        const a = Math.min(1, dt * 700 / (cfg.smooth + 12));
-        P.yaw += ang(ty - P.yaw) * a; P.pitch += (tp - P.pitch) * a;
+        const f = focal(), a = Math.min(1, dt * 700 / (cfg.smooth + 12));
+        P.yaw += Math.atan((t.pt.x - W / 2) / f) * a; P.pitch += Math.atan((H / 2 - t.pt.y) / f) * a;
       }
     }
     P.pitch = Math.max(-0.9, Math.min(0.9, P.pitch)); P.recoil *= Math.pow(0.001, dt);
@@ -102,6 +100,7 @@
     for (const n of npcs) {
       if (n.dead) continue; alive++;
       n.muzzle = Math.max(0, (n.muzzle || 0) - dt); n.t += dt; n.flash = Math.max(0, n.flash - dt);
+      if (n.boss) { bossAI(n, dt); continue; }
       const dx = n.tx - n.x, dz = n.tz - n.z, d = Math.hypot(dx, dz);
       const pd = Math.hypot(P.x - n.x, P.z - n.z), stand = cfg.shootBack && pd < 30;
       if (d < 1) pick(n); else if (!stand || n.boss) { n.x += dx / d * n.speed * dt; n.z += dz / d * n.speed * dt; }
@@ -121,22 +120,32 @@
     npcs = npcs.filter(n => !n.dead || n.fade === undefined || n.fade > 0);
     for (const n of npcs) if (n.dead) n.fade -= dt;
     if (P.t - P.lastKill > 4) P.mult = 1;
-    for (const h of hits) h.t -= dt; hits = hits.filter(h => h.t > 0); for (const f of feed) f.t -= dt; feed = feed.filter(f => f.t > 0); fx.flash = Math.max(0, fx.flash - dt * 2.2); fx.shake = Math.max(0, fx.shake - dt * 3); fx.toastT -= dt; fx.hitmark = Math.max(0, fx.hitmark - dt * 5);
+    for (const h of hits) h.t -= dt; hits = hits.filter(h => h.t > 0); for (const f of feed) f.t -= dt; feed = feed.filter(f => f.t > 0); fx.flash = Math.max(0, fx.flash - dt * 2.2); fx.shake = Math.max(0, fx.shake - dt * 3); fx.toastT -= dt; fx.hitmark = Math.max(0, fx.hitmark - dt * 5); fx.mf = Math.max(0, (fx.mf || 0) - dt); P.sw = Math.max(0, (P.sw || 0) - dt);
   }
-  function spawnBoss() { bossDone = true; spawn(true); toast("BRUNO HAS ARRIVED"); tone(90, 0.8, "sawtooth", 0.25, 45); }
-  function hurt(d, n) { if (n) { hits.push({ n, x: n.x, z: n.z, name: n.name, t: 1.6 }); feed.unshift({ text: n.name + " shot you  -" + d, boss: n.boss, t: 4 }); if (feed.length > 5) feed.pop(); lastBy = n.name; } P.hp -= d; fx.flash = 1; fx.shake = 0.5; noise(0.08, 0.25); if (P.hp <= 0 && !dead) die(); }
+  function bossAI(n, dt) {
+    n.phase += dt; n.bite -= dt;
+    if (n.lunge > 0) n.lunge -= dt; else if (n.phase > 4.5) { n.phase = 0; n.lunge = 2.2; if (Math.random() < 0.5) n.orb = -n.orb; tone(110, 0.35, "sawtooth", 0.18, 70); }
+    const a = Math.atan2(n.x - P.x, n.z - P.z) + (n.lunge > 0 ? 0 : n.orb * dt * 0.55), R = n.lunge > 0 ? 2.2 : 10;
+    const tx = P.x + Math.sin(a) * R, tz = P.z + Math.cos(a) * R, dx = tx - n.x, dz = tz - n.z, d = Math.hypot(dx, dz) || 1, st = Math.min(d, n.speed * (n.lunge > 0 ? 1.5 : 1) * dt);
+    const ox = n.x, oz = n.z; n.x += dx / d * st; n.z += dz / d * st;
+    const vr = (n.x - ox) * Math.cos(P.yaw) - (n.z - oz) * Math.sin(P.yaw); if (Math.abs(vr) > 0.002) n.face = vr > 0 ? 1 : -1;
+    if (cfg.shootBack && n.lunge > 0 && Math.hypot(P.x - n.x, P.z - n.z) < 4.4 && n.bite <= 0) { n.bite = 0.8; n.muzzle = 0.15; hurt(16, n, "bit you"); }
+  }
+  function spawnBoss() { bossDone = true; spawn(true); toast("BRUNO THE DOG HAS ARRIVED"); tone(90, 0.8, "sawtooth", 0.25, 45); }
+  function hurt(d, n, verb) { if (n) { hits.push({ n, x: n.x, z: n.z, name: n.name, t: 1.6 }); feed.unshift({ text: n.name + " " + (verb || "shot you") + "  -" + d, boss: n.boss, t: 4 }); if (feed.length > 5) feed.pop(); lastBy = n.name; } P.hp -= d; fx.flash = 1; fx.shake = 0.5; noise(0.08, 0.25); if (P.hp <= 0 && !dead) die(); }
   function die() { dead = true; feed.unshift({ text: lastBy + " eliminated you", boss: false, t: 6 }); running = false; if (document.pointerLockElement) document.exitPointerLock(); showOverlay("Eliminated by " + (lastBy || "an NPC"), `Score <b>${P.score.toLocaleString()}</b> &nbsp;·&nbsp; Kills <b>${P.kills}</b> &nbsp;·&nbsp; Headshots <b>${P.heads}</b>`, "Play again"); }
   function nearestInFov() {
     let best = null, bd = 1e9; const cx = W / 2, cy = H / 2;
     for (const n of npcs) {
-      if (n.dead) continue; const p = proj(n.x, (n.boss ? 2.6 : 1.2), n.z); if (!p) continue;
-      const d = Math.hypot(p.x - cx, p.y - cy); if (d < cfg.radius && d < bd) { bd = d; best = { n, p }; }
+      if (n.dead) continue; const g = geo(n); if (!g) continue;
+      const pt = cfg.bone === "head" ? g.aimHead : g.aimChest, d = Math.hypot(pt.x - cx, pt.y - cy);
+      if (d < cfg.radius && d < bd) { bd = d; best = { n, pt }; }
     } return best;
   }
   function underCrosshair() { const cx = W / 2, cy = H / 2; for (const n of npcs) { if (n.dead) continue; const g = geo(n); if (g && (Math.hypot(cx - g.head.x, cy - g.head.y) <= g.head.r || (cx >= g.x0 && cx <= g.x1 && cy >= g.y0 && cy <= g.y1))) return true; } return false; }
   function fire() {
     const w = WEAPONS[cfg.weapon]; if (P.ammo <= 0) { reload(); return; }
-    P.ammo--; P.cd = w.rate; P.shots++; P.recoil += w.recoil; P.pitch += w.recoil * 0.6; fx.shake = Math.max(fx.shake, 0.18);
+    P.ammo--; fx.mf = 0.07; P.cd = w.rate; P.shots++; P.recoil += w.recoil; P.pitch += w.recoil * 0.6; fx.shake = Math.max(fx.shake, 0.18);
     noise(cfg.weapon === "sniper" ? 0.22 : 0.07, cfg.weapon === "sniper" ? 0.5 : 0.28);
     // hit test at the crosshair, nearest first
     const cx = W / 2, cy = H / 2; let hit = null;
@@ -161,9 +170,15 @@
   }
   function reload() { if (P.reloading > 0) return; P.reloading = WEAPONS[cfg.weapon].reload; tone(300, 0.15, "square", 0.08); }
   function geo(n) {
-    const f = proj(n.x, 0, n.z), t = proj(n.x, 1.82 * n.scale, n.z), h = proj(n.x, 1.62 * n.scale, n.z); if (!f || !t || !h) return null;
-    const hw = 0.28 * n.scale * f.s;
-    return { f, t, head: { x: h.x, y: h.y, r: 0.17 * n.scale * f.s }, x0: f.x - hw, x1: f.x + hw, y0: h.y + 0.17 * n.scale * f.s, y1: f.y, hw };
+    const f = proj(n.x, 0, n.z); if (!f) return null;
+    if (n.boss) {
+      const s = f.s * n.scale, fd = n.face || 1, X = f.x, Y = f.y, hr = 0.3 * s;
+      const head = { x: X + fd * 0.95 * s, y: Y - 1.05 * s, r: hr };
+      return { f, t: { y: Y - 1.32 * s }, head, x0: X - 0.82 * s, x1: X + 0.7 * s, y0: Y - 0.98 * s, y1: Y, hw: 1.2 * s, s, fd, aimHead: { x: head.x, y: head.y }, aimChest: { x: X + fd * 0.2 * s, y: Y - 0.7 * s } };
+    }
+    const t = proj(n.x, 1.82 * n.scale, n.z), h = proj(n.x, 1.62 * n.scale, n.z); if (!t || !h) return null;
+    const hw = 0.28 * n.scale * f.s, r = 0.17 * n.scale * f.s;
+    return { f, t, head: { x: h.x, y: h.y, r }, x0: f.x - hw, x1: f.x + hw, y0: h.y + r, y1: f.y, hw, s: f.s * n.scale, aimHead: { x: h.x, y: h.y }, aimChest: { x: f.x, y: f.y - 1.2 * f.s * n.scale } };
   }
 
   // ---------- render ----------
@@ -194,17 +209,39 @@
     ctx.fillStyle = g; ctx.fillRect(a.x, c.y, c.x - a.x, a.y - c.y); ctx.strokeStyle = "rgba(31,182,255,.35)"; ctx.lineWidth = 1.5; ctx.strokeRect(a.x, c.y, c.x - a.x, a.y - c.y);
   }
   function drawNpc(n) {
-    const g = geo(n); if (!g) return; const s = g.f.s * n.scale, alpha = n.dead ? Math.max(0, n.fade / 0.5) : 1;
+    const g = geo(n); if (!g) return; const s = g.s, alpha = n.dead ? Math.max(0, n.fade / 0.5) : 1, X = g.f.x, Y = g.f.y;
     ctx.save(); ctx.globalAlpha = alpha;
-    const sway = Math.sin(n.t * 6) * 0.05 * s, col = n.flash > 0 ? "#ffffff" : n.boss ? "#ff4a3d" : "#e0533f", dark = n.flash > 0 ? "#dddddd" : n.boss ? "#8f1d16" : "#7c2a1f";
-    const X = g.f.x, Y = g.f.y;
-    ctx.fillStyle = dark; ctx.fillRect(X - 0.2 * s, Y - 0.9 * s, 0.17 * s, 0.9 * s + sway); ctx.fillRect(X + 0.03 * s, Y - 0.9 * s, 0.17 * s, 0.9 * s - sway);   // legs
+    if (n.boss) { drawDog(n, g); ctx.restore(); return; }
+    const sway = Math.sin(n.t * 6) * 0.05 * s, col = n.flash > 0 ? "#ffffff" : "#e0533f", dark = n.flash > 0 ? "#dddddd" : "#7c2a1f";
+    ctx.fillStyle = dark; ctx.fillRect(X - 0.2 * s, Y - 0.9 * s, 0.17 * s, 0.9 * s + sway); ctx.fillRect(X + 0.03 * s, Y - 0.9 * s, 0.17 * s, 0.9 * s - sway);
     const tg = ctx.createLinearGradient(0, Y - 1.5 * s, 0, Y - 0.85 * s); tg.addColorStop(0, col); tg.addColorStop(1, dark); ctx.fillStyle = tg;
-    ctx.fillRect(X - 0.28 * s, Y - 1.5 * s, 0.56 * s, 0.65 * s);                                                                                    // torso
-    ctx.fillStyle = dark; ctx.fillRect(X - 0.4 * s, Y - 1.45 * s, 0.12 * s, 0.6 * s); ctx.fillRect(X + 0.28 * s, Y - 1.45 * s, 0.12 * s, 0.6 * s);   // arms
-    ctx.fillStyle = "#f1d2b8"; ctx.beginPath(); ctx.arc(g.head.x, g.head.y, g.head.r, 0, 6.3); ctx.fill();                                           // head
+    ctx.fillRect(X - 0.28 * s, Y - 1.5 * s, 0.56 * s, 0.65 * s);
+    ctx.fillStyle = dark; ctx.fillRect(X - 0.4 * s, Y - 1.45 * s, 0.12 * s, 0.6 * s); ctx.fillRect(X + 0.28 * s, Y - 1.45 * s, 0.12 * s, 0.6 * s);
+    ctx.fillStyle = "#10222a"; ctx.fillRect(X + 0.08 * s, Y - 1.2 * s, 0.5 * s, 0.1 * s); ctx.fillRect(X + 0.14 * s, Y - 1.12 * s, 0.1 * s, 0.18 * s);   // their rifle
+    ctx.fillStyle = "#f1d2b8"; ctx.beginPath(); ctx.arc(g.head.x, g.head.y, g.head.r, 0, 6.3); ctx.fill();
     ctx.fillStyle = "#222"; ctx.fillRect(X - 0.2 * s * 0.7, Y - 1.62 * s - 0.04 * s, 0.34 * s, 0.07 * s);
     ctx.restore();
+  }
+  function drawDog(n, g) {
+    const s = g.s, fd = g.fd, X = g.f.x, Y = g.f.y, hit = n.flash > 0, fur = hit ? "#ffffff" : "#6b4a32", fur2 = hit ? "#dddddd" : "#4a3222", belly = hit ? "#eeeeee" : "#8a6446";
+    const P2 = (dx, dy) => [X + fd * dx * s, Y + dy * s], bob = Math.sin(n.t * 10) * 0.05 * s, leg = Math.sin(n.t * 12) * 0.12;
+    // tail
+    ctx.strokeStyle = fur2; ctx.lineWidth = 0.12 * s; ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(...P2(-0.7, -0.85)); ctx.lineTo(...P2(-1.15, -1.1 + Math.sin(n.t * 14) * 0.12)); ctx.stroke();
+    // legs
+    ctx.strokeStyle = fur2; ctx.lineWidth = 0.17 * s;
+    for (const [dx, ph] of [[-0.55, 0], [-0.3, Math.PI], [0.35, Math.PI], [0.6, 0]]) { ctx.beginPath(); ctx.moveTo(...P2(dx, -0.5)); ctx.lineTo(...P2(dx + Math.sin(n.t * 12 + ph) * 0.14, 0)); ctx.stroke(); }
+    // body
+    const bg = ctx.createLinearGradient(0, Y - 1 * s, 0, Y - 0.4 * s); bg.addColorStop(0, fur); bg.addColorStop(1, belly); ctx.fillStyle = bg;
+    ctx.beginPath(); ctx.ellipse(X - fd * 0.05 * s, Y - 0.7 * s + bob, 0.78 * s, 0.32 * s, 0, 0, 6.3); ctx.fill();
+    // neck + head
+    ctx.fillStyle = fur; ctx.beginPath(); ctx.moveTo(...P2(0.4, -0.95)); ctx.lineTo(...P2(0.85, -1.3)); ctx.lineTo(...P2(0.8, -0.75)); ctx.lineTo(...P2(0.45, -0.5)); ctx.fill();
+    ctx.beginPath(); ctx.arc(g.head.x, g.head.y + bob, g.head.r, 0, 6.3); ctx.fill();
+    ctx.fillStyle = belly; ctx.beginPath(); ctx.ellipse(...P2(1.3, -0.97), 0.26 * s, 0.14 * s, 0, 0, 6.3); ctx.fill();   // snout
+    ctx.fillStyle = "#111"; ctx.beginPath(); ctx.arc(...P2(1.5, -1.0), 0.06 * s, 0, 6.3); ctx.fill();   // nose
+    ctx.fillStyle = fur2; ctx.beginPath(); ctx.moveTo(...P2(0.75, -1.25)); ctx.lineTo(...P2(0.9, -1.55)); ctx.lineTo(...P2(1.05, -1.22)); ctx.fill();   // ear
+    ctx.fillStyle = "#ffd34d"; ctx.beginPath(); ctx.arc(...P2(1.08, -1.1), 0.045 * s, 0, 6.3); ctx.fill();   // eye
+    ctx.fillStyle = "#1fb6ff"; ctx.beginPath(); ctx.ellipse(...P2(0.62, -0.95), 0.07 * s, 0.2 * s, 0, 0, 6.3); ctx.fill();   // collar
+    if (n.lunge > 0) { ctx.strokeStyle = "#fff"; ctx.lineWidth = 0.03 * s; ctx.beginPath(); ctx.moveTo(...P2(1.3, -0.9)); ctx.lineTo(...P2(1.42, -0.8)); ctx.stroke(); }
   }
   function drawEsp(n) {
     const g = geo(n); if (!g) return; const x0 = g.f.x - g.hw - 4, x1 = g.f.x + g.hw + 4, y0 = g.t.y - 4, y1 = g.f.y + 2, w = x1 - x0, h = y1 - y0;
@@ -216,7 +253,11 @@
       ctx.moveTo(x0, y0 + l); ctx.lineTo(x0, y0); ctx.lineTo(x0 + l, y0); ctx.moveTo(x1 - l, y0); ctx.lineTo(x1, y0); ctx.lineTo(x1, y0 + l);
       ctx.moveTo(x0, y1 - l); ctx.lineTo(x0, y1); ctx.lineTo(x0 + l, y1); ctx.moveTo(x1 - l, y1); ctx.lineTo(x1, y1); ctx.lineTo(x1, y1 - l); ctx.stroke();
     }
-    if (cfg.skel) {
+    if (cfg.skel && n.boss) {
+      const s = g.s, fd = g.fd, X = g.f.x, Y = g.f.y, Q = (dx, dy) => [X + fd * dx * s, Y + dy * s]; ctx.strokeStyle = "#37c4ff"; ctx.beginPath();
+      ctx.moveTo(...Q(-0.7, -0.85)); ctx.lineTo(...Q(0.4, -0.95)); ctx.lineTo(g.head.x, g.head.y);
+      for (const dx of [-0.55, -0.3, 0.35, 0.6]) { ctx.moveTo(...Q(dx > 0 ? 0.4 : -0.6, -0.8)); ctx.lineTo(...Q(dx, -0.4)); ctx.lineTo(...Q(dx, 0)); } ctx.stroke();
+    } else if (cfg.skel) {
       const X = g.f.x, s = g.f.s * n.scale, Y = g.f.y; ctx.strokeStyle = "#37c4ff"; ctx.beginPath();
       ctx.moveTo(g.head.x, g.head.y + g.head.r); ctx.lineTo(X, Y - 0.95 * s);
       ctx.moveTo(X - 0.3 * s, Y - 1.4 * s); ctx.lineTo(X + 0.3 * s, Y - 1.4 * s); ctx.moveTo(X - 0.3 * s, Y - 1.4 * s); ctx.lineTo(X - 0.36 * s, Y - 0.85 * s); ctx.moveTo(X + 0.3 * s, Y - 1.4 * s); ctx.lineTo(X + 0.36 * s, Y - 0.85 * s);
@@ -234,7 +275,7 @@
     // hurt vignette
     if (fx.flash > 0) { const v = ctx.createRadialGradient(cx, cy, H * 0.3, cx, cy, H * 0.9); v.addColorStop(0, "rgba(255,0,0,0)"); v.addColorStop(1, "rgba(255,30,30," + 0.5 * fx.flash + ")"); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H); }
     // gun
-    const gx = W - 250 + (P.recoil * 700), gy = H - 150 + P.recoil * 300; ctx.save(); ctx.translate(gx, gy); ctx.fillStyle = "#0b1a21"; ctx.fillRect(0, 40, 190, 54); ctx.fillStyle = "#16313d"; ctx.fillRect(40, 20, 150, 28); ctx.fillStyle = "#1fb6ff"; ctx.fillRect(150, 28, 30, 4); ctx.fillStyle = "#0b1a21"; ctx.fillRect(70, 94, 26, 54); ctx.restore();
+    drawGun(cx, cy); drawWeaponBar(cx);
     // damage feed
     ctx.textAlign = "left"; ctx.font = "700 13px Manrope,sans-serif"; feed.forEach((f, i) => { ctx.globalAlpha = Math.min(1, f.t); ctx.fillStyle = f.boss ? "#ffd34d" : "#ff7a6b"; ctx.fillText(f.text, 16, H - 62 - i * 18); }); ctx.globalAlpha = 1;
     // text hud
@@ -244,7 +285,7 @@
     // health + ammo
     ctx.fillStyle = "rgba(0,0,0,.55)"; ctx.fillRect(16, H - 34, 190, 12); ctx.fillStyle = P.hp > 40 ? "#44e08a" : "#ff4d4d"; ctx.fillRect(16, H - 34, 190 * Math.max(0, P.hp) / 100, 12);
     ctx.fillStyle = "#fff"; ctx.fillText(Math.max(0, Math.ceil(P.hp)) + " HP", 214, H - 24);
-    ctx.textAlign = "right"; ctx.font = "800 22px Manrope,sans-serif"; ctx.fillText(P.reloading > 0 ? "RELOADING" : P.ammo + " / " + WEAPONS[cfg.weapon].mag, W - 18, H - 22); ctx.font = "700 11px Manrope,sans-serif"; ctx.fillStyle = "#7fd6ff"; ctx.fillText(WEAPONS[cfg.weapon].label, W - 18, H - 46);
+    if (P.reloading > 0) { ctx.textAlign = "center"; ctx.font = "800 14px Manrope,sans-serif"; ctx.fillStyle = "#ffd34d"; ctx.fillText("RELOADING...", cx, H - 62); }
     // boss bar
     const b = npcs.find(n => n.boss && !n.dead); if (b) { const bw = Math.min(420, W * 0.5), bx = cx - bw / 2; ctx.fillStyle = "rgba(0,0,0,.6)"; ctx.fillRect(bx, 16, bw, 12); ctx.fillStyle = "#ff4a3d"; ctx.fillRect(bx, 16, bw * Math.max(0, b.hp / b.max), 12); ctx.textAlign = "center"; ctx.fillStyle = "#ffd34d"; ctx.font = "800 12px Manrope,sans-serif"; ctx.fillText("BRUNO", cx, 46); }
     // radar
@@ -259,10 +300,51 @@
     if (fx.toastT > 0) { ctx.textAlign = "center"; ctx.globalAlpha = Math.min(1, fx.toastT); ctx.fillStyle = "#ffd34d"; ctx.font = "800 26px Manrope,sans-serif"; ctx.fillText(fx.toast, cx, H * 0.28); ctx.globalAlpha = 1; }
   }
 
+  // ---------- weapons ----------
+  function poly(pts, fill, stroke) { ctx.beginPath(); pts.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.closePath(); ctx.fillStyle = fill; ctx.fill(); if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = 2; ctx.stroke(); } }
+  function drawGun(cx, cy) {
+    const w = cfg.weapon;
+    if (w === "sniper" && mouseR) {   // scope view
+      const r = Math.min(W, H) * 0.46; ctx.save(); ctx.fillStyle = "#000"; ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.arc(cx, cy, r, 0, 6.3, true); ctx.fill("evenodd");
+      ctx.strokeStyle = "rgba(0,0,0,.9)"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx - r, cy); ctx.lineTo(cx + r, cy); ctx.moveTo(cx, cy - r); ctx.lineTo(cx, cy + r); ctx.stroke();
+      ctx.strokeStyle = "#1fb6ff"; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 6.3); ctx.stroke(); ctx.restore(); return;
+    }
+    const ads = mouseR ? 1 : 0, kick = P.recoil * 60, rl = P.reloading > 0 ? Math.sin((1 - P.reloading / WEAPONS[w].reload) * Math.PI) : 0, sw = P.sw > 0 ? P.sw / 0.35 : 0;
+    const moving = keys.KeyW || keys.KeyA || keys.KeyS || keys.KeyD, bob = Math.sin(P.t * 8) * (moving ? 8 : 2);
+    // the gun is drawn in a 2000x1128 space like a first-person voxel model: slab on top, dark body, block grip
+    ctx.save(); ctx.scale(W / 2000, H / 1128);
+    ctx.translate(-(ads ? 330 : 0) + kick * 2.2, bob + (rl * 260 + sw * 300) + kick - (ads ? 40 : 0));
+    ctx.translate(1850, 1128); ctx.scale(w === "pistol" ? 0.72 : w === "sniper" ? 1.12 : 1, w === "pistol" ? 0.72 : w === "sniper" ? 1.12 : 1); ctx.translate(-1850, -1128);
+    if (rl) { ctx.translate(1500, 1000); ctx.rotate(-rl * 0.35); ctx.translate(-1500, -1000); }
+    const dark = "#080b0d", dark2 = "#0e1519", edge = "rgba(31,182,255,.35)", top = "#37c8ff", top2 = "#8fe3ff";
+    const P1 = (pts, fill, stroke) => poly(pts, fill, stroke);
+    if (w === "pistol") { ctx.translate(250, 20); }
+    P1([[1158, 722], [1210, 755], [1385, 938], [1570, 912], [1860, 1128], [1270, 1128], [1272, 985], [1190, 790]], dark, edge);   // body
+    P1([[1190, 790], [1272, 985], [1270, 1128], [1235, 1128], [1170, 860]], dark2);                                             // left face
+    const tg = ctx.createLinearGradient(1210, 750, 1570, 930); tg.addColorStop(0, top2); tg.addColorStop(1, top);
+    P1([[1210, 755], [1315, 752], [1570, 910], [1385, 938]], tg);                                                                // bright top slab
+    P1([[1512, 918], [1590, 912], [1668, 940], [1550, 947]], "#1b2328", edge);                                                  // block top
+    P1([[1512, 918], [1550, 947], [1550, 1035], [1512, 1005]], dark2, edge);                                                    // block front
+    P1([[1550, 947], [1668, 940], [1668, 1035], [1550, 1035]], dark, edge);                                                     // block side
+    P1([[1205, 700], [1232, 698], [1234, 740], [1208, 742]], dark2, edge);                                                      // front sight
+    if (w === "sniper") { P1([[1300, 690], [1520, 780], [1520, 840], [1300, 750]], dark2, edge); ctx.fillStyle = "#1fb6ff"; ctx.beginPath(); ctx.ellipse(1300, 720, 18, 34, 0.2, 0, 6.3); ctx.fill(); }
+    if (fx.mf > 0) { ctx.fillStyle = "rgba(255,225,130,.95)"; ctx.beginPath(); for (let i = 0; i < 12; i++) { const an = i / 12 * 6.28, r = (i % 2 ? 26 : 64) * (0.8 + Math.random() * 0.4); ctx.lineTo(1190 + Math.cos(an) * r, 712 + Math.sin(an) * r); } ctx.fill(); ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(1190, 712, 18, 0, 6.3); ctx.fill(); }
+    ctx.restore();
+  }
+  function drawWeaponBar(cx) {
+    const list = [["rifle", "1", "RIFLE"], ["pistol", "2", "PISTOL"], ["sniper", "3", "SNIPER"]], bw = 86, gap = 8, x0 = cx - (bw * 3 + gap * 2) / 2, y = H - 50;
+    list.forEach(([k, n, label], i) => {
+      const x = x0 + i * (bw + gap), on = cfg.weapon === k; ctx.fillStyle = on ? "rgba(31,182,255,.28)" : "rgba(4,20,27,.62)"; ctx.fillRect(x, y, bw, 36); ctx.strokeStyle = on ? "#1fb6ff" : "rgba(110,200,255,.25)"; ctx.lineWidth = on ? 2 : 1; ctx.strokeRect(x, y, bw, 36);
+      ctx.textAlign = "left"; ctx.fillStyle = on ? "#1fb6ff" : "#7fa6b8"; ctx.font = "800 11px Manrope,sans-serif"; ctx.fillText(n, x + 8, y + 14);
+      ctx.fillStyle = on ? "#fff" : "#9fc4d4"; ctx.font = "700 12px Manrope,sans-serif"; ctx.fillText(label, x + 8, y + 29);
+      ctx.textAlign = "right"; ctx.font = "700 10px Manrope,sans-serif"; ctx.fillStyle = "#7fa6b8"; ctx.fillText(on ? P.ammo + "/" + WEAPONS[k].mag : WEAPONS[k].mag, x + bw - 7, y + 14);
+    });
+  }
+
   // ---------- loop + overlay ----------
   function frame(t) { requestAnimationFrame(frame); const dt = Math.min(0.05, (t - last) / 1000 || 0); last = t; if (running) update(dt); render(); }
   function showOverlay(title, html, label) { $("mgTitle").textContent = title; $("mgText").innerHTML = html; btn.textContent = label; over.hidden = false; }
-  const DESC = "Hunt down the NPC players. Hold right click to lock onto the nearest target inside your FOV circle. Chain kills for a score multiplier, and watch out: they shoot back. Reach 10 kills and something big shows up.";
+  const DESC = "Hunt down the NPC players. Hold right click to lock onto the nearest target inside your FOV circle. Chain kills for a score multiplier, and watch out: they shoot back. Reach 10 kills and Bruno, a huge dog, comes for you.";
   function start() {
     audio(); if (ac && ac.state === "suspended") ac.resume();
     if (dead || !P) { reset(); dead = false; }
@@ -270,13 +352,14 @@
     try { const r = cv.requestPointerLock(); if (r && r.catch) r.catch(() => { }); } catch { }
   }
   btn.addEventListener("click", start);
-  cv.addEventListener("click", () => { if (!running && !over.hidden === false) start(); else if (running && !document.pointerLockElement) { try { cv.requestPointerLock(); } catch { } } });
+  cv.addEventListener("click", () => { if (running && !document.pointerLockElement) { try { const r = cv.requestPointerLock(); if (r && r.catch) r.catch(() => { }); } catch { } } });
   document.addEventListener("pointerlockchange", () => { locked = document.pointerLockElement === cv; if (!locked && running && !dead) { running = false; showOverlay("Paused", DESC, "Click to Play"); mouseL = mouseR = false; } });
-  document.addEventListener("mousemove", e => { if (!locked || !running) return; const k = cfg.weapon === "sniper" && mouseR ? 0.0007 : 0.0022; P.yaw += e.movementX * k; P.pitch -= e.movementY * k; });
+  document.addEventListener("mousemove", e => { if (!running) return; const k = cfg.weapon === "sniper" && mouseR ? 0.0007 : 0.0022; P.yaw += e.movementX * k; P.pitch -= e.movementY * k; });
   cv.addEventListener("mousedown", e => { if (!running) return; if (e.button === 0) mouseL = { fired: false }; if (e.button === 2) mouseR = true; });
   document.addEventListener("mouseup", e => { if (e.button === 0) mouseL = false; if (e.button === 2) mouseR = false; });
   cv.addEventListener("contextmenu", e => e.preventDefault());
   document.addEventListener("keydown", e => {
+    if (e.code === "Escape" && running) { running = false; mouseL = mouseR = false; for (const k in keys) keys[k] = false; showOverlay("Paused", DESC, "Click to Play"); return; }
     if (!running) return; keys[e.code] = true; if (["Space", "KeyW", "KeyA", "KeyS", "KeyD"].includes(e.code)) e.preventDefault();
     if (e.code === "KeyR") reload(); if (e.code === "Digit1") setWeapon("rifle"); if (e.code === "Digit2") setWeapon("pistol"); if (e.code === "Digit3") setWeapon("sniper");
     if (e.code === "KeyX") toggle("skel"); if (e.code === "KeyC") toggle("box"); if (e.code === "KeyV") toggle("name"); if (e.code === "KeyB") toggle("fovCircle");
@@ -287,7 +370,7 @@
   $("mgFull").addEventListener("click", () => { if (document.fullscreenElement) document.exitFullscreen(); else stage.requestFullscreen && stage.requestFullscreen(); });
 
   // ---------- settings panels ----------
-  function setWeapon(w) { cfg.weapon = w; if (P) { P.ammo = WEAPONS[w].mag; P.reloading = 0; P.cd = 0.2; } sync(); }
+  function setWeapon(w) { if (w !== cfg.weapon && P) P.sw = 0.35; cfg.weapon = w; if (P) { P.ammo = WEAPONS[w].mag; P.reloading = 0; P.cd = 0.2; } sync(); }
   function toggle(k) { cfg[k] = !cfg[k]; sync(); }
   function sync() {
     document.querySelectorAll("[data-w]").forEach(b => b.classList.toggle("on", b.dataset.w === cfg.weapon));
