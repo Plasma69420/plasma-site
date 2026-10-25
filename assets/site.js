@@ -41,7 +41,7 @@ const CONFIG = {
       plans: [{ n: "Week", p: 29.99, v: 416783, slots: 15, days: 7 }, { n: "Month", p: 69.99, v: 416784, slots: 10, days: 30 }, { n: "3 Months", p: 129.99, v: 416785, slots: 5, days: 90 }]
     },
     {
-      slug: "r6-external", name: "R6 External", type: "External", game: "Rainbow Six Siege", img: "/img/box-r6.webp",
+      slug: "r6-external", name: "R6 Private", type: "Private", game: "Rainbow Six Siege", img: "/img/box-r6.webp",
       desc: "External Rainbow Six Siege cheat with ESP and aim suite.",
       features: ["Smooth aim with FOV & smoothness sliders", "Player, drone & gadget ESP", "External, stream-proof rendering"],
       details: "External Rainbow Six Siege cheat with ESP and an aim suite. It runs externally with no game injection, renders stream-proof, and is delivered instantly with Discord support.",
@@ -95,7 +95,7 @@ const CONFIG = {
       plans: [{ n: "One Time", p: 14.99, v: 416478 }, { n: "Lifetime", p: 49.99, v: 416479 }]
     },
     {
-      slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "/img/cat-accounts.webp",
+      slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "",
       desc: "Full access Fortnite accounts with verified inventories.",
       features: ["Verified skin & item counts", "Original email full access", "Login details + recovery email"],
       details: "Hand-picked full access Fortnite accounts with verified inventories. Pick a package, pay at checkout, then open a ticket in our Discord with your invoice ID to receive your account.",
@@ -287,7 +287,7 @@ const Api = {
   <div class="nav-bar"><div class="nav-in">
     <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"></a>
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link("/reviews", "Reviews", "reviews")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Support", "support")}
+      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link("/reviews", "Reviews", "reviews")}${link("/mini-games", "Mini Games", "mini-games")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Support", "support")}
     </nav>
     <div class="nav-right">
       <a class="nav-btn icon" href="${CONFIG.discord}" target="_blank" rel="noopener" aria-label="Discord">${ico.discord}</a>
@@ -306,7 +306,7 @@ const Api = {
     <div class="frow">
       <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"></a>
       <nav>
-        <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="${CONFIG.discord}" target="_blank" rel="noopener">Support</a><a href="/account">Client Area</a>
+        <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/mini-games">Mini Games</a><a href="${CONFIG.discord}" target="_blank" rel="noopener">Support</a><a href="/account">Client Area</a>
       </nav>
     </div>
     <div class="fbar"><span>© ${new Date().getFullYear()} Strive Cheats. All rights reserved.</span><span class="ftlinks"><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a></span></div>

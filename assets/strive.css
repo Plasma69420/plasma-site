@@ -569,3 +569,41 @@ main.lwrap #groups{max-width:1000px;margin-left:auto;margin-right:auto}
 .catcard.art .cmeta{opacity:0;transform:translateY(10px);transition:opacity .25s,transform .25s}
 .catcard.art:hover .cmeta,.catcard.art:focus-visible .cmeta{opacity:1;transform:none}
 @media (hover:none){.catcard.art .cmeta{opacity:1;transform:none}}
+
+.lcard .im,.scard2 .im{background:radial-gradient(ellipse 80% 90% at 85% 20%,rgba(31,182,255,.16),transparent 60%),linear-gradient(135deg,#0d2a36,#06161d)}
+
+/* ===== v18: mini games ===== */
+.mg-card{max-width:1180px;margin:0 auto 60px;border:1px solid rgba(110,200,255,.16);border-radius:16px;background:linear-gradient(180deg,#0a2029,#06161d);padding:16px}
+.mg-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.mg-top b{display:block;font:700 18px 'Manrope';color:#fff}.mg-top span{font-size:13px;color:#8fb6c7}
+.mg-ic{display:grid;place-items:center;width:38px;height:38px;border-radius:9px;border:1px solid rgba(110,200,255,.2);background:#0a2a37;color:#cfefff;cursor:pointer}
+.mg-ic:hover{background:#0f3a4d}
+.mg-stage{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#04141b;border:1px solid rgba(110,200,255,.14)}
+.mg-stage:fullscreen{aspect-ratio:auto;border-radius:0;width:100vw;height:100vh}
+.mg-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair}
+.mg-over{position:absolute;inset:0;display:grid;place-items:center;background:rgba(2,13,18,.82);backdrop-filter:blur(3px);padding:16px;overflow:auto}
+.mg-over[hidden]{display:none}
+.mg-box{max-width:620px;text-align:center}
+.mg-box h2{font:800 clamp(22px,3vw,30px) 'Manrope';color:#fff;margin-bottom:10px}
+.mg-box p{color:#a9cddc;font-size:14px;line-height:1.6;margin-bottom:16px}
+.mg-box .btn{height:42px;padding:0 28px}
+.mg-help{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;margin:18px 0 12px;font-size:12px;color:#8fb6c7}
+.mg-box .mg-boss{font-size:12.5px;color:#ffd34d;margin:0}
+kbd{display:inline-block;min-width:20px;padding:1px 6px;margin-right:3px;border-radius:5px;border:1px solid rgba(110,200,255,.3);background:#0a2a37;color:#cfefff;font:700 11px 'Manrope';text-align:center}
+.mg-panels{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.mg-pn{padding:14px;border-radius:12px;border:1px solid rgba(110,200,255,.14);background:#07181f}
+.mg-pn h4{font:700 14px 'Manrope';color:#fff;margin-bottom:10px}
+.mg-pn p{font-size:12px;color:#8fb6c7;margin:8px 0 10px}
+.mg-row{display:flex;gap:6px;margin:6px 0}
+.mg-row button{flex:1;padding:8px 6px;border-radius:8px;border:1px solid rgba(110,200,255,.18);background:#0a2a37;color:#cfefff;font:600 12px 'Manrope';cursor:pointer}
+.mg-row button.on{background:#1fb6ff;color:#02141c;border-color:#1fb6ff}.mg-row button.on kbd{background:rgba(2,20,28,.2);color:#02141c;border-color:rgba(2,20,28,.3)}
+.mg-sw{display:flex;align-items:center;justify-content:space-between;padding:6px 0;font-size:13px;color:#cfefff;cursor:pointer}
+.mg-sw button{position:relative;width:36px;height:20px;border-radius:20px;border:0;background:#1a3a47;cursor:pointer;transition:background .2s;flex:none}
+.mg-sw button::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s}
+.mg-sw button.on{background:#1fb6ff}.mg-sw button.on::after{transform:translateX(16px)}
+.mg-sl{display:flex;justify-content:space-between;font-size:12.5px;color:#cfefff;margin:8px 0 4px}.mg-sl b{color:#1fb6ff}
+.mg-pn input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:6px;background:linear-gradient(90deg,#1fb6ff var(--p,50%),#1a3a47 var(--p,50%));outline:0}
+.mg-pn input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;border:0;cursor:pointer}
+.mg-pn input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:0;cursor:pointer}
+@media (max-width:900px){.mg-panels{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.mg-panels{grid-template-columns:1fr}}

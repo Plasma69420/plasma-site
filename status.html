@@ -13,7 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=17">
+<link rel="stylesheet" href="/assets/strive.css?v=18">
 </head>
 <body>
 <main class="lwrap" style="padding-top:100px">
@@ -34,7 +34,7 @@ async function load() {
     <div class="lgrid" style="padding-bottom:10px">${list.map(p => {
       const st = p.down ? "down" : ((live[p.slug] || {}).status || "undetected");
       if (st !== "undetected") issues++;
-      return `<a class="scard2" href="/${p.slug}"><div class="im"><img src="${p.img}" alt="" loading="lazy"></div><div class="bd"><b>${esc(p.name)}</b>
+      return `<a class="scard2" href="/${p.slug}"><div class="im">${p.img ? `<img src="${p.img}" alt="" loading="lazy">` : ""}</div><div class="bd"><b>${esc(p.name)}</b>
         <div class="ft"><span class="pillst ${st}">${st === "undetected" ? okI : ""}${names[st] || "Operational"}</span><strong>${money(Math.min(...p.plans.map(x => x.p)))}</strong></div></div></a>`;
     }).join("")}</div>`).join("");
   document.getElementById("sum").textContent = issues ? `${issues} product${issues > 1 ? "s" : ""} need${issues > 1 ? "" : "s"} attention. See the badges below.` : "All products are currently undetected and working perfectly";

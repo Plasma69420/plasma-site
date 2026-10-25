@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini Games – Strive Cheats</title>
+<meta name="description" content="Try the Strive ESP and aim lock in a free browser aim trainer.">
+<meta name="theme-color" content="#060606">
+<link rel="canonical" href="https://strivecheats.store/mini-games">
+<link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=79">
+<link rel="stylesheet" href="/assets/pages.css?v=79">
+<link rel="stylesheet" href="/assets/strive.css?v=18">
+</head>
+<body>
+<main class="lwrap" style="padding-top:100px">
+  <div style="text-align:center;margin-bottom:26px"><h1 style="font:700 clamp(34px,4.6vw,48px)/1.1 'Manrope';letter-spacing:-.03em;color:#fff">Mini Games</h1><p style="margin-top:12px;color:var(--muted)">Try our ESP and aim lock for free, right in your browser.</p></div>
+  <div class="mg-card">
+    <div class="mg-top"><div><b>ESP Aim Trainer</b><span>Shoot the NPC players with ESP and aim lock on</span></div><button id="mgFull" class="mg-ic" aria-label="Fullscreen"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg></button></div>
+    <div class="mg-stage" id="mgStage">
+      <canvas id="mg"></canvas>
+      <div class="mg-over" id="mgOver">
+        <div class="mg-box">
+          <h2 id="mgTitle">ESP Aim Trainer</h2>
+          <p id="mgText">Hunt down the NPC players. Hold right click to lock onto the nearest target inside your FOV circle. Chain kills for a score multiplier, and watch out: they shoot back. Reach 10 kills and something big shows up.</p>
+          <button class="btn btn-main" id="mgPlay">Click to Play</button>
+          <div class="mg-help">
+            <span><kbd>WASD</kbd> move</span><span><kbd>Shift</kbd> sprint</span><span><kbd>Space</kbd> jump</span><span><kbd>Left click</kbd> shoot</span><span><kbd>Right click</kbd> aim lock</span><span><kbd>R</kbd> reload</span><span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> weapons</span><span><kbd>Esc</kbd> exit</span>
+            <span><kbd>X</kbd> skeleton</span><span><kbd>C</kbd> box</span><span><kbd>V</kbd> name</span><span><kbd>B</kbd> FOV circle</span><span><kbd>Z</kbd> head / chest</span><span><kbd>M</kbd> mute</span>
+          </div>
+          <p class="mg-boss">Boss build: Bruno appears at 10 kills. Press <kbd>P</kbd> in game to summon him now.</p>
+        </div>
+      </div>
+    </div>
+    <div class="mg-panels">
+      <div class="mg-pn"><h4>Weapons</h4>
+        <div class="mg-row"><button data-w="rifle" class="on"><kbd>1</kbd> Rifle</button><button data-w="pistol"><kbd>2</kbd> Pistol</button><button data-w="sniper"><kbd>3</kbd> Sniper</button></div>
+        <p id="mgWdesc">Full auto, 30 rounds</p>
+        <label class="mg-sw"><span>Enemies shoot back</span><button data-t="shootBack" class="on"></button></label>
+      </div>
+      <div class="mg-pn"><h4>ESP</h4>
+        <label class="mg-sw"><span>Skeleton <kbd>X</kbd></span><button data-t="skel" class="on"></button></label>
+        <label class="mg-sw"><span>Box <kbd>C</kbd></span><button data-t="box" class="on"></button></label>
+        <label class="mg-sw"><span>Name <kbd>V</kbd></span><button data-t="name" class="on"></button></label>
+        <label class="mg-sw"><span>Radar</span><button data-t="radar" class="on"></button></label>
+      </div>
+      <div class="mg-pn"><h4>Aim Lock</h4>
+        <label class="mg-sw"><span>FOV circle <kbd>B</kbd></span><button data-t="fovCircle" class="on"></button></label>
+        <div class="mg-row"><button data-bone="head" class="on">Head</button><button data-bone="chest">Chest</button></div>
+        <div class="mg-sl"><span>FOV radius</span><b id="mgRadiusV">150px</b></div><input id="mgRadius" type="range" min="40" max="400" value="150">
+        <div class="mg-sl"><span>Smoothing</span><b id="mgSmoothV">60</b></div><input id="mgSmooth" type="range" min="0" max="100" value="60">
+      </div>
+      <div class="mg-pn"><h4>Sound</h4>
+        <div class="mg-sl"><span>Volume</span><b id="mgVolV">70%</b></div><input id="mgVol" type="range" min="0" max="100" value="70">
+        <div class="mg-row"><button id="mgMusic" class="on">Music</button><button id="mgMute">Mute</button></div>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="/assets/site.js?v=79"></script>
+<script src="/assets/minigame.js?v=1"></script>
+</body>
+</html>

@@ -18,7 +18,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=17">
+<link rel="stylesheet" href="/assets/strive.css?v=18">
 </head>
 <body>
 
@@ -223,7 +223,7 @@ const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/
 const ART = { "Fortnite": "cat-fortnite.webp", "Rainbow Six Siege": "cat-r6.webp", "HWID Spoofer": "cat-hwid.webp", "Fortnite Accounts": "cat-accounts.webp", "Rust": "cat-rust.webp", "Roblox": "cat-roblox.webp" };
 const ORDER = ["Fortnite", "Rainbow Six Siege", "HWID Spoofer", "Fortnite Accounts", "Rust", "Roblox"];
 const have = new Set(CONFIG.products.map(catName));
-const cats = [...ORDER, ...[...have].filter(c => !ORDER.includes(c))];
+const cats = ORDER;
 document.getElementById("cats").innerHTML = cats.map(c => ART[c]
   ? `<a class="catcard art" href="/products?category=${slugify(c)}" aria-label="${esc(c)}"><img src="/img/${ART[c]}" alt="${esc(c)}" loading="lazy"><span class="cmeta"><span class="cnt"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>${(n => n ? n + " Product" + (n === 1 ? "" : "s") : "Coming soon")(CONFIG.products.filter(p => catName(p) === c).length)}</span><span class="cview">View</span></span></a>`
   : `<a class="catcard" href="/products?category=${slugify(c)}"><span class="lg">${esc(c)}</span></a>`).join("");

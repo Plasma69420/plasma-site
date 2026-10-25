@@ -12,7 +12,7 @@
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=17">
+<link rel="stylesheet" href="/assets/strive.css?v=18">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -46,8 +46,9 @@ if (!p) {
     const pl = p.plans[plan], unit = pl.p + (any ? p.addon.price : 0), avail = !!pl.v;
     root.innerHTML = `
     <div class="lp">
-      <div><div class="lp-img"><img src="${p.img}" alt="${esc(p.name)}"><span class="ct">1 / 1</span></div>
-        ${totalSlots ? `<div class="lp-warn">Limited slots: only ${totalSlots} total across all tiers</div>` : ""}</div>
+      <div>${p.img ? `<div class="lp-img"><img src="${p.img}" alt="${esc(p.name)}"><span class="ct">1 / 1</span></div>` : ""}
+        ${totalSlots ? `<div class="lp-warn">Limited slots: only ${totalSlots} total across all tiers</div>` : ""}
+        <div style="margin-top:16px">${howCard(p.steps || softSteps)}</div></div>
       <div>
         <div class="lp-head"><h1>${esc(p.name)}</h1><div class="pr">${money(unit)}</div></div>
         <div class="lp-rate"><span class="st">${rate && rate.total ? "★".repeat(Math.round(rate.average)) + "☆".repeat(5 - Math.round(rate.average)) : "★★★★★"}</span><span>${rate && rate.total ? rate.average.toFixed(1) : ""}</span><small>${rate && rate.total ? rate.total + " review" + (rate.total === 1 ? "" : "s") : esc(p.type) + " · " + esc(p.game)}</small></div>
@@ -70,8 +71,7 @@ if (!p) {
     <div class="card lp-desc"><h3>About ${esc(p.name)}</h3><p>${esc(p.details)}</p>
       ${p.groups ? "" : `<h4>Features</h4><ul>${p.features.map(f => `<li>${esc(f)}</li>`).join("")}</ul>`}
       ${p.os ? `<h4>System Information</h4><ul><li>${esc(p.os)}</li></ul>` : ""}</div>
-    ${p.groups ? `<div class="fgroups" style="margin-top:16px">${p.groups.map(([t, list], gi) => `<details class="card fgroup" ${gi === 0 ? "open" : ""}><summary>${esc(t)}<em>${list.length}</em></summary><ul>${list.map(f => `<li>${ico.check}${esc(f)}</li>`).join("")}</ul></details>`).join("")}</div>` : ""}
-    <div style="margin-top:16px">${howCard(p.steps || softSteps)}</div>`;
+    ${p.groups ? `<div class="fgroups" style="margin-top:16px">${p.groups.map(([t, list], gi) => `<details class="card fgroup" ${gi === 0 ? "open" : ""}><summary>${esc(t)}<em>${list.length}</em></summary><ul>${list.map(f => `<li>${ico.check}${esc(f)}</li>`).join("")}</ul></details>`).join("")}</div>` : ""}`;
     root.querySelectorAll(".plancard").forEach(b => b.onclick = () => { plan = +b.dataset.j; draw(); });
     root.querySelector("#dec").onclick = () => { qty = Math.max(1, qty - 1); draw(); };
     root.querySelector("#inc").onclick = () => { qty = Math.min(10, qty + 1); draw(); };
@@ -95,7 +95,7 @@ if (!p) {
     root.innerHTML = `
     <div class="pd acc">
       <div class="pdl">
-        <div class="pd-img"><img src="${p.img}" alt="${esc(p.name)}"></div>
+        ${p.img ? `<div class="pd-img"><img src="${p.img}" alt="${esc(p.name)}"></div>` : ""}
         <div class="card astat">
           <h3>${ico.shield}Status</h3>
           <div class="arow2"><i class="d ok"></i><b class="okt">Available</b></div>
