@@ -90,15 +90,7 @@
           <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">${btn(CONFIG.tickets, "Open a ticket", true)}${btnGhost("/orders", "View my orders")}</div></div>
         <div class="ca-card" style="margin-top:16px"><div class="ca-ch"><i>${svg(I.check)}</i><div><b>Your delivered orders</b><small>${done.length}</small></div></div>${done.length ? table(done) : `<p class="muted" style="padding:22px">No delivered orders yet.</p>`}</div>`;
     } else {
-      const owned = p => d.owner || (d.granted || []).includes(p.slug) || done.some(o => o.items.some(i => (i.title || "").toLowerCase().includes(p.name.toLowerCase())));
-      main.innerHTML = `<div class="ca-dls">` + CONFIG.products.filter(p => !p.account).map(p => {
-        const has = owned(p), link = (CONFIG.downloads || {})[p.slug];
-        const action = !has ? btnGhost("/" + p.slug, "Get " + esc(p.name))
-          : link ? `<a class="btn btn-main" href="${esc(link)}" target="_blank" rel="noopener">${svg(I.dl, 16)}Download</a>`
-            : `<button type="button" class="btn btn-main dlsoon">${svg(I.dl, 16)}Download</button>`;
-        return `<div class="ca-card dl${has ? " on" : ""}"><img src="${p.img}" alt=""><div class="bd"><div><b>${esc(p.name)}</b><small>${has ? (link ? "Ready to download" : "Access unlocked") : "Not purchased yet"}</small></div>${action}</div></div>`;
-      }).join("") + `</div><p class="muted" style="margin-top:14px;font-size:13px">Downloads unlock for products on a delivered order placed with your Discord email. Use your key in the loader after downloading.</p>`;
-      main.querySelectorAll(".dlsoon").forEach(b => b.addEventListener("click", () => { b.textContent = "Link coming soon. Open a ticket if you need it now."; b.disabled = true; }));
+      main.innerHTML = `<div class="ca-card" style="padding:44px 24px;text-align:center"><i style="display:inline-grid;place-items:center;width:54px;height:54px;border-radius:50%;background:rgba(31,182,255,.1);border:1px solid rgba(31,182,255,.25);color:#7fd6ff">${svg(I.dl, 24)}</i><b style="display:block;margin-top:16px;font:700 20px/1.2 'Manrope';color:#fff">No downloads right now</b><p class="muted" style="margin-top:8px;font-size:14px">Nothing is available to download at the moment. Check back soon, or open a ticket in our Discord if you need your loader now.</p><div style="margin-top:18px">${btnGhost(CONFIG.tickets, "Open a ticket", true)}</div></div>`;
     }
   };
 
