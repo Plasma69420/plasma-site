@@ -561,3 +561,11 @@ main.lwrap #groups{max-width:1000px;margin-left:auto;margin-right:auto}
 
 .sp3{grid-template-columns:repeat(2,1fr);max-width:760px;margin:0 auto}
 @media (max-width:700px){.sp3{grid-template-columns:1fr}}
+
+/* ===== v17: category meta only on hover, View button fixed ===== */
+.catcard.art .view{all:unset}
+.catcard.art .cview{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 22px;border-radius:8px;background:#1fb6ff;color:#02141c;font:700 13.5px/1 'Manrope';white-space:nowrap;flex:none;transition:background .2s}
+.catcard.art:hover .cview{background:#52c8ff}
+.catcard.art .cmeta{opacity:0;transform:translateY(10px);transition:opacity .25s,transform .25s}
+.catcard.art:hover .cmeta,.catcard.art:focus-visible .cmeta{opacity:1;transform:none}
+@media (hover:none){.catcard.art .cmeta{opacity:1;transform:none}}

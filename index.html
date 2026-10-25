@@ -18,7 +18,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=16">
+<link rel="stylesheet" href="/assets/strive.css?v=17">
 </head>
 <body>
 
@@ -27,7 +27,7 @@
 <section class="hero2">
   <a class="rpill" id="rating" href="/reviews" hidden><span class="rs" id="ratingStars"></span><b id="ratingNum"></b><span id="ratingText"></span></a>
   <h1>Dominate Your Game,<br>Without Limits.</h1>
-  <p class="lede2">Instant delivery, guided setup and Discord support.</p>
+  <p class="lede2">10,000+ products sold. Instant delivery, guided setup and 24/7 Discord support.</p>
   <div class="acts2">
     <a class="btn btn-main" href="#categories"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.4 12.2a1.5 1.5 0 0 0 1.5 1.2h8.7a1.5 1.5 0 0 0 1.5-1.1L21 8H6"/></svg>Shop Products</a>
     <a class="btn btn-out" href="#" data-discord target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Join Discord</a>
@@ -225,7 +225,7 @@ const ORDER = ["Fortnite", "Rainbow Six Siege", "HWID Spoofer", "Fortnite Accoun
 const have = new Set(CONFIG.products.map(catName));
 const cats = [...ORDER, ...[...have].filter(c => !ORDER.includes(c))];
 document.getElementById("cats").innerHTML = cats.map(c => ART[c]
-  ? `<a class="catcard art" href="/products?category=${slugify(c)}" aria-label="${esc(c)}"><img src="/img/${ART[c]}" alt="${esc(c)}" loading="lazy"><span class="cmeta"><span class="cnt"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>${(n => n ? n + " Product" + (n === 1 ? "" : "s") : "Coming soon")(CONFIG.products.filter(p => catName(p) === c).length)}</span><span class="view">View</span></span></a>`
+  ? `<a class="catcard art" href="/products?category=${slugify(c)}" aria-label="${esc(c)}"><img src="/img/${ART[c]}" alt="${esc(c)}" loading="lazy"><span class="cmeta"><span class="cnt"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>${(n => n ? n + " Product" + (n === 1 ? "" : "s") : "Coming soon")(CONFIG.products.filter(p => catName(p) === c).length)}</span><span class="cview">View</span></span></a>`
   : `<a class="catcard" href="/products?category=${slugify(c)}"><span class="lg">${esc(c)}</span></a>`).join("");
 document.getElementById("stP").textContent = CONFIG.products.length;
 
