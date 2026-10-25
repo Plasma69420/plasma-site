@@ -54,20 +54,6 @@ const CONFIG = {
       plans: [{ n: "Day", p: 6.99, v: 416712 }, { n: "Week", p: 26.99, v: 416705 }, { n: "Month", p: 59.99, v: 416716 }, { n: "Lifetime", p: 149.99, v: 416735 }]
     },
     {
-      slug: "marvel-rivals", name: "Marvel Rivals", type: "Private", game: "Marvel Rivals", img: "/img/marvel-rivals.webp",
-      desc: "Hero-aware Marvel Rivals cheat with smooth aim and full ESP.",
-      features: ["Hero-aware aim with prediction", "Full player ESP & radar", "Save and load configs"],
-      details: "Hero-aware Marvel Rivals cheat with smooth aim and full ESP. Prediction is tuned per projectile hero, and everything is configurable with saveable configs.",
-      groups: [
-        ["Aimbot", ["Enable aimbot", "Aim key (rebindable)", "Require visible (occlusion check)", "Target lock (sticks to one enemy until they die / leave FOV)", "Target priority (closest to crosshair, lowest health first, closest world distance)", "Target bone (head, neck, chest, pelvis, feet, closest bone)", "Aim FOV cone", "Aim smoothing", "Vertical offset (fine-tune compensation in UU)", "Show FOV ring on screen (visualizer)"]],
-        ["Prediction", ["Enable prediction", "Hero to customize (every projectile hero in the SDK)", "Projectile speed override (UU/s)", "Projectile gravity / drop override (UU/s²)", "Reset selected hero to table defaults", "Global speed override", "Global gravity override", "Motion curve (linear, ease-out, ease-in-out, S-curve)", "Reaction delay (ms)", "Reaction variance (% random)", "Target switch grace window (ms)", "Minimum aim speed (fraction)", "Pitch vs yaw speed ratio", "Overshoot past target (%)", "Hand tremor noise (degrees)", "Breathing amount (degrees)", "Apply LEGIT preset", "Apply RAGE preset", "Reset aim key to Mouse R"]],
-        ["Visuals (ESP)", ["Enable ESP", "Players (self filter, teammates, enemies)", "Box (style: full / corner brackets / filled)", "Outline thickness", "Bracket corner length", "Filled box opacity", "Max ESP draw distance (m)", "Hide text below box height", "Player name", "Hero name", "K / D / A score", "Role badge (Strategist / Duelist / Vanguard)", "Distance", "Velocity (km/h)", "Snaplines", "Snapline origin (top, middle, bottom of screen)", "Snapline target (top, middle, bottom of box)", "Snapline thickness", "Custom snapline color (visible / occluded)", "Head dot", "Head dot vertical position (% of box)", "Health display", "Health style (bar, number, both)", "Ultimate status bar", "Only visible / visibility check", "Off-screen arrows", "Arrow size", "Screen edge margin"]],
-        ["World", ["Custom crosshair", "Crosshair style (dot, cross, circle, +dot, T)", "Crosshair size", "Crosshair line thickness", "Crosshair center gap", "Black outline (readability)", "Crosshair color", "Mini radar", "Radar screen corner (TL, TR, BL, BR)", "Radar size", "Radar detection range (meters)", "Radar background opacity", "Filter (use team filter, show teammates)"]],
-        ["Settings", ["Menu transparency", "UI scale (DPI)", "Overlay FPS cap (0 = uncapped)", "VSync", "Low-power mode when game is alt-tabbed", "Save config to file", "Load config from file", "Reset every setting to defaults"]]
-      ],
-      plans: [{ n: "1 Day", p: 5.99, v: 416737 }, { n: "1 Week", p: 19.99, v: 416738 }, { n: "1 Month", p: 39.99, v: 416739 }]
-    },
-    {
       slug: "arc-raiders", name: "Arc Raiders", type: "Private", game: "Arc Raiders", img: "/img/box-arc.webp",
       desc: "Premium Arc Raiders cheat for dominating every run.",
       features: ["Smooth aim with FOV & smoothness", "Player, loot & NPC ESP", "Auto-updates with game patches"],
@@ -154,7 +140,7 @@ CONFIG.addon = {
 CONFIG.tickets = "https://discord.com/channels/1555806695362666618/1556013981674635344";
 // loader download links per product slug. Paste a URL to turn on the Download button on the /downloads page
 // for customers who own that product; without one they get a "Request your download" ticket button.
-CONFIG.downloads = { "fortnite-private": "https://gofile.io/d/lIL9f9j0", "r6-external": "", "marvel-rivals": "", "arc-raiders": "", "temp-spoofer": "", "perm-spoofer": "" };
+CONFIG.downloads = { "fortnite-private": "https://gofile.io/d/lIL9f9j0", "r6-external": "", "arc-raiders": "", "temp-spoofer": "", "perm-spoofer": "" };
 CONFIG.products.forEach(p => { p.addon = Object.assign({ price: CONFIG.addon.price, v: CONFIG.addon.v }, p.addon); });
 
 const STATUS = {
