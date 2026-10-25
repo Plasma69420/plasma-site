@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guides | Strive Cheats</title>
+<meta name="description" content="Setup guides for Strive Cheats customers.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1fb6ff">
+<link rel="canonical" href="https://strivecheats.store/guides">
+<link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=79">
+<link rel="stylesheet" href="/assets/pages.css?v=79">
+<link rel="stylesheet" href="/assets/strive.css?v=24">
+</head>
+<body>
+<main class="lwrap" style="padding-top:100px;padding-bottom:70px">
+  <div id="gdRoot"><div class="gd-state"><b>Loading guides...</b></div></div>
+</main>
+<div class="gd-zoom" id="gdZoom" hidden><img alt=""></div>
+<script src="/assets/site.js?v=82"></script>
+<script>
+const root = document.getElementById("gdRoot");
+const ICON = { lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>', warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20z"/><path d="M12 10v5M12 18h.01"/></svg>', note: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>' };
+// inline text: escape first, then **bold**, `code` and [links](https://...)
+const inline = s => esc(s)
+  .replace(/`([^`]+)`/g, "<code>$1</code>")
+  .replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>")
+  .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+function gate(title, text, btn) {
+  root.innerHTML = `<div class="gd-state"><span class="gd-lock">${ICON.lock}</span><h1>${esc(title)}</h1><p>${text}</p>${btn || ""}</div>`;
+}
+function blockHtml(b) {
+  switch (b.t) {
+    case "h": return `<h4>${inline(b.text)}</h4>`;
+    case "p": return `<p>${inline(b.text)}</p>`;
+    case "ol": return `<ol>${b.items.map(i => `<li>${inline(i)}</li>`).join("")}</ol>`;
+    case "ul": return `<ul>${b.items.map(i => `<li>${inline(i)}</li>`).join("")}</ul>`;
+    case "code": return `<div class="gd-code"><button type="button" class="gd-copy">Copy</button><pre>${esc(b.text)}</pre></div>`;
+    case "img": return `<figure class="gd-img"><img data-f="${esc(b.file)}" alt="${esc(b.alt || "")}"><figcaption>Click to enlarge</figcaption></figure>`;
+    case "warn": return `<div class="gd-call warn"><i>${ICON.warn}</i><div>${inline(b.text)}</div></div>`;
+    case "note": return `<div class="gd-call"><i>${ICON.note}</i><div>${inline(b.text)}</div></div>`;
+    case "tabs": return `<div class="gd-tabs"><div class="gd-tabbar">${b.tabs.map((t, i) => `<button type="button" class="${i ? "" : "on"}" data-i="${i}">${esc(t.label)}</button>`).join("")}</div>${b.tabs.map((t, i) => `<div class="gd-pane"${i ? " hidden" : ""}>${t.blocks.map(blockHtml).join("")}</div>`).join("")}</div>`;
+    default: return "";
+  }
+}
+async function loadImages(scope, token) {
+  for (const im of scope.querySelectorAll("img[data-f]")) {
+    Api.get("/api/guides/img?f=" + encodeURIComponent(im.dataset.f), token).then(d => { im.src = d.data; im.classList.add("ok"); }).catch(() => { im.alt = "Image unavailable"; });
+  }
+}
+function wire(scope) {
+  scope.querySelectorAll(".gd-copy").forEach(b => b.addEventListener("click", () => {
+    const t = b.nextElementSibling.textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).catch(() => { const a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select(); try { document.execCommand("copy"); } catch { } a.remove(); });
+    b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1400);
+  }));
+  scope.querySelectorAll(".gd-tabs").forEach(tb => tb.querySelectorAll(".gd-tabbar button").forEach(btn => btn.addEventListener("click", () => {
+    tb.querySelectorAll(".gd-tabbar button").forEach(x => x.classList.toggle("on", x === btn));
+    [...tb.children].filter(c => c.classList.contains("gd-pane")).forEach((p, i) => p.hidden = i !== +btn.dataset.i);
+  })));
+  scope.querySelectorAll(".gd-img img").forEach(im => im.addEventListener("click", () => { if (!im.src) return; const z = document.getElementById("gdZoom"); z.querySelector("img").src = im.src; z.hidden = false; }));
+}
+document.getElementById("gdZoom").addEventListener("click", e => { e.currentTarget.hidden = true; });
+document.addEventListener("keydown", e => { if (e.key === "Escape") document.getElementById("gdZoom").hidden = true; });
+
+async function main() {
+  const a = Auth.get();
+  if (!a) {
+    gate("Guides are for customers", "Log in with the Discord account you bought with to open the setup guides.", '<a class="btn btn-main" id="gdLogin" href="#">Log in with Discord</a>');
+    document.getElementById("gdLogin").addEventListener("click", e => { e.preventDefault(); try { sessionStorage.setItem("strive_next", "/guides"); } catch { } location.href = Auth.loginUrl(); });
+    return;
+  }
+  let idx;
+  try { idx = await Api.get("/api/guides", a.token); }
+  catch (e) {
+    if (e.status === 401) { Auth.set(null); try { localStorage.removeItem("strive_auth"); } catch { } return gate("Session expired", "Log in with Discord again to open the guides.", '<a class="btn btn-main" href="/login">Log in</a>'); }
+    if (e.status === 403) return gate("Customers only", esc(e.message) + " If you just purchased, give it a minute or open a ticket and we will sort it out.", '<div class="gd-btns"><a class="btn btn-main" href="/products">Browse products</a><a class="btn btn-ghost" href="' + CONFIG.discord + '" target="_blank" rel="noopener">Open a ticket</a></div>');
+    return gate("Guides are unavailable", "We could not load the guides right now. Please try again in a minute.");
+  }
+  const want = new URLSearchParams(location.search).get("g");
+  const cur = idx.guides.find(g => g.slug === want) || idx.guides[0];
+  const side = idx.categories.map(c => { const list = idx.guides.filter(g => g.category === c); return list.length ? `<div class="gd-cat"><span>${esc(c)}</span>${list.map(g => `<a href="/guides?g=${g.slug}" class="${g.slug === cur.slug ? "on" : ""}" data-s="${g.slug}">${esc(g.title)}</a>`).join("")}</div>` : ""; }).join("");
+  const soon = idx.soon && idx.soon.length ? `<div class="gd-cat soon"><span>Coming soon</span>${idx.soon.map(s => `<em>${esc(s)}</em>`).join("")}</div>` : "";
+  root.innerHTML = `<div class="gd-head"><h1>Guides</h1><p>Setup guides for your Strive products. Only customers can see this page.</p></div>
+    <div class="gd-layout"><aside class="gd-side">${side}${soon}</aside><article class="gd-main" id="gdMain"><div class="gd-state"><b>Loading...</b></div></article><nav class="gd-toc" id="gdToc"></nav></div>`;
+  root.querySelectorAll(".gd-side a").forEach(l => l.addEventListener("click", e => { e.preventDefault(); history.pushState(null, "", l.getAttribute("href")); root.querySelectorAll(".gd-side a").forEach(x => x.classList.toggle("on", x === l)); show(l.dataset.s, a); window.scrollTo({ top: 0, behavior: "smooth" }); }));
+  addEventListener("popstate", () => { const g = new URLSearchParams(location.search).get("g") || cur.slug; root.querySelectorAll(".gd-side a").forEach(x => x.classList.toggle("on", x.dataset.s === g)); show(g, a); });
+  show(cur.slug, a);
+}
+async function show(slug, a) {
+  const m = document.getElementById("gdMain"), toc = document.getElementById("gdToc");
+  m.innerHTML = '<div class="gd-state"><b>Loading...</b></div>';
+  try {
+    const g = await Api.get("/api/guides/get?slug=" + encodeURIComponent(slug), a.token);
+    document.title = g.title + " Guide | Strive Cheats";
+    m.innerHTML = `<div class="gd-top"><span class="gd-pill">${esc(g.category)}</span><h2>${esc(g.title)}</h2></div>` + g.steps.map(s => `<section class="gd-step" id="s${esc(s.id)}"><div class="gd-sh"><span>${s.id === "FIX" ? "FIX" : "STEP " + esc(s.id)}</span><h3>${esc(s.title)}</h3></div>${s.blocks.map(blockHtml).join("")}</section>`).join("");
+    toc.innerHTML = '<b>On this page</b>' + g.steps.map(s => `<a href="#s${esc(s.id)}">${s.id === "FIX" ? "Fix" : s.id}. ${esc(s.title)}</a>`).join("");
+    wire(m); loadImages(m, a.token);
+  } catch (e) { m.innerHTML = '<div class="gd-state"><b>Could not load this guide.</b><p>' + esc(e.message || "") + '</p></div>'; }
+}
+main();
+</script>
+</body>
+</html>

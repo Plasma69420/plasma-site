@@ -271,6 +271,7 @@ const Api = {
     products: '<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/>',
     reviews: '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.500l6.100-.9z"/>',
     status: '<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',
+    guides: '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 7h6M9 11h6"/>',
     'mini-games': '<rect x="2" y="7" width="20" height="11" rx="4"/><path d="M7 10v5M4.500 12.500h5M15.500 11h.01M18 14h.01"/>',
     media: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3z"/>',
     support: '<circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .9-1 1.700M12 17h.01"/>'
@@ -300,7 +301,7 @@ const Api = {
   <div class="nav-bar"><div class="nav-in">
     <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"></a>
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link("/reviews", "Reviews", "reviews")}${link("/mini-games", "Mini Games", "mini-games")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Support", "support")}
+      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link("/reviews", "Reviews", "reviews")}${link("/guides", "Guides", "guides")}${link("/mini-games", "Mini Games", "mini-games")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Support", "support")}
     </nav>
     <div class="nav-right">
       <a class="nav-btn icon" href="${CONFIG.discord}" target="_blank" rel="noopener" aria-label="Discord">${ico.discord}</a>
@@ -319,7 +320,7 @@ const Api = {
     <div class="frow">
       <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"></a>
       <nav>
-        <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/mini-games">Mini Games</a><a href="${CONFIG.discord}" target="_blank" rel="noopener">Support</a><a href="/account">Client Area</a>
+        <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/guides">Guides</a><a href="/mini-games">Mini Games</a><a href="${CONFIG.discord}" target="_blank" rel="noopener">Support</a><a href="/account">Client Area</a>
       </nav>
     </div>
     <div class="fbar"><span>© ${new Date().getFullYear()} Strive Cheats. All rights reserved.</span><span class="ftlinks"><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a></span></div>
