@@ -523,3 +523,13 @@ main.lwrap #groups{max-width:1000px;margin-left:auto;margin-right:auto}
 
 .catcard.art .view{white-space:nowrap;flex:none}
 .catcard.art .cnt{min-width:0}
+
+/* ===== v12: hero scales with the screen, sized like the reference (nav 59%, video 41%, headline 38% of the width) ===== */
+.nav-in{width:min(clamp(700px,59vw,1500px),100% - 32px)}
+.hero2{padding-top:clamp(96px,6vw,160px)}
+.hero2 .rpill{font-size:clamp(12px,.62vw,15px);padding:clamp(7px,.4vw,10px) clamp(14px,.8vw,20px)}
+.hero2 h1{max-width:none;font-size:clamp(34px,3.85vw,116px);margin-top:clamp(22px,1.4vw,36px)}
+.hero2 .lede2{max-width:none;font-size:clamp(14px,.78vw,20px);margin-top:clamp(16px,1vw,26px)}
+.hero2 .acts2{margin-top:clamp(22px,1.4vw,36px);gap:clamp(10px,.6vw,16px)}
+.hero2 .acts2 .btn{height:clamp(42px,2.3vw,60px);padding:0 clamp(18px,1.1vw,30px);font-size:clamp(14px,.78vw,19px)}
+.hv{width:min(clamp(320px,40.6vw,1150px),100%);margin-top:clamp(40px,3.4vw,90px)}
