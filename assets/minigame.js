@@ -477,13 +477,13 @@
     if (P.score <= lastSent && P.kills <= lastKills) return;   // nothing new since the last save
     const sent = { s: P.score, k: P.kills }; lastSent = sent.s; lastKills = sent.k; lastSaveAt = Date.now();
     try {
-      const r = await Api.post("/api/minigame/score", { run: P.run, score: sent.s, kills: sent.k, heads: P.heads }, a.token);
+      const r = await Api.post("/api/minigame/score", { run: P.run, secs: Math.round(P.t), score: sent.s, kills: sent.k, heads: P.heads }, a.token);
       const t = "Saved. Your totals: " + r.score.toLocaleString() + " points and " + r.kills.toLocaleString() + " kills (#" + r.rank + " on the leaderboard).";
       add(t); note(t); loadLb();
     } catch (e) { lastSent = 0; lastKills = 0; const t = e.status === 401 ? "Your login expired. Log in again to save scores." : e.status === 429 ? "Saving too fast, it will save again in a moment." : "Could not save your score: " + (e.message || "network error"); add(t); note(t); }
   }
   // quit mid-run (closing the tab or leaving the page) still saves
-  addEventListener("pagehide", () => { if (!hasApi || !P || (P.score <= lastSent && P.kills <= lastKills)) return; const a = Auth.get(); if (!a) return; try { fetch(CONFIG.api + "/api/minigame/score", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json", Authorization: "Bearer " + a.token }, body: JSON.stringify({ run: P.run, score: P.score, kills: P.kills, heads: P.heads }) }); } catch { } });
+  addEventListener("pagehide", () => { if (!hasApi || !P || (P.score <= lastSent && P.kills <= lastKills)) return; const a = Auth.get(); if (!a) return; try { fetch(CONFIG.api + "/api/minigame/score", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json", Authorization: "Bearer " + a.token }, body: JSON.stringify({ run: P.run, secs: Math.round(P.t), score: P.score, kills: P.kills, heads: P.heads }) }); } catch { } });
   // autosave while playing so nothing is lost
   setInterval(() => { if (running && P && Date.now() - lastSaveAt > 15000) submitScore(true); }, 5000);
 
