@@ -132,7 +132,7 @@
   function reset() {
     if (!mapN) buildMap(); bi = mapN;
     P = { x: 0, z: 0, y: 0, vy: 0, yaw: 0, pitch: 0, hp: 100, max: 100, kills: 0, score: 0, mult: 1, lastKill: -99, shots: 0, hits: 0, heads: 0, ammo: WEAPONS[cfg.weapon].mag, cd: 0, reloading: 0, recoil: 0, t: 0, vx: 0, vz: 0, prot: 2.5, kp: 0, spr: 0, sw: 0, lockN: null };
-    hits = []; feed = []; npcs = []; bossDone = false;
+    hits = []; feed = []; npcs = []; bossDone = false; lastSent = 0;
     fx = { flash: 0, shake: 0, hit: 0, toast: "", toastT: 0, hitmark: 0, nums: [], hs: 0, mf: 0 };
     for (let i = 0; i < 6; i++) spawn();
   }
@@ -469,13 +469,20 @@
     el.innerHTML = a ? '<span class="who"><img src="' + Auth.avatar(a.user) + '" alt="">' + esc(a.user.global_name || a.user.username) + '</span>' : '<a class="btn btn-main" id="lbLogin" href="#">Log in with Discord</a>';
     const b = $("lbLogin"); if (b) b.addEventListener("click", e => { e.preventDefault(); try { sessionStorage.setItem("strive_next", "/mini-games"); } catch { } location.href = Auth.loginUrl(); });
   }
+  let lastSent = 0;
   async function submitScore() {
-    if (!hasApi) return; const a = Auth.get(), add = t => { $("mgText").innerHTML += "<br><span class='mg-rank'>" + t + "</span>"; };
+    if (!hasApi || !P) return; const a = Auth.get(), add = t => { $("mgText").innerHTML += "<br><span class='mg-rank'>" + t + "</span>"; }, note = t => { const el = $("lbNote"); if (el) el.textContent = t; };
     if (!a) { add("Log in with your Discord account to put this score on the leaderboard."); return; }
-    if (!P.score) return;
-    try { const r = await Api.post("/api/minigame/score", { score: P.score, kills: P.kills, heads: P.heads }, a.token); add(r.best ? "New personal best. You are #" + r.rank + " on the leaderboard." : "Your best is " + r.score.toLocaleString() + " (#" + r.rank + " on the leaderboard)."); loadLb(); }
-    catch (e) { add(e.status === 401 ? "Your login expired. Log in again to save scores." : "Could not save to the leaderboard right now."); }
+    if (!P.score || P.score <= lastSent) return;
+    const sent = P.score; lastSent = sent;
+    try {
+      const r = await Api.post("/api/minigame/score", { score: P.score, kills: P.kills, heads: P.heads }, a.token);
+      const t = r.best ? "New personal best: " + r.score.toLocaleString() + ". You are #" + r.rank + " on the leaderboard." : "Your best is " + r.score.toLocaleString() + " (#" + r.rank + " on the leaderboard).";
+      add(t); note(t); loadLb();
+    } catch (e) { lastSent = 0; const t = e.status === 401 ? "Your login expired. Log in again to save scores." : "Could not save your score: " + (e.message || "network error"); add(t); note(t); }
   }
+  // quit mid-run (closing the tab or leaving the page) still saves the score
+  addEventListener("pagehide", () => { if (!hasApi || !P || !P.score || P.score <= lastSent) return; const a = Auth.get(); if (!a) return; try { fetch(CONFIG.api + "/api/minigame/score", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json", Authorization: "Bearer " + a.token }, body: JSON.stringify({ score: P.score, kills: P.kills, heads: P.heads }) }); } catch { } });
 
   // ---------- loop + overlay ----------
   let slow = 0, fast = 0, idle = 0;
@@ -493,7 +500,7 @@
   if ("IntersectionObserver" in window) new IntersectionObserver(es => { onScreen = es[0].isIntersecting; }, { threshold: 0.01 }).observe(stage);
   function showOverlay(title, html, label) { $("mgTitle").textContent = title; $("mgText").innerHTML = html; btn.textContent = label; over.hidden = false; }
   const DESC = "Hunt down the NPC players in a 3D arena. Hold right click to lock onto the nearest target inside your FOV circle. Every kill heals 15 HP, raises your max health and chains a score multiplier, and watch out: they shoot back. Reach 10 kills and Bruno, a huge dog, comes for you.";
-  function pause() { if (!running) return; running = false; mouseL = mouseR = false; for (const k in keys) keys[k] = false; showOverlay("Paused", DESC, "Click to Play"); }
+  function pause() { if (!running) return; running = false; mouseL = mouseR = false; for (const k in keys) keys[k] = false; showOverlay("Paused", DESC, "Click to Play"); submitScore(); }
   function start() {
     audio(); if (ac && ac.state === "suspended") ac.resume();
     if (dead || !P) { reset(); dead = false; }
