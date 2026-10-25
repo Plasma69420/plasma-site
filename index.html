@@ -17,20 +17,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=4">
+<link rel="stylesheet" href="/assets/strive.css?v=5">
 </head>
 <body>
 
 <main>
 <!-- ============ HERO ============ -->
-<section class="lhero">
-  <div class="ghost" aria-hidden="true">STRIVE</div>
-  <div class="wm" aria-hidden="true"><small>Welcome to</small><b>Strive Cheats</b></div>
-  <div class="acts">
-    <a class="btn btn-main" href="#categories"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.4 12.2a1.5 1.5 0 0 0 1.500 1.200h8.700a1.500 1.500 0 0 0 1.500-1.100L21 8H6"/></svg>Shop Products</a>
+<section class="hero2">
+  <a class="rpill" id="rating" href="/reviews" hidden><span class="rs" id="ratingStars"></span><b id="ratingNum"></b><span id="ratingText"></span></a>
+  <h1>Dominate Your Game,<br>Without Limits.</h1>
+  <p class="lede2">Instant delivery, guided setup and Discord support.</p>
+  <div class="acts2">
+    <a class="btn btn-main" href="#categories"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.4 12.2a1.5 1.5 0 0 0 1.5 1.2h8.7a1.5 1.5 0 0 0 1.5-1.1L21 8H6"/></svg>Shop Products</a>
     <a class="btn btn-out" href="#" data-discord target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Join Discord</a>
   </div>
-  <a class="sd" href="#categories">Scroll Down<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a>
+  <div class="vid hv" id="vid"><video src="/media/website.mp4" autoplay muted loop playsinline preload="auto" aria-label="Strive Cheats showcase video"></video></div>
 </section>
 
 <!-- ============ GAMES STRIP ============ -->
@@ -75,14 +76,7 @@
   </div>
 </section>
 
-<!-- ============ DOMINATE ============ -->
-<section class="hsec">
-  <div class="hwrap">
-    <div class="hd"><h2>Dominate Today</h2><p>What are you waiting for? Start Winning today with Strive Cheats!</p></div>
-    <div class="vid" id="vid"><video src="/media/website.mp4" autoplay muted loop playsinline preload="auto" aria-label="Strive Cheats showcase video"></video></div>
-    <div class="cta-btn"><a class="btn btn-main" href="#categories">View Products</a></div>
-  </div>
-</section>
+
 
 <!-- ============ WHY ============ -->
 <section class="hsec">
@@ -190,6 +184,13 @@ document.getElementById("stP").textContent = CONFIG.products.length;
 
 // ---- reviews: real /vouch reviews only ----
 Api.get("/api/vouches").then(d => {
+  if (d.total) {
+    const n = Math.round(d.average);
+    document.getElementById("ratingStars").textContent = "★".repeat(n) + "☆".repeat(5 - n);
+    document.getElementById("ratingNum").textContent = d.average.toFixed(1);
+    document.getElementById("ratingText").textContent = " from " + d.total + " review" + (d.total === 1 ? "" : "s");
+    document.getElementById("rating").hidden = false;
+  }
   document.getElementById("stR").textContent = d.total;
   document.getElementById("stA").textContent = d.total ? d.average.toFixed(2) : "–";
   if (!d.total) { document.getElementById("rwempty").hidden = false; return; }
