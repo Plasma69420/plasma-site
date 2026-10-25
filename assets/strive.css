@@ -535,3 +535,7 @@ main.lwrap #groups{max-width:1000px;margin-left:auto;margin-right:auto}
 .hv{width:min(clamp(320px,40.6vw,1150px),100%);margin-top:clamp(40px,3.4vw,90px)}
 
 .vid.hv{max-width:none}
+
+/* ===== v14: logo strip sits under the product cards, larger ===== */
+.games{max-width:min(1180px,100% - 32px);margin:10px auto 30px;padding:14px 0}
+.gtrack img{height:clamp(96px,6.4vw,140px)}
