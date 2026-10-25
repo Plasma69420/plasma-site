@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=25">
+<link rel="stylesheet" href="/assets/strive.css?v=26">
 </head>
 <body>
 <main class="lwrap" style="padding-top:100px;padding-bottom:70px">
@@ -121,10 +121,8 @@ function hub() {
 }
 
 function view(slug) {
-  const side = IDX.categories.map(c => { const list = IDX.guides.filter(g => g.category === c); return list.length ? '<div class="gd-cat"><span>' + esc(c) + '</span>' + list.map(g => '<a href="/guides?g=' + g.slug + '" class="' + (g.slug === slug ? "on" : "") + '" data-s="' + g.slug + '">' + esc(g.title) + '</a>').join("") + '</div>' : ""; }).join("");
-  root.innerHTML = '<a class="gd-back" href="/guides">&larr; All guides</a><div class="gd-layout"><aside class="gd-side">' + side + '</aside><article class="gd-main" id="gdMain"><div class="gd-state"><b>Loading...</b></div></article><nav class="gd-toc" id="gdToc"></nav></div>';
+  root.innerHTML = '<a class="gd-back" href="/guides">&larr; All guides</a><div class="gd-layout solo"><article class="gd-main" id="gdMain"><div class="gd-state"><b>Loading...</b></div></article><nav class="gd-toc" id="gdToc"></nav></div>';
   root.querySelector(".gd-back").addEventListener("click", e => { e.preventDefault(); history.pushState(null, "", "/guides"); render(); window.scrollTo({ top: 0 }); });
-  root.querySelectorAll(".gd-side a").forEach(l => l.addEventListener("click", e => { e.preventDefault(); openGuide(l.dataset.s); }));
   show(slug, AUTH);
 }
 
