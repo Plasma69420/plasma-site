@@ -10,7 +10,7 @@ const CONFIG = {
   api: "https://plasma-bot-production.up.railway.app",
   // invite to your separate Media Discord (leave empty to use the main Discord)
   mediaDiscord: "",
-  // optional banner on the home page, e.g. { text: "10% off your first order, use code", code: "PLASMA10", href: "/products" }. Only set a code that exists as a coupon in SellApp.
+  // optional banner on the home page, e.g. { text: "10% off your first order, use code", code: "STRIVE10", href: "/products" }. Only set a code that exists as a coupon in SellApp.
   promo: null,
   // Paste your YouTube video link here (e.g. https://www.youtube.com/watch?v=XXXXXXXXXXX). Empty hides the showcase.
   showcaseYouTube: "",
@@ -194,8 +194,8 @@ const ico = {
 
 /* ---------- cart (saved in this browser) ---------- */
 const Cart = {
-  items() { try { return (JSON.parse(localStorage.getItem("plasma_cart")) || []).filter(i => productBy(i.slug) && productBy(i.slug).plans[i.plan]); } catch { return []; } },
-  save(list) { try { localStorage.setItem("plasma_cart", JSON.stringify(list)); } catch { } Cart.badge(); },
+  items() { try { return (JSON.parse(localStorage.getItem("strive_cart")) || []).filter(i => productBy(i.slug) && productBy(i.slug).plans[i.plan]); } catch { return []; } },
+  save(list) { try { localStorage.setItem("strive_cart", JSON.stringify(list)); } catch { } Cart.badge(); },
   // `any` = the item also includes the optional AnyDesk Support add-on (once per unit)
   add(slug, plan, qty = 1, any = false) {
     any = !!any;
@@ -219,13 +219,13 @@ const Cart = {
 
 /* ---------- Discord login (browser-only OAuth, no secret needed) ---------- */
 const Auth = {
-  get() { try { const a = JSON.parse(localStorage.getItem("plasma_auth") || "null"); if (a && a.exp > Date.now()) return a; } catch { } return null; },
-  set(a) { try { localStorage.setItem("plasma_auth", JSON.stringify(a)); } catch { } },
-  logout() { try { localStorage.removeItem("plasma_auth"); } catch { } location.href = "/"; },
+  get() { try { const a = JSON.parse(localStorage.getItem("strive_auth") || "null"); if (a && a.exp > Date.now()) return a; } catch { } return null; },
+  set(a) { try { localStorage.setItem("strive_auth", JSON.stringify(a)); } catch { } },
+  logout() { try { localStorage.removeItem("strive_auth"); } catch { } location.href = "/"; },
   redirectUri() { return location.origin + "/login.html"; },
   loginUrl() {
     const state = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2));
-    try { sessionStorage.setItem("plasma_state", state); } catch { }
+    try { sessionStorage.setItem("strive_state", state); } catch { }
     return "https://discord.com/oauth2/authorize?response_type=token&client_id=" + CONFIG.discordClientId +
       "&scope=" + encodeURIComponent("identify email") + "&state=" + state + "&redirect_uri=" + encodeURIComponent(Auth.redirectUri());
   },

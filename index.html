@@ -259,7 +259,7 @@ CONFIG.products.forEach((p, i) => {
   card.style.transitionDelay = i * 90 + "ms";
   let sel = 0; const href = () => `/${p.slug}`;
   // remember the chosen plan for the product page so the URL stays clean
-  const remember = () => { try { sessionStorage.setItem("plasma_plan", p.slug + ":" + sel); } catch { } };
+  const remember = () => { try { sessionStorage.setItem("strive_plan", p.slug + ":" + sel); } catch { } };
   card.innerHTML = `
     <div class="prod-img">
       <img src="${p.img}" alt="${p.name}" loading="lazy">

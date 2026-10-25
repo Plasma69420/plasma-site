@@ -83,7 +83,7 @@
   };
 
   Api.get("/api/orders", au.token).then(render).catch(e => {
-    if (e.status === 401) { try { localStorage.removeItem("plasma_auth"); } catch { } location.replace("/login"); return; }
+    if (e.status === 401) { try { localStorage.removeItem("strive_auth"); } catch { } location.replace("/login"); return; }
     main.innerHTML = `<section class="card panel"><p style="color:var(--bad);font-size:14px">Could not load your orders right now. Please try again in a moment.</p></section>`;
   });
 })();

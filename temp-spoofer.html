@@ -25,7 +25,7 @@ if (!p) {
   document.title = p.name + " – Strive Cheats";
   // plan chosen on the home grid arrives via sessionStorage (or a legacy ?plan=); keep the address bar clean either way
   let want = +new URLSearchParams(location.search).get("plan") || 0;
-  try { const [s, n] = (sessionStorage.getItem("plasma_plan") || "").split(":"); if (s === p.slug) want = +n || 0; sessionStorage.removeItem("plasma_plan"); } catch { }
+  try { const [s, n] = (sessionStorage.getItem("strive_plan") || "").split(":"); if (s === p.slug) want = +n || 0; sessionStorage.removeItem("strive_plan"); } catch { }
   if (/[?&]plan=/.test(location.search)) history.replaceState(null, "", location.pathname + location.hash);
   let plan = Math.min(Math.max(want, 0), p.plans.length - 1), qty = 1, any = false, status = p.down ? "down" : "undetected";
   // "How it works" card shown on every product

@@ -62,7 +62,7 @@ main,header,footer{position:relative;z-index:1}
 .hero{position:relative;padding:110px 0 40px;text-align:center}
 .hero-bg{position:absolute;left:0;right:0;top:0;height:1000px;z-index:-1;pointer-events:none;overflow:hidden;
   -webkit-mask-image:linear-gradient(180deg,#000 45%,transparent);mask-image:linear-gradient(180deg,#000 45%,transparent)}
-/* outlined PLASMA watermark, like the GFX */
+/* outlined watermark, like the GFX */
 .hero-bg .wm{position:absolute;left:50%;top:46%;width:200%;transform:translate(-50%,-50%) rotate(-12deg);display:flex;flex-direction:column;gap:.04em;font:700 clamp(110px,15vw,230px)/.9 var(--display);letter-spacing:-.02em;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.055);white-space:nowrap;text-align:center}
 .hero-bg .wm span:nth-child(odd){animation:wmL 60s linear infinite}
 .hero-bg .wm span:nth-child(even){animation:wmR 60s linear infinite}

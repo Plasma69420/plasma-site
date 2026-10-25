@@ -37,7 +37,7 @@ const fail = t => { msg.className = "msg err"; msg.textContent = t; };
   if (h.get("access_token")) {
     history.replaceState(null, "", location.pathname);   // remove the token from the address bar
     let ok = false;
-    try { ok = h.get("state") && h.get("state") === sessionStorage.getItem("plasma_state"); sessionStorage.removeItem("plasma_state"); } catch { }
+    try { ok = h.get("state") && h.get("state") === sessionStorage.getItem("strive_state"); sessionStorage.removeItem("strive_state"); } catch { }
     if (!ok) return fail("Login check failed. Please try again.");
     document.getElementById("h").textContent = "Signing you in...";
     try {
