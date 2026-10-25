@@ -17,7 +17,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=7">
+<link rel="stylesheet" href="/assets/strive.css?v=8">
 </head>
 <body>
 
@@ -179,8 +179,8 @@ document.querySelectorAll("[data-discord]").forEach(a => a.href = CONFIG.discord
 // ---- categories ----
 const catName = p => p.account ? "Fortnite Accounts" : p.game === "Spoofer" ? "HWID Spoofer" : p.game;
 const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-const ART = { "Fortnite": "cat-fortnite.webp", "Rainbow Six Siege": "cat-r6.webp", "HWID Spoofer": "cat-hwid.webp", "Fortnite Accounts": "cat-accounts.webp", "Rust": "cat-rust.webp", "Roblox": "cat-roblox.webp", "Arc Raiders": "box-arc.webp" };
-const ORDER = ["Fortnite", "Rainbow Six Siege", "HWID Spoofer", "Fortnite Accounts", "Rust", "Roblox", "Arc Raiders"];
+const ART = { "Fortnite": "cat-fortnite.webp", "Rainbow Six Siege": "cat-r6.webp", "HWID Spoofer": "cat-hwid.webp", "Fortnite Accounts": "cat-accounts.webp", "Rust": "cat-rust.webp", "Roblox": "cat-roblox.webp" };
+const ORDER = ["Fortnite", "Rainbow Six Siege", "HWID Spoofer", "Fortnite Accounts", "Rust", "Roblox"];
 const have = new Set(CONFIG.products.map(catName));
 const cats = [...ORDER, ...[...have].filter(c => !ORDER.includes(c))];
 document.getElementById("cats").innerHTML = cats.map(c => ART[c]
