@@ -533,3 +533,5 @@ main.lwrap #groups{max-width:1000px;margin-left:auto;margin-right:auto}
 .hero2 .acts2{margin-top:clamp(22px,1.4vw,36px);gap:clamp(10px,.6vw,16px)}
 .hero2 .acts2 .btn{height:clamp(42px,2.3vw,60px);padding:0 clamp(18px,1.1vw,30px);font-size:clamp(14px,.78vw,19px)}
 .hv{width:min(clamp(320px,40.6vw,1150px),100%);margin-top:clamp(40px,3.4vw,90px)}
+
+.vid.hv{max-width:none}
