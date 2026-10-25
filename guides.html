@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=26">
+<link rel="stylesheet" href="/assets/strive.css?v=27">
 </head>
 <body>
 <main class="lwrap" style="padding-top:100px;padding-bottom:70px">
@@ -157,9 +157,10 @@ async function show(slug, a) {
   try {
     const g = await Api.get("/api/guides/get?slug=" + encodeURIComponent(slug), a.token);
     document.title = g.title + " Guide | Strive Cheats";
-    m.innerHTML = `<div class="gd-top"><span class="gd-pill">${esc(g.category)}</span><h2>${esc(g.title)}</h2></div>` + g.steps.map(s => `<section class="gd-step" id="s${esc(s.id)}"><div class="gd-sh"><span>${s.id === "FIX" ? "FIX" : "STEP " + esc(s.id)}</span><h3>${esc(s.title)}</h3></div>${s.blocks.map(blockHtml).join("")}</section>`).join("");
+    m.innerHTML = `<div class="gd-top"><span class="gd-pill">${esc(g.category)}</span><h2>${esc(g.title)}</h2></div>` + g.steps.map((s, i) => { const nx = g.steps[i + 1], lab = x => x.id === "FIX" ? "Fix" : "Step " + x.id; return `<section class="gd-step" id="s${esc(s.id)}"><div class="gd-sh"><span>${s.id === "FIX" ? "FIX" : "STEP " + esc(s.id)}</span><h3>${esc(s.title)}</h3></div>${s.blocks.map(blockHtml).join("")}${nx ? `<a class="gd-next" href="#s${esc(nx.id)}" data-to="s${esc(nx.id)}"><span><small>Next</small>${esc(lab(nx))}: ${esc(nx.title)}</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></a>` : `<a class="gd-next done" href="/guides" data-all="1"><span><small>All done</small>Back to all guides</span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></a>`}</section>`; }).join("");
     toc.innerHTML = '<b>On this page</b>' + g.steps.map(s => `<a href="#s${esc(s.id)}">${s.id === "FIX" ? "Fix" : s.id}. ${esc(s.title)}</a>`).join("");
     wire(m); loadImages(m, a.token);
+    m.querySelectorAll(".gd-next").forEach(n => n.addEventListener("click", e => { e.preventDefault(); if (n.dataset.all) { history.pushState(null, "", "/guides"); render(); window.scrollTo({ top: 0 }); } else { const t = document.getElementById(n.dataset.to); if (t) t.scrollIntoView({ behavior: "smooth", block: "start" }); } }));
   } catch (e) { m.innerHTML = '<div class="gd-state"><b>Could not load this guide.</b><p>' + esc(e.message || "") + '</p></div>'; }
 }
 main();
