@@ -846,3 +846,21 @@ body{background:radial-gradient(900px 520px at 12% -8%,rgba(31,182,255,.16),tran
 
 /* v36: no blue hover glow on cards */
 .catcard:hover,.lcard:hover,.scard2:hover,.catcard.art:hover,.spc:hover,.adv:hover,.gh-card:hover{border-color:rgba(110,200,255,.16)!important;box-shadow:none!important;transform:none!important}
+
+/* ===== v39: calmer styling (no gradient text, no glow bars, no pill labels, plain buttons) ===== */
+.grad{background:none!important;-webkit-text-fill-color:#1fb6ff!important;color:#1fb6ff!important}
+.eyb{display:none!important}
+.hsec .hd h2::after{display:none!important}
+.hsec+.hsec::before,.games+.hsec::before{display:none!important}
+.hsec .hd h2{margin-bottom:6px}
+.btn{border-radius:10px!important}
+.btn-main{background:#1fb6ff!important;box-shadow:none!important;color:#02141c!important}
+.btn-main:hover{background:#4cc4ff!important;transform:none!important;box-shadow:none!important}
+@media (min-width:1000px){
+.nav .nav-links a{border-radius:9px}
+.nav .nav-links a.on{background:rgba(31,182,255,.14);box-shadow:none}
+.nav .nav-btn{border-radius:9px}.nav .nav-btn.icon{border-radius:9px}
+.nav .nav-btn.client{background:#1fb6ff;box-shadow:none}
+.nav .nav-in{border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
+}
+.adv::before{display:none}
