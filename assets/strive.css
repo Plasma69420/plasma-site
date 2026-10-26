@@ -864,3 +864,30 @@ body{background:radial-gradient(900px 520px at 12% -8%,rgba(31,182,255,.16),tran
 .nav .nav-in{border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
 }
 .adv::before{display:none}
+
+/* ===== v40: top bar + header (logo and wordmark, centered link group, online pill) ===== */
+.annc{position:absolute;top:0;left:0;right:0;z-index:70;height:36px;display:flex;align-items:center;justify-content:center;gap:14px;background:#1190d2;color:#fff;font:600 13.5px 'Manrope'}
+.annc a{display:inline-flex;align-items:center;gap:5px;color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+body.has-annc{padding-top:36px}
+.nav{transition:top .25s}
+body.has-annc .nav{top:36px}
+body.has-annc.annc-off .nav{top:0}
+.online{display:none}
+.wm{display:none}
+@media (min-width:1000px){
+.nav,.nav.scrolled{background:rgba(3,13,19,.94)!important;border-bottom:1px solid rgba(110,200,255,.14)!important}
+.nav .nav-bar{height:66px}
+.nav .nav-in{display:grid!important;grid-template-columns:1fr auto 1fr;align-items:center;width:min(1336px,100% - 64px)!important;margin:0 auto!important;height:66px!important;padding:0!important;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+.nav .brand{justify-self:start;margin:0!important;display:flex;align-items:center;gap:10px}
+.nav .brand img{height:30px}
+.nav .wm{display:inline;font:700 17px var(--hf);color:#fff;letter-spacing:-.01em}.nav .wm em{font-style:normal;color:#1fb6ff}
+.nav .nav-links{justify-self:center;background:rgba(255,255,255,.04);border:1px solid rgba(110,200,255,.13);border-radius:14px;padding:5px;gap:2px}
+.nav .nav-links a{border-radius:10px;height:34px}
+.nav .nav-links a.on{background:rgba(110,200,255,.13);box-shadow:none}
+.nav .nav-right{justify-self:end;margin-left:0}
+.online{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:999px;border:1px solid rgba(68,224,138,.42);background:rgba(68,224,138,.08);color:#b4f7d0;font:700 12.5px 'Manrope';letter-spacing:.05em}
+.online[hidden]{display:none}
+.online i{width:7px;height:7px;border-radius:50%;background:#44e08a;box-shadow:0 0 8px #44e08a}
+.online b{color:#fff}
+}
+@media (max-width:999px){.annc{font-size:12.5px}}

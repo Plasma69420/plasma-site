@@ -298,17 +298,16 @@ const Api = {
   document.body.insertAdjacentHTML("afterbegin", `
 <div class="bgfx" aria-hidden="true"><div class="top"></div></div>
 <canvas class="stars" id="stars"></canvas>
+<div class="annc"><span>Keys delivered instantly on every product</span><a href="/products">Shop now <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
 <header class="nav" id="nav">
   <div class="nav-bar"><div class="nav-in">
-    <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"></a>
+    <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"><b class="wm">Strive <em>CHEATS</em></b></a>
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link("/reviews", "Reviews", "reviews")}${link("/mini-games", "Mini Games", "mini-games")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Support", "support")}
+      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link("/reviews", "Reviews", "reviews")}${link("/mini-games", "Mini Games", "mini-games")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Discord", "support")}
     </nav>
     <div class="nav-right">
-      <a class="nav-btn icon" href="${CONFIG.discord}" target="_blank" rel="noopener" aria-label="Discord">${ico.discord}</a>
-      <a class="nav-btn icon" href="${CONFIG.telegram}" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.800 15.600 9.400 20c.6 0 .9-.3 1.200-.6l2.900-2.800 6 4.400c1.100.6 1.900.3 2.200-1l3.900-18.400c.4-1.600-.6-2.300-1.700-1.900L1.100 8.500c-1.600.6-1.600 1.500-.3 1.900l5.900 1.800L20.400 4z"/></svg></a>
-      <a class="nav-btn icon" href="/products" aria-label="Search products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.500-3.500"/></svg></a>
       <a class="nav-btn cart-btn" href="/cart" aria-label="Cart">${ico.cart}<span class="cl">Cart</span><b class="cart-count" hidden>0</b></a>
+      <a class="online" id="navOnline" href="${CONFIG.discord}" target="_blank" rel="noopener" hidden title="Members online in our Discord"><i></i><b id="navOnlineN">0</b> ONLINE</a>
       ${userBtn}
       <button class="nav-btn icon burger" id="burger" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
@@ -392,4 +391,13 @@ addEventListener("DOMContentLoaded", revealAll);
   watch(); addEventListener("load", watch); setTimeout(watch, 1500);
   document.addEventListener("visibilitychange", () => document.querySelectorAll("video").forEach(v => { if (document.hidden) v.pause(); else if (!v.classList.contains("offscreen")) v.play().catch(() => { }); }));
   document.querySelectorAll("img:not([loading])").forEach(i => { i.loading = "lazy"; i.decoding = "async"; });
+})();
+
+// ---- top bar offset, and live numbers (Discord members online, products sold) ----
+(() => {
+  document.body.classList.add("has-annc");
+  const onScroll = () => document.body.classList.toggle("annc-off", scrollY > 36);
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  window.siteStats = Api.get("/api/site").catch(() => null);
+  window.siteStats.then(d => { if (d && d.online) { document.getElementById("navOnlineN").textContent = d.online.toLocaleString(); document.getElementById("navOnline").hidden = false; } });
 })();
