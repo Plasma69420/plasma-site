@@ -103,3 +103,30 @@
 .wv:hover .play{transform:scale(1.08)}
 .wv iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 @media (max-width:900px){.watch{grid-template-columns:1fr;gap:30px}}
+
+/* section label (icon + text), colored feature cards, numbered faq */
+.eyb2{display:inline-flex;align-items:center;gap:7px;margin-bottom:16px;padding:6px 14px;border-radius:999px;border:1px solid rgba(31,182,255,.3);background:rgba(31,182,255,.07);color:#7fd6ff;font:700 11.5px 'Manrope';letter-spacing:.12em;text-transform:uppercase}
+.eyb2 svg{width:14px;height:14px}
+.why4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1240px;margin:0 auto}
+.wc{--a:#1fb6ff;position:relative;display:flex;flex-direction:column;padding:26px;border-radius:20px;border:1px solid rgba(110,200,255,.13);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01)),#07161d;overflow:hidden}
+.wc::before{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(closest-side,var(--a),transparent);opacity:.13;pointer-events:none}
+.wc.c1{--a:#1fb6ff}.wc.c2{--a:#ffb02e}.wc.c3{--a:#44e08a}.wc.c4{--a:#9b87ff}
+.wc .wi{display:grid;place-items:center;width:46px;height:46px;margin-bottom:20px;border-radius:12px;color:var(--a);background:color-mix(in srgb,var(--a) 15%,transparent)}
+.wc .wi svg{width:23px;height:23px}
+.wc h3{margin:0 0 10px;font:700 18px 'Sora','Manrope',sans-serif;color:#fff;letter-spacing:-.01em}
+.wc p{margin:0 0 22px;font-size:14px;line-height:1.7;color:#8fb6c7;flex:1}
+.wc .wtag{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:6px 13px;border-radius:999px;font:700 12px 'Manrope';color:var(--a);background:color-mix(in srgb,var(--a) 12%,transparent);border:1px solid color-mix(in srgb,var(--a) 30%,transparent)}
+.wc .wtag i{width:6px;height:6px;border-radius:50%;background:var(--a)}
+.faqn{display:grid;gap:12px;counter-reset:q}
+.faqn details{counter-increment:q;border-radius:16px;border:1px solid rgba(110,200,255,.14);background:#07161d;transition:border-color .2s}
+.faqn details[open]{border-color:rgba(31,182,255,.4)}
+.faqn summary{display:flex;align-items:center;gap:18px;padding:19px 20px;cursor:pointer;list-style:none}
+.faqn summary::-webkit-details-marker{display:none}
+.faqn .qn::before{content:counter(q);font:700 12.5px 'Manrope';color:#3b8fc4}
+.faqn .qt{flex:1;font:700 16px 'Manrope';color:#e6f2f8}
+.faqn .qb{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;border:1px solid rgba(110,200,255,.18);background:rgba(255,255,255,.03);color:#8fb6c7;transition:transform .2s}
+.faqn details[open] .qb{transform:rotate(180deg);color:#fff}
+.faqn .ans{padding:0 20px 20px 54px;font-size:14.5px;line-height:1.7;color:#9fc4d4}
+.faqn .ans a{color:#4cc4ff;text-decoration:underline;text-underline-offset:3px}
+@media (max-width:1100px){.why4{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.why4{grid-template-columns:1fr}.faqn .ans{padding-left:20px}}
