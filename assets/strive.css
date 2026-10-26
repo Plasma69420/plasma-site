@@ -836,11 +836,6 @@ body{background:radial-gradient(900px 520px at 12% -8%,rgba(31,182,255,.16),tran
 /* numbered advantage cards */
 .adv3{counter-reset:adv}.adv{position:relative;counter-increment:adv}
 .adv::before{content:"0" counter(adv);position:absolute;top:14px;right:20px;font:800 44px var(--hf);color:rgba(31,182,255,.13);pointer-events:none}
-/* cursor spotlight */
-.catcard,.lcard,.adv,.spc,.gh-card,.scard2{--mx:50%;--my:50%}
-.adv::after,.spc::after,.gh-card::after,.lcard::after,.catcard::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .25s;background:radial-gradient(280px circle at var(--mx) var(--my),rgba(31,182,255,.17),transparent 62%);z-index:2}
-.adv:hover::after,.spc:hover::after,.gh-card:hover::after,.lcard:hover::after,.catcard:hover::after{opacity:1}
-.spc{position:relative}
 /* floating capsule header */
 @media (min-width:1000px){
 .nav,.nav.scrolled{background:transparent!important;border-bottom:0!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
@@ -848,3 +843,6 @@ body{background:radial-gradient(900px 520px at 12% -8%,rgba(31,182,255,.16),tran
 .nav .nav-in{margin-top:11px!important;height:56px!important;padding:0 12px 0 18px!important;border-radius:999px;background:rgba(4,20,27,.9)!important;border:1px solid rgba(110,200,255,.2)!important;box-shadow:0 12px 40px rgba(0,0,0,.4),0 0 0 1px rgba(31,182,255,.05)}
 .nav .brand{margin-right:26px}
 }
+
+/* v36: no blue hover glow on cards */
+.catcard:hover,.lcard:hover,.scard2:hover,.catcard.art:hover,.spc:hover,.adv:hover,.gh-card:hover{border-color:rgba(110,200,255,.16)!important;box-shadow:none!important;transform:none!important}
