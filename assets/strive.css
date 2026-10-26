@@ -938,3 +938,13 @@ body.has-annc.annc-off .nav{top:0}
 .srow .sup,.srow .spr,.srow .sgo{display:none}
 .stb .sbc{width:100%}.stb .sbc span{flex:1}
 }
+
+/* ===== v42: tighter section spacing, video duration badge ===== */
+.hsec{padding:34px 0!important;contain-intrinsic-size:auto 520px}
+.hsec .hd{margin-bottom:26px!important}
+.hx{padding:118px 0 18px!important}
+.games{margin:0 auto 6px!important;padding:8px 0!important}
+.hx-in{gap:36px}
+.wv .dur{position:absolute;right:12px;bottom:12px;z-index:2;padding:3px 8px;border-radius:6px;background:rgba(0,0,0,.82);color:#fff;font:700 12.5px Manrope}
+.wv .yt{position:absolute;left:12px;bottom:12px;z-index:2;display:flex;align-items:center;gap:7px;padding:4px 10px 4px 8px;border-radius:7px;background:rgba(0,0,0,.72);color:#fff;font:700 12px Manrope}
+.wv .yt svg{width:18px;height:13px}
