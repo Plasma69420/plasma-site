@@ -393,3 +393,13 @@ addEventListener("DOMContentLoaded", revealAll);
   document.addEventListener("visibilitychange", () => document.querySelectorAll("video").forEach(v => { if (document.hidden) v.pause(); else if (!v.classList.contains("offscreen")) v.play().catch(() => { }); }));
   document.querySelectorAll("img:not([loading])").forEach(i => { i.loading = "lazy"; i.decoding = "async"; });
 })();
+
+// card spotlight: a soft blue light follows the cursor over cards
+(() => {
+  const SEL = ".catcard,.lcard,.adv,.spc,.gh-card,.scard2,.cmp-card";
+  let raf = 0, last = null;
+  document.addEventListener("pointermove", e => {
+    last = e; if (raf) return;
+    raf = requestAnimationFrame(() => { raf = 0; const c = last.target.closest && last.target.closest(SEL); if (!c) return; const r = c.getBoundingClientRect(); c.style.setProperty("--mx", (last.clientX - r.left) + "px"); c.style.setProperty("--my", (last.clientY - r.top) + "px"); });
+  }, { passive: true });
+})();
