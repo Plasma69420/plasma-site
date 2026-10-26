@@ -28,7 +28,7 @@
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
 <link rel="stylesheet" href="/assets/strive.css?v=40">
-<link rel="stylesheet" href="/assets/home.css?v=6">
+<link rel="stylesheet" href="/assets/home.css?v=7">
 </head>
 <body>
 <main>
@@ -70,6 +70,29 @@
   <div class="hwrap">
     <div class="hd"><h2>Premium Gaming Products</h2><p>Explore our products, built for your satisfaction</p></div>
     <div class="cats" id="cats"></div>
+  </div>
+</section>
+
+<!-- ============ WATCH ============ -->
+<section class="hsec" id="watch">
+  <div class="hwrap">
+    <div class="watch">
+      <div class="wt">
+        <span class="wk"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>See it in action</span>
+        <h2>Fortnite Private, in real matches</h2>
+        <p>A full walkthrough of the menu, aimbot and ESP running in game, so you can see exactly how it plays before you buy.</p>
+        <ul>
+          <li>The menu, aimbot and ESP shown running in game</li>
+          <li>Re-tested after each Fortnite update</li>
+          <li>Key delivered by email in under a minute</li>
+        </ul>
+        <a class="btn btn-main" href="/fortnite-private">Shop Fortnite Private <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="wv" id="wv" data-id="lkZedVpfl-E" role="button" tabindex="0" aria-label="Play the Fortnite Private video">
+        <img src="https://i.ytimg.com/vi/lkZedVpfl-E/hqdefault.jpg" alt="Fortnite Private video thumbnail" loading="lazy">
+        <span class="play"><svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -165,6 +188,14 @@ window.siteStats.then(d => {
   const sold = d && d.sold != null ? d.sold.toLocaleString() : "–", on = d && d.online ? d.online.toLocaleString() : "–";
   document.getElementById("hxSold").textContent = sold; document.getElementById("stSold").textContent = sold; document.getElementById("stO").textContent = on;
 });
+
+
+// ---- video: the player loads on click ----
+(() => {
+  const w = document.getElementById("wv"); if (!w) return;
+  const go = () => { w.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + w.dataset.id + '?autoplay=1&rel=0&modestbranding=1" title="Fortnite Private" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>'; w.classList.add("on"); };
+  w.addEventListener("click", go); w.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+})();
 
 // ---- reviews: real /vouch reviews only ----
 Api.get("/api/vouches").then(d => {
