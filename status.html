@@ -27,33 +27,52 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=40">
+<link rel="stylesheet" href="/assets/strive.css?v=41">
 </head>
 <body>
-<main class="lwrap" style="padding-top:100px">
-  <div style="text-align:center;margin-bottom:30px"><h1 style="font:700 clamp(34px,4.6vw,48px)/1.1 'Manrope';letter-spacing:-.03em;color:#fff">Product Status</h1><p id="sum" style="margin-top:12px;color:var(--muted)">Checking...</p></div>
+<main class="stp">
+  <header class="sth">
+    <h1>Product Status</h1>
+    <p>Live status for every Strive product. We update it the moment something changes.</p>
+  </header>
+  <section class="stb" id="stb" aria-live="polite"><div class="sbi" id="sbi"></div><div class="sbt"><b id="sbT">Checking status...</b><small id="sbS">One moment</small></div><div class="sbc" id="sbC"></div></section>
   <div id="groups"></div>
+  <p class="stn">Statuses are set by our team as game patches land. Something look wrong? Open a ticket in our Discord and we will check it right away.</p>
 </main>
-<script src="/assets/site.js?v=87"></script>
+<script src="/assets/site.js?v=88"></script>
 <script>
-const catName = p => p.account ? "Fortnite Full Access" : p.game === "Spoofer" ? "HWID Changers" : p.game === "Rainbow Six Siege" ? "Rainbow Six Siege Softwares" : p.game + " Softwares";
-const okI = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.500 12 2.500 2.500 4.500-5"/></svg>';
-const names = { undetected: "Operational", updating: "Updating", detected: "Detected", down: "Down", maintenance: "Maintenance" };
+const catName = p => p.game === "Spoofer" ? "HWID Spoofers" : p.game;
+const LABEL = { undetected: ["Operational", "ok"], updating: ["Updating", "warn"], maintenance: ["Maintenance", "warn"], detected: ["Detected", "bad"], down: ["Down", "bad"], unknown: ["Unavailable", "idle"] };
+const ICON = { ok: '<path d="m5 12 5 5 9-10"/>', warn: '<path d="M12 3 2 20h20z"/><path d="M12 10v5M12 18h.01"/>', bad: '<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>', idle: '<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/>' };
+const svg = d => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>';
+const ago = ms => { if (!ms) return "No changes yet"; const s = Math.max(1, (Date.now() - ms) / 1000); if (s < 90) return "Updated just now"; if (s < 3600) return "Updated " + Math.round(s / 60) + " min ago"; if (s < 86400) return "Updated " + Math.round(s / 3600) + " h ago"; return "Updated " + Math.round(s / 86400) + " d ago"; };
 async function load() {
-  const live = await Api.status();
-  const groups = {}; let issues = 0;
+  const live = await Api.status(), have = live && Object.keys(live).length > 0;
+  const groups = {}, count = { ok: 0, warn: 0, bad: 0, idle: 0 }, attention = [];
   CONFIG.products.filter(p => !p.account).forEach(p => (groups[catName(p)] = groups[catName(p)] || []).push(p));
   document.getElementById("groups").innerHTML = Object.entries(groups).map(([g, list]) => `
-    <div class="stt-h"><h2>${esc(g)}</h2><small>(${list.length} product${list.length === 1 ? "" : "s"})</small></div>
-    <div class="lgrid" style="padding-bottom:10px">${list.map(p => {
-      const st = p.down ? "down" : ((live[p.slug] || {}).status || "undetected");
-      if (st !== "undetected") issues++;
-      return `<a class="scard2" href="/${p.slug}"><div class="im">${p.img ? `<img src="${p.img}" alt="" loading="lazy">` : ""}</div><div class="bd"><b>${esc(p.name)}</b>
-        <div class="ft"><span class="pillst ${st}">${st === "undetected" ? okI : ""}${names[st] || "Operational"}</span><strong>${money(Math.min(...p.plans.map(x => x.p)))}</strong></div></div></a>`;
+    <div class="stg"><h2>${esc(g)}</h2><span>${list.length} product${list.length === 1 ? "" : "s"}</span></div>
+    <div class="str">${list.map(p => {
+      const rec = live && live[p.slug], key = p.down ? "down" : (have && rec ? rec.status : "unknown"), [name, k] = LABEL[key] || LABEL.unknown;
+      count[k]++; if (k === "warn" || k === "bad") attention.push(p.name + " is " + name.toLowerCase());
+      const ps = (p.plans || []).map(x => x.p).filter(Number.isFinite), from = ps.length ? money(Math.min(...ps)) : "";
+      return `<a class="srow" href="/${p.slug}">
+        <span class="sth2">${p.img ? `<img src="${p.img}" alt="" loading="lazy">` : ""}</span>
+        <span class="sn"><b>${esc(p.name)}</b><small>${esc(p.type || "")}</small></span>
+        <span class="sbadge ${k}"><i></i>${name}</span>
+        <span class="sup">${ago(rec && rec.updated)}</span>
+        <span class="spr">${from ? "From " + from : ""}</span>
+        <span class="sgo">${svg('<path d="M5 12h14M13 6l6 6-6 6"/>')}</span>
+      </a>`;
     }).join("")}</div>`).join("");
-  document.getElementById("sum").textContent = issues ? `${issues} product${issues > 1 ? "s" : ""} need${issues > 1 ? "" : "s"} attention. See the badges below.` : "All products are currently undetected and working perfectly";
+  const bad = count.bad, warn = count.warn, ok = count.ok, k = !have ? "idle" : bad ? "bad" : warn ? "warn" : "ok";
+  const box = document.getElementById("stb"); box.className = "stb " + k;
+  document.getElementById("sbi").innerHTML = svg(ICON[k]);
+  document.getElementById("sbT").textContent = !have ? "Status is unavailable right now" : bad ? "Some products have problems" : warn ? (warn + " product" + (warn > 1 ? "s" : "") + " need attention") : "All systems operational";
+  document.getElementById("sbS").textContent = !have ? "We could not reach the status service. Try again in a minute." : (attention.length ? attention.join(" • ") : "Every product is working normally") + " • checked " + new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  document.getElementById("sbC").innerHTML = [["ok", "Operational", ok], ["warn", "Updating", warn], ["bad", "Down", bad]].map(([c, n, v]) => '<span class="' + c + '"><b>' + v + '</b>' + n + '</span>').join("");
 }
-load(); setInterval(load, 60000);
+load(); setInterval(() => { if (!document.hidden) load(); }, 60000);
 </script>
 </body>
 </html>

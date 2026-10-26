@@ -301,7 +301,7 @@ const Api = {
 <div class="annc"><span>Keys delivered instantly on every product</span><a href="/products">Shop now <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
 <header class="nav" id="nav">
   <div class="nav-bar"><div class="nav-in">
-    <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"><b class="wm">Strive <em>CHEATS</em></b></a>
+    <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"><b class="wm">Strive <em>Cheats</em></b></a>
     <nav class="nav-links" id="navLinks">
       ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link("/reviews", "Reviews", "reviews")}${link("/mini-games", "Mini Games", "mini-games")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Discord", "support")}
     </nav>
