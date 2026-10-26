@@ -766,3 +766,42 @@ kbd{display:inline-block;min-width:20px;padding:1px 6px;margin-right:3px;border-
 @media (min-width:1000px) and (max-width:1260px){.nav .nav-links a{padding:0 9px;gap:6px}.nav .brand{margin-right:18px}}
 @media (min-width:1000px){.nav .brand{margin-right:36px}.nav .nav-btn.client{padding:0 12px}.nav .nav-btn.cart-btn{padding:0 11px}}
 @media (min-width:1000px) and (max-width:1239px){.nav .nav-links a svg{display:none}.nav .nav-links a{padding:0 10px}.nav .brand{margin-right:20px}}
+
+/* ===== v32: own identity (type, shapes, glow, footer) ===== */
+:root{--hf:'Sora','Manrope',system-ui,sans-serif}
+h1,h2,h3,.hero2 h1,.hsec .hd h2,.gd-head h1,.gh-hero h1,.gh-all h2,.mg-top b,.lp-head h1,.pd-title{font-family:var(--hf)!important;letter-spacing:-.03em}
+.hero2 h1{font-weight:700;line-height:1.08}
+.grad{background:linear-gradient(95deg,#ffffff 0%,#8fe3ff 38%,#1fb6ff 78%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* background: blue aurora instead of flat black */
+body{background:radial-gradient(900px 520px at 12% -8%,rgba(31,182,255,.16),transparent 60%),radial-gradient(800px 520px at 92% 18%,rgba(0,150,200,.12),transparent 60%),#03121a}
+::selection{background:#1fb6ff;color:#02141c}
+*{scrollbar-color:#1c6d91 #04141b}
+/* section titles: eyebrow + glowing bar */
+.eyb{display:inline-block;margin-bottom:12px;padding:5px 14px;border-radius:999px;border:1px solid rgba(31,182,255,.35);background:rgba(31,182,255,.08);color:#8fe3ff;font:700 11.5px 'Manrope';letter-spacing:.14em;text-transform:uppercase}
+.hsec .hd h2::after{background:linear-gradient(90deg,transparent,#1fb6ff,transparent)!important;box-shadow:0 0 14px rgba(31,182,255,.7);height:3px!important;width:84px!important;border-radius:3px}
+/* shapes: pills + softer cards */
+.btn{border-radius:999px!important}
+.btn-main{background:linear-gradient(180deg,#4cc9ff,#1fb6ff)!important;box-shadow:0 8px 26px rgba(31,182,255,.35),inset 0 1px 0 rgba(255,255,255,.45)!important;transition:transform .2s,box-shadow .2s}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(31,182,255,.55),inset 0 1px 0 rgba(255,255,255,.55)!important}
+.catcard,.lcard,.scard2,.spc,.gd-step,.gh-card{border-radius:20px!important}
+.catcard.art,.lcard,.scard2{transition:transform .25s,box-shadow .25s,border-color .25s}
+.catcard.art:hover,.lcard:hover{transform:translateY(-6px);box-shadow:0 22px 50px rgba(0,0,0,.5),0 0 0 1px rgba(31,182,255,.55),0 0 40px rgba(31,182,255,.18)}
+@media (min-width:1000px){
+.nav .nav-links a{border-radius:999px}
+.nav .nav-links a.on{background:linear-gradient(180deg,rgba(31,182,255,.2),rgba(31,182,255,.08));box-shadow:0 0 0 1px rgba(31,182,255,.35),0 6px 18px rgba(31,182,255,.18)}
+.nav .nav-btn{border-radius:999px}
+.nav .nav-btn.icon{border-radius:50%}
+.nav .nav-btn.client{background:linear-gradient(180deg,#4cc9ff,#1fb6ff);box-shadow:0 6px 18px rgba(31,182,255,.35)}
+}
+/* footer: brand, three link columns, bottom bar */
+.foot{border-top:1px solid rgba(110,200,255,.14);background:linear-gradient(180deg,transparent,rgba(4,20,27,.85))}
+.foot .fgrid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:40px;padding:54px 0 38px}
+.foot .fcol{display:flex;flex-direction:column;gap:11px;font-size:14px}
+.foot .fcol h5{margin:0 0 6px;font:800 12px 'Manrope';letter-spacing:.14em;text-transform:uppercase;color:#7fd6ff}
+.foot .fcol a{color:#a7c4d1;transition:color .15s}.foot .fcol a:hover{color:#fff}
+.foot .fabout .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:6px}.foot .fabout .brand img{height:34px;width:auto}.foot .fabout .brand b{font:700 17px var(--hf);color:#fff}
+.foot .fabout p{max-width:340px;line-height:1.65;color:#8fb6c7}
+.foot .fsoc2{display:flex;gap:8px;margin-top:6px}.foot .fsoc2 a{padding:7px 16px;border-radius:999px;border:1px solid rgba(110,200,255,.22);background:#0a2029;color:#cfefff;font-weight:700;font-size:13px}.foot .fsoc2 a:hover{border-color:#1fb6ff;color:#fff}
+.foot .fbar{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:22px 0 28px;border-top:1px solid rgba(110,200,255,.12);color:#6d97a9;font-size:12.5px}
+@media (max-width:820px){.foot .fgrid{grid-template-columns:1fr 1fr}.foot .fabout{grid-column:1/-1}}
+.foot{background:linear-gradient(180deg,#03121a,#020d13)!important}

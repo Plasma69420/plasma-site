@@ -3,6 +3,7 @@
 if (/.html$/.test(location.pathname)) {
   history.replaceState(null, "", (location.pathname.replace(/(\/index)?\.html$/, "") || "/") + location.search + location.hash);
 }
+(() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&display=swap"; document.head.appendChild(l); })();
 const CONFIG = {
   discord: "https://discord.gg/2nmZpcrC2",
   telegram: "https://t.me/+szYZUy4Er4EyZjkx",
@@ -317,13 +318,17 @@ const Api = {
   document.body.insertAdjacentHTML("beforeend", `
 <footer class="foot">
   <div class="wrap" style="width:min(1300px,100% - 32px)">
-    <div class="frow">
-      <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"></a>
-      <nav>
-        <a href="/">Home</a><a href="/products">Products</a><a href="/reviews">Reviews</a><a href="/mini-games">Mini Games</a><a href="${CONFIG.discord}" target="_blank" rel="noopener">Support</a><a href="/account">Client Area</a>
-      </nav>
+    <div class="fgrid">
+      <div class="fcol fabout">
+        <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"><b>Strive Cheats</b></a>
+        <p>Undetected software and HWID spoofers with instant delivery, guided setup and 24/7 Discord support.</p>
+        <div class="fsoc2"><a href="${CONFIG.discord}" target="_blank" rel="noopener">Discord</a><a href="${CONFIG.telegram}" target="_blank" rel="noopener">Telegram</a></div>
+      </div>
+      <div class="fcol"><h5>Shop</h5><a href="/products">All products</a><a href="/status">Live status</a><a href="/reviews">Reviews</a><a href="/mini-games">Mini Games</a></div>
+      <div class="fcol"><h5>Support</h5><a href="${CONFIG.discord}" target="_blank" rel="noopener">Join Discord</a><a href="${CONFIG.tickets || CONFIG.discord}" target="_blank" rel="noopener">Open a ticket</a><a href="/account">Client Area</a></div>
+      <div class="fcol"><h5>Legal</h5><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a></div>
     </div>
-    <div class="fbar"><span>© ${new Date().getFullYear()} Strive Cheats. All rights reserved.</span><span class="ftlinks"><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a></span></div>
+    <div class="fbar"><span>© ${new Date().getFullYear()} Strive Cheats. All rights reserved.</span><span class="ftlinks"><a href="/">strivecheats.store</a></span></div>
   </div>
 </footer>`);
 
