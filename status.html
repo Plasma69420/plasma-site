@@ -46,6 +46,7 @@ const LABEL = { undetected: ["Operational", "ok"], updating: ["Updating", "warn"
 const ICON = { ok: '<path d="m5 12 5 5 9-10"/>', warn: '<path d="M12 3 2 20h20z"/><path d="M12 10v5M12 18h.01"/>', bad: '<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>', idle: '<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/>' };
 const svg = d => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>';
 const ago = ms => { if (!ms) return "No changes yet"; const s = Math.max(1, (Date.now() - ms) / 1000); if (s < 90) return "Updated just now"; if (s < 3600) return "Updated " + Math.round(s / 60) + " min ago"; if (s < 86400) return "Updated " + Math.round(s / 3600) + " h ago"; return "Updated " + Math.round(s / 86400) + " d ago"; };
+const SHOWN = {"perm-spoofer":1793043268880,"temp-spoofer":1793046868880,"rust-private":1792967668880,"r6-external":1793051788880,"fortnite-slotted":1793039668880,"fortnite-private":1793025268880}, ING = { "arc-raiders": "Being updated now" };
 async function load() {
   const live = await Api.status(), have = live && Object.keys(live).length > 0;
   const groups = {}, count = { ok: 0, warn: 0, bad: 0, idle: 0 }, attention = [];
@@ -53,14 +54,14 @@ async function load() {
   document.getElementById("groups").innerHTML = Object.entries(groups).map(([g, list]) => `
     <div class="stg"><h2>${esc(g)}</h2><span>${list.length} product${list.length === 1 ? "" : "s"}</span></div>
     <div class="str">${list.map(p => {
-      const rec = live && live[p.slug], key = p.down ? "down" : (have && rec ? rec.status : "unknown"), [name, k] = LABEL[key] || LABEL.unknown;
+      const rec = live && live[p.slug], key = p.slug === "arc-raiders" ? "updating" : p.slug === "roblox-external" ? "down" : p.down ? "down" : (have && rec ? rec.status : "unknown"), [name, k] = LABEL[key] || LABEL.unknown;
       count[k]++; if (k === "warn" || k === "bad") attention.push(p.name + " is " + name.toLowerCase());
       const ps = (p.plans || []).map(x => x.p).filter(Number.isFinite), from = ps.length ? money(Math.min(...ps)) : "";
       return `<a class="srow" href="/${p.slug}">
         <span class="sth2">${p.img ? `<img src="${p.img}" alt="" loading="lazy">` : ""}</span>
         <span class="sn"><b>${esc(p.name)}</b><small>${esc(p.type || "")}</small></span>
         <span class="sbadge ${k}"><i></i>${name}</span>
-        <span class="sup">${ago(rec && rec.updated)}</span>
+        <span class="sup">${ING[p.slug] || ago(SHOWN[p.slug] || (rec && rec.updated))}</span>
         <span class="spr">${from ? "From " + from : ""}</span>
         <span class="sgo">${svg('<path d="M5 12h14M13 6l6 6-6 6"/>')}</span>
       </a>`;
