@@ -28,7 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=79">
 <link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=35">
+<link rel="stylesheet" href="/assets/strive.css?v=36">
 </head>
 <body>
 
@@ -44,37 +44,6 @@
   </div>
   <div class="hstats"><div><b>10,000+</b><span>Products sold</span></div><div><b>&lt; 1 min</b><span>Key delivery</span></div><div><b>24/7</b><span>Discord support</span></div></div>
   <div class="hright"><div class="vid hv" id="vid"><video src="/media/website.mp4" poster="/img/video-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Strive Cheats showcase video"></video></div><span class="hchip c1"><i></i>Undetected</span><span class="hchip c2">Instant delivery</span></div>
-</section>
-
-<!-- ============ HWID SPOOFERS ============ -->
-<section class="hsec" id="spoofers" style="padding-top:40px">
-  <div class="hwrap" style="max-width:1100px">
-    <div class="hd nl"><span class="eyb">Spoofers</span><h2>HWID Spoofers - Get Unbanned</h2><p>Strive provides premium HWID Spoofer solutions. Perfect to get unbanned in any game.</p></div>
-    <div class="sp3">
-      <article class="spc">
-        <h3>Permanent Spoofer</h3>
-        <div class="cmp" data-x="50" tabindex="0" role="slider" aria-label="Drag to compare banned and unbanned" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
-          <img class="b" src="/img/perm-unbanned.webp" alt="Unbanned: playing in Fortnite" loading="lazy" draggable="false">
-          <img class="a" src="/img/perm-banned.webp" alt="Banned: removed from the match" loading="lazy" draggable="false">
-          <span class="tag l">Banned</span><span class="tag r">Unbanned</span>
-          <i class="bar"><b><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></b></i>
-        </div>
-        <p>Our Permanent HWID Spoofer changes your hardware identifiers for good, so you only run it once. Supports Windows 10/11 on Intel and AMD.</p>
-        <a class="btn btn-main" href="/perm-spoofer">Buy Now</a>
-      </article>
-      <article class="spc">
-        <h3>Temporary Spoofer</h3>
-        <div class="cmp" data-x="50" tabindex="0" role="slider" aria-label="Drag to compare banned and unbanned" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
-          <img class="b" src="/img/temp-unbanned.webp" alt="Unbanned: playing in Fortnite" loading="lazy" draggable="false">
-          <img class="a" src="/img/temp-banned.webp" alt="Banned: removed from the match" loading="lazy" draggable="false">
-          <span class="tag l">Banned</span><span class="tag r">Unbanned</span>
-          <i class="bar"><b><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></b></i>
-        </div>
-        <p>Our Temporary Spoofer changes your identifiers until your next restart. Lightweight, and you decide when it is active.</p>
-        <a class="btn btn-main" href="/temp-spoofer">Buy Now</a>
-      </article>
-      </div>
-  </div>
 </section>
 
 <!-- ============ CATEGORIES ============ -->
@@ -219,19 +188,6 @@
 <script>
 document.querySelectorAll("[data-discord]").forEach(a => a.href = CONFIG.discord);
 
-
-// ---- banned / unbanned slider ----
-document.querySelectorAll(".cmp").forEach(el => {
-  const set = x => { x = Math.max(0, Math.min(100, x)); el.style.setProperty("--x", x + "%"); el.dataset.x = x; el.setAttribute("aria-valuenow", Math.round(x)); };
-  const at = e => { const r = el.getBoundingClientRect(); set((e.clientX - r.left) / r.width * 100); };
-  let drag = false;
-  el.addEventListener("pointerdown", e => { drag = true; el.setPointerCapture(e.pointerId); at(e); });
-  el.addEventListener("pointermove", e => { if (drag) at(e); });
-  el.addEventListener("pointerup", () => { drag = false; });
-  el.addEventListener("pointercancel", () => { drag = false; });
-  el.addEventListener("keydown", e => { if (e.key === "ArrowLeft") set(+el.dataset.x - 5); if (e.key === "ArrowRight") set(+el.dataset.x + 5); });
-  set(50);
-});
 
 // ---- categories ----
 const catName = p => p.account ? "Fortnite Accounts" : p.game === "Spoofer" ? "HWID Spoofer" : p.game;
