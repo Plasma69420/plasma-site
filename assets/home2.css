@@ -300,3 +300,26 @@ body.home .foot .fbar a{color:var(--ac)!important}
 .v2h{min-height:0!important;place-items:center;padding:160px 0 110px!important;
   background:radial-gradient(ellipse 80% 48% at 50% -8%,rgba(34,96,120,.6),transparent 72%),radial-gradient(ellipse 50% 40% at 50% 48%,rgba(61,191,255,.07),transparent 70%),var(--bg)!important}
 .v2h::before,.v2h::after{display:none!important}
+
+/* v3.4: richer hero background (teal edge glow, light beams, fading grid, soft logo watermark) */
+.v2h{background:
+  radial-gradient(ellipse 85% 50% at 50% -8%,rgba(34,96,120,.75),transparent 72%),
+  radial-gradient(ellipse 45% 38% at 18% 70%,rgba(61,191,255,.10),transparent 70%),
+  radial-gradient(ellipse 45% 38% at 84% 62%,rgba(34,96,120,.30),transparent 70%),
+  linear-gradient(118deg,transparent 34%,rgba(61,191,255,.075) 43%,transparent 52%),
+  linear-gradient(118deg,transparent 58%,rgba(61,191,255,.05) 63%,transparent 72%),
+  var(--bg)!important}
+.v2h::before{display:block!important;content:"";position:absolute;inset:0;margin:0;width:auto;height:auto;filter:none;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 75% at 50% 35%,#000 15%,transparent 72%);mask-image:radial-gradient(ellipse 70% 75% at 50% 35%,#000 15%,transparent 72%)}
+.v2h::after{display:block!important;content:"";position:absolute;left:50%;top:50%;width:min(720px,80vw);aspect-ratio:1;transform:translate(-50%,-52%);pointer-events:none;
+  background:url(/img/logo.png) center/contain no-repeat;opacity:.055;filter:blur(.6px) drop-shadow(0 0 60px rgba(61,191,255,.5))}
+.v2hin{position:relative;z-index:2}
+.v2h{background:
+  linear-gradient(180deg,transparent 62%,var(--bg) 100%),
+  radial-gradient(ellipse 85% 50% at 50% -8%,rgba(34,96,120,.75),transparent 72%),
+  radial-gradient(ellipse 45% 38% at 18% 70%,rgba(61,191,255,.10),transparent 70%),
+  radial-gradient(ellipse 45% 38% at 84% 62%,rgba(34,96,120,.30),transparent 70%),
+  linear-gradient(118deg,transparent 34%,rgba(61,191,255,.075) 43%,transparent 52%),
+  linear-gradient(118deg,transparent 58%,rgba(61,191,255,.05) 63%,transparent 72%),
+  var(--bg)!important}
