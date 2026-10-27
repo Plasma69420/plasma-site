@@ -300,3 +300,45 @@ body.home .foot .fbar a{color:var(--ac)!important}
 .v2h{min-height:0!important;place-items:center;padding:160px 0 110px!important;
   background:radial-gradient(ellipse 80% 48% at 50% -8%,rgba(34,96,120,.6),transparent 72%),radial-gradient(ellipse 50% 40% at 50% 48%,rgba(61,191,255,.07),transparent 70%),var(--bg)!important}
 .v2h::before,.v2h::after{display:none!important}
+
+/* v3.5: bigger first screen (cards sit below the fold), live chat, receipt tile, working menu */
+.v2h{min-height:100vh!important;min-height:100svh!important;padding:140px 0 100px!important;display:grid;place-items:center}
+.v2h h1{font-size:clamp(42px,4.3vw,78px)}
+.v2h .v2hin>p{font-size:clamp(14px,1.08vw,17.5px);max-width:620px}
+.v2b{height:44px;font-size:14px;padding:0 22px}
+.v2hin{width:min(980px,100% - 40px)}
+
+.bv.chat{display:flex;flex-direction:column;justify-content:flex-start;padding:0;gap:0}
+.chat .ch{display:flex;align-items:center;gap:9px;padding:11px 14px;border-bottom:1px solid var(--line);font:600 12px 'Plus Jakarta Sans';color:#dfe7ea}
+.chat .ch i{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#3dbfff,#1b6fa0);flex:none}
+.chat .ch em{margin-left:auto;font-style:normal;font-weight:600;font-size:10.5px;color:#7defb6}
+.chat .ch em::before{content:"";display:inline-block;width:6px;height:6px;margin-right:6px;border-radius:50%;background:#44e08a;box-shadow:0 0 7px #44e08a}
+.chat .cm{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:7px;padding:14px;overflow:hidden;transition:opacity .4s}
+.chat .cm.out{opacity:0}
+.chat .m{max-width:86%;padding:8px 11px;border-radius:11px;font-size:11.5px;line-height:1.45;opacity:0;transform:translateY(8px);transition:opacity .28s,transform .28s}
+.chat .m.in{opacity:1;transform:none}
+.chat .a{align-self:flex-start;background:#1f282c;color:#cfdadf;border-bottom-left-radius:3px}
+.chat .b{align-self:flex-end;background:var(--ac);color:#05161d;font-weight:600;border-bottom-right-radius:3px}
+.chat .dots{display:flex;gap:4px;width:max-content;padding:10px 12px}
+.chat .dots.b{background:var(--ac)}
+.chat .dots i{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.4;animation:v2d 1s infinite}
+.chat .dots.a i{background:#6b7a80}.chat .dots.b i{background:#05161d}
+.chat .dots i:nth-child(2){animation-delay:.15s}.chat .dots i:nth-child(3){animation-delay:.3s}
+
+.bv.rcpt{display:flex;flex-direction:column;justify-content:center;gap:0;padding:6px 18px}
+.rcpt .rh{padding:10px 0 12px;font:600 10.5px 'Plus Jakarta Sans';letter-spacing:.14em;text-transform:uppercase;color:#5f6e74;border-bottom:1px solid var(--line)}
+.rcpt .rr,.rcpt .rt{display:flex;justify-content:space-between;gap:12px;padding:10px 0;font-size:12px;color:#aab6bb;border-bottom:1px solid rgba(255,255,255,.05)}
+.rcpt .rr b{font-weight:600;color:#e6eef1}
+.rcpt .rr b.z{color:#7defb6}
+.rcpt .rt{border:0;padding-top:12px;font-weight:700;color:#fff;font-size:14px}
+.rcpt .rt b{font-size:18px;letter-spacing:-.01em;color:var(--ac)}
+
+.menu .t{cursor:pointer;border:0;padding:0;transition:background .18s}
+.menu .t::after{transition:left .18s,background .18s}
+.menu .t:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.menu .sw{display:flex;align-items:center;gap:12px;width:52%}
+.menu .sw em{min-width:42px;text-align:right;font:600 11px 'Plus Jakarta Sans';font-style:normal;color:#dfe7ea}
+.menu input[type=range]{--p:60%;flex:1;height:4px;border-radius:3px;appearance:none;-webkit-appearance:none;cursor:pointer;background:linear-gradient(90deg,var(--ac) var(--p),#2a3338 var(--p))}
+.menu input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 4px rgba(61,191,255,.18)}
+.menu input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#fff;border:0}
+.menu .mh em{text-transform:uppercase}
