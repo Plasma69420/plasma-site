@@ -233,3 +233,29 @@ body.home .foot .fsoc2 a:hover{background:rgba(255,255,255,.1)!important}
 body.home .foot .fbar{border-top:1px solid var(--line)!important;color:#6f7d83}
 body.home .foot .fbar a{color:var(--ac)!important}
 
+
+/* v2.7: characters only (no game logos), packed in one tight group */
+.v2art img{top:auto;bottom:0;height:78%;width:auto;aspect-ratio:.66;object-fit:cover;object-position:0% 12%;opacity:.62;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent),linear-gradient(0deg,transparent 3%,#000 58%);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent),linear-gradient(0deg,transparent 3%,#000 58%);mask-composite:intersect}
+.v2art .g1{left:calc(50% - 38vw);object-position:0% 12%}
+.v2art .g3{left:calc(50% - 21vw);height:72%;opacity:.5;object-position:2% 12%}
+.v2art .op{left:calc(50% - 5vw);height:80%;opacity:.55;object-position:14% 12%}
+.v2art .g2{left:calc(50% + 11vw);height:76%;object-position:4% 12%}
+@media (min-width:1700px){
+.v2art .g1{left:calc(50% - 760px)}.v2art .g3{left:calc(50% - 420px)}.v2art .op{left:calc(50% - 100px)}.v2art .g2{left:calc(50% + 220px)}}
+@media (max-width:1000px){.v2art img{height:62%;width:auto}.v2art .g1{left:calc(50% - 46vw)}.v2art .op,.v2art .g3{display:block}.v2art .g3{left:calc(50% - 26vw)}.v2art .op{left:calc(50% - 4vw)}.v2art .g2{left:calc(50% + 18vw);display:block}}
+@media (max-width:640px){.v2art img{height:42%}.v2art .g1{left:-4%}.v2art .g3{left:20%}.v2art .op{left:42%}.v2art .g2{left:64%}}
+
+/* v2.8: big overlapping characters filling the whole hero (like the reference) */
+.v2art{display:flex;justify-content:center;align-items:flex-end;overflow:hidden}
+.v2art img,.v2art .g1,.v2art .g2,.v2art .g3,.v2art .op{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;flex:none;height:100%!important;width:auto!important;aspect-ratio:.7;margin:0 -64px;opacity:.62;filter:grayscale(1) brightness(1.05) contrast(1.1);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent),linear-gradient(0deg,transparent 4%,#000 55%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent),linear-gradient(0deg,transparent 4%,#000 55%);mask-composite:intersect}
+.v2art .g3{height:92%!important;opacity:.6}
+.v2art .op{height:104%!important;opacity:.7;object-position:14% 8%}
+.v2art .g2{height:96%!important;object-position:4% 8%}
+.v2art .g1{object-position:0% 8%}
+.v2h::after{background:linear-gradient(180deg,rgba(30,86,108,.45),transparent 24%,transparent 46%,var(--bg) 96%),radial-gradient(ellipse 50% 42% at 50% 50%,rgba(17,21,23,.55),transparent 75%)}
+@media (max-width:1000px){.v2art img,.v2art .g1,.v2art .g2,.v2art .g3,.v2art .op{margin:0 -7vw;height:70%!important}.v2art .op{height:78%!important}}
+@media (max-width:640px){.v2art img,.v2art .g1,.v2art .g2,.v2art .g3,.v2art .op{height:44%!important;margin:0 -9vw}.v2art .op{height:50%!important}}
+@media (max-width:640px){.v2art{align-items:flex-start;padding-top:64px}.v2art img,.v2art .g1,.v2art .g2,.v2art .g3,.v2art .op{height:300px!important;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent),linear-gradient(180deg,#000 50%,transparent 98%);mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent),linear-gradient(180deg,#000 50%,transparent 98%)}.v2art .op{height:330px!important}.v2h .v2hin{margin-top:330px}}
