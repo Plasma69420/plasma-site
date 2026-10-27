@@ -117,3 +117,9 @@ html body .nav .nav-rv svg{width:14px;height:14px;color:#fff}
 html body .nav .nav-sub::before{top:-2px;height:2px;background:linear-gradient(90deg,transparent 2%,rgba(190,230,248,.7) 50%,transparent 98%);box-shadow:0 0 20px rgba(61,191,255,.45),0 -8px 24px rgba(61,191,255,.16)}
 }
 @media (max-width:999px){html body .nav .nav-rv{display:none!important}}
+
+/* v5.1: top row and tab row share exactly the same width, so the logo lines up with the Home tab */
+@media (min-width:1000px){
+html body .nav .nav-in,html body.home .nav .nav-in,html body .nav .nav-in2{width:clamp(1000px,68vw,1560px)!important;max-width:none!important;margin-left:auto!important;margin-right:auto!important;padding-left:0!important;padding-right:0!important}
+html body .nav .brand{margin-left:0!important}
+}
