@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="/assets/pages.css?v=79">
 <link rel="stylesheet" href="/assets/strive.css?v=46">
 <link rel="stylesheet" href="/assets/home.css?v=9">
-<link rel="stylesheet" href="/assets/home2.css?v=28">
+<link rel="stylesheet" href="/assets/home2.css?v=29">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="home">
@@ -67,7 +67,7 @@
     <div class="v2hd"><span class="v2tag"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Why Strive</span><h2>Built to Be Trusted</h2><p>Fast replies, fair prices and keys that land the moment you pay.</p></div>
     <div class="v2bento">
       <article class="bc c2"><div class="bv chat" id="chat"><div class="ch"><i></i><span>Strive Support</span><em>online</em></div><div class="cm" id="cm"></div></div><p><b>Real support.</b> A real person answers in our Discord, not a bot, usually within minutes.</p></article>
-      <article class="bc c2"><div class="bv rcpt"><div class="rh">Order summary</div><div class="rr"><span id="rcN">Fortnite Private · 1 Day</span><b id="rcP">$4.99</b></div><div class="rr"><span>Processing fees</span><b class="z">None</b></div><div class="rr"><span>Taxes</span><b class="z">None added</b></div><div class="rt"><span>Total</span><b id="rcT">$4.99</b></div></div><p><b>Clear pricing.</b> The price you see at checkout is the price you pay. Nothing gets added later.</p></article>
+      <article class="bc c2"><div class="bv rcpt"><div class="rh"><span>Order summary</span><em class="nh">No hidden fees</em></div><div class="rr"><span id="rcN">Fortnite Private · 1 Day</span><b id="rcP">$4.99</b></div><div class="rr"><span>Processing fees</span><b class="z">None</b></div><div class="rr"><span>Taxes</span><b class="z">None added</b></div><div class="rt"><span>Total</span><b id="rcT">$4.99</b></div></div><p><b>Clear pricing.</b> The price you see at checkout is the price you pay. Nothing gets added later.</p></article>
       <article class="bc c2"><div class="bv shield"><div class="sh"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div><div class="st"><i></i>Operational</div></div><p><b>Live status.</b> The status of every product is public, so you always know before you buy.</p></article>
       <article class="bc c4"><div class="bv menu"><div class="mh"><span></span><span></span><span></span><em>strive menu · try it</em></div><ul>
 <li>Player ESP<button class="t on" role="switch" aria-checked="true" aria-label="Player ESP"></button></li>
@@ -169,16 +169,18 @@ window.siteStats.then(d => {
     [["a", "How long does a spoofer key take to arrive?"], ["b", "Instantly. It lands in your email the moment you pay."], ["a", "And if I get stuck on setup?"], ["b", "Open a ticket and we'll walk you through it."]]
   ];
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches, wait = ms => new Promise(r => setTimeout(r, ms));
-  const add = (who, text) => { const m = document.createElement("div"); m.className = "m " + who; m.textContent = text; box.appendChild(m); requestAnimationFrame(() => m.classList.add("in")); box.scrollTop = box.scrollHeight; return m; };
-  const typing = () => { const t = document.createElement("div"); t.className = "m a dots in"; t.innerHTML = "<i></i><i></i><i></i>"; box.appendChild(t); return t; };
+  const grid = document.querySelector(".v2bento"); box.closest(".bc").classList.add("chatcard");
+  const pulse = () => { grid.classList.remove("pulse"); void grid.offsetWidth; grid.classList.add("pulse"); };
+  const add = (who, text) => { const m = document.createElement("div"); m.className = "m " + (who === "a" ? "me" : "them"); m.textContent = text; box.appendChild(m); requestAnimationFrame(() => m.classList.add("in")); box.scrollTop = box.scrollHeight; pulse(); return m; };
+  const typing = () => { const t = document.createElement("div"); t.className = "m them dots in"; t.innerHTML = "<i></i><i></i><i></i>"; box.appendChild(t); return t; };
   let on = true; new IntersectionObserver(e => { on = e[0].isIntersecting; }).observe(box);
   (async () => {
-    if (reduce) { convos[0].slice(0, 2).forEach(([w, t]) => add(w === "a" ? "a in" : "b in", t)); return; }
+    if (reduce) { convos[0].slice(0, 2).forEach(([w, t]) => { add(w, t).classList.add("in"); }); return; }
     let n = 0;
     for (;;) {
       for (const [w, t] of convos[n % convos.length]) {
         while (!on || document.hidden) await wait(400);
-        if (w === "a") { await wait(900); add("a", t); } else { const d = typing(); d.className = "m b dots in"; await wait(1100); d.remove(); add("b", t); }
+        if (w === "a") { await wait(900); add("a", t); } else { const d = typing(); await wait(1100); d.remove(); add("b", t); }
         await wait(700);
       }
       await wait(2600);

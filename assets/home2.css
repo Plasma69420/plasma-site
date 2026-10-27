@@ -342,3 +342,14 @@ body.home .foot .fbar a{color:var(--ac)!important}
 .menu input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 4px rgba(61,191,255,.18)}
 .menu input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#fff;border:0}
 .menu .mh em{text-transform:uppercase}
+
+/* v3.6: customer on the right, support on the left; tiles swell with each chat message; no-hidden-fees pill */
+.chat .me{align-self:flex-end;background:var(--ac);color:#05161d;font-weight:600;border-bottom-right-radius:3px;border-bottom-left-radius:11px}
+.chat .them{align-self:flex-start;background:#1f282c;color:#cfdadf;border-bottom-left-radius:3px}
+.chat .dots.them i{background:#6b7a80;opacity:.45}
+.v2bento .bc{transition:transform .45s cubic-bezier(.2,.9,.3,1.2),border-color .3s}
+.v2bento.pulse .bc:not(.chatcard){animation:v2swell .6s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes v2swell{0%{transform:scale(1)}35%{transform:scale(1.045);border-color:rgba(61,191,255,.35)}100%{transform:scale(1)}}
+.rcpt .rh{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.rcpt .nh{font-style:normal;padding:4px 10px;border-radius:999px;border:1px solid rgba(68,224,138,.3);background:rgba(68,224,138,.09);color:#8defb9;font:700 10.5px "Plus Jakarta Sans";letter-spacing:.06em;text-transform:uppercase}
+@media (prefers-reduced-motion:reduce){.v2bento.pulse .bc:not(.chatcard){animation:none}}
