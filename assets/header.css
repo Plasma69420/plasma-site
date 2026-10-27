@@ -102,3 +102,18 @@ html body.has-annc{padding-top:0!important}
 html body.has-annc .nav,html body.has-annc.annc-off .nav,html body .nav{top:0!important}
 html body .v2h{margin-top:0!important}
 }
+
+/* v5: top row like the reference: bigger logo, bold wordmark, bold REVIEWS label, glowing base line */
+@media (min-width:1000px){
+html body.has-annc{padding-top:76px!important}
+html body .v2h{margin-top:-76px!important}
+html body .nav .nav-bar{height:76px!important;background:linear-gradient(180deg,rgba(11,14,16,.98) 0%,rgba(11,14,16,.98) 58%,rgba(61,191,255,.09) 100%)!important}
+html body .nav .nav-in{height:76px!important}
+html body .nav .brand{gap:13px}
+html body .nav .brand img{height:42px!important;width:auto}
+html body .nav .wm{font-size:21px!important;font-weight:800!important;letter-spacing:.045em!important;color:#fff}
+html body .nav .nav-rv{display:inline-flex!important;align-items:center;gap:8px;margin-left:22px;font:800 11.5px "Plus Jakarta Sans";letter-spacing:.12em;text-transform:uppercase;color:#d3dde1}
+html body .nav .nav-rv svg{width:14px;height:14px;color:#fff}
+html body .nav .nav-sub::before{top:-2px;height:2px;background:linear-gradient(90deg,transparent 2%,rgba(190,230,248,.7) 50%,transparent 98%);box-shadow:0 0 20px rgba(61,191,255,.45),0 -8px 24px rgba(61,191,255,.16)}
+}
+@media (max-width:999px){html body .nav .nav-rv{display:none!important}}
