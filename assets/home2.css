@@ -196,3 +196,20 @@ body.home h1,body.home h2,body.home h3{letter-spacing:-.03em}
 .v2tr small{display:block;margin-top:1px;font-size:11px;color:var(--mu);text-align:left}
 @media (max-width:760px){.v2tr>div{padding:10px 16px}.tpt{display:none}}
 @media (max-width:640px){.v2tr{flex-direction:column;width:100%}.v2tr>div{border-left:0;border-top:1px solid var(--line);justify-content:flex-start}.v2tr>div:first-child{border-top:0}}
+
+/* v2.4: payments marquee, plain trustpilot badge */
+.v2badge.tp{gap:8px;padding:6px 14px 6px 12px}
+.bv.pay{display:flex;flex-direction:column;justify-content:center;gap:12px;padding:0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+.pm{overflow:hidden}
+.pm>div{display:flex;gap:10px;width:max-content;animation:pml 26s linear infinite}
+.pm.r>div{animation-name:pmr;animation-duration:30s}
+@keyframes pml{to{transform:translateX(-33.333%)}}
+@keyframes pmr{from{transform:translateX(-33.333%)}to{transform:none}}
+.pc{display:inline-flex;align-items:center;gap:9px;padding:7px 14px 7px 8px;border-radius:11px;border:1px solid var(--line2);background:#182024;color:#d9e2e6;font:600 12px 'Plus Jakarta Sans';white-space:nowrap}
+.pc b{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;color:#fff;font:800 13px 'Plus Jakarta Sans';font-style:normal;flex:none}
+.pc b.w{width:40px;position:relative}
+.pc b em{font:italic 800 10px 'Plus Jakarta Sans';letter-spacing:.02em}
+.pc b u{position:absolute;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;opacity:.95}
+.pc b u:nth-child(1){left:7px;background:#eb001b}.pc b u:nth-child(2){left:15px;background:#f79e1b;mix-blend-mode:screen}
+.pc b svg{width:15px;height:15px}
+@media (prefers-reduced-motion:reduce){.pm>div{animation:none}}
