@@ -3,7 +3,7 @@
 if (/.html$/.test(location.pathname)) {
   history.replaceState(null, "", (location.pathname.replace(/(\/index)?\.html$/, "") || "/") + location.search + location.hash);
 }
-(() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/assets/header.css?v=6"; document.head.appendChild(l); })();
+(() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/assets/header.css?v=7"; document.head.appendChild(l); })();
 (() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"; document.head.appendChild(l); })();
 const CONFIG = {
   discord: "https://discord.gg/2nmZpcrC2",
@@ -163,6 +163,8 @@ const STATUS = {
 };
 // products flagged down: true always show as Down, whatever the bot says
 const statusOf = (p, live) => p.down ? "down" : ((live || {})[p.slug] || {}).status;
+// Discord markup inside review text (channel/user/role mentions, custom emoji) becomes plain text
+const cleanMsg = t => String(t == null ? "" : t).replace(/<a?:\w+:\d+>/g, "").replace(/<@!?\d+>/g, "@user").replace(/<@&\d+>/g, "@role").replace(/<#\d+>/g, "#channel").replace(/\s{2,}/g, " ").trim();
 const money = n => "$" + Number(n).toFixed(2);
 // purple trust pills (footer + product pages)
 const trustHtml = (() => {
@@ -304,7 +306,6 @@ const Api = {
 <header class="nav" id="nav">
   <div class="nav-bar"><div class="nav-in">
     <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"><b class="wm">Strive <em>Cheats</em></b></a>
-    <a class="nav-rv" href="/reviews"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.400l-5.900 3.100 1.200-6.500L2.500 9.400l6.600-.9z"/></svg>Reviews</a>
     <div class="nav-right">
       <a class="online" id="navOnline" href="${CONFIG.discord}" target="_blank" rel="noopener" hidden title="Members online in our Discord"><i></i><b id="navOnlineN">0</b> Online</a>
       <a class="nav-btn icon cart-btn" href="/cart" aria-label="Cart">${ico.cart}<span class="cl">Cart</span><b class="cart-count" hidden>0</b></a>
@@ -316,7 +317,7 @@ const Api = {
   </div></div>
   <div class="nav-sub"><div class="nav-in2">
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}<i class="sep"></i>${link("/products", "Products", "products")}<i class="sep"></i>${link("/status", "Status", "status")}<i class="sep"></i>${link("/rewards", "Rewards", "rewards")}<i class="sep"></i>${link("/affiliates", "Affiliates", "affiliates")}<i class="sep"></i>${link("/mini-games", "Mini Games", "mini-games")}<i class="sep"></i>${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Discord", "support")}
+      ${link("/", "Home", "index")}<i class="sep"></i>${link("/products", "Products", "products")}<i class="sep"></i>${link("/status", "Status", "status")}<i class="sep"></i>${link("/reviews", "Reviews", "reviews")}<i class="sep"></i>${link("/rewards", "Rewards", "rewards")}<i class="sep"></i>${link("/affiliates", "Affiliates", "affiliates")}<i class="sep"></i>${link("/mini-games", "Mini Games", "mini-games")}<i class="sep"></i>${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Discord", "support")}
     </nav>
   </div></div>
 </header>`);

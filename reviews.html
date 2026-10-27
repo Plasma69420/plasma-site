@@ -42,7 +42,7 @@
   <div class="empty" id="none" hidden><b>No reviews yet</b>Bought a product? Claim the Customer role in our Discord, then run /vouch to leave the first review.</div>
 </main>
 <div class="lightbox" id="lb"><img alt=""></div>
-<script src="/assets/site.js?v=97"></script>
+<script src="/assets/site.js?v=99"></script>
 <script>
 const grid = document.getElementById("grid"), gal = document.getElementById("gal"), lb = document.getElementById("lb");
 const pic = r => CONFIG.api + r.proof;
@@ -56,7 +56,7 @@ Api.get("/api/vouches").then(d => {
   const withPics = d.reviews.filter(r => r.proof);
   grid.innerHTML = d.reviews.map(r => `<article class="rvcard">${r.proof ? `<a class="pic" data-src="${esc(pic(r))}"><img src="${esc(pic(r))}" alt="Product picture from ${esc(r.username || "a customer")}" loading="lazy"></a>` : ""}
     <div class="bd"><div class="top"><span><span class="st">${"★".repeat(r.stars)}<span style="opacity:.3">${"★".repeat(5 - r.stars)}</span></span><span class="ver">✓ VERIFIED</span></span><span>${new Date(r.at).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })}</span></div>
-    <p>${esc(r.message)}</p><div class="by"><img src="${esc(r.avatar || "https://cdn.discordapp.com/embed/avatars/0.png")}" alt="">${esc(r.username || "Customer")}</div></div></article>`).join("");
+    <p>${esc(cleanMsg(r.message))}</p><div class="by"><img src="${esc(r.avatar || "https://cdn.discordapp.com/embed/avatars/0.png")}" alt="">${esc(r.username || "Customer")}</div></div></article>`).join("");
   gal.innerHTML = withPics.map(r => `<a data-src="${esc(pic(r))}"><img src="${esc(pic(r))}" alt="Product picture" loading="lazy"></a>`).join("");
   if (withPics.length) { document.getElementById("tabs").hidden = false; document.getElementById("picCount").textContent = "(" + withPics.length + ")"; }
   document.getElementById("tabs").addEventListener("click", e => {

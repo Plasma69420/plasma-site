@@ -128,7 +128,7 @@
 </section>
 </main>
 
-<script src="/assets/site.js?v=97"></script>
+<script src="/assets/site.js?v=99"></script>
 <script>
 document.querySelectorAll("[data-discord]").forEach(a => a.href = CONFIG.discord);
 
@@ -167,7 +167,7 @@ Api.get("/api/vouches").then(d => {
     document.getElementById("hxRateSub").textContent = "from " + d.total + " review" + (d.total === 1 ? "" : "s");
   }
   if (!d.total) { document.getElementById("rwempty").hidden = false; return; }
-  const card = r => '<article class="rc"><div class="st">' + "★".repeat(r.stars) + '<span style="opacity:.3">' + "★".repeat(5 - r.stars) + '</span></div><p>' + esc(r.message) + '</p><small>' + esc(r.username || "Customer") + '</small></article>';
+  const card = r => '<article class="rc"><div class="st">' + "★".repeat(r.stars) + '<span style="opacity:.3">' + "★".repeat(5 - r.stars) + '</span></div><p>' + esc(cleanMsg(r.message)) + '</p><small>' + esc(r.username || "Customer") + '</small></article>';
   const list = d.reviews.slice(0, 30), rows = [[], []];
   list.forEach((r, i) => rows[i % 2].push(r));
   document.getElementById("rmq").innerHTML = rows.map(row => {
