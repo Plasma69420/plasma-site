@@ -3,6 +3,7 @@
 if (/.html$/.test(location.pathname)) {
   history.replaceState(null, "", (location.pathname.replace(/(\/index)?\.html$/, "") || "/") + location.search + location.hash);
 }
+(() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/assets/header.css?v=1"; document.head.appendChild(l); })();
 (() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"; document.head.appendChild(l); })();
 const CONFIG = {
   discord: "https://discord.gg/2nmZpcrC2",
@@ -293,7 +294,7 @@ const Api = {
           <button type="button" id="uOut" role="menuitem">${mi('<path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9"/>')}Logout</button>
         </div>
       </div>`
-    : `<a class="nav-btn client" href="/login"><span>Client Area</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>`;
+    : `<a class="nav-btn login" href="/login"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.3 5.3A17 17 0 0 0 15.1 4l-.2.4a12 12 0 0 1 3.6 1.8 14 14 0 0 0-13 0A12 12 0 0 1 9.100 4.400L8.900 4a17 17 0 0 0-4.200 1.300C2 9.300 1.300 13.200 1.600 17a17 17 0 0 0 5.200 2.600l1-1.600a11 11 0 0 1-1.700-.8l.4-.3a12 12 0 0 0 10.400 0l.4.300c-.5.300-1.100.6-1.700.8l1 1.600A17 17 0 0 0 22.400 17c.4-4.400-.7-8.300-3.100-11.700ZM8.700 14.700c-1 0-1.800-.9-1.800-2s.8-2 1.800-2 1.800.9 1.800 2-.8 2-1.800 2Zm6.600 0c-1 0-1.800-.9-1.800-2s.8-2 1.800-2 1.800.9 1.800 2-.8 2-1.800 2Z"/></svg><span>Login</span></a>`;
 
   document.body.insertAdjacentHTML("afterbegin", `
 <div class="bgfx" aria-hidden="true"><div class="top"></div></div>
@@ -302,16 +303,20 @@ const Api = {
 <header class="nav" id="nav">
   <div class="nav-bar"><div class="nav-in">
     <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"><b class="wm">Strive <em>Cheats</em></b></a>
-    <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}${link("/products", "Products", "products")}${link("/status", "Status", "status")}${link("/reviews", "Reviews", "reviews")}${link("/mini-games", "Mini Games", "mini-games")}${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Discord", "support")}
-    </nav>
+    <a class="nav-rv" href="/reviews"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.400l-5.900 3.100 1.200-6.500L2.500 9.400l6.600-.9z"/></svg>Reviews</a>
     <div class="nav-right">
-      <a class="nav-btn try-btn" href="/mini-games" title="Try our ESP and aim lock free in your browser"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="11" rx="4"/><path d="M8 10.5v4M6 12.5h4M15.5 11.5h.01M18 13.5h.01"/></svg><span class="cl">Try free</span></a>
-      <a class="nav-btn cart-btn" href="/cart" aria-label="Cart">${ico.cart}<span class="cl">Cart</span><b class="cart-count" hidden>0</b></a>
-      <a class="online" id="navOnline" href="${CONFIG.discord}" target="_blank" rel="noopener" hidden title="Members online in our Discord"><i></i><b id="navOnlineN">0</b> ONLINE</a>
+      <a class="online" id="navOnline" href="${CONFIG.discord}" target="_blank" rel="noopener" hidden title="Members online in our Discord"><i></i><b id="navOnlineN">0</b> Online</a>
+      <a class="nav-btn icon cart-btn" href="/cart" aria-label="Cart">${ico.cart}<span class="cl">Cart</span><b class="cart-count" hidden>0</b></a>
+      <a class="nav-btn try-btn" href="/mini-games" title="Try our ESP and aim lock free in your browser"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.500" y="7" width="19" height="11" rx="4"/><path d="M8 10.500v4M6 12.500h4M15.500 11.500h.01M18 13.500h.01"/></svg><span class="cl">Try free</span></a>
       ${userBtn}
+      <a class="nav-btn keys" href="/keys"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m10.800 12.200 9.200-9.200M16 7l3 3M14 9l2 2"/></svg><span class="cl">My Keys</span></a>
       <button class="nav-btn icon burger" id="burger" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
+  </div></div>
+  <div class="nav-sub"><div class="nav-in2">
+    <nav class="nav-links" id="navLinks">
+      ${link("/", "Home", "index")}<i class="sep"></i>${link("/products", "Products", "products")}<i class="sep"></i>${link("/status", "Status", "status")}<i class="sep"></i>${link("/mini-games", "Mini Games", "mini-games")}<i class="sep"></i>${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Discord", "support")}
+    </nav>
   </div></div>
 </header>`);
 

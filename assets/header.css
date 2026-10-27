@@ -1,0 +1,54 @@
+/* two-row header: logo + reviews + actions on top, icon tab bar below (charcoal base, teal edge line, blue accent) */
+html body .annc{background:#0c1012!important;border-bottom:1px solid rgba(255,255,255,.08)!important}
+@media (min-width:1000px){
+html body.has-annc{padding-top:78px}
+html body .v2h{margin-top:-78px!important}
+html body .nav,html body .nav.scrolled{top:36px;background:rgba(13,16,18,.95)!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important;border-bottom:1px solid rgba(255,255,255,.08)!important;box-shadow:none!important}
+html body.annc-off .nav{top:0}
+html body .nav,html body .nav *{font-family:'Plus Jakarta Sans','Manrope',sans-serif}
+html body .nav .nav-bar{height:58px!important}
+html body .nav .nav-in{width:min(1240px,100% - 48px)!important;height:58px!important;display:flex!important;align-items:center;gap:22px;margin:0 auto!important;padding:0!important;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+html body .nav .brand{margin:0!important;display:flex;align-items:center;gap:10px}
+html body .nav .brand img{height:26px}
+html body .nav .wm{display:inline!important;font-size:15px;font-weight:800;color:#fff;letter-spacing:.02em}
+html body .nav .wm em{font-style:normal;color:#3dbfff}
+html body .nav .nav-rv{display:inline-flex;align-items:center;gap:7px;margin-left:8px;font:700 10.5px 'Plus Jakarta Sans';letter-spacing:.14em;text-transform:uppercase;color:#aab6bb;transition:color .15s}
+html body .nav .nav-rv:hover{color:#fff}
+html body .nav .nav-rv svg{width:12px;height:12px;color:#fff}
+html body .nav .nav-right{margin-left:auto!important;display:flex;align-items:center;gap:8px}
+html body .nav .online{display:inline-flex!important;align-items:center;gap:7px;height:30px;padding:0 11px;border-radius:7px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:#aab6bb;font:600 11.5px 'Plus Jakarta Sans';letter-spacing:0;white-space:nowrap}
+html body .nav .online[hidden]{display:none!important}
+html body .nav .online i{width:6px;height:6px;border-radius:50%;background:#44e08a;box-shadow:0 0 7px #44e08a}
+html body .nav .online b{color:#fff;font-weight:800}
+html body .nav .nav-btn{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 13px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#e6eef1;font:600 12.5px 'Plus Jakarta Sans';white-space:nowrap;transition:background .15s,border-color .15s}
+html body .nav .nav-btn:hover{background:rgba(255,255,255,.1)}
+html body .nav .nav-btn svg{width:15px;height:15px;flex:none}
+html body .nav .cart-btn{position:relative;width:34px;padding:0;justify-content:center;background:none;border-color:transparent}
+html body .nav .cart-btn .cl{display:none}
+html body .nav .cart-btn svg{width:17px;height:17px}
+html body .nav .cart-count{position:absolute;top:-3px;right:-3px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:#3dbfff;color:#05161d;font:800 9.5px/15px 'Plus Jakarta Sans';text-align:center}
+html body .nav .nav-btn.keys{background:#3dbfff;border-color:#3dbfff;color:#05161d;font-weight:700}
+html body .nav .nav-btn.keys:hover{background:#66cdff}
+html body .nav .burger{display:none}
+html body .nav .nav-sub{position:relative;background:rgba(9,12,14,.96)}
+html body .nav .nav-sub::before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:linear-gradient(90deg,transparent,rgba(61,191,255,.5) 50%,transparent);box-shadow:0 0 16px rgba(61,191,255,.3)}
+html body .nav .nav-in2{width:min(1240px,100% - 48px);height:50px;margin:0 auto;display:flex;align-items:center}
+html body .nav .nav-links{display:flex!important;position:static!important;align-items:center;gap:0;padding:0!important;margin:0!important;background:none!important;border:0!important;box-shadow:none!important}
+html body .nav .nav-links a{display:inline-flex;align-items:center;gap:9px;height:36px;padding:0 13px 0 5px;border-radius:10px;border:1px solid transparent;background:none!important;color:#7e8d93;font:600 13px 'Plus Jakarta Sans';transition:color .15s}
+html body .nav .nav-links a svg{width:26px;height:26px;padding:6px;border-radius:7px;background:rgba(255,255,255,.04);flex:none}
+html body .nav .nav-links a:hover{color:#fff}
+html body .nav .nav-links a.on{color:#fff;background:rgba(255,255,255,.06)!important;border-color:rgba(255,255,255,.1)}
+html body .nav .nav-links a.on svg{background:rgba(255,255,255,.12)}
+html body .nav .nav-links .sep{width:1px;height:14px;margin:0 8px;background:rgba(255,255,255,.1)}
+html body .nav .udrop .nav-btn{padding:0 11px 0 6px}
+html body .nav .nav-av{width:22px;height:22px;border-radius:50%}
+}
+@media (max-width:999px){
+html body .nav .nav-sub{display:contents}
+html body .nav .nav-rv,html body .nav .online,html body .nav .try-btn .cl,html body .nav .nav-btn.keys .cl,html body .nav .login span{display:none!important}
+html body .nav .nav-links .sep{display:none}
+html body .nav .nav-links{display:none}
+html body .nav .nav-links.open{display:flex!important;flex-direction:column;align-items:stretch;position:absolute;top:100%;left:0;right:0;padding:10px 16px!important;background:#0d1113!important;border-bottom:1px solid rgba(255,255,255,.1)}
+html body .nav .nav-links.open a{height:44px;padding:0 10px;color:#cfdadf}
+html body .nav .nav-links a svg{width:20px;height:20px}
+}
