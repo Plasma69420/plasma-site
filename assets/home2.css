@@ -351,3 +351,18 @@ body.home .foot .fbar a{color:var(--ac)!important}
 .rcpt .rh{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .rcpt .nh{font-style:normal;padding:4px 10px;border-radius:999px;border:1px solid rgba(68,224,138,.3);background:rgba(68,224,138,.09);color:#8defb9;font:700 10.5px "Plus Jakarta Sans";letter-spacing:.06em;text-transform:uppercase}
 @media (prefers-reduced-motion:reduce){.v2bento.pulse .bc:not(.chatcard){animation:none}}
+
+/* v3.7: fuller first screen (bigger hero content, cards still start below the fold) */
+.v2h{min-height:100vh!important;min-height:100svh!important;padding:170px 0 130px!important}
+.v2h h1{font-size:clamp(46px,5.2vw,96px)!important}
+.v2h .v2hin>p{font-size:clamp(15px,1.25vw,20px)!important;max-width:720px!important;margin-top:24px}
+.v2hin{width:min(1120px,100% - 40px)!important}
+.v2badge{margin-bottom:30px;font-size:13px}
+.v2btns{margin-top:36px}
+.v2b{height:52px!important;padding:0 28px!important;font-size:15px!important;border-radius:11px!important}
+.v2tr{margin-top:44px}
+.v2tr>div{padding:16px 34px}
+.v2tr b{font-size:17px}
+.v2tr small{font-size:12px}
+#games.v2s{padding-top:72px}
+@media (max-width:640px){.v2h{padding:130px 0 90px!important}.v2h h1{font-size:clamp(36px,10.5vw,46px)!important}.v2b{height:48px!important}}

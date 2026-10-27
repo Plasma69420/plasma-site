@@ -3,7 +3,7 @@
 if (/.html$/.test(location.pathname)) {
   history.replaceState(null, "", (location.pathname.replace(/(\/index)?\.html$/, "") || "/") + location.search + location.hash);
 }
-(() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/assets/header.css?v=2"; document.head.appendChild(l); })();
+(() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/assets/header.css?v=3"; document.head.appendChild(l); })();
 (() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"; document.head.appendChild(l); })();
 const CONFIG = {
   discord: "https://discord.gg/2nmZpcrC2",
@@ -276,6 +276,8 @@ const Api = {
     guides: '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 7h6M9 11h6"/>',
     'mini-games': '<rect x="2" y="7" width="20" height="11" rx="4"/><path d="M7 10v5M4.500 12.500h5M15.500 11h.01M18 14h.01"/>',
     media: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3z"/>',
+    rewards: '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M7.500 8a2.500 2.500 0 0 1 0-5C10 3 12 8 12 8s2-5 4.500-5a2.500 2.500 0 0 1 0 5"/>',
+    affiliates: '<circle cx="9" cy="8" r="3.500"/><path d="M2.500 20a6.500 6.500 0 0 1 13 0M16 4.600a3.500 3.500 0 0 1 0 6.800M18 14.200a6.500 6.500 0 0 1 3.500 5.800"/>',
     support: '<circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .9-1 1.700M12 17h.01"/>'
   };
   const link = (href, label, key) => `<a href="${href}"${key === here ? ' class="on"' : ""}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${nav_i[key] || ""}</svg>${label}</a>`;
@@ -315,7 +317,7 @@ const Api = {
   </div></div>
   <div class="nav-sub"><div class="nav-in2">
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}<i class="sep"></i>${link("/products", "Products", "products")}<i class="sep"></i>${link("/status", "Status", "status")}<i class="sep"></i>${link("/mini-games", "Mini Games", "mini-games")}<i class="sep"></i>${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Discord", "support")}
+      ${link("/", "Home", "index")}<i class="sep"></i>${link("/products", "Products", "products")}<i class="sep"></i>${link("/status", "Status", "status")}<i class="sep"></i>${link("/rewards", "Rewards", "rewards")}<i class="sep"></i>${link("/affiliates", "Affiliates", "affiliates")}<i class="sep"></i>${link("/mini-games", "Mini Games", "mini-games")}<i class="sep"></i>${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Discord", "support")}
     </nav>
   </div></div>
 </header>`);
@@ -329,7 +331,7 @@ const Api = {
         <p>Undetected software and HWID spoofers with instant delivery, guided setup and 24/7 Discord support.</p>
         <div class="fsoc2"><a href="${CONFIG.discord}" target="_blank" rel="noopener">Discord</a><a href="${CONFIG.telegram}" target="_blank" rel="noopener">Telegram</a></div>
       </div>
-      <div class="fcol"><h5>Shop</h5><a href="/products">All products</a><a href="/status">Live status</a><a href="/reviews">Reviews</a><a href="/mini-games">Mini Games</a></div>
+      <div class="fcol"><h5>Shop</h5><a href="/products">All products</a><a href="/status">Live status</a><a href="/reviews">Reviews</a><a href="/mini-games">Mini Games</a><a href="/rewards">Rewards</a><a href="/affiliates">Affiliates</a></div>
       <div class="fcol"><h5>Support</h5><a href="${CONFIG.discord}" target="_blank" rel="noopener">Join Discord</a><a href="${CONFIG.tickets || CONFIG.discord}" target="_blank" rel="noopener">Open a ticket</a><a href="/account">Client Area</a></div>
       <div class="fcol"><h5>Legal</h5><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a></div>
     </div>
@@ -407,3 +409,7 @@ addEventListener("DOMContentLoaded", revealAll);
   window.siteStats = Api.get("/api/site").catch(() => null);
   window.siteStats.then(d => { if (d && d.online) { document.getElementById("navOnlineN").textContent = d.online.toLocaleString(); document.getElementById("navOnline").hidden = false; } });
 })();
+
+
+// remember a referral link (?ref=<discord id>) for 30 days, so a purchase can be matched to the person who shared it
+(() => { try { const r = new URLSearchParams(location.search).get("ref"); if (r && /^\d{5,25}$/.test(r)) localStorage.setItem("strive_ref", JSON.stringify({ id: r, t: Date.now() })); } catch { } })();

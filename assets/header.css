@@ -78,3 +78,10 @@ html body .nav .nav-links a.on{background:rgba(255,255,255,.07)!important;border
 html body .nav .nav-links a.on svg{background:rgba(255,255,255,.16);color:#fff}
 html body .nav .nav-links .sep{height:16px;margin:0 10px;background:rgba(255,255,255,.12)}
 }
+
+/* v3: lighter on-theme second bar, room for more tabs */
+@media (min-width:1000px){
+html body .nav .nav-sub{background:rgba(22,29,33,.97)!important;border-top:0}
+html body .nav .nav-links a{padding:0 13px 0 5px;font-size:13px}
+html body .nav .nav-links .sep{margin:0 6px}
+}
