@@ -219,3 +219,17 @@ body.home h1,body.home h2,body.home h3{letter-spacing:-.03em}
 .pc img{width:20px;height:20px;flex:none;display:block}
 .pc svg{width:20px;height:20px;flex:none}
 .bv.pay .pc{background:#fff;border:1px solid #fff;color:#14191b;padding:7px 14px 7px 9px;font:600 12px 'Plus Jakarta Sans'}
+
+/* v2.6: payment chips back to the dark style; footer in the theme colors (charcoal + teal glow) */
+.bv.pay .pc{background:#182024;border:1px solid var(--line2);color:#d9e2e6;padding:7px 14px 7px 8px}
+body.home footer.foot{margin-top:70px;background:linear-gradient(180deg,#111517 0%,#111517 38%,rgba(27,74,93,.75) 100%)!important;border-top:1px solid var(--line)!important}
+body.home footer.foot,body.home footer.foot *{font-family:'Plus Jakarta Sans','Manrope',sans-serif}
+body.home .foot .fcol h5{color:var(--ac)!important;font-weight:700;letter-spacing:.12em}
+body.home .foot .fcol a,body.home .foot .fabout p{color:#8e9aa0!important}
+body.home .foot .fcol a:hover{color:#fff!important}
+body.home .foot .brand,body.home .foot .brand b{color:#fff!important}
+body.home .foot .fsoc2 a{background:rgba(255,255,255,.05)!important;border:1px solid var(--line2)!important;color:#eaf0f2!important}
+body.home .foot .fsoc2 a:hover{background:rgba(255,255,255,.1)!important}
+body.home .foot .fbar{border-top:1px solid var(--line)!important;color:#6f7d83}
+body.home .foot .fbar a{color:var(--ac)!important}
+
