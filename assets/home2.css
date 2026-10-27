@@ -397,3 +397,12 @@ body.home .foot .fbar a{color:var(--ac)!important}
 .fqd{padding:0 18px 18px 62px;font-size:13.5px;line-height:1.7;color:#9aa8ae}
 .fqd a{color:var(--ac);text-decoration:underline;text-underline-offset:3px}
 @media (max-width:900px){.fq{grid-template-columns:1fr}.fqd{padding-left:18px}}
+
+/* v3.9: no empty gap under the hero; reviews sit right below it */
+.v2h{min-height:0!important;padding:170px 0 64px!important}
+.v2scroll{display:none!important}
+#reviews.v2s{padding-top:34px}
+.rvh{margin-bottom:22px}
+.rvh h2{font-size:clamp(22px,2.4vw,30px)!important}
+#games.v2s{padding-top:80px}
+@media (max-width:640px){.v2h{padding:130px 0 50px!important}}
