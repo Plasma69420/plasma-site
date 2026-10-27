@@ -3,7 +3,7 @@
 if (/.html$/.test(location.pathname)) {
   history.replaceState(null, "", (location.pathname.replace(/(\/index)?\.html$/, "") || "/") + location.search + location.hash);
 }
-(() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&display=swap"; document.head.appendChild(l); })();
+(() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"; document.head.appendChild(l); })();
 const CONFIG = {
   discord: "https://discord.gg/2nmZpcrC2",
   telegram: "https://t.me/+szYZUy4Er4EyZjkx",
