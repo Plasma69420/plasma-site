@@ -213,3 +213,9 @@ body.home h1,body.home h2,body.home h3{letter-spacing:-.03em}
 .pc b u:nth-child(1){left:7px;background:#eb001b}.pc b u:nth-child(2){left:15px;background:#f79e1b;mix-blend-mode:screen}
 .pc b svg{width:15px;height:15px}
 @media (prefers-reduced-motion:reduce){.pm>div{animation:none}}
+
+/* v2.5: real brand logos on white tiles */
+.pc{background:#fff;border-color:#fff;color:#14191b}
+.pc img{width:20px;height:20px;flex:none;display:block}
+.pc svg{width:20px;height:20px;flex:none}
+.bv.pay .pc{background:#fff;border:1px solid #fff;color:#14191b;padding:7px 14px 7px 9px;font:600 12px 'Plus Jakarta Sans'}
