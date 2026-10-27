@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="/assets/pages.css?v=79">
 <link rel="stylesheet" href="/assets/strive.css?v=46">
 <link rel="stylesheet" href="/assets/home.css?v=9">
-<link rel="stylesheet" href="/assets/home2.css?v=23">
+<link rel="stylesheet" href="/assets/home2.css?v=24">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="home">
@@ -40,7 +40,7 @@
 <section class="v2h v3">
   <div class="v3in">
     <div class="v3c">
-      <a class="v3pill" href="/rust-private"><b>New</b>Rust Private is now available <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="v3pill" href="#games"><b>New</b>Instant key delivery on every product <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <h1>Strive for the Best.<br><span>Dominate Without Limits.</span></h1>
       <p>Strive Cheats is a premium store for undetected game software and HWID spoofers, covering Fortnite, Rainbow Six, Rust and Roblox. Your key lands in your inbox the moment you pay, with our team in Discord to help.</p>
       <div class="v3btns"><a class="v2b p" href="#games">Browse Products</a><a class="v3link" href="#" data-discord target="_blank" rel="noopener">Join Discord <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
@@ -50,10 +50,10 @@
         <a class="tpx" href="https://www.trustpilot.com/review/strivecheats.store" target="_blank" rel="noopener"><b><svg viewBox="0 0 24 24" width="14" height="14"><path fill="#00b67a" d="m12 1.5 2.9 8.2h8.6l-7 5 2.7 8.3L12 18l-7.2 5 2.7-8.3-7-5h8.6z"/></svg> Trustpilot</b><small>Review us on Trustpilot</small></a>
       </div>
     </div>
-    <a class="v3card" href="/rust-private" aria-label="Rust Private">
-      <span class="v3img"><img src="/img/box-rust.webp" alt="Rust Private box art"><span class="v3tag">From <i id="featPrice">$9.99</i></span></span>
-      <span class="v3cap"><span>Latest release</span><span class="v3ok"><i></i>Operational</span></span>
-    </a>
+    <div class="v3card" aria-hidden="true">
+      <span class="v3img v3logo"><img src="/img/logo.png" alt=""><b>Strive<i> Cheats</i></b></span>
+      <span class="v3cap"><span>Premium software</span><span>strivecheats.store</span></span>
+    </div>
   </div>
 </section>
 
@@ -142,7 +142,6 @@
 document.querySelectorAll("[data-discord]").forEach(a => a.href = CONFIG.discord);
 
 // ---- categories ----
-(() => { const p = CONFIG.products.find(x => x.slug === "rust-private"); if (p) { const m = Math.min(...p.plans.map(x => x.p)); if (Number.isFinite(m)) document.getElementById("featPrice").textContent = "$" + m.toFixed(2); } })();
 const catName = p => p.account ? "Fortnite Accounts" : p.game === "Spoofer" ? "HWID Spoofer" : p.game;
 const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const ART = { "Fortnite": "cat-fortnite.webp", "Rainbow Six Siege": "cat-r6.webp", "HWID Spoofer": "cat-hwid.webp", "Fortnite Accounts": "cat-accounts.webp", "Rust": "cat-rust.webp", "Roblox": "cat-roblox.webp" };
