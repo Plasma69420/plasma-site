@@ -173,3 +173,26 @@ body.home h1,body.home h2,body.home h3{letter-spacing:-.03em}
 @media (max-width:1000px){.pgrid{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:760px){.pgrid{grid-template-columns:repeat(2,1fr);gap:10px}.pbody{padding:11px 12px 12px}.pbody b{font-size:13.5px}}
 @media (max-width:400px){.pgrid{grid-template-columns:1fr}}
+
+/* v2.3: more breathing room in the hero art, trustpilot badge, trust row */
+.v2art img{height:66%;width:25%;object-position:0% 10%;opacity:.6;filter:grayscale(1) brightness(1.08) contrast(1.12)}
+.v2art .g1{left:1%}
+.v2art .g3{left:26%;height:60%;opacity:.5}
+.v2art .op{left:51%;height:64%}
+.v2art .g2{left:75%;height:64%}
+.v2badge.tp{gap:10px;padding:6px 14px 6px 10px;border-color:var(--line2);background:rgba(255,255,255,.05);color:#d4dde1}
+.v2badge.tp:hover{background:rgba(255,255,255,.09)}
+.tpr{display:inline-flex;gap:2px}.tpr i{width:15px;height:15px;background:#00b67a;position:relative}
+.tpr i::after{content:"";position:absolute;inset:2px;background:#fff;clip-path:polygon(50% 0,62% 36%,100% 36%,69% 58%,80% 95%,50% 73%,20% 95%,31% 58%,0 36%,38% 36%)}
+.tpt{font:500 11.5px "Plus Jakarta Sans";color:#a6b2b8}
+.tpl{display:inline-flex;align-items:center;gap:4px;font:800 13px "Plus Jakarta Sans";letter-spacing:-.01em;color:#fff}
+.tps{width:15px;height:15px}
+.v2tr{display:flex;flex-wrap:wrap;justify-content:center;gap:0;margin-top:30px;border:1px solid var(--line);border-radius:14px;background:rgba(17,21,23,.6);backdrop-filter:blur(8px)}
+.v2tr>div{display:flex;align-items:center;gap:11px;padding:12px 26px;border-left:1px solid var(--line)}
+.v2tr>div:first-child{border-left:0}
+.v2tr span{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:rgba(61,191,255,.1);color:var(--ac)}
+.v2tr span svg{width:16px;height:16px}
+.v2tr b{display:block;font:700 15px "Plus Jakarta Sans";color:#fff;line-height:1.15;text-align:left}
+.v2tr small{display:block;margin-top:1px;font-size:11px;color:var(--mu);text-align:left}
+@media (max-width:760px){.v2tr>div{padding:10px 16px}.tpt{display:none}}
+@media (max-width:640px){.v2tr{flex-direction:column;width:100%}.v2tr>div{border-left:0;border-top:1px solid var(--line);justify-content:flex-start}.v2tr>div:first-child{border-top:0}}
