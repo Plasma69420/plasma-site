@@ -294,3 +294,40 @@ body.home .foot .fbar a{color:var(--ac)!important}
 .v2h::after{background:linear-gradient(180deg,rgba(30,86,108,.4),transparent 22%,transparent 50%,var(--bg) 94%),radial-gradient(ellipse 46% 40% at 50% 52%,rgba(17,21,23,.5),transparent 75%)}
 @media (max-width:1000px){.v2art img,.v2art .g1,.v2art .g2,.v2art .g3,.v2art .op{margin:0 -9vw!important;height:84%!important}.v2art .op{height:92%!important}}
 @media (max-width:640px){.v2art{padding-top:64px}.v2art img,.v2art .g1,.v2art .g2,.v2art .g3,.v2art .op{height:300px!important;margin:0 -9vw!important}.v2art .op{height:330px!important}}
+
+/* ===== v3.1: left-aligned hero with a framed product visual (no character art) ===== */
+.v2h.v3{display:block;min-height:0;padding:150px 0 96px;overflow:hidden;
+  background:radial-gradient(ellipse 80% 46% at 50% -10%,rgba(34,96,120,.55),transparent 72%),repeating-linear-gradient(115deg,rgba(255,255,255,.022) 0 1px,transparent 1px 26px),var(--bg)}
+.v2h.v3::before,.v2h.v3::after{display:none}
+.v3in{width:min(1180px,100% - 48px);margin:0 auto;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:64px;align-items:center}
+.v3c{text-align:left;display:flex;flex-direction:column;align-items:flex-start}
+.v3pill{display:inline-flex;align-items:center;gap:9px;margin-bottom:26px;padding:5px 13px 5px 5px;border-radius:999px;border:1px solid var(--line2);background:rgba(255,255,255,.04);color:#c3ced3;font:600 12.5px 'Plus Jakarta Sans';transition:background .15s}
+.v3pill:hover{background:rgba(255,255,255,.08)}
+.v3pill b{padding:3px 9px;border-radius:999px;background:var(--ac);color:#05161d;font-weight:700;font-size:11px}
+.v3pill svg{width:13px;height:13px;opacity:.7}
+.v2h.v3 h1{margin:0;font:700 clamp(40px,4.6vw,72px)/1.06 'Plus Jakarta Sans','Manrope',sans-serif!important;letter-spacing:-.035em;color:#fff;text-shadow:none}
+.v2h.v3 h1 span{display:block;color:var(--ac)}
+.v2h.v3 .v3c>p{margin:22px 0 0;max-width:560px;font-size:clamp(14px,1.05vw,16.5px);line-height:1.7;color:#a6b2b8}
+.v3btns{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:32px}
+.v3btns .v2b{height:46px;padding:0 24px;font-size:14px}
+.v3link{display:inline-flex;align-items:center;gap:7px;color:#b7c3c8;font:600 14px 'Plus Jakarta Sans';transition:color .15s}
+.v3link:hover{color:#fff}
+.v3st{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:46px}
+.v3st>div,.v3st>a{display:flex;flex-direction:column;gap:3px}
+.v3st b{display:inline-flex;align-items:center;gap:6px;font:700 22px/1.1 'Plus Jakarta Sans';color:#fff;letter-spacing:-.01em}
+.v3st .tpx b{font-size:15px;font-weight:800}
+.v3st small{font-size:11.5px;color:var(--mu)}
+.v3st i{width:1px;height:34px;background:var(--line2)}
+.v3st a:hover small{color:#fff}
+.v3card{position:relative;display:block;padding:10px;border-radius:22px;border:1px solid var(--line2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));box-shadow:0 40px 90px -30px rgba(0,0,0,.8),0 0 120px -30px rgba(61,191,255,.25);transition:transform .3s}
+.v3card:hover{transform:translateY(-4px)}
+.v3img{position:relative;display:block;aspect-ratio:4/4.3;border-radius:14px;overflow:hidden;background:#0d1113}
+.v3img img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block;transform:scale(1.35) translateX(5%);filter:contrast(1.05)}
+.v3img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(17,21,23,.6))}
+.v3tag{position:absolute;left:14px;bottom:14px;z-index:2;padding:6px 12px;border-radius:999px;background:rgba(17,21,23,.78);backdrop-filter:blur(8px);border:1px solid var(--line2);color:#c3ced3;font:600 12px 'Plus Jakarta Sans'}
+.v3tag i{font-style:normal;font-weight:800;color:#fff}
+.v3cap{display:flex;justify-content:space-between;align-items:center;padding:12px 8px 4px;font:600 10.5px 'Plus Jakarta Sans';letter-spacing:.14em;text-transform:uppercase;color:#6f7d83}
+.v3ok{display:inline-flex;align-items:center;gap:7px;color:#7defb6}
+.v3ok i{width:6px;height:6px;border-radius:50%;background:#44e08a;box-shadow:0 0 8px #44e08a}
+@media (max-width:900px){.v2h.v3{padding:112px 0 70px}.v3in{grid-template-columns:1fr;gap:44px}.v3card{max-width:460px}.v2h.v3 h1{font-size:clamp(36px,9vw,52px)}}
+@media (max-width:520px){.v3st{gap:16px}.v3st i{display:none}.v3st b{font-size:19px}}
