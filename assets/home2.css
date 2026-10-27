@@ -1,0 +1,108 @@
+/* ===== home v2: full-bleed hero, poster game cards, bento "why", slim sections ===== */
+body.home{background:#050d14}
+body.home .nav:not(.scrolled){background:transparent!important;border-bottom-color:transparent!important}
+body.home main{overflow:hidden}
+.v2w{width:min(1180px,100% - 40px);margin:0 auto}
+.v2s{padding:78px 0 6px}
+.v2hd{text-align:center;margin-bottom:38px}
+.v2tag{display:inline-flex;align-items:center;gap:7px;margin-bottom:16px;padding:6px 13px;border-radius:999px;border:1px solid rgba(110,200,255,.18);background:rgba(110,200,255,.05);color:#9fc4d4;font:700 11px 'Manrope';letter-spacing:.14em;text-transform:uppercase}
+.v2hd h2{margin:0;font:700 clamp(28px,3.4vw,42px)/1.12 'Sora','Manrope',sans-serif;letter-spacing:-.03em;color:#fff}
+.v2hd p{margin:12px auto 0;max-width:520px;font-size:15px;color:#7fa6b8}
+
+/* hero */
+.v2h{position:relative;display:grid;place-items:center;min-height:min(860px,100vh);margin-top:-36px;padding:150px 0 110px;overflow:hidden;
+  background:radial-gradient(ellipse 70% 55% at 50% 0%,rgba(31,182,255,.16),transparent 70%),#050d14}
+.v2art{position:absolute;inset:0;pointer-events:none}
+.v2art img{position:absolute;top:0;height:100%;width:40%;max-width:none;object-fit:cover;object-position:0% 25%;opacity:.5;filter:brightness(1.15) saturate(.95);-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 70%,transparent),linear-gradient(0deg,transparent 4%,#000 55%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 22%,#000 70%,transparent),linear-gradient(0deg,transparent 4%,#000 55%);mask-composite:intersect}
+.v2art .g1{left:-3%}
+.v2art .op{left:30%;opacity:.4}
+.v2art .g2{right:-3%}
+.v2h::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 50% at 50% 48%,rgba(5,13,20,.78),transparent 75%),linear-gradient(180deg,rgba(5,13,20,.5),transparent 28%,transparent 70%,#050d14)}
+.v2hin{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;width:min(860px,100% - 40px)}
+.v2badge{display:inline-flex;align-items:center;gap:10px;margin-bottom:26px;padding:7px 14px 7px 12px;border-radius:999px;border:1px solid rgba(68,224,138,.35);background:rgba(68,224,138,.09);color:#b4f7d0;font:600 13px 'Manrope'}
+.v2badge i{width:7px;height:7px;border-radius:50%;background:#44e08a;box-shadow:0 0 9px #44e08a}
+.v2h h1{margin:0;font:700 clamp(40px,6vw,78px)/1.06 'Sora','Manrope',sans-serif;letter-spacing:-.035em;color:#fff;text-shadow:0 4px 40px rgba(0,0,0,.6)}
+.v2h h1 span{color:#1fb6ff}
+.v2h .v2hin>p{margin:22px 0 0;max-width:620px;font-size:16.5px;line-height:1.7;color:#a9c7d4}
+.v2btns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px}
+.v2b{display:inline-flex;align-items:center;gap:9px;height:46px;padding:0 22px;border-radius:11px;border:1px solid rgba(110,200,255,.22);background:rgba(255,255,255,.06);color:#e6f2f8;font:700 14.5px 'Manrope';backdrop-filter:blur(6px);transition:background .15s,border-color .15s}
+.v2b:hover{background:rgba(255,255,255,.11);border-color:rgba(110,200,255,.4)}
+.v2b.p{background:#1fb6ff;border-color:#1fb6ff;color:#02141c}
+.v2b.p:hover{background:#4cc4ff;border-color:#4cc4ff}
+.v2stats{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;margin-top:34px;color:#8fb6c7;font-size:13.5px}
+.v2stats b{color:#fff;font-weight:700}.v2stats small{font-size:13.5px}
+.v2stats i{width:4px;height:4px;border-radius:50%;background:#3b6579}
+.v2scroll{position:absolute;left:50%;bottom:34px;z-index:2;display:grid;place-items:start center;width:24px;height:38px;margin-left:-12px;padding-top:7px;border:2px solid rgba(180,225,245,.4);border-radius:14px}
+.v2scroll span{width:3px;height:8px;border-radius:2px;background:#cfeaf7;animation:v2sc 1.6s infinite}
+@keyframes v2sc{0%{transform:translateY(0);opacity:1}100%{transform:translateY(12px);opacity:0}}
+
+/* game posters */
+.v2games{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.gcard{position:relative;display:block;aspect-ratio:.62;border-radius:16px;overflow:hidden;border:1px solid rgba(110,200,255,.14);background:#07161d;transition:transform .25s,border-color .25s}
+.gcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:6% center;filter:saturate(.9);transition:transform .5s}
+.gcard::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,13,20,0) 45%,rgba(5,13,20,.92))}
+.gcard:hover{transform:translateY(-4px);border-color:rgba(110,200,255,.34)}
+.gcard:hover img{transform:scale(1.05)}
+.gcard .gi{position:absolute;left:16px;right:16px;bottom:16px;z-index:2}
+.gcard .gi b{display:block;font:700 17px 'Sora','Manrope',sans-serif;letter-spacing:-.01em;color:#fff}
+.gcard .gi small{display:block;margin-top:3px;font-size:12.5px;color:#9fc4d4}
+.gcard .ga{position:absolute;top:12px;right:12px;z-index:2;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:rgba(5,13,20,.6);border:1px solid rgba(110,200,255,.2);color:#cfeaf7;backdrop-filter:blur(6px)}
+
+/* bento */
+.v2bento{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.bc{display:flex;flex-direction:column;padding:12px;border-radius:18px;border:1px solid rgba(110,200,255,.12);background:#07121a}
+.bc.c2{grid-column:span 2}.bc.c4{grid-column:span 4}
+.bc p{margin:14px 8px 8px;font-size:13.5px;line-height:1.6;color:#8fb6c7}.bc p b{color:#e6f2f8}
+.bv{position:relative;flex:1;min-height:190px;border-radius:12px;background:#040a10;border:1px solid rgba(110,200,255,.07);overflow:hidden}
+.bv.chat{display:flex;flex-direction:column;justify-content:center;gap:10px;padding:18px}
+.chat .m{max-width:82%;padding:9px 13px;border-radius:12px;font-size:12.5px;line-height:1.45}
+.chat .a{background:#1a3a52;color:#d6ecf8;border-bottom-left-radius:4px;align-self:flex-start}
+.chat .b{background:#1fb6ff;color:#02141c;font-weight:600;border-bottom-right-radius:4px;align-self:flex-end}
+.chat .dots{display:flex;gap:4px;width:max-content;padding:10px 12px;background:#10222f;align-self:flex-start}
+.chat .dots i{width:5px;height:5px;border-radius:50%;background:#6d97a9;animation:v2d 1.2s infinite}.chat .dots i:nth-child(2){animation-delay:.15s}.chat .dots i:nth-child(3){animation-delay:.3s}
+@keyframes v2d{0%,60%,100%{opacity:.35}30%{opacity:1}}
+.bv.fees{display:grid;place-content:center;text-align:center;font:800 clamp(30px,3.4vw,44px)/1 'Sora','Manrope',sans-serif;letter-spacing:-.03em}
+.fees span{display:block;color:#0f2a3a;-webkit-text-stroke:1px rgba(110,200,255,.28)}.fees span:last-child{color:#1fb6ff;-webkit-text-stroke:0;margin-top:4px}
+.bv.shield{display:grid;place-content:center;justify-items:center;gap:16px}
+.shield .sh{display:grid;place-items:center;width:78px;height:78px;border-radius:20px;border:1px solid rgba(31,182,255,.4);background:rgba(31,182,255,.1);color:#4cc4ff;box-shadow:0 0 50px rgba(31,182,255,.2)}
+.shield .st{display:inline-flex;align-items:center;gap:8px;padding:6px 13px;border-radius:999px;border:1px solid rgba(68,224,138,.3);background:rgba(68,224,138,.08);color:#7dffb4;font:700 12px 'Manrope'}
+.shield .st i{width:6px;height:6px;border-radius:50%;background:#44e08a;box-shadow:0 0 8px #44e08a}
+.bv.menu{padding:0;background:#050c12}
+.menu .mh{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid rgba(110,200,255,.08)}
+.menu .mh span{width:8px;height:8px;border-radius:50%;background:#1b3447}.menu .mh em{margin-left:auto;font:600 11px 'Manrope';font-style:normal;color:#5b8296;letter-spacing:.08em;text-transform:uppercase}
+.menu ul{list-style:none;margin:0;padding:8px 14px 12px;display:grid;gap:2px}
+.menu li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;font-size:13px;color:#b9d4e0;border-bottom:1px solid rgba(110,200,255,.05)}
+.menu li:last-child{border:0}
+.menu .t{position:relative;width:34px;height:19px;border-radius:12px;background:#17303f}.menu .t::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#7fa6b8;transition:.2s}
+.menu .t.on{background:#1fb6ff}.menu .t.on::after{left:17px;background:#fff}
+.menu .sl{position:relative;width:46%;height:5px;border-radius:3px;background:#17303f}.menu .sl u{position:absolute;left:0;top:0;height:100%;width:62%;border-radius:3px;background:#1fb6ff}
+.menu .sl u::after{content:"";position:absolute;right:-6px;top:-4px;width:13px;height:13px;border-radius:50%;background:#fff}
+.bv.pay{display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:10px;padding:18px}
+.pay span{padding:11px 16px;border-radius:10px;border:1px solid rgba(110,200,255,.16);background:#0b1b26;color:#d6ecf8;font:700 13px 'Manrope'}
+
+/* video block on the dark base */
+body.home .watch{padding:0}
+body.home .wv{border-radius:18px}
+
+/* reviews + faq + cta */
+body.home .rc{background:#07121a;border:1px solid rgba(110,200,255,.12);border-radius:16px}
+.v2faq{display:grid;gap:10px}
+.v2faq details{border-radius:12px;border:1px solid rgba(110,200,255,.12);background:#07121a;transition:border-color .2s}
+.v2faq details[open]{border-color:rgba(31,182,255,.35)}
+.v2faq summary{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;list-style:none}
+.v2faq summary::-webkit-details-marker{display:none}
+.v2faq .qt{flex:1;font:600 15px 'Manrope';color:#e6f2f8}
+.v2faq .qb{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;border:1px solid rgba(110,200,255,.16);color:#8fb6c7;transition:transform .2s}
+.v2faq details[open] .qb{transform:rotate(180deg);color:#fff}
+.v2faq .ans{padding:0 18px 18px;font-size:14px;line-height:1.7;color:#9fc4d4}
+.v2faq .ans a{color:#4cc4ff;text-decoration:underline;text-underline-offset:3px}
+.v2cta{position:relative;overflow:hidden;text-align:center;padding:60px 24px;border-radius:22px;border:1px solid rgba(110,200,255,.16);background:radial-gradient(ellipse 70% 120% at 50% 0%,rgba(31,182,255,.18),transparent 70%),#07121a}
+.v2cta h2{margin:0;font:700 clamp(28px,3.6vw,44px)/1.1 'Sora','Manrope',sans-serif;letter-spacing:-.03em;color:#fff}
+.v2cta p{margin:14px auto 0;max-width:480px;color:#8fb6c7;line-height:1.65}
+
+@media (max-width:1000px){.v2games{grid-template-columns:repeat(3,1fr)}.bc.c2{grid-column:span 3}.bc.c4{grid-column:span 6}.v2art .g2{display:none}.v2art .g1{left:-6%}}
+@media (max-width:640px){
+.v2h{padding:120px 0 90px;min-height:0}.v2art img{width:80%}.v2art .g2{display:none}.v2art .g1{left:-20%}
+.v2games{grid-template-columns:repeat(2,1fr);gap:10px}.bc.c2,.bc.c4{grid-column:span 6}.v2s{padding-top:56px}
+.v2stats i{display:none}
+}

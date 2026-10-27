@@ -950,6 +950,12 @@ body.has-annc.annc-off .nav{top:0}
 .wv .yt svg{width:18px;height:13px}
 
 /* ===== v43: use the width on big screens (scale the page up instead of leaving empty sides) ===== */
-@media (min-width:1650px){.hx,.hsec,.games,footer{zoom:1.08}.nav .nav-in{zoom:1.05}}
-@media (min-width:1950px){.hx,.hsec,.games,footer{zoom:1.17}.nav .nav-in{zoom:1.08}}
-@media (min-width:2400px){.hx,.hsec,.games,footer{zoom:1.4}.nav .nav-in{zoom:1.2}}
+
+/* ===== v45: simpler header (plain links, no box around them) ===== */
+@media (min-width:1000px){
+.nav .nav-links{background:none!important;border:0!important;padding:0!important;gap:4px}
+.nav .nav-links a{height:36px;padding:0 13px;color:#a9c7d4}
+.nav .nav-links a:hover{color:#fff}
+.nav .nav-links a.on{background:none!important;color:#fff}
+}
+@media (min-width:1650px){.v2w{width:min(1320px,100% - 80px)}}
