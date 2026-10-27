@@ -52,3 +52,29 @@ html body .nav .nav-links.open{display:flex!important;flex-direction:column;alig
 html body .nav .nav-links.open a{height:44px;padding:0 10px;color:#cfdadf}
 html body .nav .nav-links a svg{width:20px;height:20px}
 }
+
+/* v2: match the reference proportions (wider container, taller rows, bolder brand, stronger divider glow) */
+@media (min-width:1000px){
+html body.has-annc{padding-top:100px}
+html body .v2h{margin-top:-100px!important}
+html body .nav .nav-bar{height:64px!important}
+html body .nav .nav-in{width:clamp(1000px,68vw,1560px)!important;height:64px!important;gap:26px}
+html body .nav .nav-in2{width:clamp(1000px,68vw,1560px);height:58px}
+html body .nav .brand img{height:34px}
+html body .nav .wm{font-size:17px;font-weight:800;letter-spacing:.01em}
+html body .nav .nav-rv{font-size:11px;margin-left:10px}
+html body .nav .nav-rv svg{width:13px;height:13px}
+html body .nav .nav-right{gap:10px}
+html body .nav .online{height:28px;padding:0 10px;font-size:11.5px;border-radius:6px}
+html body .nav .nav-btn{height:38px;padding:0 15px;font-size:13px;border-radius:9px;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.11)}
+html body .nav .nav-btn svg{width:16px;height:16px}
+html body .nav .cart-btn{width:34px;height:34px}
+html body .nav .cart-btn svg{width:19px;height:19px}
+html body .nav .nav-sub{background:rgba(8,10,12,.97)}
+html body .nav .nav-sub::before{top:-2px;height:2px;background:linear-gradient(90deg,transparent 2%,rgba(150,215,245,.55) 50%,transparent 98%);box-shadow:0 0 22px rgba(61,191,255,.45),0 -6px 26px rgba(61,191,255,.18)}
+html body .nav .nav-links a{height:42px;gap:11px;padding:0 15px 0 6px;border-radius:11px;font-size:13.5px;font-weight:600}
+html body .nav .nav-links a svg{width:30px;height:30px;padding:7px;border-radius:8px}
+html body .nav .nav-links a.on{background:rgba(255,255,255,.07)!important;border-color:rgba(255,255,255,.12)}
+html body .nav .nav-links a.on svg{background:rgba(255,255,255,.16);color:#fff}
+html body .nav .nav-links .sep{height:16px;margin:0 10px;background:rgba(255,255,255,.12)}
+}
