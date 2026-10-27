@@ -305,7 +305,6 @@ const Api = {
 <header class="nav" id="nav">
   <div class="nav-bar"><div class="nav-in">
     <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"><b class="wm">Strive <em>Cheats</em></b></a>
-    <a class="nav-rv" href="/reviews"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.400l-5.900 3.100 1.200-6.500L2.500 9.400l6.600-.9z"/></svg>Reviews</a>
     <div class="nav-right">
       <a class="online" id="navOnline" href="${CONFIG.discord}" target="_blank" rel="noopener" hidden title="Members online in our Discord"><i></i><b id="navOnlineN">0</b> Online</a>
       <a class="nav-btn icon cart-btn" href="/cart" aria-label="Cart">${ico.cart}<span class="cl">Cart</span><b class="cart-count" hidden>0</b></a>
@@ -317,7 +316,7 @@ const Api = {
   </div></div>
   <div class="nav-sub"><div class="nav-in2">
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}<i class="sep"></i>${link("/products", "Products", "products")}<i class="sep"></i>${link("/status", "Status", "status")}<i class="sep"></i>${link("/rewards", "Rewards", "rewards")}<i class="sep"></i>${link("/affiliates", "Affiliates", "affiliates")}<i class="sep"></i>${link("/mini-games", "Mini Games", "mini-games")}<i class="sep"></i>${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Discord", "support")}
+      ${link("/", "Home", "index")}<i class="sep"></i>${link("/products", "Products", "products")}<i class="sep"></i>${link("/status", "Status", "status")}<i class="sep"></i>${link("/reviews", "Reviews", "reviews")}<i class="sep"></i>${link("/rewards", "Rewards", "rewards")}<i class="sep"></i>${link("/affiliates", "Affiliates", "affiliates")}<i class="sep"></i>${link("/mini-games", "Mini Games", "mini-games")}<i class="sep"></i>${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Discord", "support")}
     </nav>
   </div></div>
 </header>`);
