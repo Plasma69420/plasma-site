@@ -1,14 +1,12 @@
 /* ===== home v2.2: charcoal base with teal edge glow (logo / banner theme), small refined type, grayscale art ===== */
 body.home{--bg:#111517;--card:#161b1e;--card2:#1a2125;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.13);--tx:#f3f6f7;--mu:#8e9aa0;--ac:#3dbfff;--teal:#1b4a5d;
   background:var(--bg);color:var(--tx);font-family:'Plus Jakarta Sans','Manrope',system-ui,sans-serif}
-body.home .annc,body.home .online{display:none!important}
-body.home.has-annc{padding-top:0}body.home.has-annc .nav{top:0}
 body.home .nav,body.home .nav.scrolled{background:rgba(17,21,23,.55)!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important;border-bottom:1px solid transparent!important}
 body.home .nav.scrolled{border-bottom-color:var(--line)!important;background:rgba(17,21,23,.85)!important}
 body.home .nav,body.home .nav *{font-family:'Plus Jakarta Sans','Manrope',sans-serif}
 @media (min-width:1000px){
 body.home .nav .nav-bar,body.home .nav .nav-in{height:64px!important}
-body.home .nav .nav-in{width:min(1080px,100% - 48px)!important}
+body.home .nav .nav-in{width:min(1200px,100% - 48px)!important}
 body.home .nav .nav-links a{font-size:12.5px;font-weight:600;color:var(--mu);height:32px;padding:0 12px}
 body.home .nav .nav-links a:hover,body.home .nav .nav-links a.on{color:#fff}
 body.home .nav .wm{font-size:14px;font-weight:700}body.home .nav .wm em{color:var(--ac)}
