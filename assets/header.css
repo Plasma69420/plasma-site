@@ -85,3 +85,20 @@ html body .nav .nav-sub{background:rgba(22,29,33,.97)!important;border-top:0}
 html body .nav .nav-links a{padding:0 13px 0 5px;font-size:13px}
 html body .nav .nav-links .sep{margin:0 6px}
 }
+
+/* v4: no announcement bar; more visible tab icons, white tile on the active tab */
+html body .annc{display:none!important}
+@media (min-width:1000px){
+html body.has-annc{padding-top:64px!important}
+html body.has-annc .nav,html body.has-annc.annc-off .nav,html body .nav,html body .nav.scrolled{top:0!important}
+html body .v2h{margin-top:-64px!important}
+html body .nav .nav-links a{color:#9fb0b6}
+html body .nav .nav-links a svg{background:rgba(255,255,255,.08);color:#c5d2d7}
+html body .nav .nav-links a:hover svg{background:rgba(255,255,255,.14);color:#fff}
+html body .nav .nav-links a.on svg{background:#f4f8fa;color:#111517}
+}
+@media (max-width:999px){
+html body.has-annc{padding-top:0!important}
+html body.has-annc .nav,html body.has-annc.annc-off .nav,html body .nav{top:0!important}
+html body .v2h{margin-top:0!important}
+}

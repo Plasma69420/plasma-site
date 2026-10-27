@@ -3,7 +3,7 @@
 if (/.html$/.test(location.pathname)) {
   history.replaceState(null, "", (location.pathname.replace(/(\/index)?\.html$/, "") || "/") + location.search + location.hash);
 }
-(() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/assets/header.css?v=3"; document.head.appendChild(l); })();
+(() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/assets/header.css?v=4"; document.head.appendChild(l); })();
 (() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"; document.head.appendChild(l); })();
 const CONFIG = {
   discord: "https://discord.gg/2nmZpcrC2",
@@ -301,7 +301,6 @@ const Api = {
   document.body.insertAdjacentHTML("afterbegin", `
 <div class="bgfx" aria-hidden="true"><div class="top"></div></div>
 <canvas class="stars" id="stars"></canvas>
-<div class="annc"><span>Keys delivered instantly on every product</span><i class="asep"></i><span class="a2">Try our ESP free in your browser</span><a class="a2l" href="/mini-games">Play now</a><i class="asep a2"></i><a href="/products">Shop now <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
 <header class="nav" id="nav">
   <div class="nav-bar"><div class="nav-in">
     <a href="/" class="brand" aria-label="Strive Cheats"><img src="/img/logo.png" alt="Strive Cheats"><b class="wm">Strive <em>Cheats</em></b></a>
