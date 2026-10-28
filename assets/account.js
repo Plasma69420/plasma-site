@@ -65,8 +65,10 @@
   const btn = (href, label, ext) => `<a class="btn btn-main" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}>${label}</a>`;
   const btnGhost = (href, label, ext) => `<a class="btn btn-ghost" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}>${label}</a>`;
 
-  const owned = orders => CONFIG.products.filter(p => orders.some(o => o.status === "COMPLETED" && o.items.some(i => i.title === p.name)));
+  let granted = [];
+  const owned = orders => CONFIG.products.filter(p => granted.includes(p.slug) || orders.some(o => o.status === "COMPLETED" && o.items.some(i => i.title === p.name)));
   const render = d => {
+    granted = d.granted || [];
     const orders = d.orders || [], done = orders.filter(o => o.status === "COMPLETED"), prog = orders.filter(o => o.status !== "COMPLETED" && !DEAD.test(o.status));
     const none = esc(d.note || "No orders yet for " + (u.email || "your account") + ".") + " Orders appear here when they were placed with your Discord email.";
     if (page === "account") {
