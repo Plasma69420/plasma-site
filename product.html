@@ -17,7 +17,7 @@
 </head>
 <body>
 <main class="lwrap"><a class="back" href="/products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Back to products</a><div id="root"></div></main>
-<script src="/assets/site.js?v=99"></script>
+<script src="/assets/site.js?v=100"></script>
 <script>
 const root = document.getElementById("root");
 const p = productBy(new URLSearchParams(location.search).get("p") || location.pathname.replace(/^\/|\/$|\.html$/g, ""));
@@ -55,7 +55,7 @@ if (!p) {
         ${p.slotNote ? `<div class="lp-warn">${esc(p.slotNote)}</div>` : ""}
         ${p.down ? `<div class="lp-warn">This product is currently down. You can try to purchase, but it will not work until it is back online.</div>` : ""}
         <div class="lp-vrow"><span>Choose variant</span><div class="qty"><button id="dec" aria-label="Less">−</button><span>${qty}</span><button id="inc" aria-label="More">+</button></div></div>
-        <div class="lp-vars">${p.plans.map((x, j) => `<button class="plancard lp-v${j === plan ? " on" : ""}" data-j="${j}"><div><b>${esc(x.n)}</b><small class="${x.slots ? "low" : ""}"><i></i>${x.slots ? "Limited: " + x.slots + " slots max" : (x.v ? "In stock" : "Open a ticket")}</small></div><strong>${money(x.p)}</strong>${j === p.plans.length - 1 && p.plans.length > 2 && !x.slots ? '<span class="bv">Best value</span>' : ""}</button>`).join("")}</div>
+        <div class="lp-vars">${p.plans.map((x, j) => `<button class="plancard lp-v${j === plan ? " on" : ""}" data-j="${j}"><div><b>${esc(x.n)}</b><small class="${x.slots ? "low" : ""}"><i></i>${x.slots ? "Limited: " + x.slots + " slots max" : (x.v ? "In stock" : "Open a ticket")}</small></div><strong>${money(x.p)}</strong>${x.pop ? '<span class="bv">Most popular</span>' : j === p.plans.length - 1 && p.plans.length > 2 && !x.slots ? '<span class="bv">Best value</span>' : ""}</button>`).join("")}</div>
         ${p.down ? "" : `<label class="lp-addon"><input type="checkbox" id="any" ${any ? "checked" : ""}><span><b>${CONFIG.addon.name} (Optional)</b><i>+${money(p.addon.price)}</i><small>${CONFIG.addon.desc}</small></span></label>`}
         ${p.down
           ? `<div class="lp-buy" style="grid-template-columns:1fr"><button class="btn btn-main" id="buyDown">Buy now</button></div>

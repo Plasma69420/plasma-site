@@ -23,7 +23,7 @@ const CONFIG = {
       features: ["ESP & visibility checks", "Smooth aim assist", "Stream-proof menu"],
       details: "Strive Cheats Fortnite Private is a private build with a clean in-game menu, visibility checks and smooth aim assist. Your key and loader are delivered instantly after payment, and support is available in our Discord.",
       hosted: "https://plasmacheats.sell.app/product/fortnite-private",
-      plans: [{ n: "Day", p: 4.99, v: 416469 }, { n: "Week", p: 14.99, v: 416470 }, { n: "Month", p: 24.99, v: 416471 }, { n: "Lifetime", p: 79.99, v: 416472 }]
+      plans: [{ n: "Day", p: 5.99, v: 416469 }, { n: "3 Day", p: 12.99, v: 0 }, { n: "Week", p: 24.99, v: 416470 }, { n: "Month", p: 39.99, v: 416471, pop: true }, { n: "3 Months", p: 69.99, v: 0 }, { n: "1 Year", p: 169.99, v: 0 }, { n: "Lifetime", p: 249.99, v: 416472 }]
     },
     {
       slug: "fortnite-slotted", name: "Fortnite Slotted", type: "Slotted", game: "Fortnite", img: "/img/box-fortnite-slotted.webp",
@@ -154,7 +154,7 @@ CONFIG.addon = {
 CONFIG.tickets = "https://discord.com/channels/1555806695362666618/1556013981674635344";
 // loader download links per product slug. Paste a URL to turn on the Download button on the /downloads page
 // for customers who own that product; without one they get a "Request your download" ticket button.
-CONFIG.downloads = { "fortnite-private": "https://gofile.io/d/lIL9f9j0", "r6-external": "", "arc-raiders": "", "temp-spoofer": "", "perm-spoofer": "" };
+CONFIG.downloads = { "fortnite-private": "https://gofile.io/d/yJn5Volc", "r6-external": "", "arc-raiders": "", "temp-spoofer": "", "perm-spoofer": "" };
 CONFIG.products.forEach(p => { p.addon = Object.assign({ price: CONFIG.addon.price, v: CONFIG.addon.v }, p.addon); });
 
 const STATUS = {
