@@ -11,6 +11,7 @@
     orders: '<path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/>',
     keys: '<circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 9.2-9.2M16 7l3 3M14 9l2 2"/>',
     dl: '<path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/>',
+    guides: '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 7h6M9 11h6"/>',
     help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .9-1 1.700M12 17h.01"/>',
     star: '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.200 9.500l6.100-.9z"/>',
     store: '<path d="M4 9h16l-1-5H5zM5 9v11h14V9M9 20v-6h6v6"/>',
@@ -21,7 +22,7 @@
     check: '<path d="m5 12 5 5 9-10"/>',
     dollar: '<path d="M12 3v18M16.500 7.500c0-1.400-1.800-2.500-4.500-2.500s-4.500 1.100-4.500 2.800c0 4 9 2 9 6.200 0 1.700-1.800 2.500-4.500 2.500s-4.500-1.200-4.500-2.700"/>'
   };
-  const tabs = [["account", "/account", "Home", I.home], ["orders", "/orders", "Orders", I.orders], ["keys", "/keys", "Keys", I.keys], ["downloads", "/downloads", "Downloads", I.dl]];
+  const tabs = [["account", "/account", "Home", I.home], ["orders", "/orders", "Orders", I.orders], ["keys", "/keys", "Keys", I.keys], ["downloads", "/downloads", "Downloads", I.dl], ["guides", "/guides", "Guides", I.guides]];
   const titles = { account: "Client Area", orders: "My Orders", keys: "My Keys", downloads: "Downloads" };
   document.title = titles[page] + " – Strive Cheats";
   const hr = new Date().getHours(), hello = hr < 12 ? "Good morning" : hr < 18 ? "Good afternoon" : "Good evening";
@@ -42,8 +43,10 @@
           <div class="quick">
             <a href="/orders">${svg(I.orders, 22)}<span>Orders</span></a>
             <a href="/downloads">${svg(I.dl, 22)}<span>Downloads</span></a>
-            <a href="${CONFIG.tickets}" target="_blank" rel="noopener">${svg(I.help, 22)}<span>Support</span></a>
+            <a href="/guides">${svg(I.guides, 22)}<span>Guides</span></a>
           </div>
+          <a class="row" href="/guides"><i>${svg(I.guides)}</i><div><b>Setup Guides</b><small>Step-by-step install help</small></div>${svg(I.chev, 16)}</a>
+          <a class="row" href="${CONFIG.tickets}" target="_blank" rel="noopener"><i>${svg(I.help)}</i><div><b>Support</b><small>Open a ticket in our Discord</small></div>${svg(I.ext, 16)}</a>
           <a class="row" href="/keys"><i>${svg(I.keys)}</i><div><b>My Keys</b><small>Where your keys are delivered</small></div>${svg(I.chev, 16)}</a>
           <a class="row" href="${CONFIG.discord}" target="_blank" rel="noopener"><i>${svg(I.star)}</i><div><b>Customer Role</b><small>Claim it in our Discord</small></div>${svg(I.chev, 16)}</a>
           <a class="row" href="/products"><i>${svg(I.store)}</i><div><b>Visit store</b><small>Continue shopping at our store</small></div>${svg(I.ext, 16)}</a>
@@ -62,6 +65,7 @@
   const btn = (href, label, ext) => `<a class="btn btn-main" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}>${label}</a>`;
   const btnGhost = (href, label, ext) => `<a class="btn btn-ghost" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}>${label}</a>`;
 
+  const owned = orders => CONFIG.products.filter(p => orders.some(o => o.status === "COMPLETED" && o.items.some(i => i.title === p.name)));
   const render = d => {
     const orders = d.orders || [], done = orders.filter(o => o.status === "COMPLETED"), prog = orders.filter(o => o.status !== "COMPLETED" && !DEAD.test(o.status));
     const none = esc(d.note || "No orders yet for " + (u.email || "your account") + ".") + " Orders appear here when they were placed with your Discord email.";
@@ -89,6 +93,16 @@
           <p class="muted" style="margin-top:10px;line-height:1.7">Lost your key or didn't receive it? Open a <b style="color:#fff">Delivery</b> ticket in our Discord with your order number and our team will sort it out.</p>
           <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">${btn(CONFIG.tickets, "Open a ticket", true)}${btnGhost("/orders", "View my orders")}</div></div>
         <div class="ca-card" style="margin-top:16px"><div class="ca-ch"><i>${svg(I.check)}</i><div><b>Your delivered orders</b><small>${done.length}</small></div></div>${done.length ? table(done) : `<p class="muted" style="padding:22px">No delivered orders yet.</p>`}</div>`;
+    } else if (page === "downloads" && (d.owner || owned(orders).length)) {
+      const GUIDE = { "fortnite-private": "fortnite-private", "temp-spoofer": "temp-spoofer", "perm-spoofer": "perm-spoofer" };
+      const list = d.owner ? CONFIG.products : owned(orders);
+      main.innerHTML = list.map(p => {
+        const url = (CONFIG.downloads || {})[p.slug];
+        return `<div class="ca-card" style="margin-bottom:14px"><div class="ca-ch"><i>${svg(I.dl)}</i><div><b>${esc(p.name)}</b><small>${url ? "Loader ready to download" : "Loader on request"}</small></div></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;padding:0 22px 22px">${url ? btn(url, "Download loader", true) : btn(CONFIG.tickets, "Request your download", true)}${GUIDE[p.slug] ? btnGhost("/guides?g=" + GUIDE[p.slug], "Setup guide") : btnGhost("/guides", "All guides")}</div></div>`;
+      }).join("");
+    } else if (page === "guides") {
+      main.innerHTML = `<div class="ca-card" style="padding:26px"><b style="font-size:18px;color:#fff">Setup guides</b><p class="muted" style="margin-top:10px;line-height:1.7">Step-by-step install and troubleshooting guides for everything you own. Guides are for customers and open with the Discord account you bought with.</p><div style="margin-top:18px">${btn("/guides", "Open the guides")}</div></div>`;
     } else {
       main.innerHTML = `<div class="ca-card" style="padding:44px 24px;text-align:center"><i style="display:inline-grid;place-items:center;width:54px;height:54px;border-radius:50%;background:rgba(31,182,255,.1);border:1px solid rgba(31,182,255,.25);color:#7fd6ff">${svg(I.dl, 24)}</i><b style="display:block;margin-top:16px;font:700 20px/1.2 'Manrope';color:#fff">No downloads right now</b><p class="muted" style="margin-top:8px;font-size:14px">Nothing is available to download at the moment. Check back soon, or open a ticket in our Discord if you need your loader now.</p><div style="margin-top:18px">${btnGhost(CONFIG.tickets, "Open a ticket", true)}</div></div>`;
     }
