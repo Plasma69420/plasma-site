@@ -39,14 +39,14 @@
   <div id="groups"></div>
   <p class="stn">Statuses are set by our team as game patches land. Something look wrong? Open a ticket in our Discord and we will check it right away.</p>
 </main>
-<script src="/assets/site.js?v=103"></script>
+<script src="/assets/site.js?v=104"></script>
 <script>
 const catName = p => p.game === "Spoofer" ? "HWID Spoofers" : p.game;
 const LABEL = { undetected: ["Operational", "ok"], updating: ["Updating", "warn"], maintenance: ["Maintenance", "warn"], detected: ["Detected", "bad"], down: ["Down", "bad"], unknown: ["Unavailable", "idle"] };
 const ICON = { ok: '<path d="m5 12 5 5 9-10"/>', warn: '<path d="M12 3 2 20h20z"/><path d="M12 10v5M12 18h.01"/>', bad: '<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>', idle: '<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/>' };
 const svg = d => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>';
 const ago = ms => { if (!ms) return "No changes yet"; const s = Math.max(1, (Date.now() - ms) / 1000); if (s < 90) return "Updated just now"; if (s < 3600) return "Updated " + Math.round(s / 60) + " min ago"; if (s < 86400) return "Updated " + Math.round(s / 3600) + " h ago"; return "Updated " + Math.round(s / 86400) + " d ago"; };
-const SHOWN = {"perm-spoofer":1793043268880,"temp-spoofer":1793046868880,"rust-private":1792967668880,"r6-external":1793054751477,"fortnite-slotted":1793039668880,"fortnite-private":1793025268880}, ING = { "arc-raiders": "Being updated now" };
+const SHOWN = {"perm-spoofer":1793043268880,"temp-spoofer":1793046868880,"rust-private":1792967668880,"r6-external":1793054751477,"fortnite-slotted":1793039668880,"fortnite-private":1793151908202}, ING = { "arc-raiders": "Being updated now" };
 async function load() {
   const live = await Api.status(), have = live && Object.keys(live).length > 0;
   const groups = {}, count = { ok: 0, warn: 0, bad: 0, idle: 0 }, attention = [];
