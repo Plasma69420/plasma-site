@@ -130,7 +130,7 @@ const FA_PACKAGES = [
   ["Guaranteed Skins", "25-35 Skins", 4.50, 18], ["Guaranteed Skins", "35-45 Skins", 6.50, 14],
   ["Guaranteed Skins", "45-55 Skins", 8.50, 11], ["Guaranteed Skins", "55-65 Skins", 10.50, 9],
   ["Guaranteed Skins", "100-200 Skins", 16.99, 7], ["Guaranteed Skins", "200-400 Skins", 49.99, 4],
-  ["Rare & OG Skins", "Chani", 12.99, 8], ["Rare & OG Skins", "Travis Scott", 39.99, 5],
+  ["Rare & OG Skins", "Chani", 12.99, 8], ["Rare & OG Skins", "Travis Scott", 39.99, 0],
   ["Rare & OG Skins", "Sparkle Specialist", 54.99, 4], ["Rare & OG Skins", "Galaxy", 59.99, 6],
   ["Rare & OG Skins", "Ikonik", 62.99, 3], ["Rare & OG Skins", "Black Knight", 79.99, 3],
   ["Rare & OG Skins", "Wildcat", 99.99, 2], ["Rare & OG Skins", "OG Skull Trooper (Purple)", 629.99, 1],

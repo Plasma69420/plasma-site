@@ -17,7 +17,7 @@
 </head>
 <body>
 <main class="lwrap"><a class="back" href="/products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Back to products</a><div id="root"></div></main>
-<script src="/assets/site.js?v=104"></script>
+<script src="/assets/site.js?v=105"></script>
 <script>
 const root = document.getElementById("root");
 const p = productBy(new URLSearchParams(location.search).get("p") || location.pathname.replace(/^\/|\/$|\.html$/g, ""));
@@ -86,11 +86,11 @@ if (!p) {
   // account products (Fortnite Accounts): tabbed package list, stock notes, how-it-works + features in the left column
   let tab = p.plans[plan].g;
   const drawAcc = () => {
-    const pl = p.plans[plan], unit = pl.p + (any ? p.addon.price : 0), avail = !!pl.v, maxQ = Math.max(1, Math.min(10, pl.stock || 10));
+    const pl = p.plans[plan], unit = pl.p + (any ? p.addon.price : 0), out = pl.stock === 0, avail = !!pl.v && !out, maxQ = Math.max(1, Math.min(10, pl.stock == null ? 10 : pl.stock));
     qty = Math.min(qty, maxQ);
     const groups = [...new Set(p.plans.map(x => x.g))];
     const low = n => n <= 10;
-    const st = n => `<span class="stk${low(n) ? " low" : ""}">${low(n) ? "Only " + n + " left" : n + " in stock"}</span>`;
+    const st = n => n === 0 ? `<span class="stk" style="color:#ff5d5d">Out of stock</span>` : `<span class="stk${low(n) ? " low" : ""}">${low(n) ? "Only " + n + " left" : n + " in stock"}</span>`;
     const step = (n, t, d) => `<div class="hstep"><i>${n}</i><b>${t}</b><p>${d}</p></div>`;
     root.innerHTML = `
     <div class="pd acc">
@@ -131,6 +131,8 @@ if (!p) {
           ? `<button class="btn btn-main bigbuy" id="buy">${ico.bolt}Buy Now — ${money(unit * qty)}</button>
         <button class="btn btn-ghost bigadd" id="add">${ico.cart}Add to Cart</button>
         <a class="vcart" href="/cart" id="fine">View cart</a>`
+          : out ? `<button class="btn btn-main bigbuy" disabled style="opacity:.5;cursor:not-allowed">Out of stock</button>
+        <div class="fine" id="fine">This package is currently out of stock. Check back soon or open a ticket in our Discord.</div>`
           : `<a class="btn btn-main bigbuy" href="${CONFIG.tickets}" target="_blank" rel="noopener">Open a ticket to buy</a>
         <div class="fine" id="fine">This package isn't available to buy on the site yet. Open a ticket in our Discord and we'll sort you out.</div>`}
         ${trustHtml}
