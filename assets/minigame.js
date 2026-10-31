@@ -520,7 +520,7 @@
       const r = await Api.post("/api/minigame/score", { run: P.run, secs: Math.round(P.t), score: sent.s, kills: sent.k, heads: P.heads }, a.token);
       const t = "Saved. Your totals: " + r.score.toLocaleString() + " points and " + r.kills.toLocaleString() + " kills (#" + r.rank + " on the leaderboard).";
       add(t); note(t); loadLb();
-    } catch (e) { lastSent = 0; lastKills = 0; const t = e.status === 401 ? "Your login expired. Log in again to save scores." : e.status === 429 ? "Saving too fast, it will save again in a moment." : "Could not save your score: " + (e.message || "network error"); add(t); note(t); }
+    } catch (e) { lastSent = 0; lastKills = 0; const t = e.status === 403 ? "You are banned from the mini game." : e.status === 401 ? "Your login expired. Log in again to save scores." : e.status === 429 ? "Saving too fast, it will save again in a moment." : "Could not save your score: " + (e.message || "network error"); add(t); note(t); }
   }
   // quit mid-run (closing the tab or leaving the page) still saves
   addEventListener("pagehide", () => { if (!hasApi || !P || (P.score <= lastSent && P.kills <= lastKills)) return; const a = Auth.get(); if (!a) return; try { fetch(CONFIG.api + "/api/minigame/score", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json", Authorization: "Bearer " + a.token }, body: JSON.stringify({ run: P.run, secs: Math.round(P.t), score: P.score, kills: P.kills, heads: P.heads }) }); } catch { } });
@@ -544,7 +544,10 @@
   function showOverlay(title, html, label) { $("mgTitle").textContent = title; $("mgText").innerHTML = html; btn.textContent = label; over.hidden = false; }
   const DESC = "Hunt down the NPC players in a 3D arena. Hold right click to lock onto the nearest target inside your FOV circle. Every kill heals 15 HP, raises your max health and chains a score multiplier, and watch out: they shoot back. Reach 10 kills and Zen the Loser, a huge dog, comes for you.";
   function pause() { if (!running) return; running = false; mouseL = mouseR = false; for (const k in keys) keys[k] = false; showOverlay("Paused", DESC, "Click to Play"); submitScore(); }
+  let banned = false;
+  try { const a0 = Auth.get(); if (a0 && hasApi) Api.get("/api/minigame/me", a0.token).then(r => { banned = !!(r && r.banned); }).catch(() => { }); } catch { }
   function start() {
+    if (banned) { showOverlay("Banned", "You are banned from the mini game.", ""); btn.style.display = "none"; return; }
     audio(); if (ac && ac.state === "suspended") ac.resume();
     if (dead || !P) { reset(); dead = false; }
     over.hidden = true; running = true; music(cfg.music);
