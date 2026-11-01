@@ -1010,3 +1010,5 @@ body.has-annc.annc-off .nav{top:0}
 .nav .nav-btn,.nav .try-btn,.nav .online{white-space:nowrap}
 .nav .nav-right{gap:8px}
 @media (min-width:1000px){.nav .nav-in{width:min(1200px,100% - 48px)!important}}
+
+@media(min-width:1000px){.foot .fgrid{grid-template-columns:1.5fr 1fr 1fr 1fr 1fr}}
