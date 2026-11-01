@@ -29,6 +29,7 @@
     <div class="xcta"><button class="xb p big" id="getLink"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.700 0l3-3a4 4 0 0 0-5.700-5.700l-1 1"/><path d="M14 10a4 4 0 0 0-5.700 0l-3 3a4 4 0 0 0 5.700 5.700l1-1"/></svg>Get my referral link</button></div>
     <div class="xlink" id="linkBox" hidden><input id="linkVal" readonly aria-label="Your referral link"><button class="xb" id="copyLink">Copy</button></div>
     <p class="xnote" id="linkNote"></p>
+    <p class="xnote" id="affStats"></p>
   </header>
   <div class="xstats">
     <div><b>10%</b><span>Commission on every referred sale</span></div>
@@ -52,7 +53,7 @@
     <div class="xcta"><button class="xb p big" id="getLink2"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.700 0l3-3a4 4 0 0 0-5.700-5.700l-1 1"/><path d="M14 10a4 4 0 0 0-5.700 0l-3 3a4 4 0 0 0 5.700 5.700l1-1"/></svg>Get my referral link</button></div>
   </section>
 </main>
-<script src="/assets/site.js?v=108"></script>
+<script src="/assets/site.js?v=109"></script>
 <script>
 document.querySelectorAll("[data-discord]").forEach(a => a.href = CONFIG.discord);
 (() => {
@@ -65,6 +66,7 @@ document.querySelectorAll("[data-discord]").forEach(a => a.href = CONFIG.discord
     val.value = location.origin + "/?ref=" + u.user.id; box.hidden = false;
     note.textContent = "This is your personal link. Referred purchases are credited by our team after the order is verified.";
     btn.textContent = "Copy my referral link";
+    Api.get("/api/affiliate/stats", u.token).then(s => { document.getElementById("affStats").innerHTML = "Your referrals: <b>" + s.referred + "</b> orders started, <b>" + s.paid + "</b> paid. Commission earned so far: <b>$" + s.earnedUsd.toFixed(2) + "</b>"; }).catch(() => { });
   } else { note.textContent = "Log in with Discord to get your personal link."; }
   const act = async (el, label) => { if (!u) return goLogin(); await copy(); flash(el, "Copied to clipboard", label); document.getElementById("top").scrollIntoView({ behavior: "smooth", block: "center" }); };
   btn.addEventListener("click", () => act(btn, u ? "Copy my referral link" : ""));
