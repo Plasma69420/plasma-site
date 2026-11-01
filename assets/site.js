@@ -333,7 +333,7 @@ const Api = {
         <p>Undetected software and HWID spoofers with instant delivery, guided setup and 24/7 Discord support.</p>
         <div class="fsoc2"><a href="${CONFIG.discord}" target="_blank" rel="noopener">Discord</a><a href="${CONFIG.telegram}" target="_blank" rel="noopener">Telegram</a></div>
       </div>
-      <div class="fcol"><h5>Shop</h5><a href="/products">All products</a><a href="/status">Live status</a><a href="/reviews">Reviews</a><a href="/mini-games">Mini Games</a><a href="/rewards">Rewards</a><a href="/affiliates">Affiliates</a></div>
+      <div class="fcol"><h5>Shop</h5><a href="/products">All products</a><a href="/status">Live status</a><a href="/reviews">Reviews</a><a href="/mini-games">Mini Games</a><a href="/rewards">Rewards</a><a href="/affiliates">Affiliates</a><a href="/about">About us</a></div>
       <div class="fcol"><h5>Support</h5><a href="${CONFIG.discord}" target="_blank" rel="noopener">Join Discord</a><a href="${CONFIG.tickets || CONFIG.discord}" target="_blank" rel="noopener">Open a ticket</a><a href="/account">Client Area</a></div>
       <div class="fcol"><h5>Guides</h5><a href="/undetected-fortnite-cheat">Fortnite cheat</a><a href="/rust-cheat">Rust cheat</a><a href="/rainbow-six-siege-cheat">R6 cheat</a><a href="/arc-raiders-cheat">Arc Raiders cheat</a><a href="/hwid-spoofer">HWID spoofer</a></div>
       <div class="fcol"><h5>Legal</h5><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a></div>

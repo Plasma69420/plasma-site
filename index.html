@@ -131,7 +131,7 @@
 </section>
 </main>
 
-<script src="/assets/site.js?v=109"></script>
+<script src="/assets/site.js?v=110"></script>
 <script>
 document.querySelectorAll("[data-discord]").forEach(a => a.href = CONFIG.discord);
 
@@ -167,7 +167,7 @@ document.querySelectorAll("#fqa details").forEach(d => d.addEventListener("toggl
 Api.get("/api/vouches").then(d => {
   if (d.total) {
     document.getElementById("hxRate").textContent = "Rated " + d.average.toFixed(1) + "/5";
-    document.getElementById("hxRateSub").textContent = "from " + d.total + " review" + (d.total === 1 ? "" : "s");
+    document.getElementById("hxRateSub").textContent = "from " + d.total + " Discord vouch" + (d.total === 1 ? "" : "es");
   }
   if (!d.total) { document.getElementById("rwempty").hidden = false; return; }
   const card = r => '<article class="rc"><div class="st">' + "★".repeat(r.stars) + '<span style="opacity:.3">' + "★".repeat(5 - r.stars) + '</span></div><p>' + esc(cleanMsg(r.message)) + '</p><small>' + esc(r.username || "Customer") + '</small></article>';
