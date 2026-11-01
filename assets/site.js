@@ -54,7 +54,7 @@ const CONFIG = {
         ["Security", ["External, no game injection", "BattlEye bypass updated regularly", "Stream-proof rendering"]],
         ["Extras", ["Configurable hotkeys", "Instant delivery & Discord support"]]
       ],
-      plans: [{ n: "1 Day", p: 8.99, v: 416712 }, { n: "3 Day", p: 17.99, v: 416717 }, { n: "7 Day", p: 27.99, v: 416705 }, { n: "30 Day", p: 54.99, v: 416716 }]
+      plans: [{ n: "1 Day", p: 8.99, v: 416712 }, { n: "3 Day", p: 17.99, v: 416717 }, { n: "7 Day", p: 24.99, v: 416705 }, { n: "30 Day", p: 54.99, v: 416716 }]
     },
     {
       slug: "rust-private", name: "Rust Private", type: "Private", game: "Rust", img: "/img/box-rust.webp",
@@ -66,7 +66,7 @@ const CONFIG = {
         ["Features", ["Aimbot: customizable targeting and aim settings", "ESP: player information, boxes, distance & more", "Player ESP: track players with ease", "Loot ESP: easily locate relevant items", "Custom Targeting: configure targeting to your preferences", "Fully Configurable: adjust features to your playstyle", "Clean Interface: modern and easy to navigate"]],
         ["Why Choose Rust Private?", ["Instant Delivery: immediate access after purchase", "Private Access: exclusive software access", "Powerful Features: aimbot, ESP and more", "Easy Configuration: simple and intuitive settings", "Clean Interface: modern and straightforward design", "Regular Updates: ongoing development and compatibility updates", "Simple Setup: setup guide included", "Dedicated Support: assistance whenever you need it"]]
       ],
-      plans: [{ n: "1 Day", p: 9.99, v: 419837 }, { n: "3 Day", p: 17.99, v: 419838 }, { n: "7 Day", p: 29.99, v: 419839 }, { n: "30 Day", p: 59.99, v: 419840 }]
+      plans: [{ n: "1 Day", p: 8.99, v: 419837 }, { n: "3 Day", p: 17.99, v: 419838 }, { n: "7 Day", p: 29.99, v: 419839 }, { n: "30 Day", p: 59.99, v: 419840 }]
     },
     {
       slug: "arc-raiders", name: "Arc Raiders", type: "Private", game: "Arc Raiders", img: "/img/box-arc.webp",
@@ -78,7 +78,7 @@ const CONFIG = {
         ["Visuals", ["Player ESP (boxes, skeleton, healthbars)", "Loot & enemy NPC ESP", "Distance, name & class labels", "Custom color palette"]],
         ["Extras", ["Stream-proof overlay", "Configurable hotkeys", "Instant delivery & Discord support", "Auto-updates with Arc Raiders patches"]]
       ],
-      plans: [{ n: "1 Day", p: 5.99, v: 416741 }, { n: "1 Week", p: 22.99, v: 416742 }, { n: "1 Month", p: 54.99, v: 416743 }]
+      plans: [{ n: "1 Day", p: 5.99, v: 416741 }, { n: "1 Week", p: 22.99, v: 416742 }, { n: "1 Month", p: 44.99, v: 416743 }]
     },
     {
       slug: "roblox-external", name: "Roblox External", type: "External", game: "Roblox", img: "/img/box-roblox.webp", down: true,
@@ -99,7 +99,7 @@ const CONFIG = {
       features: ["One-click spoof", "Resets on reboot", "Intel & AMD"],
       details: "Temporary HWID spoofer. It changes your hardware identifiers until your next restart, supports Intel and AMD, and runs in one click.",
       hosted: "https://plasmacheats.sell.app/product/temp-spoofer",
-      plans: [{ n: "1 Day", p: 7.90, v: 416473 }, { n: "7 Day", p: 26.90, v: 416474 }, { n: "30 Day", p: 34.90, v: 416475 }, { n: "1 Year", p: 59.90, v: 421204 }]
+      plans: [{ n: "1 Day", p: 7.90, v: 416473 }, { n: "7 Day", p: 19.90, v: 416474 }, { n: "30 Day", p: 34.90, v: 416475 }, { n: "1 Year", p: 49.90, v: 421204 }]
     },
     {
       slug: "perm-spoofer", name: "Perm Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/box-perm.webp",
