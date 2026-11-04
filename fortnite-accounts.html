@@ -22,7 +22,7 @@
 </head>
 <body>
 <main class="lwrap"><a class="back" href="/products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Back to products</a><div id="root"></div></main>
-<script src="/assets/site.js?v=110"></script>
+<script src="/assets/site.js?v=111"></script>
 <script>
 const root = document.getElementById("root");
 const p = productBy(new URLSearchParams(location.search).get("p") || location.pathname.replace(/^\/|\/$|\.html$/g, ""));
@@ -113,9 +113,9 @@ if (!p) {
           <h3>Get your account in minutes</h3>
           <p>Buying full access accounts? Here is exactly what happens after you click Purchase.</p>
           <div class="hsteps">
-            ${step(1, "Pick a package", "Choose your package and pay with PayPal, Cash App or Solana. About 30 seconds.")}
-            ${step(2, "Pay securely", "Checkout is handled by SellApp and your invoice ID is shown as soon as the payment goes through.")}
-            ${step(3, "Receive your account", "Right after payment you will see exactly how to get your account.")}
+            ${step(1, "Pick a package", "Choose your package and pay by card at checkout. About 30 seconds. Want to pay with PayPal, Cash App or Solana? Open a ticket instead.")}
+            ${step(2, "Pay securely", "Card payments are processed by DebloMassi and you get an order number as soon as the payment goes through.")}
+            ${step(3, "Open a ticket to claim", "Open a ticket in our Discord with your order number (or your PayPal / Cash App / Solana payment) and we deliver your account.")}
           </div>
           <a class="btn btn-ghost abtn2" href="${CONFIG.discord}" target="_blank" rel="noopener">${ico.headset}Need help?</a>
         </div>

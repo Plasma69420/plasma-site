@@ -113,7 +113,7 @@ const CONFIG = {
       slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "",
       desc: "Full access Fortnite accounts with verified inventories.",
       features: ["Verified skin & item counts", "Original email full access", "Login details + recovery email"],
-      details: "Hand-picked full access Fortnite accounts with verified inventories. Pick a package, pay at checkout, then open a ticket in our Discord with your invoice ID to receive your account.",
+      details: "Hand-picked full access Fortnite accounts with verified inventories. Pick a package, pay by card at checkout, then open a ticket in our Discord with your order number to claim your account. Prefer PayPal, Cash App or Solana? Open a ticket and we will arrange it.",
       groups: [
         ["Account Quality", ["Verified skin & item counts", "Original email full access", "Account age & V-Bucks listed up front"]],
         ["Delivery", ["Delivered in a ticket after purchase (include your invoice ID)", "Login credentials + recovery email", "Cross-platform compatible"]],
@@ -141,7 +141,8 @@ const FA_PACKAGES = [
   ["Rare Pickaxes", "Candy Axe", 7.99, 8], ["Rare Pickaxes", "Leviathan Axe", 19.99, 5],
   ["Rare Pickaxes", "Merry Mint Axe", 19.99, 5], ["Rare Pickaxes", "Trusty No. 2", 24.99, 4]
 ];
-const FA_VARIANTS = [];   // SellApp variant ids, same order as FA_PACKAGES
+// Accounts are paid by card (DebloMassi); these ids are not SellApp variants. The bot knows them (card.js: 900001+ in this same order).
+const FA_VARIANTS = FA_PACKAGES.map((_, i) => 900001 + i);
 CONFIG.products.find(p => p.slug === "fortnite-accounts").plans = FA_PACKAGES.map(([g, s, p, stock], i) => ({ n: g + " · " + s, g, s, p, stock, v: FA_VARIANTS[i] || null }));
 
 // optional add-on sold next to any product (a separate SellApp product, filled in by variant id)

@@ -25,7 +25,7 @@
     <ol style="margin:0;padding-left:18px;line-height:1.7"><li>Copy your key and keep it private. It works for one person only and locks to the first device that activates it.</li><li>Download the loader from <a href="/downloads">Downloads</a> and follow the <a href="/guides">setup guides</a>.</li><li>Need help? Open a ticket in our <a id="dc" href="#" target="_blank" rel="noopener">Discord</a> and include this order number: <b id="oid"></b>.</li></ol>
   </section>
 </div></main>
-<script src="/assets/site.js?v=110"></script>
+<script src="/assets/site.js?v=111"></script>
 <script>
 document.getElementById("dc").href = CONFIG.discord;
 const q = new URLSearchParams(location.search), ref = q.get("ref") || "", pid = q.get("payment_id") || "";
@@ -44,7 +44,7 @@ function show(r) {
   $("pill").textContent = "Payment received"; $("h").textContent = "Thank you! Your order is paid";
   $("sub").textContent = (r.keys && r.keys.length ? "Your license key" + (r.keys.length > 1 ? "s are" : " is") + " below." : "") + (r.manual && r.manual.length ? " Part of your order is delivered by our team." : "");
   $("keys").innerHTML = (r.keys || []).map(k => '<div style="margin:0 0 14px"><small style="opacity:.7">' + esc(k.name) + ' - ' + esc(k.label) + '</small><div style="display:flex;gap:8px;margin-top:6px"><input readonly value="' + esc(k.key) + '" style="flex:1;font-family:monospace;font-size:15px" onclick="this.select()"><button class="btn btn-main" data-k="' + esc(k.key) + '">Copy</button></div></div>').join("")
-    + (r.manual || []).map(m => '<div style="margin:0 0 14px;padding:12px;border:1px solid rgba(255,255,255,.14);border-radius:12px"><b>' + esc(m.name) + ' - ' + esc(m.label) + (m.qty > 1 ? ' x' + m.qty : '') + '</b><br><small>Our team will deliver this to ' + esc(r.email) + ' or in your ticket. Open a ticket in our Discord with your order number below.</small></div>').join("");
+    + (r.manual || []).map(m => '<div style="margin:0 0 14px;padding:12px;border:1px solid rgba(255,255,255,.14);border-radius:12px"><b>' + esc(m.name) + ' - ' + esc(m.label) + (m.qty > 1 ? ' x' + m.qty : '') + '</b><br><small>Open a ticket in our Discord to claim it and include your order number below. Our team will deliver it to you there.</small></div>').join("");
   $("oid").textContent = ref.slice(0, 8); $("next").hidden = false;
   $("keys").addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if (b) { navigator.clipboard.writeText(b.dataset.k).then(() => { b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1500); }); } });
 }

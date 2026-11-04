@@ -56,7 +56,7 @@
     </aside>
   </div>
 </div></main>
-<script src="/assets/site.js?v=110"></script>
+<script src="/assets/site.js?v=111"></script>
 <script>
 const items = Cart.items();
 if (!items.length) location.replace("/cart");
@@ -101,13 +101,19 @@ const applyCode = async () => {
 };
 applyBtn.addEventListener("click", applyCode);
 codeInput.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); applyCode(); } });
+const hasAcc = items.some(i => productBy(i.slug).account);
+if (hasAcc) {
+  document.querySelectorAll('.method').forEach(b => { if (b.dataset.m !== 'CARD') b.hidden = true; });
+  const note = document.createElement('div'); note.className = 'fine'; note.style.margin = '10px 0 0'; note.innerHTML = 'Fortnite Accounts are paid by card here. To pay with PayPal, Cash App or Solana, <a href="' + CONFIG.tickets + '" target="_blank" rel="noopener">open a ticket in our Discord</a> and we will sort it out.';
+  document.getElementById('methods').after(note);
+}
 if (items.some(i => productBy(i.slug).account)) {
   document.querySelector(".notes span").textContent = "Accounts are delivered right after payment";
 }
 const au = Auth.get();
 if (au && au.user.email) document.getElementById("email").value = au.user.email;
 
-Api.get("/api/pay-methods").then(r => { if (r && r.card) document.getElementById("cardMethod").hidden = false; }).catch(() => { });
+Api.get("/api/pay-methods").then(r => { if (r && r.card) { const cm = document.getElementById("cardMethod"); cm.hidden = false; if (hasAcc) cm.click(); } else if (hasAcc) say("Card payments are not available right now. Open a ticket in our Discord to buy this account."); }).catch(() => { });
 let method = "PAYPAL";
 document.getElementById("methods").addEventListener("click", e => {
   const b = e.target.closest(".method"); if (!b) return;
