@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment – Strive Cheats</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b0b0c">
+<link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=79">
+<link rel="stylesheet" href="/assets/pages.css?v=79">
+<link rel="stylesheet" href="/assets/strive.css?v=49">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<main class="page"><div class="wrap" style="max-width:760px">
+  <div class="page-head left"><span class="pill" id="pill">Card payment</span><h1 id="h">Checking your payment...</h1><p id="sub">This usually takes a few seconds. Do not close this page.</p></div>
+  <section class="card pad" id="box"><div id="keys"></div><div class="msg" id="msg"></div></section>
+  <section class="card pad" style="margin-top:14px" id="next" hidden>
+    <h3 style="margin:0 0 8px">What now?</h3>
+    <ol style="margin:0;padding-left:18px;line-height:1.7"><li>Copy your key and keep it private. It works for one person only and locks to the first device that activates it.</li><li>Download the loader from <a href="/downloads">Downloads</a> and follow the <a href="/guides">setup guides</a>.</li><li>Need help? Open a ticket in our <a id="dc" href="#" target="_blank" rel="noopener">Discord</a> and include this order number: <b id="oid"></b>.</li></ol>
+  </section>
+</div></main>
+<script src="/assets/site.js?v=110"></script>
+<script>
+document.getElementById("dc").href = CONFIG.discord;
+const q = new URLSearchParams(location.search), ref = q.get("ref") || "", pid = q.get("payment_id") || "";
+const $ = id => document.getElementById(id), esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+let tries = 0;
+async function poll() {
+  if (!/^[a-f0-9]{32}$/.test(ref)) { $("h").textContent = "This order link is not valid"; $("sub").textContent = "Open a ticket in our Discord with your payment receipt and we will sort it out."; return; }
+  try {
+    const r = await Api.get("/api/card-order?ref=" + ref + (pid ? "&payment_id=" + encodeURIComponent(pid) : ""));
+    if (r.status === "paid") return show(r);
+  } catch (e) { }
+  if (++tries < 60) setTimeout(poll, 3000);
+  else { $("h").textContent = "Still confirming your payment"; $("sub").innerHTML = "If you were charged, keep this page open or come back to this link in a few minutes. You can also open a ticket in our Discord with your receipt."; }
+}
+function show(r) {
+  $("pill").textContent = "Payment received"; $("h").textContent = "Thank you! Your order is paid";
+  $("sub").textContent = (r.keys && r.keys.length ? "Your license key" + (r.keys.length > 1 ? "s are" : " is") + " below." : "") + (r.manual && r.manual.length ? " Part of your order is delivered by our team." : "");
+  $("keys").innerHTML = (r.keys || []).map(k => '<div style="margin:0 0 14px"><small style="opacity:.7">' + esc(k.name) + ' - ' + esc(k.label) + '</small><div style="display:flex;gap:8px;margin-top:6px"><input readonly value="' + esc(k.key) + '" style="flex:1;font-family:monospace;font-size:15px" onclick="this.select()"><button class="btn btn-main" data-k="' + esc(k.key) + '">Copy</button></div></div>').join("")
+    + (r.manual || []).map(m => '<div style="margin:0 0 14px;padding:12px;border:1px solid rgba(255,255,255,.14);border-radius:12px"><b>' + esc(m.name) + ' - ' + esc(m.label) + (m.qty > 1 ? ' x' + m.qty : '') + '</b><br><small>Our team will deliver this to ' + esc(r.email) + ' or in your ticket. Open a ticket in our Discord with your order number below.</small></div>').join("");
+  $("oid").textContent = ref.slice(0, 8); $("next").hidden = false;
+  $("keys").addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if (b) { navigator.clipboard.writeText(b.dataset.k).then(() => { b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1500); }); } });
+}
+poll();
+</script>
+</body>
+</html>

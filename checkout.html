@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="/assets/pages.css?v=79">
 <link rel="stylesheet" href="/assets/strive.css?v=49">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>.method[hidden]{display:none!important}</style>
 </head>
 <body>
 <main class="page"><div class="wrap" style="max-width:1100px">
@@ -30,6 +31,7 @@
       <div class="methods" id="methods">
         <button class="method on" data-m="PAYPAL"><span class="dot"></span><span><b>PayPal</b><small>Pay with your PayPal balance or card. Your key is sent to your PayPal email.</small></span></button>
         <button class="method" data-m="CASHAPP"><span class="dot"></span><span><b>Cash App</b><small>Send the exact amount on the next page. Include the payment note shown there.</small></span></button>
+        <button class="method" data-m="CARD" id="cardMethod" hidden><span class="dot"></span><span><b>Credit / Debit Card</b><small>Visa, Mastercard and more on a secure checkout. Your key is shown right after payment.</small></span></button>
         <button class="method" data-m="SOL"><span class="dot"></span><span><b>Crypto (Solana)</b><small>Pay with SOL</small></span></button>
       </div>
       <label class="terms"><input type="checkbox" id="terms"><span>I agree to the terms of service and understand that digital products are delivered instantly and may not be refundable.</span></label>
@@ -105,6 +107,7 @@ if (items.some(i => productBy(i.slug).account)) {
 const au = Auth.get();
 if (au && au.user.email) document.getElementById("email").value = au.user.email;
 
+Api.get("/api/pay-methods").then(r => { if (r && r.card) document.getElementById("cardMethod").hidden = false; }).catch(() => { });
 let method = "PAYPAL";
 document.getElementById("methods").addEventListener("click", e => {
   const b = e.target.closest(".method"); if (!b) return;
@@ -112,7 +115,8 @@ document.getElementById("methods").addEventListener("click", e => {
   method = b.dataset.m;
   document.getElementById("emailHint").textContent = method === "PAYPAL"
     ? "With PayPal, your key is sent to the email on your PayPal account."
-    : "Your key and receipt are sent to this email.";
+    : method === "CARD" ? "Your key is shown on the page right after you pay. Copy it and keep it safe." : "Your key and receipt are sent to this email.";
+  const n = document.querySelectorAll(".notes span")[1]; if (n) n.textContent = method === "CARD" ? "Card payments are processed by DebloMassi" : "Payments are processed by SellApp";
 });
 
 const msg = document.getElementById("msg"), pay = document.getElementById("pay");
