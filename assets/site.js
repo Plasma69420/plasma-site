@@ -99,7 +99,7 @@ const CONFIG = {
       features: ["One-click spoof", "Resets on reboot", "Intel & AMD"],
       details: "Temporary HWID spoofer. It changes your hardware identifiers until your next restart, supports Intel and AMD, and runs in one click.",
       hosted: "https://plasmacheats.sell.app/product/temp-spoofer",
-      plans: [{ n: "1 Day", p: 7.90, v: 416473 }, { n: "7 Day", p: 19.90, v: 416474 }, { n: "30 Day", p: 34.90, v: 416475 }, { n: "1 Year", p: 49.90, v: 421204 }]
+      plans: [{ n: "1 Day", p: 7.90, v: 416473 }, { n: "7 Day", p: 26.90, v: 416474 }, { n: "30 Day", p: 34.90, v: 416475 }, { n: "1 Year", p: 59.90, v: 421204 }]
     },
     {
       slug: "perm-spoofer", name: "Perm Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/box-perm.webp",
