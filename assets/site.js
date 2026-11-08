@@ -110,7 +110,7 @@ const CONFIG = {
       plans: [{ n: "One Time", p: 14.99, v: 416478 }, { n: "Lifetime", p: 49.99, v: 416479 }]
     },
     {
-      slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "",
+      slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "/img/box-accounts.webp",
       desc: "Full access Fortnite accounts with verified inventories.",
       features: ["Verified skin & item counts", "Original email full access", "Login details + recovery email"],
       details: "Hand-picked full access Fortnite accounts with verified inventories. Pick a package, pay by card at checkout, then open a ticket in our Discord with your order number to claim your account. Prefer PayPal, Cash App or Solana? Open a ticket and we will arrange it.",
