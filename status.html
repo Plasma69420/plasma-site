@@ -42,12 +42,12 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
   <div id="groups"></div>
   <div class="sv-note"><span>Statuses are set by our team as game patches land. Something look wrong? Open a ticket in our Discord and we will check it right away.</span><a id="rep" href="#" target="_blank" rel="noopener">Report an issue</a></div>
 </main>
-<script src="/assets/site.js?v=1794198411"></script>
+<script src="/assets/site.js?v=1794199375"></script>
 <script>
 const catName = p => p.game === "Spoofer" ? "HWID Spoofers" : p.game;
-const LABEL = { undetected: ["Operational", "ok"], updating: ["Updating", "warn"], maintenance: ["Maintenance", "warn"], detected: ["Detected", "bad"], down: ["Down", "bad"], unknown: ["Unavailable", "idle"] };
-const ago = ms => { if (!ms) return "No changes yet"; const s = Math.max(1, (Date.now() - ms) / 1000); if (s < 90) return "Updated just now"; if (s < 3600) return "Updated " + Math.round(s / 60) + " min ago"; if (s < 86400) return "Updated " + Math.round(s / 3600) + " h ago"; return "Updated " + Math.round(s / 86400) + " d ago"; };
-const SHOWN = {"perm-spoofer":1793837621949,"temp-spoofer":1793837584949,"rust-private":1793837547949,"r6-external":1793837510949,"fortnite-slotted":1793837473949,"fortnite-private":1793837436949,"arc-raiders":1793844535260}, ING = {};
+const LABEL = { undetected: ["Operational", "ok"], updating: ["Updating", "warn"], maintenance: ["Maintenance", "warn"], detected: ["Detected", "bad"], down: ["Down", "bad"], development: ["In Development", "warn"], unknown: ["Unavailable", "idle"] };
+const ago = ms => { if (!ms) return "No changes yet"; const d = new Date(ms), n = new Date(); const days = Math.round((new Date(n.toDateString()) - new Date(d.toDateString())) / 864e5); return days <= 0 ? "Updated today" : days === 1 ? "Updated yesterday" : "Updated " + days + " days ago"; };
+const SHOWN = {}, ING = {"roblox-external": "In development"};
 document.getElementById("rep").href = CONFIG.tickets || CONFIG.discord;
 function show(live) {
   const have = live && Object.keys(live).length > 0;
@@ -60,7 +60,7 @@ function show(live) {
       let name, k, up, from = "";
       if (p.soon) { name = "Coming soon"; k = "soon"; up = "Not released yet"; count.soon++; }
       else {
-        const key = p.slug === "arc-raiders" ? "updating" : p.slug === "roblox-external" ? "down" : p.down ? "down" : (have && rec ? rec.status : "unknown");
+        const key = p.dev ? "development" : p.down ? "down" : (have && rec ? rec.status : "unknown");
         [name, k] = LABEL[key] || LABEL.unknown; if (k === "ok" || k === "warn" || k === "bad") count[k]++;
         if (k === "warn" || k === "bad") attention.push(p.name + " is " + name.toLowerCase());
         up = ING[p.slug] || ago(SHOWN[p.slug] || (rec && rec.updated));

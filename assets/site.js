@@ -81,7 +81,7 @@ const CONFIG = {
       plans: [{ n: "1 Day", p: 5.99, v: 416741 }, { n: "1 Week", p: 22.99, v: 416742 }, { n: "1 Month", p: 44.99, v: 416743 }]
     },
     {
-      slug: "roblox-external", name: "Roblox External", type: "External", game: "Roblox", img: "/img/box-roblox.webp", down: true,
+      slug: "roblox-external", name: "Roblox External", type: "External", game: "Roblox", img: "/img/box-roblox.webp", down: true, dev: true,
       desc: "Secure, stable and silent Roblox external with a built-in menu.",
       features: ["Smooth UI & built-in menu", "Cloud-based loader, no FPS loss", "Auto-updates & maintenance included"],
       details: "Strive Cheats Roblox is a premium Roblox external built to be secure, stable and silent. It ships with a smooth built-in menu, a lightweight cloud-based loader with no FPS or lag issues, and auto-updates included. Lifetime license is $7.99 or 1,000 Robux. NOTICE: this product is currently down, so purchases will not work until it is back online. Join our Discord for updates.",
@@ -170,10 +170,10 @@ CONFIG.products.forEach(p => { p.addon = Object.assign({ price: CONFIG.addon.pri
 
 const STATUS = {
   undetected: ["Undetected", ""], updating: ["Updating", "updating"], maintenance: ["Maintenance", "updating"],
-  detected: ["Detected", "down"], down: ["Down", "down"]
+  detected: ["Detected", "down"], down: ["Down", "down"], development: ["In Development", "updating"]
 };
 // products flagged down: true always show as Down, whatever the bot says
-const statusOf = (p, live) => p.down ? "down" : ((live || {})[p.slug] || {}).status;
+const statusOf = (p, live) => p.dev ? "development" : p.down ? "down" : ((live || {})[p.slug] || {}).status;
 // Discord markup inside review text (channel/user/role mentions, custom emoji) becomes plain text
 const cleanMsg = t => String(t == null ? "" : t).replace(/<a?:\w+:\d+>/g, "").replace(/<@!?\d+>/g, "@user").replace(/<@&\d+>/g, "@role").replace(/<#\d+>/g, "#channel").replace(/\s{2,}/g, " ").trim();
 const money = n => "$" + Number(n).toFixed(2);

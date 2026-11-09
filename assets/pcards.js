@@ -43,7 +43,7 @@
         '<div class="pm-plans"></div>' +
         '<label class="pm-chk"><input type="checkbox" id="pmTos"><i></i><span>I confirm my order and accept the <a href="/terms" target="_blank" rel="noopener">Terms of Service</a></span></label>' +
         '<label class="pm-chk"><input type="checkbox" id="pmNews"><i></i><span>I want to receive emails about discounts and new products</span></label>' +
-        '<button class="pm-buy" id="pmBuy" disabled>' + (down ? "Currently down" : "Buy") + '</button><div class="pm-fine" id="pmFine"></div>' +
+        '<button class="pm-buy" id="pmBuy" disabled>' + (down ? (p.dev ? "In development" : "Currently down") : "Buy") + '</button><div class="pm-fine" id="pmFine"></div>' +
       '</div></div>' +
       '<div class="pm-rev"><div class="pm-rh"><h3>Customer reviews <span id="pmRn"></span></h3><a class="pm-write" href="' + esc(CONFIG.discord) + '" target="_blank" rel="noopener">Write a review</a></div>' +
         '<div class="pm-rb"><div class="pm-sum" id="pmSum"><b>–<small> /5</small></b><div class="st">' + stars(0) + '</div><span class="pm-cnt">No reviews yet</span><div class="pm-bars" id="pmBars"></div><p class="pm-note">Reviews can be left by buyers of this product.</p></div>' +
