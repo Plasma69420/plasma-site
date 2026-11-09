@@ -280,10 +280,11 @@ const Api = {
 /* ---------- shared layout ---------- */
 (() => {
   const seg = location.pathname.replace(/^\/|\/$|\.html$/g, "") || "index";
-  const here = productBy(seg) ? "products" : seg;
+  const here = productBy(seg) ? "products" : /^blog/.test(seg) ? "blog" : seg;
   const nav_i = {
     index: '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/>',
     products: '<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/>',
+    blog: '<path d="M5 4h11l3 3v13H5z"/><path d="M8 9h8M8 13h8M8 17h5"/>',
     reviews: '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.500l6.100-.9z"/>',
     status: '<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',
     guides: '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 7h6M9 11h6"/>',
@@ -329,7 +330,7 @@ const Api = {
   </div></div>
   <div class="nav-sub"><div class="nav-in2">
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}<i class="sep"></i>${link("/products", "Products", "products")}<i class="sep"></i>${link("/status", "Status", "status")}<i class="sep"></i>${link("/reviews", "Reviews", "reviews")}<i class="sep"></i>${link("#support\" data-support=\"", "Support", "support")}
+      ${link("/", "Home", "index")}<i class="sep"></i>${link("/products", "Products", "products")}<i class="sep"></i>${link("/status", "Status", "status")}<i class="sep"></i>${link("/reviews", "Reviews", "reviews")}<i class="sep"></i>${link("/blog", "Blog", "blog")}<i class="sep"></i>${link("#support\" data-support=\"", "Support", "support")}
     </nav>
   </div></div>
 </header>`);
@@ -343,7 +344,7 @@ const Api = {
         <p>Undetected software and HWID spoofers with instant delivery, guided setup and 24/7 Discord support.</p>
         <div class="fsoc2"><a href="${CONFIG.discord}" target="_blank" rel="noopener">Discord</a><a href="${CONFIG.telegram}" target="_blank" rel="noopener">Telegram</a></div>
       </div>
-      <div class="fcol"><h5>Shop</h5><a href="/products">All products</a><a href="/status">Live status</a><a href="/reviews">Reviews</a><a href="/mini-games">Mini Games</a><a href="/rewards">Rewards</a><a href="/affiliates">Affiliates</a><a href="/about">About us</a></div>
+      <div class="fcol"><h5>Shop</h5><a href="/products">All products</a><a href="/status">Live status</a><a href="/reviews">Reviews</a><a href="/blog">Blog</a><a href="/mini-games">Mini Games</a><a href="/rewards">Rewards</a><a href="/affiliates">Affiliates</a><a href="/about">About us</a></div>
       <div class="fcol"><h5>Support</h5><a href="${CONFIG.discord}" target="_blank" rel="noopener">Join Discord</a><a href="${CONFIG.tickets || CONFIG.discord}" target="_blank" rel="noopener">Open a ticket</a><a href="/account">Client Area</a></div>
       <div class="fcol"><h5>Guides</h5><a href="/undetected-fortnite-cheat">Fortnite cheat</a><a href="/rust-cheat">Rust cheat</a><a href="/rainbow-six-siege-cheat">R6 cheat</a><a href="/arc-raiders-cheat">Arc Raiders cheat</a><a href="/hwid-spoofer">HWID spoofer</a></div>
       <div class="fcol"><h5>Legal</h5><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/refund">Refund Policy</a></div>
