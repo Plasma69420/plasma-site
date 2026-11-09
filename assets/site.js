@@ -110,12 +110,12 @@ const CONFIG = {
       plans: [{ n: "One Time", p: 14.99, v: 416478 }, { n: "Lifetime", p: 49.99, v: 416479 }]
     },
     {
-      slug: "retrac-private", name: "Retrac External", type: "External", game: "Retrac", sub: "Community Project", img: "/img/box-retrac.webp?v=1794174673",
+      slug: "retrac-private", name: "Retrac Private", type: "Private", game: "Retrac", sub: "Community Project", img: "/img/box-retrac.webp?v=1794174673",
       gallery: ["/img/box-retrac.webp", "/img/retrac-game.webp", "/img/retrac-menu.webp"],
-      desc: "Retrac External gives you the edge you need with advanced external assistance.",
+      desc: "Retrac Private gives you the edge you need with advanced private assistance.",
       features: ["External — no injection", "ESP: players, loot, radar", "Smooth aim assist", "Streamproof overlay", "Updates within hours", "Windows 10 / 11 (64-bit)"],
       details: "", groups: [],
-      // SellApp product "Retrac External" (id 391658), variants 1 Week / Lifetime / Spoofer Pack
+      // SellApp product "Retrac Private" (id 391658), variants 1 Week / Lifetime / Spoofer Pack
       plans: [{ n: "1 Week", p: 11.99, v: 423776, stock: 10 }, { n: "Lifetime", p: 25.99, v: 423777, stock: 10 }, { n: "Lifetime External + Spoofer Pack", p: 44.99, v: 423778, stock: 10 }]
     },
     {

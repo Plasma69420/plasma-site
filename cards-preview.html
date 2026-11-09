@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Card preview – Strive Cheats</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="/img/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=1794118353">
+<link rel="stylesheet" href="/assets/v3.css?v=1794195790">
+<style>
+.cpv{width:min(1840px,100% - 64px);margin:0 auto;padding:110px 0 90px}
+.cpv h1{margin:0 0 6px;color:#fff;font:900 34px var(--disp,Manrope),sans-serif;letter-spacing:-.03em;text-transform:uppercase}
+.cpv>p{margin:0 0 26px;color:#8e9aa0;font:600 15px Manrope,sans-serif}
+.bcg{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.bc{position:relative;display:block;aspect-ratio:445/396;border-radius:26px;overflow:hidden;color:#fff;text-decoration:none;background:#0d2240;isolation:isolate;transition:transform .3s,box-shadow .3s}
+.bc:hover{transform:translateY(-5px);box-shadow:0 26px 60px rgba(77,181,255,.22)}
+.bc>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0;transition:transform .5s}
+.bc:hover>img{transform:scale(1.04)}
+.bc-p{position:absolute;left:0;right:0;bottom:0;height:45%;padding:16px 18px 18px;display:flex;flex-direction:column;justify-content:space-between;border-radius:24px 24px 0 0;
+  background:linear-gradient(180deg,rgba(60,140,225,.38),rgba(22,70,140,.62));backdrop-filter:blur(18px) saturate(1.25);-webkit-backdrop-filter:blur(18px) saturate(1.25);border-top:1px solid rgba(255,255,255,.18)}
+.bc-p::before{content:"";position:absolute;inset:0;border-radius:inherit;background:repeating-linear-gradient(135deg,rgba(255,255,255,.035) 0 2px,transparent 2px 7px);pointer-events:none}
+.bc-r{position:relative;display:flex;align-items:center;gap:16px;min-width:0}
+.bc-i{flex:none;display:grid;place-items:center;width:23%;aspect-ratio:1;border-radius:22%;background:linear-gradient(145deg,#1a1f24,#0b0e11);box-shadow:0 10px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06)}
+.bc-i svg{width:58%;height:58%}
+.bc-t{min-width:0}
+.bc-t b{display:block;font:700 clamp(17px,1.5vw,29px)/1.08 'Unbounded',Manrope,sans-serif;letter-spacing:-.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bc-t small{display:block;margin-top:5px;color:rgba(255,255,255,.72);font:700 clamp(12px,.95vw,17px) Manrope,sans-serif}
+.bc-f{position:relative;display:flex;justify-content:space-between;align-items:center}
+.bc-pr{font:900 clamp(16px,1.25vw,22px) 'Unbounded',Manrope,sans-serif;letter-spacing:.02em}
+.bc-pr small{font:700 12px Manrope,sans-serif;color:rgba(255,255,255,.7);letter-spacing:0;margin-right:6px}
+.bc-a{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#0d1114;color:#fff;transition:.25s}
+.bc:hover .bc-a{background:#4db5ff;color:#061c26}
+@media(max-width:1300px){.bcg{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:960px){.bcg{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.bcg{grid-template-columns:1fr}.cpv{width:calc(100% - 32px)}}
+</style>
+</head>
+<body>
+<main class="cpv">
+  <h1>Card preview</h1>
+  <p>Local test of the new product card style. Nothing here is live.</p>
+  <div class="bcg" id="g"></div>
+</main>
+<script src="/assets/site.js?v=1794198411"></script>
+<script>
+const W = 'fill="#eef1f3"';
+const ICON = {
+  duck: '<svg viewBox="0 0 64 64"><path ' + W + ' d="M38 10c-6.6 0-12 5.4-12 12 0 2.4.7 4.6 1.9 6.5C21.6 29 14 30.6 9 26c-1 6 0 12 4 17 4.2 5.2 10.5 8 17.5 8C42.6 51 52 43.6 52 33c0-4.6-1.7-8.4-4.4-11.2.3-1.2.4-2.4.4-3.8 0-.6 0-1.2-.1-1.8L56 14l-8.6-1.4C45.3 11 41.8 10 38 10Zm2 7a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z"/></svg>',
+  six: '<svg viewBox="0 0 64 64"><path ' + W + ' d="M22 6h20v12H34v8h6c6.6 0 10 4 10 10v12c0 6-4 10-10 10H24c-6 0-10-4-10-10V18C14 10 17 6 22 6Zm6 30v10h8v-6h-3v-4Z"/><path fill="#0d1114" d="M30 38h9v3h-3v6h-3v-4h-3z"/></svg>',
+  val: '<svg viewBox="0 0 64 64"><path ' + W + ' d="M6 16 36 52H22L6 32z"/><path ' + W + ' d="M58 16v16l-8 10H36z"/></svg>',
+  chip: '<svg viewBox="0 0 64 64"><g fill="none" stroke="#eef1f3" stroke-width="4" stroke-linecap="round"><rect x="12" y="12" width="32" height="32" rx="9"/><path d="M22 6v6M30 6v6M38 6v6M6 22h6M6 30h6M6 38h6"/></g><circle cx="44" cy="44" r="13" fill="#eef1f3"/><circle cx="44" cy="44" r="5" fill="#0d1114"/><g stroke="#eef1f3" stroke-width="5"><path d="M44 27v5M44 56v5M27 44h5M56 44h5"/></g></svg>',
+  skull: '<svg viewBox="0 0 64 64"><path ' + W + ' d="M32 6C18.7 6 9 15.5 9 28c0 7 3 12.6 8 16v8c0 3 2 5 5 5h20c3 0 5-2 5-5v-8c5-3.4 8-9 8-16C55 15.5 45.3 6 32 6Zm-9 24a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm18 0a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11ZM32 41l3.5 6h-7z"/></svg>'
+};
+const arrow = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const find = s => CONFIG.products.find(p => p.slug === s);
+const fromP = s => { const p = find(s); return p && p.plans.length ? money(Math.min(...p.plans.map(x => x.p))) : null; };
+const CARDS = [
+  { t: "Retrac Private", s: "Retrac · Coming soon", img: "retrac-blue", ic: "duck", price: null, href: "#" },
+  { t: "Valorant", s: "Riot Games · Coming soon", img: "omen-blue", ic: "val", price: null, href: "#" },
+  { t: "Call Of Duty", s: "Activision · Coming soon", img: "ghost-blue", ic: "skull", price: null, href: "#" },
+  { t: "HWID Spoofer", s: "Temp & Perm", img: "motherboard-blue", ic: "chip", price: money(Math.min(...["temp-spoofer", "perm-spoofer"].flatMap(s => (find(s) || { plans: [] }).plans.map(x => x.p)))), href: "/products?category=hwid-spoofer" },
+  { t: "R6 Private", s: "Ubisoft", img: "operator-blue", ic: "six", price: fromP("r6-external"), href: "/r6-external" }
+];
+document.getElementById("g").innerHTML = CARDS.map(c => `<a class="bc" href="${c.href}"><img src="/img/blue/${c.img}.png" alt="${esc(c.t)}" loading="lazy">
+  <div class="bc-p"><div class="bc-r"><span class="bc-i">${ICON[c.ic]}</span><span class="bc-t"><b>${esc(c.t)}</b><small>${esc(c.s)}</small></span></div>
+  <div class="bc-f"><span class="bc-pr">${c.price ? "<small>From</small>" + c.price : "SOON"}</span><span class="bc-a">${arrow}</span></div></div></a>`).join("");
+</script>
+</body>
+</html>
