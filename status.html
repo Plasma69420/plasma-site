@@ -68,17 +68,17 @@ function show(live) {
       }
       return `<a class="sc ${k}" href="${p.soon ? "#" : "/" + p.slug}">
         <span class="sc-i">${p.img ? `<img src="${p.img}" alt="" loading="lazy">` : ""}</span>
-        <span class="sc-b"><b>${esc(p.name)}</b><small>${esc(p.game === "Spoofer" ? "HWID Spoofer" : p.game)} · ${esc(up.replace("Updated ",""))}</small><span class="sc-pill"><i></i>${name}</span></span>
+        <span class="sc-b"><b>${esc(p.name)}</b><small>${esc(p.game === "Spoofer" ? "HWID Spoofer" : p.game)} · ${esc(up)}</small><span class="sc-pill"><i></i>${name}</span></span>
         <span class="sc-r">${from ? "<small>From</small><b>" + from + "</b>" : ""}</span>
       </a>`;
     }).join("")}</div></section>`).join("");
-  const bad = count.bad, warn = count.warn, ok = count.ok, k = !have ? "idle" : bad ? "bad" : warn ? "warn" : "ok";
+  const devN = CONFIG.products.filter(p => p.dev).length, bad = count.bad, warn = Math.max(0, count.warn - devN), ok = count.ok, k = !have ? "idle" : bad ? "bad" : warn ? "warn" : "ok";
   document.getElementById("hero").className = "sv-hero " + k;
   document.getElementById("eb").textContent = { ok: "Live", warn: "Heads up", bad: "Incident", idle: "Offline" }[k];
-  document.getElementById("hT").textContent = !have ? "Status unavailable" : bad ? "Some products have problems" : warn ? warn + " product" + (warn > 1 ? "s" : "") + " updating" : "All systems operational";
-  document.getElementById("hS").textContent = !have ? "We could not reach the status service. Try again in a minute." : attention.length ? attention.join(" • ") : "Every released product is working normally.";
+  document.getElementById("hT").textContent = !have ? "Status unavailable" : bad ? "Some products have problems" : warn ? warn + " product" + (warn > 1 ? "s" : "") + " updating" : "All products updated";
+  document.getElementById("hS").textContent = !have ? "We could not reach the status service. Try again in a minute." : warn || bad ? attention.join(" • ") : "Every product was updated today" + (devN ? " · " + CONFIG.products.filter(p => p.dev).map(p => p.name).join(", ") + " is in development" : "") + ".";
   document.getElementById("hTime").textContent = "Checked " + new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) + " · refreshes every minute";
-  document.getElementById("counts").innerHTML = [["ok", "Operational", ok], ["warn", "Updating", warn], ["bad", "Down", bad], ["soon", "Coming soon", count.soon]].map(([c, n, v]) => '<div class="' + c + '"><b>' + v + '</b><small>' + n + '</small></div>').join("");
+  document.getElementById("counts").innerHTML = [["ok", "Operational", ok], ["warn", "Updating", warn], ["bad", "Down", bad], devN && !count.soon ? ["soon", "In development", devN] : ["soon", "Coming soon", count.soon]].map(([c, n, v]) => '<div class="' + c + '"><b>' + v + '</b><small>' + n + '</small></div>').join("");
 }
 async function load() { show(await Api.status()); }
 load(); setInterval(() => { if (!document.hidden) load(); }, 60000);
