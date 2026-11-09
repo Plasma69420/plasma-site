@@ -98,13 +98,7 @@
     Api.get("/api/vouches").then(fill).catch(() => { if (root) q("#pmList").innerHTML = '<p class="pm-none">Reviews could not be loaded.</p>'; });
   }
   document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
-  // any product card opens the popup (modified clicks still open the page)
-  document.addEventListener("click", e => {
-    const a = e.target.closest && e.target.closest("a.pc[data-slug], a.pk[data-slug], a.ap-c[data-slug], a.lcard[href]"); if (!a) return;
-    const sl = a.dataset.slug || (a.getAttribute("href") || "").replace(/^\//, ""); if (!find(sl)) return;
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
-    e.preventDefault(); open(sl);
-  });
+  // product cards are normal links: clicking one opens the full product page
   const dl = location.search.match(/[?&]open=([a-z0-9-]+)/); if (dl) window.addEventListener("load", () => setTimeout(() => open(dl[1]), 400));
   window.PCards = { card: card, open: open, close: close };
 })();

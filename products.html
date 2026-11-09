@@ -47,7 +47,7 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
   <div class="ap-none" id="none"><b>No products found</b><span>Try a different search or game.</span></div>
 </main>
 <script src="/assets/site.js?v=1794261295"></script>
-<script src="/assets/pcards.js?v=1794261295"></script>
+<script src="/assets/pcards.js?v=1794262574"></script>
 <script>
 const catName = p => p.account ? "Fortnite Accounts" : p.game === "Spoofer" ? "HWID Spoofer" : p.game;
 const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -168,7 +168,7 @@ Api.status().then(s => { live = s || {}; window.__live = live; render(); });
     if (t.closest("[data-restart]")) { step = 0; ans = {}; return show(); }
     if (t.closest(".fq-bk")) { do { step--; } while (step > 0 && Q[step].skip && Q[step].skip(ans)); delete ans[Q[step].k]; return show(); }
     const o = t.closest(".fq-o button"); if (o) { ans[Q[step].k] = o.dataset.v; step++; return show(); }
-    const op = t.closest("[data-open]"); if (op) { e.preventDefault(); close(); return window.PCards && PCards.open(op.dataset.open); }
+    const op = t.closest("[data-open]"); if (op) { e.preventDefault(); close(); location.href = "/" + op.dataset.open; return; }
     const c = t.closest("[data-cart]"); if (c) { Cart.add(box.dataset.slug, +box.dataset.plan); c.textContent = "Added ✓"; c.disabled = true; }
   });
   back.addEventListener("click", e => { if (e.target === back) close(); });

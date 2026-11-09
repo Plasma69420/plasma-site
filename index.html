@@ -112,7 +112,7 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
 </main>
 
 <script src="/assets/site.js?v=1794261659"></script>
-<script src="/assets/pcards.js?v=1794261659"></script>
+<script src="/assets/pcards.js?v=1794262574"></script>
 <script>
 document.querySelectorAll("[data-discord]").forEach(a => a.href = CONFIG.discord);
 
@@ -161,7 +161,7 @@ document.getElementById("cats").addEventListener("click", e => {
   if (list.length !== 1) return;
   e.preventDefault();
   if (list[0].soon) return;
-  if (window.PCards) PCards.open(list[0].slug); else location.href = "/" + list[0].slug;
+  location.href = "/" + list[0].slug;
 });
 
 
