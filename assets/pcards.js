@@ -27,25 +27,23 @@
     if (p.account || !p.plans.length) { location.href = "/" + p.slug; return; }
     close();
     let plan = 0, idx = 0;
-    const CAT = { "Fortnite": "cat-fortnite", "Rainbow Six Siege": "cat-r6", "Rust": "cat-rust", "Arc Raiders": "cat-arc3", "Roblox": "cat-roblox", "Spoofer": "cat-hwid" };
-    const imgs = (p.gallery && p.gallery.length ? p.gallery : [p.img, CAT[p.game] ? "/img/" + CAT[p.game] + ".webp" : null]).filter(Boolean);
+    const imgs = (p.gallery && p.gallery.length ? p.gallery : [p.img]).filter(Boolean);
     const down = !!p.down;
     root = document.createElement("div"); root.className = "pm-back";
     root.innerHTML = '<div class="pm" role="dialog" aria-modal="true" aria-label="' + esc(p.name) + '"><button class="pm-x" aria-label="Close">&times;</button>' +
       '<div class="pm-top"><div class="pm-gal">' +
-        '<div class="pm-main"><img src="' + esc(imgs[0]) + '" alt="' + esc(p.name) + '"><span class="pm-grid" aria-hidden="true">' + grid + '</span>' +
+        '<div class="pm-main"><img src="' + esc(imgs[0]) + '" alt="' + esc(p.name) + '">' +
           (imgs.length > 1 ? '<button class="pm-nav l" aria-label="Previous image">' + left + '</button><button class="pm-nav r" aria-label="Next image">' + right + '</button>' : "") +
           '<span class="pm-ct">1/' + imgs.length + '</span></div>' +
-        (imgs.length > 1 ? '<div class="pm-th">' + imgs.slice(0, 3).map((s, i) => '<button type="button" class="pm-t' + (i ? "" : " on") + '" data-i="' + i + '"><img src="' + esc(s) + '" alt=""></button>').join("") + '</div>' : "") +
+        (imgs.length > 1 ? '<div class="pm-dots">' + imgs.map((s, i) => '<button type="button" class="pm-t' + (i ? "" : " on") + '" data-i="' + i + '" aria-label="Image ' + (i + 1) + '"></button>').join("") + '</div>' : "") +
       '</div>' +
       '<div class="pm-info"><h2>' + esc(p.name) + '</h2><div class="pm-sub">' + esc(sub(p)) + '</div><p class="pm-desc">' + esc(p.desc || "") + '</p>' +
-        (p.features && p.features.length ? '<h6>Characteristics</h6><ul class="pm-feat">' + p.features.map(f => '<li>' + check + esc(f) + '</li>').join("") + '</ul>' : "") +
+        (p.features && p.features.length ? '<h6>What you get</h6><ul class="pm-feat">' + p.features.map(f => '<li>' + check + esc(f) + '</li>').join("") + '</ul>' : "") +
         '<div class="pm-plans"></div>' +
-        '<label class="pm-chk"><input type="checkbox" id="pmTos"><i></i><span>I confirm my order and accept the <a href="/terms" target="_blank" rel="noopener">Terms of Service</a></span></label>' +
-        '<label class="pm-chk"><input type="checkbox" id="pmNews"><i></i><span>I want to receive emails about discounts and new products</span></label>' +
+        '<label class="pm-chk"><input type="checkbox" id="pmTos"><i></i><span>I agree to the <a href="/terms" target="_blank" rel="noopener">Terms</a></span></label>' +
         '<button class="pm-buy" id="pmBuy" disabled>' + (down ? (p.dev ? "In development" : "Currently down") : "Buy") + '</button><div class="pm-fine" id="pmFine"></div>' +
       '</div></div>' +
-      '<div class="pm-rev"><div class="pm-rh"><h3>Customer reviews <span id="pmRn"></span></h3><a class="pm-write" href="' + esc(CONFIG.discord) + '" target="_blank" rel="noopener">Write a review</a></div>' +
+      '<div class="pm-rev"><div class="pm-rh"><h3>What buyers say <span id="pmRn"></span></h3><a class="pm-write" href="' + esc(CONFIG.discord) + '" target="_blank" rel="noopener">Write a review</a></div>' +
         '<div class="pm-rb"><div class="pm-sum" id="pmSum"><b>–<small> /5</small></b><div class="st">' + stars(0) + '</div><span class="pm-cnt">No reviews yet</span><div class="pm-bars" id="pmBars"></div><p class="pm-note">Reviews can be left by buyers of this product.</p></div>' +
         '<div class="pm-side"><div class="pm-sort" id="pmSort"><button class="on" data-s="new">Newest</button><button data-s="high">Highest</button><button data-s="low">Lowest</button></div>' +
         '<div class="pm-list" id="pmList"><p class="pm-none">Loading reviews...</p></div>' +
@@ -64,7 +62,7 @@
       }).join("");
       root.querySelectorAll(".pm-plan").forEach(b => b.onclick = () => { plan = +b.dataset.j; drawPlans(); sync(); });
     }
-    const sync = () => { const pl = p.plans[plan]; buy.disabled = down || !tos.checked || pl.stock === 0; fine.innerHTML = !pl.v && !down ? "This plan is sold through Discord: Buy opens a ticket with your choice." : ""; };
+    const sync = () => { const pl = p.plans[plan]; if (!down) buy.textContent = "Buy · " + money(pl.p); buy.disabled = down || !tos.checked || pl.stock === 0; fine.innerHTML = !pl.v && !down ? "This plan is sold through Discord: Buy opens a ticket with your choice." : ""; };
     drawPlans(); tos.onchange = sync; sync();
     buy.onclick = () => {
       if (buy.disabled) return; const pl = p.plans[plan];

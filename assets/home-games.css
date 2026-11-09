@@ -1,0 +1,33 @@
+/* Home: game cards (product box on the left, details on the right) */
+html body #games .v2w{margin-left:auto;margin-right:auto}
+.gcg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gc{position:relative;display:flex;align-items:center;gap:18px;min-height:150px;padding:14px 18px 14px 14px;border-radius:20px;background:linear-gradient(180deg,#0f1520,#0b1018);border:1px solid rgba(255,255,255,.07);text-decoration:none;color:inherit;overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s}
+.gc::before{content:"";position:absolute;left:-40px;top:50%;width:220px;height:220px;transform:translateY(-50%);background:radial-gradient(circle,rgba(77,181,255,.22),transparent 65%);pointer-events:none;transition:opacity .25s;opacity:.7}
+.gc:hover{transform:translateY(-3px);border-color:rgba(77,181,255,.45);box-shadow:0 18px 44px rgba(0,0,0,.45)}
+.gc:hover::before{opacity:1}
+.gc-art{position:relative;flex:0 0 86px;height:122px;display:grid;place-items:center}
+.gc-art img{height:100%;width:auto;filter:drop-shadow(0 12px 18px rgba(0,0,0,.5));transition:transform .3s}
+.gc:hover .gc-art img{transform:rotate(-4deg) scale(1.05)}
+.gc-b{position:relative;display:flex;flex-direction:column;flex:1;min-width:0}
+.gc-tag{align-self:flex-start;padding:3px 9px;border-radius:999px;background:rgba(61,220,132,.12);color:#5fe39b;font:800 10.5px Manrope,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.gc-tag.dev{background:rgba(255,181,71,.12);color:#ffc266}
+.gc-b b{margin-top:8px;color:#fff;font:800 19px/1.15 Manrope,sans-serif;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gc-b small{margin-top:3px;color:#7c8999;font:700 12.5px Manrope,sans-serif}
+.gc-f{display:flex;align-items:center;justify-content:space-between;margin-top:12px;color:#8d97a3;font:700 12.5px Manrope,sans-serif}
+.gc-f em{font-style:normal;color:#fff;font-weight:800;font-size:16px;margin-left:3px}
+.gc-f i{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:rgba(77,181,255,.12);color:#4db5ff;transition:.2s}
+.gc:hover .gc-f i{background:#4db5ff;color:#04121e}
+@media(max-width:1000px){.gcg{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.gcg{grid-template-columns:1fr}}
+html body #games #cats.gcg{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:16px!important;justify-content:stretch!important}
+html body #games #cats.gcg>.gc{width:auto!important;flex:none!important;margin:0!important}
+@media(max-width:1000px){html body #games #cats.gcg{grid-template-columns:repeat(2,1fr)!important}}
+@media(max-width:620px){html body #games #cats.gcg{grid-template-columns:1fr!important}}
+/* FAQ: numbered questions, no category pills */
+.fq2 summary{display:flex;align-items:center;gap:16px}
+.fq2 .fqn{flex:none;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:rgba(77,181,255,.1);border:1px solid rgba(77,181,255,.25);color:#4db5ff;font:800 13px Manrope,sans-serif;letter-spacing:.02em}
+.fq2 details[open] .fqn{background:#4db5ff;color:#04121e;border-color:transparent}
+.fq2 .vfq{flex:1}
+.fq2 .fqd{padding-left:54px}
+html body .fqa.fq2 summary{display:flex!important;flex-direction:row!important;align-items:center!important;gap:16px!important}
+html body .fqa.fq2 .vfq{margin:0!important}

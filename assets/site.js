@@ -110,8 +110,8 @@ const CONFIG = {
       plans: [{ n: "One Time", p: 14.99, v: 416478 }, { n: "Lifetime", p: 49.99, v: 416479 }]
     },
     {
-      slug: "retrac-private", name: "Retrac Private", type: "Private", game: "Retrac", sub: "Community Project", img: "/img/box-retrac.webp?v=1794174673",
-      gallery: ["/img/box-retrac.webp", "/img/retrac-game.webp", "/img/retrac-menu.webp"],
+      slug: "retrac-private", name: "Retrac Private", type: "Private", game: "Retrac", sub: "OG Fortnite", img: "/img/box-retrac.webp?v=1794261295",
+      gallery: ["/img/box-retrac.webp?v=1794261295", "/img/retrac-game.webp?v=1794261295", "/img/retrac-menu.webp?v=1794261295"],
       desc: "Retrac Private gives you the edge you need with advanced private assistance.",
       features: ["External — no injection", "ESP: players, loot, radar", "Smooth aim assist", "Streamproof overlay", "Updates within hours", "Windows 10 / 11 (64-bit)"],
       details: "", groups: [],
