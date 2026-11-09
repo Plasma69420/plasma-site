@@ -10,7 +10,7 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Product Status – Strive Cheats</title>
 <meta name="description" content="Live status of every Strive Cheats product, updated as it changes.">
-<meta name="theme-color" content="#1fb6ff">
+<meta name="theme-color" content="#4db5ff">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Strive Cheats">
 <meta property="og:title" content="Product Status | Strive Cheats">
@@ -30,54 +30,63 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=79">
-<link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=49">
-</head>
+<link rel="stylesheet" href="/assets/site.css?v=1794118353">
+<link rel="stylesheet" href="/assets/pages.css?v=1794118353">
+<link rel="stylesheet" href="/assets/strive.css?v=1794118353">
+<link rel="stylesheet" href="/assets/v3.css?v=1794195790"><link rel="stylesheet" href="/assets/status-v4.css?v=1794173829"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&display=swap" rel="stylesheet"></head>
 <body>
-<main class="stp">
-  <header class="sth">
-    <h1>Product Status</h1>
-    <p>Live status for every Strive product. We update it the moment something changes.</p>
-  </header>
-  <section class="stb" id="stb" aria-live="polite"><div class="sbi" id="sbi"></div><div class="sbt"><b id="sbT">Checking status...</b><small id="sbS">One moment</small></div><div class="sbc" id="sbC"></div></section>
+<main class="sv">
+  <div class="sv-top">
+    <section class="sv-hero idle" id="hero" aria-live="polite">
+      <span class="sv-eyebrow"><i></i><span id="eb">Checking</span></span>
+      <h1 id="hT">Checking status...</h1>
+      <p id="hS">One moment while we ask every product.</p>
+      <small class="sv-time" id="hTime"></small>
+    </section>
+    <div class="sv-counts" id="counts"></div>
+  </div>
   <div id="groups"></div>
-  <p class="stn">Statuses are set by our team as game patches land. Something look wrong? Open a ticket in our Discord and we will check it right away.</p>
+  <div class="sv-note"><span>Statuses are set by our team as game patches land. Something look wrong? Open a ticket in our Discord and we will check it right away.</span><a id="rep" href="#" target="_blank" rel="noopener">Report an issue</a></div>
 </main>
-<script src="/assets/site.js?v=112"></script>
+<script src="/assets/site.js?v=1794197255"></script>
 <script>
 const catName = p => p.game === "Spoofer" ? "HWID Spoofers" : p.game;
 const LABEL = { undetected: ["Operational", "ok"], updating: ["Updating", "warn"], maintenance: ["Maintenance", "warn"], detected: ["Detected", "bad"], down: ["Down", "bad"], unknown: ["Unavailable", "idle"] };
-const ICON = { ok: '<path d="m5 12 5 5 9-10"/>', warn: '<path d="M12 3 2 20h20z"/><path d="M12 10v5M12 18h.01"/>', bad: '<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>', idle: '<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/>' };
-const svg = d => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>';
 const ago = ms => { if (!ms) return "No changes yet"; const s = Math.max(1, (Date.now() - ms) / 1000); if (s < 90) return "Updated just now"; if (s < 3600) return "Updated " + Math.round(s / 60) + " min ago"; if (s < 86400) return "Updated " + Math.round(s / 3600) + " h ago"; return "Updated " + Math.round(s / 86400) + " d ago"; };
 const SHOWN = {"perm-spoofer":1793837621949,"temp-spoofer":1793837584949,"rust-private":1793837547949,"r6-external":1793837510949,"fortnite-slotted":1793837473949,"fortnite-private":1793837436949,"arc-raiders":1793844535260}, ING = {};
-async function load() {
-  const live = await Api.status(), have = live && Object.keys(live).length > 0;
-  const groups = {}, count = { ok: 0, warn: 0, bad: 0, idle: 0 }, attention = [];
-  CONFIG.products.filter(p => !p.account).forEach(p => (groups[catName(p)] = groups[catName(p)] || []).push(p));
+document.getElementById("rep").href = CONFIG.tickets || CONFIG.discord;
+function show(live) {
+  const have = live && Object.keys(live).length > 0;
+  const groups = {}, count = { ok: 0, warn: 0, bad: 0, soon: 0 }, attention = [];
+  CONFIG.products.filter(p => !p.account).forEach(p => (groups["All products"] = groups["All products"] || []).push(p));
   document.getElementById("groups").innerHTML = Object.entries(groups).map(([g, list]) => `
-    <div class="stg"><h2>${esc(g)}</h2><span>${list.length} product${list.length === 1 ? "" : "s"}</span></div>
-    <div class="str">${list.map(p => {
-      const rec = live && live[p.slug], key = p.slug === "arc-raiders" ? "updating" : p.slug === "roblox-external" ? "down" : p.down ? "down" : (have && rec ? rec.status : "unknown"), [name, k] = LABEL[key] || LABEL.unknown;
-      count[k]++; if (k === "warn" || k === "bad") attention.push(p.name + " is " + name.toLowerCase());
-      const ps = (p.plans || []).map(x => x.p).filter(Number.isFinite), from = ps.length ? money(Math.min(...ps)) : "";
-      return `<a class="srow" href="/${p.slug}">
-        <span class="sth2">${p.img ? `<img src="${p.img}" alt="" loading="lazy">` : ""}</span>
-        <span class="sn"><b>${esc(p.name)}</b><small>${esc(p.type || "")}</small></span>
-        <span class="sbadge ${k}"><i></i>${name}</span>
-        <span class="sup">${ING[p.slug] || ago(SHOWN[p.slug] || (rec && rec.updated))}</span>
-        <span class="spr">${from ? "From " + from : ""}</span>
-        <span class="sgo">${svg('<path d="M5 12h14M13 6l6 6-6 6"/>')}</span>
+    <section class="sv-sec"><div class="sv-h"><h3>${esc(g)}</h3><span>${list.length} product${list.length === 1 ? "" : "s"}</span></div>
+    <div class="sv-grid">${list.map(p => {
+      const rec = live && live[p.slug];
+      let name, k, up, from = "";
+      if (p.soon) { name = "Coming soon"; k = "soon"; up = "Not released yet"; count.soon++; }
+      else {
+        const key = p.slug === "arc-raiders" ? "updating" : p.slug === "roblox-external" ? "down" : p.down ? "down" : (have && rec ? rec.status : "unknown");
+        [name, k] = LABEL[key] || LABEL.unknown; if (k === "ok" || k === "warn" || k === "bad") count[k]++;
+        if (k === "warn" || k === "bad") attention.push(p.name + " is " + name.toLowerCase());
+        up = ING[p.slug] || ago(SHOWN[p.slug] || (rec && rec.updated));
+        const ps = (p.plans || []).map(x => x.p).filter(Number.isFinite); from = ps.length ? money(Math.min(...ps)) : "";
+      }
+      return `<a class="sc ${k}" href="${p.soon ? "#" : "/" + p.slug}">
+        <span class="sc-i">${p.img ? `<img src="${p.img}" alt="" loading="lazy">` : ""}</span>
+        <span class="sc-b"><b>${esc(p.name)}</b><small>${esc(p.game === "Spoofer" ? "HWID Spoofer" : p.game)} · ${esc(up.replace("Updated ",""))}</small><span class="sc-pill"><i></i>${name}</span></span>
+        <span class="sc-r">${from ? "<small>From</small><b>" + from + "</b>" : ""}</span>
       </a>`;
-    }).join("")}</div>`).join("");
+    }).join("")}</div></section>`).join("");
   const bad = count.bad, warn = count.warn, ok = count.ok, k = !have ? "idle" : bad ? "bad" : warn ? "warn" : "ok";
-  const box = document.getElementById("stb"); box.className = "stb " + k;
-  document.getElementById("sbi").innerHTML = svg(ICON[k]);
-  document.getElementById("sbT").textContent = !have ? "Status is unavailable right now" : bad ? "Some products have problems" : warn ? (warn + " product" + (warn > 1 ? "s" : "") + " need attention") : "All systems operational";
-  document.getElementById("sbS").textContent = !have ? "We could not reach the status service. Try again in a minute." : (attention.length ? attention.join(" • ") : "Every product is working normally") + " • checked " + new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  document.getElementById("sbC").innerHTML = [["ok", "Operational", ok], ["warn", "Updating", warn], ["bad", "Down", bad]].map(([c, n, v]) => '<span class="' + c + '"><b>' + v + '</b>' + n + '</span>').join("");
+  document.getElementById("hero").className = "sv-hero " + k;
+  document.getElementById("eb").textContent = { ok: "Live", warn: "Heads up", bad: "Incident", idle: "Offline" }[k];
+  document.getElementById("hT").textContent = !have ? "Status unavailable" : bad ? "Some products have problems" : warn ? warn + " product" + (warn > 1 ? "s" : "") + " updating" : "All systems operational";
+  document.getElementById("hS").textContent = !have ? "We could not reach the status service. Try again in a minute." : attention.length ? attention.join(" • ") : "Every released product is working normally.";
+  document.getElementById("hTime").textContent = "Checked " + new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) + " · refreshes every minute";
+  document.getElementById("counts").innerHTML = [["ok", "Operational", ok], ["warn", "Updating", warn], ["bad", "Down", bad], ["soon", "Coming soon", count.soon]].map(([c, n, v]) => '<div class="' + c + '"><b>' + v + '</b><small>' + n + '</small></div>').join("");
 }
+async function load() { show(await Api.status()); }
 load(); setInterval(() => { if (!document.hidden) load(); }, 60000);
 </script>
 </body>

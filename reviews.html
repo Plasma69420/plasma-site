@@ -10,7 +10,7 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reviews – Strive Cheats</title>
 <meta name="description" content="Real customer vouches and proof pictures from the Strive Cheats community.">
-<meta name="theme-color" content="#1fb6ff">
+<meta name="theme-color" content="#4db5ff">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Strive Cheats">
 <meta property="og:title" content="Reviews | Strive Cheats">
@@ -30,46 +30,55 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=79">
-<link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=49">
-</head>
+<link rel="stylesheet" href="/assets/site.css?v=1794118353">
+<link rel="stylesheet" href="/assets/pages.css?v=1794118353">
+<link rel="stylesheet" href="/assets/strive.css?v=1794118353">
+<link rel="stylesheet" href="/assets/v3.css?v=1794195790"><link rel="stylesheet" href="/assets/reviews-v4.css?v=1794173862"><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&display=swap" rel="stylesheet"></head>
 <body>
-<main class="lwrap" style="padding-top:100px">
-  <div class="rvhead">
-    <h1>Customer Reviews</h1>
-    <p>Real reviews and pictures from verified buyers</p>
-    <div class="rvsum" id="sum" hidden><b id="avg"></b><div><span class="st" id="avgStars"></span><small id="cnt"></small></div></div>
-  </div>
-  <div class="rvtabs" id="tabs" hidden><button class="on" data-t="all">All reviews</button><button data-t="pics">Product pictures <span id="picCount"></span></button></div>
-  <div class="rvgrid" id="grid"></div>
-  <div class="rvgal" id="gal" hidden></div>
-  <div class="empty" id="none" hidden><b>No reviews yet</b>Bought a product? Claim the Customer role in our Discord, then run /vouch to leave the first review.</div>
+<main class="rv">
+  <aside class="rv-side">
+    <div><h1>Customer <span>reviews</span></h1><p class="s">Real reviews and pictures from verified buyers.</p></div>
+    <div class="rv-score" id="score" hidden>
+      <div class="rv-big"><b id="avg">0.0</b><span>/ 5</span></div>
+      <div class="rv-st" id="avgStars"></div>
+      <div class="rv-cnt" id="cnt"></div>
+      <div class="rv-bars" id="bars"></div>
+    </div>
+    <div class="rv-cta"><b>Bought a product?</b>Claim the Customer role in our Discord, then run /vouch to add your review.<br><a href="#" data-discord target="_blank" rel="noopener">Open Discord</a></div>
+  </aside>
+  <section class="rv-main">
+    <div class="rv-tabs" id="tabs" hidden><button class="on" data-t="all">All reviews</button><button data-t="pics">Pictures <span id="picCount"></span></button></div>
+    <div class="rv-wall" id="grid"></div>
+    <div class="rv-gal" id="gal" hidden></div>
+    <div class="rv-empty" id="none"><b>No reviews yet</b>Be the first. Claim the Customer role in our Discord, then run /vouch to leave a review.</div>
+  </section>
 </main>
-<div class="lightbox" id="lb"><img alt=""></div>
-<script src="/assets/site.js?v=112"></script>
+<div class="rv-lb" id="lb"><img alt=""></div>
+<script src="/assets/site.js?v=1794197255"></script>
 <script>
 const grid = document.getElementById("grid"), gal = document.getElementById("gal"), lb = document.getElementById("lb");
 const pic = r => CONFIG.api + r.proof;
-Api.get("/api/vouches").then(d => {
-  if (!d.total) { document.getElementById("none").hidden = false; return; }
-  const n = Math.round(d.average);
+function show(d) {
+  if (!d || !d.total) { document.getElementById("none").classList.add("on"); return; }
+  const n = Math.round(d.average), dist = [5, 4, 3, 2, 1].map(s => [s, d.reviews.filter(r => r.stars === s).length]);
   document.getElementById("avg").textContent = d.average.toFixed(1);
   document.getElementById("avgStars").textContent = "★".repeat(n) + "☆".repeat(5 - n);
-  document.getElementById("cnt").textContent = d.total + " review" + (d.total === 1 ? "" : "s");
-  document.getElementById("sum").hidden = false;
+  document.getElementById("cnt").textContent = "Based on " + d.total + " review" + (d.total === 1 ? "" : "s");
+  document.getElementById("bars").innerHTML = dist.map(([s, c]) => '<div><span>' + s + '★</span><i><u style="width:' + (d.reviews.length ? Math.round(c / d.reviews.length * 100) : 0) + '%"></u></i><em>' + c + '</em></div>').join("");
+  document.getElementById("score").hidden = false;
   const withPics = d.reviews.filter(r => r.proof);
-  grid.innerHTML = d.reviews.map(r => `<article class="rvcard">${r.proof ? `<a class="pic" data-src="${esc(pic(r))}"><img src="${esc(pic(r))}" alt="Product picture from ${esc(r.username || "a customer")}" loading="lazy"></a>` : ""}
-    <div class="bd"><div class="top"><span><span class="st">${"★".repeat(r.stars)}<span style="opacity:.3">${"★".repeat(5 - r.stars)}</span></span><span class="ver">✓ VERIFIED</span></span><span>${new Date(r.at).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })}</span></div>
-    <p>${esc(cleanMsg(r.message))}</p><div class="by"><img src="${esc(r.avatar || "https://cdn.discordapp.com/embed/avatars/0.png")}" alt="">${esc(r.username || "Customer")}</div></div></article>`).join("");
+  grid.innerHTML = d.reviews.map(r => `<article class="rc">${r.proof ? `<a class="pic" data-src="${esc(pic(r))}"><img src="${esc(pic(r))}" alt="Product picture from ${esc(r.username || "a customer")}" loading="lazy"></a>` : ""}
+    <div class="rc-b"><div class="rc-t"><span class="st">${"★".repeat(r.stars)}<span style="opacity:.3">${"★".repeat(5 - r.stars)}</span></span><small>${new Date(r.at).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })}</small></div>
+    <p>${esc(cleanMsg(r.message))}</p><div class="rc-by"><img src="${esc(r.avatar || "https://cdn.discordapp.com/embed/avatars/0.png")}" alt=""><div><b>${esc(r.username || "Customer")}</b><span>✓ VERIFIED BUYER</span></div></div></div></article>`).join("");
   gal.innerHTML = withPics.map(r => `<a data-src="${esc(pic(r))}"><img src="${esc(pic(r))}" alt="Product picture" loading="lazy"></a>`).join("");
   if (withPics.length) { document.getElementById("tabs").hidden = false; document.getElementById("picCount").textContent = "(" + withPics.length + ")"; }
-  document.getElementById("tabs").addEventListener("click", e => {
-    const b = e.target.closest("button"); if (!b) return;
-    document.querySelectorAll("#tabs button").forEach(x => x.classList.toggle("on", x === b));
-    const pics = b.dataset.t === "pics"; grid.hidden = pics; gal.hidden = !pics;
-  });
-}).catch(() => { document.getElementById("none").hidden = false; });
+}
+document.getElementById("tabs").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  document.querySelectorAll("#tabs button").forEach(x => x.classList.toggle("on", x === b));
+  const pics = b.dataset.t === "pics"; grid.hidden = pics; gal.hidden = !pics;
+});
+Api.get("/api/vouches").then(show).catch(() => { document.getElementById("none").classList.add("on"); });
 document.addEventListener("click", e => {
   const a = e.target.closest("[data-src]");
   if (a) { lb.querySelector("img").src = a.dataset.src; lb.classList.add("on"); return; }

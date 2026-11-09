@@ -10,7 +10,7 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Products – Strive Cheats</title>
 <meta name="description" content="Browse every Strive cheat and HWID spoofer. Instant delivery, live status, 24/7 Discord support.">
-<meta name="theme-color" content="#1fb6ff">
+<meta name="theme-color" content="#4db5ff">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Strive Cheats">
 <meta property="og:title" content="Products | Strive Cheats">
@@ -29,57 +29,158 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
 <link rel="icon" type="image/png" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=79">
-<link rel="stylesheet" href="/assets/pages.css?v=79">
-<link rel="stylesheet" href="/assets/strive.css?v=49">
-</head>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=1794118353">
+<link rel="stylesheet" href="/assets/pages.css?v=1794118353">
+<link rel="stylesheet" href="/assets/strive.css?v=1794118353">
+<link rel="stylesheet" href="/assets/pcards.css?v=1794176677"><link rel="stylesheet" href="/assets/v3.css?v=1794195790"><link rel="stylesheet" href="/assets/products-v5.css?v=1794195708"><link rel="stylesheet" href="/assets/globe.css?v=1794195272"></head>
 <body>
-<main class="lwrap">
-  <a class="back" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Back to home</a>
-  <div class="lh"><div><h1 id="title">All Products</h1><p id="sub">Browse everything we offer</p></div><span class="cnt" id="cnt"></span></div>
-  <div class="lbar">
-    <label class="s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.500-3.500"/></svg><input id="q" placeholder="Search products..." autocomplete="off"></label>
-    <select id="sort"><option value="pop">Most Popular</option><option value="low">Price: Low to High</option><option value="high">Price: High to Low</option><option value="name">Name</option></select>
+<main class="ap">
+  <div class="ap-hd"><span class="ap-pill"><i></i>PRODUCTS</span><h1 id="title">All <span>Products</span></h1><p id="sub">Every Strive tool in one place. Check out in under a minute and get your key instantly.</p></div>
+  <div class="ap-bar">
+    <label class="ap-q"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="Search products, games..." autocomplete="off"></label>
+    <label class="ap-dd"><small>GAME</small><select id="game"><option value="">All games</option></select></label>
+    <label class="ap-dd"><small>SORT</small><select id="sort"><option value="pop">Popular</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="name">Name</option></select></label>
   </div>
-  <div class="lgrid" id="grid"></div>
-  <div class="empty" id="none" hidden><b id="noneT">No products found</b><span id="noneS">Try a different search.</span></div>
+  <div class="ap-row">
+    <label class="ap-tg"><input type="checkbox" id="und"><i></i>Undetected only</label>
+    <span class="ap-sep"></span>
+    <div class="ap-pop" id="pop">Popular:</div>
+    <span class="ap-cnt" id="cnt"></span>
+  </div>
+  <div class="ap-help"><i><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17h.01"/></svg></i><div><b>Not sure which one?</b><span>Answer a few quick questions and we'll match you to the right product.</span></div><button id="findMine" type="button">Find mine <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+  <div class="ap-grid" id="grid"></div>
+  <div class="ap-none" id="none"><b>No products found</b><span>Try a different search or game.</span></div>
 </main>
-<script src="/assets/site.js?v=112"></script>
+<script src="/assets/site.js?v=1794197255"></script>
+<script src="/assets/pcards.js?v=1794195717"></script>
 <script>
 const catName = p => p.account ? "Fortnite Accounts" : p.game === "Spoofer" ? "HWID Spoofer" : p.game;
 const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-const cartI = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.400"/><circle cx="18" cy="20" r="1.400"/><path d="M2 3h3l2.400 12.200a1.500 1.500 0 0 0 1.500 1.200h8.700a1.500 1.500 0 0 0 1.500-1.100L21 8H6"/></svg>';
-const catSlug = new URLSearchParams(location.search).get("category");
-const cats = [...new Set([...CONFIG.products.map(catName), "Rust"])];
-const cat = catSlug ? cats.find(c => slugify(c) === catSlug) : null;
-let live = {};
-const base = CONFIG.products.filter(p => !cat || catName(p) === cat);
-document.getElementById("title").textContent = cat ? cat : "All Products";
-document.getElementById("sub").textContent = cat ? "Browse " + cat.toLowerCase() : "Browse everything we offer";
-if (cat) document.title = cat + " – Strive Cheats";
-const from = p => Math.min(...p.plans.map(x => x.p));
-function render() {
-  const q = document.getElementById("q").value.trim().toLowerCase(), sort = document.getElementById("sort").value;
-  let list = base.filter(p => (p.name + " " + p.type + " " + p.game).toLowerCase().includes(q));
-  if (sort === "low") list.sort((a, b) => from(a) - from(b));
-  else if (sort === "high") list.sort((a, b) => from(b) - from(a));
-  else if (sort === "name") list.sort((a, b) => a.name.localeCompare(b.name));
-  document.getElementById("cnt").textContent = list.length + " product" + (list.length === 1 ? "" : "s");
-  document.getElementById("none").hidden = list.length > 0;
-  if (!list.length && !base.length) { document.getElementById("noneT").textContent = (cat || "This category") + " is coming soon"; document.getElementById("noneS").innerHTML = 'Prices and keys are being finalized. <a href="' + CONFIG.discord + '" target="_blank" rel="noopener" style="text-decoration:underline">Join our Discord</a> for updates.'; }
-  document.getElementById("grid").innerHTML = list.map((p, i) => {
-    const [label, cls] = STATUS[statusOf(p, live)] || STATUS.undetected;
-    const stock = p.account ? "In Stock" : label;
-    const sc = p.account ? "ok" : (cls === "updating" ? "warn" : cls === "down" || cls === "detected" ? "bad" : "ok");
-    return `<a class="lcard" href="/${p.slug}"><div class="im">${p.img ? `<img src="${p.img}" alt="${esc(p.name)}" loading="lazy">` : ""}${i === 0 && !q && sort === "pop" ? '<span class="bdg l">Popular</span>' : ""}<span class="bdg r ${sc}">${esc(stock)}</span></div>
-      <div class="bd"><div><b>${esc(p.name)}</b><small>Starting at</small><strong>${money(from(p))}</strong></div><span class="cb">${cartI}</span></div></a>`;
-  }).join("");
+const svg = d => '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>';
+const I = { cart: svg('<circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.6 12.4a1 1 0 0 0 1 .8h9.7a1 1 0 0 0 1-.8L21 7H6"/>'), heart: svg('<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>'), ok: svg('<path d="m5 12 5 5 9-10"/>'), arrow: svg('<path d="M5 12h14M13 6l6 6-6 6"/>'), star: '<svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="m12 2 3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg>' };
+const ORDER = ["Fortnite", "Rainbow Six Siege", "Rust", "Arc Raiders", "Roblox", "HWID Spoofer", "Fortnite Accounts", "Retrac"];
+const POP = [["Fortnite", "fortnite"], ["Rust", "rust"], ["Spoofer", "hwid-spoofer"], ["Accounts", "fortnite-accounts"], ["Rainbow Six", "rainbow-six-siege"]];
+const REC = ["fortnite-private", "perm-spoofer", "r6-external"]; // highlighted picks
+const from = p => p.plans.length ? Math.min(...p.plans.map(x => x.p)) : null;
+const favs = (() => { try { return new Set(JSON.parse(localStorage.getItem("strive_favs") || "[]")); } catch { return new Set(); } })();
+const saveFavs = () => { try { localStorage.setItem("strive_favs", JSON.stringify([...favs])); } catch { } };
+let live = {}, cat = (new URLSearchParams(location.search).get("category") || "");
+const cats = ORDER.filter(c => CONFIG.products.some(p => catName(p) === c));
+if (cat && !cats.some(c => slugify(c) === cat)) cat = "";
+const gameSel = document.getElementById("game");
+gameSel.innerHTML += cats.map(c => '<option value="' + slugify(c) + '">' + esc(c) + '</option>').join(""); gameSel.value = cat;
+const popEl = document.getElementById("pop");
+popEl.innerHTML = "Popular:" + POP.filter(([, c]) => cats.some(x => slugify(x) === c)).map(([n, c]) => '<button data-c="' + c + '">' + n + '</button>').join("");
+function stat(p) {
+  if (p.soon) return ["Coming soon", "soon", false];
+  if (p.account) return ["In stock", "", true];
+  const k = statusOf(p, live), [l, c] = STATUS[k] || STATUS.undetected;
+  return [l, c === "updating" ? "warn" : (c === "down" ? "bad" : ""), k === "undetected"];
 }
-document.getElementById("q").addEventListener("input", render);
-document.getElementById("sort").addEventListener("change", render);
+function render() {
+  const q = document.getElementById("q").value.trim().toLowerCase(), sort = document.getElementById("sort").value, und = document.getElementById("und").checked;
+  let list = CONFIG.products.filter(p => (!cat || slugify(catName(p)) === cat) && (p.name + " " + p.type + " " + p.game + " " + catName(p)).toLowerCase().includes(q) && (!und || stat(p)[2]));
+  if (sort === "low") list.sort((a, b) => (from(a) ?? 1e9) - (from(b) ?? 1e9));
+  else if (sort === "high") list.sort((a, b) => (from(b) ?? -1) - (from(a) ?? -1));
+  else if (sort === "name") list.sort((a, b) => a.name.localeCompare(b.name));
+  document.getElementById("none").classList.toggle("on", !list.length);
+  document.getElementById("grid").innerHTML = list.map(p => {
+    const [label, cls] = stat(p), f = from(p), rec = REC.includes(p.slug) && !p.soon;
+    const sub = p.sub || (p.account ? "Fortnite · Full access" : p.game === "Spoofer" ? "HWID Spoofer" : p.game + " · " + p.type);
+    return '<a class="ap-c' + (rec ? " rec" : "") + (p.soon ? " soon" : "") + '" href="' + (p.soon ? "#" : "/" + p.slug) + '" data-slug="' + p.slug + '">' +
+      '<div class="ap-m">' + (p.img ? '<img src="' + p.img + '" alt="' + esc(p.name) + '" loading="lazy">' : "") + '<span class="ap-st ' + cls + '"><i></i>' + esc(label) + '</span>' + (rec ? '<span class="ap-rec">' + I.star + 'Recommended</span>' : "") + '</div>' +
+      '<div class="ap-b"><b>' + esc(p.name) + '</b><small>' + esc(sub) + '</small><hr>' +
+      '<div class="ap-f"><div class="ap-p"><small>FROM</small><b>' + (f != null ? money(f) : "TBA") + '</b></div><div class="ap-act">' +
+      (p.soon ? "" : '<button class="ap-ib" data-cart title="Add to cart">' + I.cart + '</button>') +
+      '<button class="ap-ib' + (favs.has(p.slug) ? " on" : "") + '" data-fav title="Favourite">' + I.heart + '</button>' +
+      '<span class="ap-v">View ' + I.arrow + '</span></div></div></div></a>';
+  }).join("");
+  const c = cat ? cats.find(x => slugify(x) === cat) : null;
+  popEl.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.c === cat));
+  document.getElementById("title").innerHTML = c ? esc(c) : 'All <span>Products</span>';
+  document.getElementById("cnt").innerHTML = "<b>" + list.length + "</b> product" + (list.length === 1 ? "" : "s");
+  document.getElementById("sub").textContent = c ? "Everything we offer for " + c + "." : "Every Strive tool in one place. Check out in under a minute and get your key instantly.";
+  document.title = (c ? c : "Products") + " – Strive Cheats";
+}
+const setCat = c => { cat = c; gameSel.value = c; history.replaceState(null, "", cat ? "?category=" + cat : location.pathname); render(); };
+gameSel.addEventListener("change", () => setCat(gameSel.value));
+popEl.addEventListener("click", e => { const b = e.target.closest("button"); if (b) setCat(cat === b.dataset.c ? "" : b.dataset.c); });
+document.getElementById("grid").addEventListener("click", e => {
+  const b = e.target.closest(".ap-ib"); if (!b) return;
+  e.preventDefault(); e.stopPropagation();
+  const slug = b.closest(".ap-c").dataset.slug, p = CONFIG.products.find(x => x.slug === slug);
+  if (b.hasAttribute("data-fav")) { favs.has(slug) ? favs.delete(slug) : favs.add(slug); saveFavs(); b.classList.toggle("on"); return; }
+  if (p && p.plans.length) { const i = p.plans.indexOf(p.plans.reduce((a, x) => x.p < a.p ? x : a)); Cart.add(slug, i); b.classList.add("ok"); b.innerHTML = I.ok; setTimeout(() => { b.classList.remove("ok"); b.innerHTML = I.cart; }, 1400); }
+}, true);
+["q", "sort", "und"].forEach(id => document.getElementById(id).addEventListener(id === "q" ? "input" : "change", render));
 render();
-Api.status().then(s => { live = s; render(); });
+Api.status().then(s => { live = s || {}; window.__live = live; render(); });
+</script>
+<div class="fq-back" id="fq"><div class="fq" role="dialog" aria-modal="true" aria-label="Find your product"></div></div>
+<script>
+// "Find mine": a few quick questions, then the best match from CONFIG.products
+(() => {
+  const back = document.getElementById("fq"), box = back.firstChild;
+  const live = () => (window.__live || {});
+  const usable = p => !p.soon && !p.down && p.plans && p.plans.length;
+  const gameOf = p => p.account ? "Fortnite Accounts" : p.game === "Spoofer" ? "HWID Spoofer" : p.game;
+  const games = ["Fortnite", "Rainbow Six Siege", "Rust", "Arc Raiders", "Roblox", "Retrac", "HWID Spoofer", "Fortnite Accounts"].filter(g => CONFIG.products.some(p => gameOf(p) === g && usable(p)));
+  const LABEL = { "HWID Spoofer": "Just a spoofer (I'm banned)", "Fortnite Accounts": "A Fortnite account" };
+  const Q = [
+    { k: "game", t: "What game are you looking for?", s: "Pick the one you want to play.", o: games.map(g => [g, LABEL[g] || g]) },
+    { k: "len", t: "How long do you want it for?", s: "You can always renew later.", o: [["day", "Just a day to try it"], ["week", "About a week"], ["month", "A month"], ["life", "Lifetime, one payment"]], skip: a => a.game === "Fortnite Accounts" },
+    { k: "budget", t: "How much do you want to spend?", s: "We'll stay inside your budget where we can.", o: [["15", "Under $15"], ["30", "$15 – $30"], ["60", "$30 – $60"], ["9999", "Money's not the issue"]] },
+    { k: "ban", t: "Have you been banned in this game before?", s: "If so, you'll want a spoofer too.", o: [["yes", "Yes, I've been banned"], ["no", "No, never"]], skip: a => a.game === "HWID Spoofer" || a.game === "Fortnite Accounts" }
+  ];
+  let step = 0, ans = {};
+  const lenOf = n => /life/i.test(n) ? "life" : /month|30/i.test(n) ? "month" : /week|7/i.test(n) ? "week" : /day|24|1 ?d/i.test(n) ? "day" : "";
+  const ORDERLEN = ["day", "week", "month", "life"];
+  function pick() {
+    const max = +ans.budget, cands = CONFIG.products.filter(p => gameOf(p) === ans.game && usable(p));
+    let best = null;
+    for (const p of cands) p.plans.forEach((pl, i) => {
+      const L = lenOf(pl.n), dist = ans.len ? Math.abs(ORDERLEN.indexOf(L) - ORDERLEN.indexOf(ans.len)) + (L ? 0 : 2) : 0;
+      const over = pl.p > max ? (pl.p - max) / max * 10 + 5 : 0;
+      const score = dist * 3 + over - (REC.includes(p.slug) ? 0.5 : 0) - (pl.p <= max ? pl.p / max : 0); // closest length, inside budget, then the fuller plan
+      if (!best || score < best.score) best = { p, i, pl, score, over: pl.p > max };
+    });
+    return best;
+  }
+  const ring = () => '<div class="fq-dots">' + Q.map((q, i) => '<i class="' + (i < step ? "d" : i === step ? "on" : "") + '"></i>').join("") + '</div>';
+  function show() {
+    while (step < Q.length && Q[step].skip && Q[step].skip(ans)) step++;
+    if (step >= Q.length) return result();
+    const q = Q[step];
+    box.innerHTML = '<button class="fq-x" aria-label="Close">×</button>' + ring() + '<small class="fq-n">Question ' + (Q.filter((x, i) => i <= step && !(x.skip && x.skip(ans))).length) + '</small><h3>' + q.t + '</h3><p>' + q.s + '</p><div class="fq-o">' +
+      q.o.map(([v, l]) => '<button data-v="' + esc(v) + '">' + esc(l) + '<em>›</em></button>').join("") + '</div>' + (step ? '<button class="fq-bk">‹ Back</button>' : "");
+  }
+  function result() {
+    const b = pick();
+    if (!b) { box.innerHTML = '<button class="fq-x" aria-label="Close">×</button><h3>Let\'s find it together</h3><p>We couldn\'t match that one automatically. Ask the team in Discord and they\'ll sort you out.</p><a class="fq-go" href="https://discord.gg/strivecheats" target="_blank" rel="noopener">Ask in Discord</a>'; return; }
+    const spoof = ans.ban === "yes" ? CONFIG.products.find(p => p.slug === "perm-spoofer" && usable(p)) : null;
+    box.innerHTML = '<button class="fq-x" aria-label="Close">×</button><small class="fq-n">Your match</small><h3>We recommend ' + esc(b.p.name) + '</h3>' +
+      '<div class="fq-r"><img src="' + b.p.img + '" alt=""><div><b>' + esc(b.p.name) + '</b><span>' + esc(b.pl.n) + '</span><strong>' + money(b.pl.p) + '</strong></div></div>' +
+      (b.over ? '<p class="fq-note">This is the closest fit, it\'s a little over your budget.</p>' : "") +
+      (spoof ? '<div class="fq-add"><b>Since you\'ve been banned:</b> add the <a href="#" data-open="perm-spoofer">Perm Spoofer</a> (from ' + money(Math.min(...spoof.plans.map(x => x.p))) + ') so your PC isn\'t flagged.</div>' : "") +
+      '<div class="fq-btns"><button class="fq-go" data-cart>Add to cart</button><button class="fq-sec" data-open="' + b.p.slug + '">View product</button></div><button class="fq-bk" data-restart>↺ Start over</button>';
+    box.dataset.slug = b.p.slug; box.dataset.plan = b.i;
+  }
+  const open = () => { step = 0; ans = {}; show(); back.classList.add("on"); };
+  const close = () => back.classList.remove("on");
+  box.addEventListener("click", e => {
+    const t = e.target;
+    if (t.closest(".fq-x")) return close();
+    if (t.closest("[data-restart]")) { step = 0; ans = {}; return show(); }
+    if (t.closest(".fq-bk")) { do { step--; } while (step > 0 && Q[step].skip && Q[step].skip(ans)); delete ans[Q[step].k]; return show(); }
+    const o = t.closest(".fq-o button"); if (o) { ans[Q[step].k] = o.dataset.v; step++; return show(); }
+    const op = t.closest("[data-open]"); if (op) { e.preventDefault(); close(); return window.PCards && PCards.open(op.dataset.open); }
+    const c = t.closest("[data-cart]"); if (c) { Cart.add(box.dataset.slug, +box.dataset.plan); c.textContent = "Added ✓"; c.disabled = true; }
+  });
+  back.addEventListener("click", e => { if (e.target === back) close(); });
+  addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+  document.getElementById("findMine").addEventListener("click", e => { e.preventDefault(); open(); });
+})();
 </script>
 </body>
 </html>

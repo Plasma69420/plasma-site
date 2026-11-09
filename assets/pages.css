@@ -497,7 +497,7 @@ footer small a:hover{color:#fff}
 @media (max-width:980px){.acct aside{position:static}.stats3{grid-template-columns:1fr}.dl{flex-wrap:wrap}.dl .btn{width:100%;justify-content:center}}
 
 /* ---------- footer (reference layout, Strive Cheats colours) ---------- */
-footer.foot{margin-top:56px;background:#101010;border-top:1px solid var(--line-2);position:relative;overflow:hidden}
+footer.foot{margin-top:56px;background:#0c0d0f;border-top:1px solid var(--line-2);position:relative;overflow:hidden}
 footer.foot .fglow{position:absolute;left:-60px;top:-90px;width:520px;height:220px;background:radial-gradient(ellipse at 30% 0%,rgba(var(--accent-rgb),.3),transparent 70%);pointer-events:none}
 footer.foot .wrap{display:block;text-align:left;padding:0}
 .foot .frow{position:relative;display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;padding:34px 0 26px}

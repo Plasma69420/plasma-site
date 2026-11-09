@@ -1,0 +1,45 @@
+/* Reviews page (layout v4): sticky score panel + masonry wall */
+.rv{width:min(1400px,100% - 64px);margin:0 auto;padding:100px 0 90px;color:#fff;display:grid;grid-template-columns:340px minmax(0,1fr);gap:30px;align-items:start}
+.rv-side{position:sticky;top:96px;display:flex;flex-direction:column;gap:16px}
+.rv-side h1{margin:0;font:900 30px/1.05 var(--disp,Manrope),sans-serif;letter-spacing:-.04em;text-transform:uppercase}
+.rv-side h1 span{background:linear-gradient(90deg,#4db5ff,#19d0ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rv-side p.s{margin:8px 0 0;color:#8e9aa0;font:600 14px/1.5 Manrope,sans-serif}
+.rv-score{padding:24px;border-radius:24px;background:radial-gradient(360px 200px at 0 0,rgba(77,181,255,.16),transparent 70%),#111215;border:1px solid rgba(255,255,255,.08)}
+.rv-big{display:flex;align-items:flex-end;gap:12px}
+.rv-big b{font:900 58px/1 var(--disp,Manrope),sans-serif;letter-spacing:-.05em}
+.rv-big span{padding-bottom:8px;color:#7f8b92;font:800 15px Manrope,sans-serif}
+.rv-st{margin:10px 0 4px;color:#ffc94a;font-size:20px;letter-spacing:3px}
+.rv-cnt{color:#8e9aa0;font:700 13px Manrope,sans-serif}
+.rv-bars{margin-top:18px;display:flex;flex-direction:column;gap:9px}
+.rv-bars div{display:grid;grid-template-columns:24px 1fr 30px;gap:10px;align-items:center;color:#8e9aa0;font:800 12px Manrope,sans-serif}
+.rv-bars i{display:block;height:7px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.rv-bars i u{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#4db5ff,#19d0ff);text-decoration:none}
+.rv-bars em{font-style:normal;text-align:right}
+.rv-cta{padding:20px;border-radius:20px;background:#111215;border:1px solid rgba(255,255,255,.07);color:#8e9aa0;font:600 13.5px/1.55 Manrope,sans-serif}
+.rv-cta b{display:block;margin-bottom:6px;color:#fff;font:800 15px Manrope,sans-serif}
+.rv-cta a{display:inline-flex;margin-top:12px;padding:11px 18px;border-radius:12px;background:#4db5ff;color:#061c26;font:800 13px Manrope,sans-serif;text-decoration:none}
+.rv-main{min-width:0}
+.rv-tabs{display:inline-flex;gap:4px;padding:4px;margin-bottom:18px;border-radius:14px;background:#111215;border:1px solid rgba(255,255,255,.07)}
+.rv-tabs button{padding:10px 18px;border:0;border-radius:10px;background:transparent;color:#9aa5ad;font:800 13px Manrope,sans-serif;cursor:pointer}
+.rv-tabs button.on{background:#4db5ff;color:#061c26}
+.rv-wall{columns:2;column-gap:18px}
+.rc{display:inline-block;width:100%;margin:0 0 18px;break-inside:avoid;border-radius:22px;background:#111215;border:1px solid rgba(255,255,255,.07);overflow:hidden;transition:.25s}
+.rc:hover{border-color:rgba(77,181,255,.4)}
+.rc .pic{display:block;cursor:zoom-in}.rc .pic img{display:block;width:100%;max-height:340px;object-fit:cover}
+.rc-b{padding:20px}
+.rc-t{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.rc-t .st{color:#ffc94a;letter-spacing:2px;font-size:15px}
+.rc-t small{color:#6f7b82;font:700 12px Manrope,sans-serif}
+.rc p{margin:0 0 16px;color:#e4eaee;font:600 15px/1.6 Manrope,sans-serif;word-break:break-word}
+.rc-by{display:flex;align-items:center;gap:11px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06)}
+.rc-by img{width:34px;height:34px;border-radius:50%}
+.rc-by b{display:block;font:800 14px Manrope,sans-serif}.rc-by span{display:inline-flex;align-items:center;gap:5px;color:#58e08e;font:800 11px Manrope,sans-serif;letter-spacing:.06em}
+.rv-gal{columns:3;column-gap:14px}
+.rv-gal a{display:block;margin-bottom:14px;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.07);cursor:zoom-in}
+.rv-gal img{display:block;width:100%}
+.rv-empty{display:none;flex-direction:column;align-items:center;text-align:center;padding:70px 24px;border-radius:24px;background:#111215;border:1px solid rgba(255,255,255,.07);color:#8e9aa0;font:600 15px/1.6 Manrope,sans-serif}
+.rv-empty.on{display:flex}.rv-empty b{color:#fff;font:800 22px Manrope,sans-serif;margin-bottom:8px}
+.rv-lb{position:fixed;inset:0;z-index:9999;display:none;place-items:center;padding:30px;background:rgba(3,6,12,.88);backdrop-filter:blur(8px);cursor:zoom-out}
+.rv-lb.on{display:grid}.rv-lb img{max-width:100%;max-height:100%;border-radius:14px}
+@media(max-width:1100px){.rv{grid-template-columns:1fr;width:calc(100% - 32px)}.rv-side{position:static}.rv-gal{columns:2}}
+@media(max-width:700px){.rv-wall{columns:1}.rv-gal{columns:1}}

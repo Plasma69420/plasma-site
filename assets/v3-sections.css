@@ -1,0 +1,111 @@
+/* Functions cards + FAQ (home page), dark and subtle */
+html body main .vxh{margin:0 0 34px;text-align:left;font-family:'Unbounded','Manrope',sans-serif!important;font-weight:900!important;text-transform:uppercase;letter-spacing:-.03em!important;font-size:clamp(26px,3.6vw,46px)!important;line-height:1.08!important;color:#fff}
+html body main .vxh span{background:linear-gradient(90deg,#4db5ff,#19d0ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* ---- function cards ---- */
+.vxg{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.vx{position:relative;border-radius:30px;overflow:hidden;border:1px solid rgba(255,255,255,.07);background:#141519;display:flex;flex-direction:column;transition:transform .3s,border-color .3s}
+.vx:hover{transform:translateY(-4px);border-color:rgba(77,181,255,.4)}
+.vxart{position:relative;height:230px;display:grid;place-items:center;overflow:hidden;background:
+  repeating-linear-gradient(128deg,rgba(77,181,255,0) 0 70px,rgba(77,181,255,.13) 70px 150px,rgba(77,181,255,0) 150px 230px),
+  linear-gradient(160deg,#111215,#111215 75%)}
+.vxart::after{content:"";position:absolute;inset:0;background:radial-gradient(closest-side at 50% 55%,rgba(77,181,255,.16),transparent 78%)}
+.vxart svg{position:relative;z-index:1;width:118px;height:118px;color:#f1f6ff;filter:drop-shadow(0 8px 24px rgba(0,0,0,.5))}
+.vxtx{flex:1;padding:24px 26px 28px;background:linear-gradient(180deg,rgba(11,24,46,.55),rgba(6,10,17,.95))}
+.vxtx h3{margin:0 0 12px;color:#fff;font:800 22px 'Unbounded','Manrope',sans-serif;letter-spacing:-.03em}
+.vxtx p{margin:0 0 14px;color:#8e9aa0;font:600 13.5px/1.6 Manrope,sans-serif}
+.vxtx b{display:block;margin:4px 0 8px;color:#19d0ff;font:800 13.5px Manrope,sans-serif}
+/* ---- faq ---- */
+.vxq{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:32px;align-items:start}
+.vxbig{position:relative;height:360px}
+.vxbig b{display:block;font:900 108px/.8 'Unbounded',sans-serif;letter-spacing:-.07em;color:transparent;background:linear-gradient(180deg,rgba(255,255,255,.9) 10%,rgba(255,255,255,0) 95%);-webkit-background-clip:text;background-clip:text;white-space:nowrap}
+.vxbig img{position:absolute;left:30px;bottom:10px;width:130px;filter:drop-shadow(0 14px 34px rgba(77,181,255,.4))}
+html body .vxq .fqa{display:flex;flex-direction:column;gap:12px}
+html body .vxq .fqa details{background:linear-gradient(180deg,#141519,#141519)!important;border:1px solid rgba(255,255,255,.07)!important;border-radius:22px!important;overflow:hidden;transition:border-color .25s,background .25s}
+html body .vxq .fqa details:hover{border-color:rgba(77,181,255,.3)!important}
+html body .vxq .fqa summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;grid-template-areas:"tag x" "q x";align-items:center;gap:8px 16px;padding:18px 24px}
+html body .vxq .fqa summary::-webkit-details-marker{display:none}
+html body .vxq .fqa .vft{grid-area:tag;justify-self:start;padding:4px 11px;border-radius:8px;background:rgba(77,181,255,.16);border:1px solid rgba(77,181,255,.3);color:#cfefff;font:800 11px Manrope,sans-serif;letter-spacing:.04em}
+html body .vxq .fqa .vfq{grid-area:q;color:#f2f6fc;font:800 15.5px/1.35 Manrope,sans-serif}
+html body .vxq .fqa .fqx{grid-area:x;position:relative;width:22px;height:22px;background:none!important;border:0!important}
+html body .vxq .fqa .fqx::before,html body .vxq .fqa .fqx::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:2px;margin:-1px 0 0 -7px;background:#6b7f99;border-radius:2px;transition:.2s}
+html body .vxq .fqa .fqx::after{transform:rotate(90deg)}
+html body .vxq .fqa .fqd{padding:0 24px 20px;color:#97a8bd;font:600 14px/1.6 Manrope,sans-serif}
+html body .vxq .fqa .fqd a{color:#19d0ff}
+html body .vxq .fqa details[open]{background:linear-gradient(135deg,#191b1f,#191b1f 75%)!important;border-color:rgba(77,181,255,.45)!important}
+html body .vxq .fqa details[open] .vft{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.2);color:#fff}
+html body .vxq .fqa details[open] .fqd{color:#c5d8f0}
+html body .vxq .fqa details[open] .fqx::before{transform:none!important;opacity:1!important;background:#fff}
+html body .vxq .fqa details[open] .fqx::after{opacity:0}
+@media(max-width:999px){
+  .vxg{grid-template-columns:1fr}
+  .vxq{grid-template-columns:1fr}
+  .vxbig{display:none}
+}
+/* FAQ lettering: tall condensed type with the logo floating over it */
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+.vxq{grid-template-columns:minmax(260px,350px) 1fr!important}
+.vxbig{height:420px!important;overflow:visible}
+.vxbig b{font:400 250px/.9 'Anton','Impact',sans-serif!important;letter-spacing:.01em!important;background:linear-gradient(180deg,#fff 30%,rgba(255,255,255,.55) 62%,rgba(255,255,255,0) 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important;margin-left:-4px}
+.vxbig::before{content:"";position:absolute;left:-30px;right:-30px;bottom:-30px;height:230px;background:radial-gradient(closest-side,rgba(0,0,0,.92),rgba(0,0,0,0) 80%);pointer-events:none}
+.vxbig img{width:190px!important;left:34px!important;bottom:18px!important;z-index:2;filter:drop-shadow(0 18px 34px rgba(77,181,255,.55))!important;animation:vxfloat 4.5s ease-in-out infinite}
+@keyframes vxfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@media(prefers-reduced-motion:reduce){.vxbig img{animation:none}}
+.vxbig img{bottom:105px!important;left:44px!important;width:200px!important}
+.vxbig::before{bottom:60px!important;height:260px!important}
+/* round 2: smaller FAQ lettering, logo overlapping the bottom of the letters */
+.vxq{grid-template-columns:minmax(200px,270px) 1fr!important}
+.vxbig{height:300px!important}
+.vxbig b{font-size:186px!important;margin-left:0!important}
+.vxbig::before{bottom:20px!important;height:200px!important}
+.vxbig img{width:190px!important;left:26px!important;bottom:62px!important}
+/* FAQ: smaller overall */
+html body main .vxh{font-size:clamp(22px,2.6vw,34px)!important;margin-bottom:22px!important}
+.vxq{grid-template-columns:minmax(150px,200px) 1fr!important;gap:22px!important}
+.vxbig{height:220px!important}
+.vxbig b{font-size:118px!important}
+.vxbig img{width:120px!important;left:18px!important;bottom:24px!important}
+html body .vxq .fqa{gap:9px!important}
+html body .vxq .fqa summary{padding:12px 18px!important;gap:5px 12px!important}
+html body .vxq .fqa .vft{padding:3px 9px!important;font-size:10px!important}
+html body .vxq .fqa .vfq{font-size:13.5px!important}
+html body .vxq .fqa .fqd{padding:0 18px 14px!important;font-size:13px!important}
+html body .vxq .fqa details{border-radius:16px!important}
+#faq{padding:36px 0!important}
+/* ===== games / products section ===== */
+#games{padding:70px 0 40px!important}
+#games .v2w{width:min(1400px,100% - 64px)!important;max-width:none!important}
+#games .v2hd{align-items:flex-start!important;text-align:left!important;margin-bottom:30px!important}
+#games .v2hd h2{text-align:left!important;margin-top:14px!important}
+#games .v2hd p{text-align:left!important;margin-top:8px!important;color:#8e9aa0}
+#games #cats{display:grid!important;grid-template-columns:repeat(4,1fr)!important;grid-auto-rows:clamp(150px,13vw,210px)!important;gap:20px!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
+#games #cats .catcard{position:relative!important;width:auto!important;height:auto!important;aspect-ratio:auto!important;min-height:0!important;margin:0!important;border-radius:28px!important;overflow:hidden;border:1px solid rgba(255,255,255,.09)!important;transition:transform .3s,border-color .3s,box-shadow .3s!important}
+#games #cats .catcard:first-child{grid-column:span 2;grid-row:span 2}
+#games #cats .catcard:nth-child(6),#games #cats .catcard:nth-child(7){grid-column:span 2}
+#games #cats .catcard img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;transition:transform .6s!important}
+#games #cats .catcard:nth-child(6) img,#games #cats .catcard:nth-child(7) img{object-position:62% 50%!important}
+#games #cats .catcard:hover{transform:translateY(-6px)!important;border-color:rgba(77,181,255,.7)!important;box-shadow:0 26px 60px rgba(77,181,255,.18)!important}
+#games #cats .catcard:hover img{transform:scale(1.05)!important}
+#games #cats .catcard .cmeta{position:absolute!important;left:0!important;right:0!important;bottom:0!important;z-index:3;display:flex!important;align-items:center!important;justify-content:space-between!important;padding:34px 18px 14px!important;opacity:1!important;transform:none!important;background:linear-gradient(180deg,transparent,rgba(8,10,12,.78))!important}
+#games #cats .catcard .cnt{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:999px;background:rgba(10,12,14,.72);border:1px solid rgba(255,255,255,.12);color:#e9eef2;font:700 12px Manrope,sans-serif;backdrop-filter:blur(8px)}
+#games #cats .catcard .cview{display:inline-flex;align-items:center;padding:6px 14px;border-radius:999px;background:#4db5ff;color:#0d1113;font:800 12px Manrope,sans-serif;opacity:0;transform:translateX(-6px);transition:.25s}
+#games #cats .catcard:hover .cview{opacity:1;transform:none}
+@media(max-width:999px){
+  #games #cats{grid-template-columns:repeat(2,1fr)!important;grid-auto-rows:clamp(130px,30vw,200px)!important;gap:14px!important}
+  #games #cats .catcard:first-child{grid-column:span 2;grid-row:span 1}
+  #games #cats .catcard:nth-child(6),#games #cats .catcard:nth-child(7){grid-column:span 1}
+}
+#games #cats .catcard img{object-position:100% 50%!important}
+#games #cats .catcard:nth-child(6) img,#games #cats .catcard:nth-child(7) img{object-position:70% 50%!important}
+#games .v2hd,#games .v2hd *{text-align:left!important}
+#games .v2hd{display:flex!important;flex-direction:column!important;align-items:flex-start!important}
+/* every card shows its full art (16:9), plain even grid, last row centered */
+#games #cats{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:20px!important;grid-auto-rows:auto!important}
+#games #cats .catcard,#games #cats .catcard:first-child,#games #cats .catcard:nth-child(6),#games #cats .catcard:nth-child(7){flex:0 0 calc((100% - 60px)/4)!important;width:calc((100% - 60px)/4)!important;aspect-ratio:16/9!important;height:auto!important;grid-column:auto!important;grid-row:auto!important}
+#games #cats .catcard img,#games #cats .catcard:nth-child(6) img,#games #cats .catcard:nth-child(7) img{object-fit:cover!important;object-position:50% 50%!important;width:100%!important;height:100%!important}
+@media(max-width:1250px){#games #cats .catcard,#games #cats .catcard:first-child,#games #cats .catcard:nth-child(6),#games #cats .catcard:nth-child(7){flex:0 0 calc((100% - 40px)/3)!important;width:calc((100% - 40px)/3)!important}}
+@media(max-width:760px){#games #cats .catcard,#games #cats .catcard:first-child,#games #cats .catcard:nth-child(6),#games #cats .catcard:nth-child(7){flex:0 0 100%!important;width:100%!important}}
+#games .v2hd>*{align-self:flex-start!important;margin-left:0!important;margin-right:auto!important;max-width:none!important;width:auto!important}
+/* product count only on hover */
+#games #cats .catcard .cmeta{opacity:0!important;transform:translateY(6px)!important;transition:opacity .25s,transform .25s!important}
+#games #cats .catcard:hover .cmeta{opacity:1!important;transform:none!important}
+#games #cats .catcard .cview{display:none!important}

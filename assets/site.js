@@ -3,10 +3,10 @@
 if (/.html$/.test(location.pathname)) {
   history.replaceState(null, "", (location.pathname.replace(/(\/index)?\.html$/, "") || "/") + location.search + location.hash);
 }
-(() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/assets/header.css?v=7"; document.head.appendChild(l); })();
+(() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/assets/header.css?v=1794117425"; document.head.appendChild(l); })();
 (() => { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"; document.head.appendChild(l); })();
 const CONFIG = {
-  discord: "https://discord.gg/2nmZpcrC2",
+  discord: "https://discord.gg/strivecheats",
   telegram: "https://t.me/+szYZUy4Er4EyZjkx",
   discordClientId: "1558554710384844972",
   api: "https://plasma-bot-production.up.railway.app",
@@ -18,7 +18,7 @@ const CONFIG = {
   showcaseYouTube: "",
   products: [
     {
-      slug: "fortnite-private", name: "Fortnite Private", type: "Private", game: "Fortnite", img: "/img/box-fortnite-private.webp",
+      slug: "fortnite-private", name: "Fortnite Private", type: "Private", game: "Fortnite", img: "/img/box-fortnite-private.webp", gallery: ["/img/box-fortnite-private.webp", "/img/fnpriv-menu.webp"],
       desc: "Smooth private build with a clean in-game menu.",
       features: ["ESP & visibility checks", "Smooth aim assist", "Customizable configs: visuals, aim styles & more", "Auto-updating cloud loader, no performance loss", "Fully undetected (EAC/UAC safe)", "Windows 10 & 11 (24H2/25H2), Intel & AMD", "In-game menu on the Insert key", "Active support team in our Discord"],
       details: "Strive Private is a premium Fortnite tool built to be secure, stable and silent. It has customizable configs for visuals and aim styles, an auto-updating cloud-based loader with no performance loss, and a clean in-game menu you open with the Insert key. It runs on Windows 10 and 11 (24H2/25H2) with Intel and AMD CPUs. Your key and loader are delivered after payment, and our support team is available in our Discord.",
@@ -44,7 +44,7 @@ const CONFIG = {
       plans: [{ n: "Week", p: 29.99, v: 416783, slots: 15, days: 7 }, { n: "Month", p: 69.99, v: 416784, slots: 10, days: 30 }, { n: "3 Months", p: 129.99, v: 416785, slots: 5, days: 90 }]
     },
     {
-      slug: "r6-external", name: "R6 Private", type: "Private", game: "Rainbow Six Siege", img: "/img/box-r6.webp",
+      slug: "r6-external", name: "R6 Private", type: "Private", game: "Rainbow Six Siege", img: "/img/box-r6.webp", gallery: ["/img/box-r6.webp", "/img/r6-menu.jpg"],
       desc: "External Rainbow Six Siege cheat with ESP and aim suite.",
       features: ["Smooth aim with FOV & smoothness sliders", "Player, drone & gadget ESP", "External, stream-proof rendering"],
       details: "External Rainbow Six Siege cheat with ESP and an aim suite. It runs externally with no game injection, renders stream-proof, and is delivered instantly with Discord support.",
@@ -69,7 +69,7 @@ const CONFIG = {
       plans: [{ n: "1 Day", p: 8.99, v: 419837 }, { n: "3 Day", p: 17.99, v: 419838 }, { n: "7 Day", p: 29.99, v: 419839 }, { n: "30 Day", p: 59.99, v: 419840 }]
     },
     {
-      slug: "arc-raiders", name: "Arc Raiders", type: "Private", game: "Arc Raiders", img: "/img/box-arc.webp",
+      slug: "arc-raiders", name: "Arc Raiders", type: "Private", game: "Arc Raiders", img: "/img/box-arc.webp", gallery: ["/img/box-arc.webp", "/img/arc-menu.webp"],
       desc: "Premium Arc Raiders cheat for dominating every run.",
       features: ["Smooth aim with FOV & smoothness", "Player, loot & NPC ESP", "Auto-updates with game patches"],
       details: "Premium Arc Raiders cheat for dominating every run. Smooth aim, full ESP including loot and enemy NPCs, a stream-proof overlay, and updates that follow each Arc Raiders patch.",
@@ -110,7 +110,16 @@ const CONFIG = {
       plans: [{ n: "One Time", p: 14.99, v: 416478 }, { n: "Lifetime", p: 49.99, v: 416479 }]
     },
     {
-      slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "/img/box-accounts.webp",
+      slug: "retrac-private", name: "Retrac External", type: "External", game: "Retrac", sub: "Community Project", img: "/img/box-retrac.webp?v=1794174673",
+      gallery: ["/img/box-retrac.webp", "/img/retrac-game.webp", "/img/retrac-menu.webp"],
+      desc: "Retrac External gives you the edge you need with advanced external assistance.",
+      features: ["External — no injection", "ESP: players, loot, radar", "Smooth aim assist", "Streamproof overlay", "Updates within hours", "Windows 10 / 11 (64-bit)"],
+      details: "", groups: [],
+      // SellApp product "Retrac External" (id 391658), variants 1 Week / Lifetime / Spoofer Pack
+      plans: [{ n: "1 Week", p: 11.99, v: 423776, stock: 10 }, { n: "Lifetime", p: 25.99, v: 423777, stock: 10 }, { n: "Lifetime External + Spoofer Pack", p: 44.99, v: 423778, stock: 10 }]
+    },
+    {
+      slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "/img/box-accounts.webp", gallery: ["/img/box-accounts.webp", "/img/accounts-example.png"],
       desc: "Full access Fortnite accounts with verified inventories.",
       features: ["Verified skin & item counts", "Original email full access", "Login details + recovery email"],
       details: "Hand-picked full access Fortnite accounts with verified inventories. Pick a package, pay by card at checkout, then open a ticket in our Discord with your order number to claim your account. Prefer PayPal, Cash App or Solana? Open a ticket and we will arrange it.",
@@ -320,7 +329,7 @@ const Api = {
   </div></div>
   <div class="nav-sub"><div class="nav-in2">
     <nav class="nav-links" id="navLinks">
-      ${link("/", "Home", "index")}<i class="sep"></i>${link("/products", "Products", "products")}<i class="sep"></i>${link("/status", "Status", "status")}<i class="sep"></i>${link("/reviews", "Reviews", "reviews")}<i class="sep"></i>${link("/rewards", "Rewards", "rewards")}<i class="sep"></i>${link("/affiliates", "Affiliates", "affiliates")}<i class="sep"></i>${link("/mini-games", "Mini Games", "mini-games")}<i class="sep"></i>${link(CONFIG.discord + "\" target=\"_blank\" rel=\"noopener", "Discord", "support")}
+      ${link("/", "Home", "index")}<i class="sep"></i>${link("/products", "Products", "products")}<i class="sep"></i>${link("/status", "Status", "status")}<i class="sep"></i>${link("/reviews", "Reviews", "reviews")}<i class="sep"></i>${link("#support\" data-support=\"", "Support", "support")}
     </nav>
   </div></div>
 </header>`);
@@ -417,3 +426,60 @@ addEventListener("DOMContentLoaded", revealAll);
 
 // remember a referral link (?ref=<discord id>) for 30 days, so a purchase can be matched to the person who shared it
 (() => { try { const r = new URLSearchParams(location.search).get("ref"); if (r && /^\d{5,25}$/.test(r)) localStorage.setItem("strive_ref", JSON.stringify({ id: r, t: Date.now() })); } catch { } })();
+
+
+// ---- Support popup: pick a topic, get a short answer, then join the Discord ----
+(() => {
+  const DISCORD = "https://discord.gg/strivecheats";
+  const svg = d => '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>';
+  const TOPICS = [
+    ["Which product is right for me?", svg('<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17h.01"/>'), "Tell us your game, your PC (Windows version, Intel or AMD) and whether you've been banned before. Our team will point you to the right cheat or spoofer."],
+    ["Payments & delivery", svg('<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/>'), "Keys are delivered instantly after checkout. If your key hasn't arrived or a payment didn't go through, send us your order ID and we'll sort it."],
+    ["Setup & loading help", svg('<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>'), "Stuck on install, injection or a spoofer step? Our support team can walk you through it, and AnyDesk help is available."],
+    ["Status & updates", svg('<path d="M3 12h4l3-8 4 16 3-8h4"/>'), "Check the live status page first. For update times or questions about a game patch, ask in the Discord where we post every update."],
+    ["Something else", svg('<path d="M21 12a8 8 0 0 1-11.8 7L4 20l1-5.2A8 8 0 1 1 21 12z"/>'), "Resellers, partnerships, refunds or anything else, open a ticket in our Discord and the team will get back to you fast."]
+  ];
+  const css = `.sp-back{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:16px;background:rgba(3,6,10,.72);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .2s}
+.sp-back.on{opacity:1;pointer-events:auto}
+.sp{position:relative;width:min(480px,100%);max-height:calc(100vh - 32px);overflow:auto;padding:26px;border-radius:22px;background:#0b1018;border:1px solid rgba(77,181,255,.25);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(77,181,255,.08);font-family:Manrope,sans-serif;transform:translateY(10px);transition:transform .2s}
+.sp-back.on .sp{transform:none}
+.sp-x{position:absolute;right:14px;top:14px;width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.08);background:#111824;color:#8d97a3;cursor:pointer;font:700 18px/1 Manrope,sans-serif}
+.sp-x:hover{color:#fff}
+.sp-ic{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:rgba(77,181,255,.14);border:1px solid rgba(77,181,255,.4);color:#4db5ff}
+.sp h3{margin:14px 0 4px;color:#fff;font:800 21px Manrope,sans-serif;letter-spacing:-.02em;text-transform:none}
+.sp>p{margin:0 0 16px;color:#8d97a3;font:600 13.5px/1.5 Manrope,sans-serif}
+.sp-t{display:flex;align-items:center;gap:12px;width:100%;margin-top:8px;padding:12px 14px;border-radius:14px;background:#0f1520;border:1px solid rgba(255,255,255,.07);color:#e6edf5;font:700 14px Manrope,sans-serif;text-align:left;cursor:pointer;transition:.15s}
+.sp-t:hover{border-color:rgba(77,181,255,.45);background:rgba(77,181,255,.06)}
+.sp-t i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(77,181,255,.12);color:#4db5ff;flex:none}
+.sp-t span{flex:1}.sp-t em{color:#5f6e80;font-style:normal}
+.sp-a{margin:6px 0 18px;padding:14px 16px;border-radius:14px;background:#0f1520;border:1px solid rgba(255,255,255,.07);color:#c9d3df;font:600 14px/1.6 Manrope,sans-serif}
+.sp-go{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:48px;border-radius:14px;background:linear-gradient(135deg,#4db5ff,#1a8fe0);color:#04121e;font:800 15px Manrope,sans-serif;text-decoration:none;box-shadow:0 10px 30px rgba(77,181,255,.3)}
+.sp-go svg{width:20px;height:20px}
+.sp-bk{display:block;margin:12px auto 0;background:none;border:0;color:#8d97a3;font:700 13px Manrope,sans-serif;cursor:pointer}.sp-bk:hover{color:#fff}
+.sp-ft{margin-top:14px;text-align:center;color:#5f6e80;font:700 12px Manrope,sans-serif}`;
+  document.head.insertAdjacentHTML("beforeend", "<style>" + css + "</style>");
+  const back = document.createElement("div"); back.className = "sp-back"; back.innerHTML = '<div class="sp" role="dialog" aria-modal="true" aria-label="Support"></div>'; document.body.appendChild(back);
+  const box = back.firstChild;
+  const dIcon = (typeof ICONS !== "undefined" && ICONS.discord) || "";
+  function home() {
+    box.innerHTML = '<button class="sp-x" aria-label="Close">×</button><div class="sp-ic">' + svg('<path d="M21 12a8 8 0 0 1-11.8 7L4 20l1-5.2A8 8 0 1 1 21 12z"/>') + '</div><h3>How can we help?</h3><p>Pick what your question is about.</p>' +
+      TOPICS.map((t, i) => '<button class="sp-t" data-i="' + i + '"><i>' + t[1] + '</i><span>' + t[0] + '</span><em>›</em></button>').join("") +
+      '<div class="sp-ft">Our team replies fast, 7 days a week.</div>';
+  }
+  function topic(i) {
+    const t = TOPICS[i];
+    box.innerHTML = '<button class="sp-x" aria-label="Close">×</button><div class="sp-ic">' + t[1] + '</div><h3>' + t[0] + '</h3><div class="sp-a">' + t[2] + '</div>' +
+      '<a class="sp-go" href="' + DISCORD + '" target="_blank" rel="noopener">' + dIcon + 'Join our Discord</a><button class="sp-bk">‹ Back</button>';
+  }
+  const open = () => { home(); back.classList.add("on"); };
+  const close = () => back.classList.remove("on");
+  box.addEventListener("click", e => {
+    if (e.target.closest(".sp-x")) return close();
+    if (e.target.closest(".sp-bk")) return home();
+    const t = e.target.closest(".sp-t"); if (t) topic(+t.dataset.i);
+  });
+  back.addEventListener("click", e => { if (e.target === back) close(); });
+  addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+  document.addEventListener("click", e => { const a = e.target.closest && e.target.closest("a[data-support]"); if (a) { e.preventDefault(); open(); } });
+  window.openSupport = open;
+})();
