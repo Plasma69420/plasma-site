@@ -1,0 +1,142 @@
+/* ================================================================
+   Strive Cheats — Christmas 2024
+   Loads last on every page. Uses same design language as the site.
+   ================================================================ */
+
+/* ── Background: deep winter night to match the xmas banner ── */
+:root { --bg: #05090f; }
+html body,
+html body.home { background: #05090f !important; }
+.v3h { background: #05090f !important; }
+.v3h::after { background: linear-gradient(to bottom, transparent, #05090f) !important; }
+.bgfx { background: #05090f !important; }
+
+/* Shift blobs to icy blue */
+.bgfx .top {
+  background: radial-gradient(ellipse at center,
+    rgba(40,100,220,.22),
+    rgba(20,55,160,.06) 50%,
+    transparent 70%) !important;
+}
+.bgfx .blob { background: #2060cc !important; opacity: .11 !important; }
+.bgfx .blob.b { background: #4ab8ff !important; opacity: .09 !important; }
+
+/* ── Announcement bar: glass-dark, matches the nav pill ── */
+.xmas-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 2000;
+  height: 42px;
+  background: rgba(7, 11, 20, 0.88);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font: 600 13px/1 'Manrope', sans-serif;
+  color: rgba(220,230,245,.8);
+  letter-spacing: .01em;
+}
+.xmas-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+/* Code badge — same glass pill style as the site uses */
+.xmas-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  background: rgba(77,181,255,.1);
+  border: 1px solid rgba(77,181,255,.3);
+  border-radius: 7px;
+  font: 700 13px/1 'Manrope', monospace;
+  color: #4db5ff;
+  letter-spacing: .07em;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+  white-space: nowrap;
+}
+.xmas-code:hover { background: rgba(77,181,255,.18); border-color: rgba(77,181,255,.55); }
+.xmas-code-copied { color: #3ee08f !important; border-color: rgba(62,224,143,.4) !important; background: rgba(62,224,143,.08) !important; }
+.xmas-bar .xb-dismiss {
+  position: absolute;
+  right: 14px;
+  opacity: .3;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 4px 8px;
+  transition: opacity .15s;
+}
+.xmas-bar .xb-dismiss:hover { opacity: .85; }
+
+/* Push nav down when bar is visible — high specificity to beat v3.css */
+html body.has-xmas-bar header#nav,
+html body.has-xmas-bar header.nav#nav { top: 42px !important; }
+@media (min-width: 1000px) {
+  html body.has-xmas-bar header#nav,
+  html body.has-xmas-bar header.nav#nav { top: calc(42px + 14px) !important; }
+}
+
+/* Close the 14px gap on desktop — without this, content bleeds through as a visible line */
+@media (min-width: 1000px) {
+  body.has-xmas-bar::before {
+    content: '';
+    position: fixed;
+    top: 42px;
+    left: 0;
+    right: 0;
+    height: 14px;
+    background: rgba(5, 9, 15, 0.92);
+    z-index: 1999;
+    pointer-events: none;
+  }
+}
+
+/* ── Snow: soft, varied, with blue glow ── */
+#xmas-snow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1999;
+  overflow: hidden;
+}
+.sf {
+  position: absolute;
+  top: -50px;
+  color: rgba(195, 225, 255, 0.55);
+  text-shadow: 0 0 7px rgba(80, 160, 255, 0.35);
+  animation: sf-fall linear infinite;
+  user-select: none;
+  pointer-events: none;
+  font-family: 'Segoe UI', serif;
+  line-height: 1;
+}
+.sf.lg { color: rgba(210,235,255,.45); font-size: 22px; }
+.sf.sm { color: rgba(210,235,255,.65); font-size: 9px; text-shadow: none; }
+@keyframes sf-fall {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg);              opacity: 0; }
+  7%   {                                                                    opacity: 1; }
+  88%  {                                                                    opacity: .35; }
+  100% { transform: translateY(110vh) translateX(var(--drift, 22px)) rotate(var(--spin, 400deg)); opacity: 0; }
+}
+
+/* Nav logo: original transparent logo.png kept (no content swap) */
+
+/* ── Promo dot → festive red ── */
+.pdot { background: #d44 !important; box-shadow: 0 0 10px rgba(220,68,68,.75) !important; }
+
+/* ── Promo chip text: same font/style as TRUSTED BY PLAYERS WORLDWIDE ── */
+.v3in .promo span {
+  font: 700 11px/1 'Manrope', sans-serif !important;
+  letter-spacing: .09em !important;
+  text-transform: uppercase !important;
+}

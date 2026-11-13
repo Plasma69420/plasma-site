@@ -1012,3 +1012,90 @@ body.has-annc.annc-off .nav{top:0}
 @media (min-width:1000px){.nav .nav-in{width:min(1200px,100% - 48px)!important}}
 
 @media(min-width:1000px){.foot .fgrid{grid-template-columns:1.5fr 1fr 1fr 1fr 1fr}}
+
+/* ===== checkout redesign: plan cards + buy buttons ===== */
+/* Plan grid: 2 columns */
+.lp-vars{grid-template-columns:repeat(2,1fr)}
+
+/* Plan cards: vertical layout (name top, price bottom) */
+.lp-v{
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding:16px 18px 20px;
+  min-height:106px;
+  border-radius:14px;
+  border:1.5px solid rgba(255,255,255,.07);
+  background:#0d1117;
+  gap:0;
+}
+.lp-v:hover{
+  border-color:rgba(255,255,255,.18);
+  background:#111820;
+}
+.lp-v.on{
+  border-color:#4db5ff;
+  background:#0a1521;
+  box-shadow:0 0 0 1px rgba(77,181,255,.35),0 2px 24px -6px rgba(77,181,255,.22);
+}
+.lp-v>div{width:100%}
+.lp-v b{
+  font-size:13px;
+  color:rgba(255,255,255,.58);
+  letter-spacing:.01em;
+}
+.lp-v.on b{color:rgba(255,255,255,.88)}
+.lp-v small{margin-top:5px}
+.lp-v strong{
+  font-size:22px;
+  display:block;
+  margin-top:16px;
+  color:#fff;
+}
+.lp-v .bv{
+  top:10px;
+  bottom:auto;
+  right:10px;
+  font-size:9px;
+  padding:3px 7px;
+  border-radius:6px;
+  letter-spacing:.06em;
+}
+
+/* Buy buttons: stacked, full-width, main button is bold */
+.lp-buy{
+  grid-template-columns:1fr;
+  margin-top:18px;
+  gap:9px;
+}
+.lp-buy .btn{
+  height:52px;
+  border-radius:14px;
+  font-size:14.5px;
+  font-weight:800;
+  letter-spacing:.01em;
+}
+.lp-buy .btn-main{
+  background:linear-gradient(130deg,#2a9dff,#19d0ff);
+  color:#03070e;
+  box-shadow:0 6px 26px rgba(77,181,255,.28);
+  transition:box-shadow .18s,transform .12s;
+}
+.lp-buy .btn-main:hover{
+  box-shadow:0 10px 36px rgba(77,181,255,.5);
+  transform:translateY(-1px);
+}
+.lp-buy .btn-ghost{
+  border:1.5px solid rgba(255,255,255,.12);
+  background:transparent;
+}
+.lp-buy .btn-ghost:hover{
+  background:rgba(255,255,255,.06);
+  border-color:rgba(255,255,255,.22);
+}
+
+/* Fine print: a bit more room */
+.lp-fine{margin-top:14px;font-size:12px}
+
+/* On mobile: single-column plan cards */
+@media(max-width:620px){.lp-vars{grid-template-columns:1fr}}
