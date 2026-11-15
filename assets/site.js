@@ -117,7 +117,19 @@ const CONFIG = {
       details: "", groups: [],
       // SellApp product "Retrac Private" (id 391658), variants 1 Week / Lifetime / Spoofer Pack
       plans: [{ n: "1 Week", p: 11.99, v: 423776, stock: 10 }, { n: "Lifetime", p: 25.99, v: 423777, stock: 10 }, { n: "Lifetime External + Spoofer Pack", p: 44.99, v: 423778, stock: 10 }]
-    },
+    },,
+    {
+      slug: "fortnite-ai", name: "Fortnite AI Aim", type: "AI Aimbot", game: "Fortnite", img: "/img/box-fortnite-ai.webp", gallery: ["/img/box-fortnite-ai.webp"],
+      desc: "AI-powered external aimbot for Fortnite with Rage Mode, precision FOV targeting, and smooth human-like movements.",
+      features: ["AI confidence targeting model", "Rage Mode for aggressive play", "Adjustable FOV (up to 184) and ADS tracking (up to 182)", "Smooth human-like aim movements", "External overlay — no game injection", "Fully undetected (EAC safe)", "Windows 10 & 11, Intel & AMD"],
+      details: "Fortnite AI Aim is an external AI-powered aimbot that uses a lightweight detection model to lock onto enemies without touching the game's memory. It features Rage Mode for high-aggression play, fully adjustable FOV (up to 184) and ADS targeting (up to 182), and smooth human-like aim movements that keep your behavior natural. Runs as an external overlay with no game injection — EAC safe on Windows 10 and 11 (Intel & AMD). Keys are delivered instantly after purchase.",
+      groups: [
+        ["AI Targeting", ["AI confidence detection model", "Rage Mode for high-aggression play", "Adjustable FOV up to 184", "ADS tracking up to 182", "Smooth aim — mimics human movement", "Target bone selection (head, chest)"]],
+        ["Security", ["External overlay — zero game injection", "EAC safe and regularly updated", "Stream-proof rendering"]],
+        ["System", ["Windows 10 & 11", "Intel & AMD CPUs", "Instant key delivery", "Discord support included"]]
+      ],
+      plans: [{ n: "3 Days", p: 7.00, v: null }, { n: "7 Days", p: 14.99, v: null }, { n: "30 Days", p: 25.00, v: null }, { n: "Lifetime", p: 50.00, v: null }]
+    }
     {
       slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "/img/box-accounts.webp", gallery: ["/img/box-accounts.webp", "/img/accounts-example.png"],
       desc: "Full access Fortnite accounts with verified inventories.",
