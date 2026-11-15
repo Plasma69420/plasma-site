@@ -92,7 +92,7 @@ const codeInput = document.getElementById("code"), applyBtn = document.getElemen
 const setDmsg = (t, ok) => { dmsg.hidden = !t; dmsg.textContent = t || ""; dmsg.className = "dmsg " + (ok ? "ok" : "bad"); };
 const applyCode = async () => {
   if (applied) { applied = null; codeInput.value = ""; codeInput.disabled = false; applyBtn.textContent = "Apply"; setDmsg(""); showTotals(); return; }
-  const code = codeInput.value.trim();
+  const code = codeInput.value.trim().toUpperCase();
   if (!code) return setDmsg("Enter a discount code first.", false);
   applyBtn.disabled = true;
   try {
