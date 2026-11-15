@@ -1,5 +1,5 @@
 (function () {
-  var CODE = 'Christmas25';
+  var CODE = 'CHRISTMAS25';
 
   /* ── Announcement bar ── */
   if (!sessionStorage.getItem('xb')) {
