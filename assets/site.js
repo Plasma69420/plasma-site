@@ -129,7 +129,7 @@ const CONFIG = {
         ["System", ["Windows 10 & 11", "Intel & AMD CPUs", "Instant key delivery", "Discord support included"]]
       ],
       plans: [{ n: "3 Days", p: 7.00, v: 425025 }, { n: "7 Days", p: 14.99, v: 425026 }, { n: "30 Days", p: 25.00, v: 425027 }, { n: "Lifetime", p: 50.00, v: 425028 }]
-    }
+    },
     {
       slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "/img/box-accounts.webp", gallery: ["/img/box-accounts.webp", "/img/accounts-example.png"],
       desc: "Full access Fortnite accounts with verified inventories.",
