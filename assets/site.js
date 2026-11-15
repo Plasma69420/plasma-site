@@ -117,7 +117,7 @@ const CONFIG = {
       details: "", groups: [],
       // SellApp product "Retrac Private" (id 391658), variants 1 Week / Lifetime / Spoofer Pack
       plans: [{ n: "1 Week", p: 11.99, v: 423776, stock: 10 }, { n: "Lifetime", p: 25.99, v: 423777, stock: 10 }, { n: "Lifetime External + Spoofer Pack", p: 44.99, v: 423778, stock: 10 }]
-    },,
+    },
     {
       slug: "fortnite-ai", name: "Fortnite AI Aim", type: "AI Aimbot", game: "Fortnite", img: "/img/box-fortnite-ai.webp", gallery: ["/img/box-fortnite-ai.webp"],
       desc: "AI-powered external aimbot for Fortnite with Rage Mode, precision FOV targeting, and smooth human-like movements.",
