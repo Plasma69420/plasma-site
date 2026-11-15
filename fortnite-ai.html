@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>/*sg*/(function(){try{var h=location.hostname,ok=/^(www\.)?strivecheats\.store$/.test(h)||h==='localhost'||h==='127.0.0.1'||/\.github\.io$/.test(h)&&h.indexOf('recro')<0&&false;if(!ok){document.documentElement.innerHTML='';location.replace('https://strivecheats.store/');return}if(top!==self){try{top.location=self.location}catch(e){document.documentElement.innerHTML='';location.replace('https://strivecheats.store/')}}}catch(e){}
+var bad=function(e){var t=e.target&&e.target.tagName;return!/^(INPUT|TEXTAREA|SELECT)$/.test(t||'')};
+document.addEventListener('contextmenu',function(e){if(bad(e))e.preventDefault()});
+document.addEventListener('dragstart',function(e){if(e.target&&e.target.tagName==='IMG')e.preventDefault()});
+document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();if(k==='f12'||(e.ctrlKey&&e.shiftKey&&/^[ijc]$/.test(k))||(e.ctrlKey&&(k==='u'||k==='s'))){e.preventDefault()}});})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fortnite AI Aim: External AI Aimbot | Strive Cheats</title>
+<meta name="description" content="Fortnite AI Aim from Strive Cheats. AI-powered external aimbot with Rage Mode and precision FOV targeting. Instant key delivery, from $7.00.">
+<link rel="canonical" href="https://strivecheats.store/fortnite-ai">
+<meta property="og:type" content="product"><meta property="og:site_name" content="Strive Cheats"><meta property="og:title" content="Fortnite AI Aim: External AI Aimbot | Strive Cheats"><meta property="og:description" content="Fortnite AI Aim from Strive Cheats. AI-powered external aimbot with Rage Mode and precision FOV targeting. Instant key delivery, from $7.00."><meta property="og:url" content="https://strivecheats.store/fortnite-ai"><meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Fortnite AI Aim","description":"AI-powered external aimbot for Fortnite with Rage Mode, precision FOV targeting, and smooth human-like movements.","brand":{"@type":"Brand","name":"Strive Cheats"},"image":"https://strivecheats.store/img/og.png","url":"https://strivecheats.store/fortnite-ai","offers":{"@type":"AggregateOffer","priceCurrency":"USD","lowPrice":"7.00","highPrice":"50.00","offerCount":4,"availability":"https://schema.org/InStock","url":"https://strivecheats.store/fortnite-ai"}}</script>
+<meta name="theme-color" content="#0b0b0c">
+<link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=1794118353">
+<link rel="stylesheet" href="/assets/pages.css?v=1794118353">
+<link rel="stylesheet" href="/assets/strive.css?v=1794118353">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/v3.css?v=1794261295"><link rel="stylesheet" href="/assets/xmas.css">
+</head>
+<body>
+<main class="lwrap"><a class="back" href="/products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Back to products</a><div id="root"></div></main>
+<script src="/assets/site.js?v=1794261295"></script>
+<script>
+const root = document.getElementById("root");
+const p = productBy(new URLSearchParams(location.search).get("p") || location.pathname.replace(/^\/|\/$|\.html$/g, ""));
+if (!p) {
+  root.innerHTML = `<div class="empty"><b>Product not found</b><a class="btn btn-main" style="margin-top:14px" href="/products">Browse products</a></div>`;
+} else {
+  document.title = p.name + " – Strive Cheats";
+  let want = +new URLSearchParams(location.search).get("plan") || 0;
+  try { const [s, n] = (sessionStorage.getItem("strive_plan") || "").split(":"); if (s === p.slug) want = +n || 0; sessionStorage.removeItem("strive_plan"); } catch { }
+  if (/[?&]plan=/.test(location.search)) history.replaceState(null, "", location.pathname + location.hash);
+  let plan = Math.min(Math.max(want, 0), p.plans.length - 1), qty = 1, any = false, status = p.down ? "down" : "undetected";
+  const howCard = steps => `<div class="card how">
+      <span class="hk">HOW IT WORKS</span>
+      <h3>Checkout to gameplay — under 5 minutes</h3>
+      <p>Buying ${esc(p.name)}? Exactly what happens after you click Purchase.</p>
+      <div class="hsteps">${steps.map((s, i) => `<div class="hstep"><i>${i + 1}</i><b>${s[0]}</b><p>${s[1]}</p></div>`).join("")}</div>
+      <a class="btn btn-ghost abtn2" href="${CONFIG.discord}" target="_blank" rel="noopener">${ico.headset}Need help?</a></div>`;
+  const softSteps = [["Buy your key", "Pick your plan and pay with PayPal, Cash App or Solana. About 30 seconds."], ["Get the loader", "Your key is emailed to you instantly. Grab the loader in our Discord and follow the 2-minute setup."], ["Queue and play", "Launch the game and play like normal. No sketchy accounts or extra steps."]];
+  const totalSlots = p.plans.reduce((s, x) => s + (x.slots || 0), 0);
+  let rate = null;
+  Api.get("/api/vouches").then(d => { rate = d; if (!p.account) draw(); }).catch(() => { });
+  const draw = () => {
+    const [label, cls] = STATUS[status] || STATUS.undetected;
+    const pl = p.plans[plan], unit = pl.p + (any ? p.addon.price : 0), avail = !!pl.v;
+    root.innerHTML = `
+    <div class="lp">
+      <div>${p.img ? `<div class="lp-img"><img src="${p.img}" alt="${esc(p.name)}"><span class="ct">1 / 1</span></div>` : ""}
+        ${totalSlots ? `<div class="lp-warn">Limited slots: only ${totalSlots} total across all tiers</div>` : ""}
+        <div style="margin-top:16px">${howCard(p.steps || softSteps)}</div></div>
+      <div>
+        <div class="lp-head"><h1>${esc(p.name)}</h1><div class="pr">${money(unit)}</div></div>
+        <div class="lp-rate"><span class="st">${rate && rate.total ? "★".repeat(Math.round(rate.average)) + "☆".repeat(5 - Math.round(rate.average)) : "★★★★★"}</span><span>${rate && rate.total ? rate.average.toFixed(1) : ""}</span><small>${rate && rate.total ? rate.total + " review" + (rate.total === 1 ? "" : "s") : esc(p.type) + " · " + esc(p.game)}</small></div>
+        ${p.slotNote ? `<div class="lp-warn">${esc(p.slotNote)}</div>` : ""}
+        ${p.down ? `<div class="lp-warn">This product is currently down. You can try to purchase, but it will not work until it is back online.</div>` : ""}
+        <div class="lp-vrow"><span>Choose variant</span><div class="qty"><button id="dec" aria-label="Less">−</button><span>${qty}</span><button id="inc" aria-label="More">+</button></div></div>
+        <div class="lp-vars">${p.plans.map((x, j) => `<button class="plancard lp-v${j === plan ? " on" : ""}" data-j="${j}"><div><b>${esc(x.n)}</b><small class="${x.slots ? "low" : ""}"><i></i>${x.slots ? "Limited: " + x.slots + " slots max" : (x.v ? "In stock" : "Open a ticket")}</small></div><strong>${money(x.p)}</strong>${j === p.plans.length - 1 && p.plans.length > 2 && !x.slots ? '<span class="bv">Best value</span>' : ""}</button>`).join("")}</div>
+        ${p.down ? "" : `<label class="lp-addon"><input type="checkbox" id="any" ${any ? "checked" : ""}><span><b>${CONFIG.addon.name} (Optional)</b><i>+${money(p.addon.price)}</i><small>${CONFIG.addon.desc}</small></span></label>`}
+        ${p.down
+          ? `<div class="lp-buy" style="grid-template-columns:1fr"><button class="btn btn-main" id="buyDown">Buy now</button></div>
+        <div class="lp-fine" id="fine">Currently down. Join our Discord for updates on when it is back.</div>`
+          : avail
+          ? `<div class="lp-buy"><button class="btn btn-main" id="buy">${ico.cart.replace("<svg", '<svg width="16" height="16"')}Buy Now</button><button class="btn btn-ghost" id="add">${ico.cart.replace("<svg", '<svg width="16" height="16"')}Add to Cart</button></div>
+        <div class="lp-fine" id="fine">Keys are delivered instantly after payment.</div>`
+          : `<div class="lp-buy" style="grid-template-columns:1fr"><a class="btn btn-main" href="${CONFIG.tickets}" target="_blank" rel="noopener">Open a ticket to buy</a></div>
+        <div class="lp-fine" id="fine">This plan isn't available to buy on the site yet. Open a ticket in our Discord and we'll sort you out.</div>`}
+      </div>
+    </div>
+    <div class="lp-tabs"><span>Description</span></div>
+    <div class="card lp-desc"><h3>About ${esc(p.name)}</h3><p>${esc(p.details)}</p>
+      ${p.groups ? "" : `<h4>Features</h4><ul>${p.features.map(f => `<li>${esc(f)}</li>`).join("")}</ul>`}
+      ${p.os ? `<h4>System Information</h4><ul><li>${esc(p.os)}</li></ul>` : ""}</div>
+    ${p.groups ? `<div class="fgroups" style="margin-top:16px">${p.groups.map(([t, list], gi) => `<details class="card fgroup" ${gi === 0 ? "open" : ""}><summary>${esc(t)}<em>${list.length}</em></summary><ul>${list.map(f => `<li>${ico.check}${esc(f)}</li>`).join("")}</ul></details>`).join("")}</div>` : ""}`;
+    root.querySelectorAll(".plancard").forEach(b => b.onclick = () => { plan = +b.dataset.j; draw(); });
+    root.querySelector("#dec").onclick = () => { qty = Math.max(1, qty - 1); draw(); };
+    root.querySelector("#inc").onclick = () => { qty = Math.min(10, qty + 1); draw(); };
+    if (root.querySelector("#any")) root.querySelector("#any").onchange = e => { any = e.target.checked; draw(); };
+    if (p.down) {
+      root.querySelector("#buyDown").onclick = () => { root.querySelector("#fine").innerHTML = `<b style="color:#ff8a8a">Purchase will not work.</b> ${esc(p.name)} is currently down, so it can't be bought or used right now. <a href="${CONFIG.discord}" target="_blank" rel="noopener" style="color:var(--accent-2);text-decoration:underline">Join our Discord</a> for updates.`; };
+    } else if (avail) {
+      root.querySelector("#add").onclick = () => { Cart.add(p.slug, plan, qty, any); root.querySelector("#fine").innerHTML = `Added to your cart. <a href="/cart" style="color:var(--accent-2);text-decoration:underline">View cart</a>`; };
+      root.querySelector("#buy").onclick = () => { Cart.save([{ slug: p.slug, plan, qty, any }]); location.href = "/checkout"; };
+    }
+  };
+  draw();
+  Api.status().then(s => { if (!p.down && s[p.slug]) { status = s[p.slug].status; draw(); } });
+}
+</script>
+<script src="/assets/xmas.js"></script>
+</body>
+</html>
