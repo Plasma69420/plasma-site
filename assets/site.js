@@ -119,7 +119,7 @@ const CONFIG = {
       plans: [{ n: "1 Week", p: 11.99, v: 423776, stock: 10 }, { n: "Lifetime", p: 25.99, v: 423777, stock: 10 }, { n: "Lifetime External + Spoofer Pack", p: 44.99, v: 423778, stock: 10 }]
     },
     {
-      slug: "fortnite-ai", name: "Fortnite AI Aim", type: "AI Aimbot", game: "Fortnite", img: "/img/box-fortnite-ai.webp", gallery: ["/img/box-fortnite-ai.webp"],
+      slug: "fortnite-ai", name: "Fortnite AI Aim", type: "AI Aimbot", game: "Fortnite", img: "/img/box-fortnite-ai.png", gallery: ["/img/box-fortnite-ai.png"],
       desc: "AI-powered external aimbot for Fortnite with Rage Mode, precision FOV targeting, and smooth human-like movements.",
       features: ["AI confidence targeting model", "Rage Mode for aggressive play", "Adjustable FOV (up to 184) and ADS tracking (up to 182)", "Smooth human-like aim movements", "External overlay — no game injection", "Fully undetected (EAC safe)", "Windows 10 & 11, Intel & AMD"],
       details: "Fortnite AI Aim is an external AI-powered aimbot that uses a lightweight detection model to lock onto enemies without touching the game's memory. It features Rage Mode for high-aggression play, fully adjustable FOV (up to 184) and ADS targeting (up to 182), and smooth human-like aim movements that keep your behavior natural. Runs as an external overlay with no game injection — EAC safe on Windows 10 and 11 (Intel & AMD). Keys are delivered instantly after purchase.",
