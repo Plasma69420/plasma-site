@@ -120,8 +120,7 @@ document.getElementById("methods").addEventListener("click", e => {
   method = b.dataset.m;
   document.getElementById("emailHint").textContent = method === "PAYPAL"
     ? "With PayPal, your key is sent to the email on your PayPal account."
-    : method === "CARD" ? "Your key is shown on the page right after you pay. Copy it and keep it safe." : "Your key and receipt are sent to this email.";
-  const n = document.querySelectorAll(".notes span")[1]; if (n) n.textContent = method === "CARD" ? "Card payments are processed by DebloMassi" : "Payments are processed by SellApp";
+    : "Your key and receipt are sent to this email.";
 });
 
 const msg = document.getElementById("msg"), pay = document.getElementById("pay");
