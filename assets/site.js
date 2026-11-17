@@ -134,7 +134,7 @@ const CONFIG = {
       slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "/img/box-accounts.webp", gallery: ["/img/box-accounts.webp", "/img/accounts-example.png"],
       desc: "Full access Fortnite accounts with verified inventories.",
       features: ["Verified skin & item counts", "Original email full access", "Login details + recovery email"],
-      details: "Hand-picked full access Fortnite accounts with verified inventories. Pick a package, pay by card at checkout, then open a ticket in our Discord with your order number to claim your account. Prefer PayPal, Cash App or Solana? Open a ticket and we will arrange it.",
+      details: "Hand-picked full access Fortnite accounts with verified inventories. Pick a package, then open a ticket in our Discord to pay with PayPal, Cash App or Solana and get your account.",
       groups: [
         ["Account Quality", ["Verified skin & item counts", "Original email full access", "Account age & V-Bucks listed up front"]],
         ["Delivery", ["Delivered in a ticket after purchase (include your invoice ID)", "Login credentials + recovery email", "Cross-platform compatible"]],
@@ -162,8 +162,8 @@ const FA_PACKAGES = [
   ["Rare Pickaxes", "Candy Axe", 7.99, 8], ["Rare Pickaxes", "Leviathan Axe", 19.99, 5],
   ["Rare Pickaxes", "Merry Mint Axe", 19.99, 5], ["Rare Pickaxes", "Trusty No. 2", 24.99, 4]
 ];
-// Accounts are paid by card (DebloMassi); these ids are not SellApp variants. The bot knows them (card.js: 900001+ in this same order).
-const FA_VARIANTS = FA_PACKAGES.map((_, i) => 900001 + i);
+// Accounts are sold through Discord tickets only (no on-site card checkout), so no package has a variant id.
+const FA_VARIANTS = [];
 CONFIG.products.find(p => p.slug === "fortnite-accounts").plans = FA_PACKAGES.map(([g, s, p, stock], i) => ({ n: g + " · " + s, g, s, p, stock, v: FA_VARIANTS[i] || null }));
 
 // optional add-on sold next to any product (a separate SellApp product, filled in by variant id)
