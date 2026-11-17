@@ -58,15 +58,21 @@ body.dmhome{background:var(--dm-bg);color:#fff}
 .dm-proof{display:flex;gap:26px;margin-top:38px;flex-wrap:wrap}
 .dm-proof div b{display:block;font:700 24px Urbanist}
 .dm-proof div small{color:var(--dm-mut);font-size:13px}
-.dm-stack{position:relative;height:600px}
-.dm-stack:before{content:"";position:absolute;left:50%;top:58%;width:520px;height:320px;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(31,124,255,.45),transparent);filter:blur(30px);pointer-events:none}
-.dm-stack:after{content:"";position:absolute;left:50%;bottom:52px;width:440px;height:40px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(0,0,0,.75),transparent);pointer-events:none}
-.dm-card{--w:200px;position:absolute;left:50%;bottom:70px;width:var(--w);height:calc(var(--w) * 1.51);margin-left:calc(var(--w) / -2);overflow:hidden;border-radius:6px;transform-origin:50% 120%;transform:translateX(var(--x)) translateY(var(--y)) rotate(var(--r)) scale(var(--s));transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .3s;box-shadow:0 30px 50px -14px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.08);filter:brightness(var(--b));text-decoration:none;background:#0b1626}
-.dm-card img{position:absolute;width:307.7%;height:auto;left:-95.8%;top:-7.2%;max-width:none;display:block}
-.dm-card:after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.16),transparent 38%);pointer-events:none}
-.dm-card span{position:absolute;left:50%;bottom:-34px;transform:translateX(-50%);white-space:nowrap;font:600 13px Urbanist;color:#cfe3ff;opacity:0;transition:opacity .25s,bottom .25s}
-.dm-stack:hover .dm-card{filter:brightness(.6)}
-.dm-stack .dm-card:hover{transform:translateX(var(--x)) translateY(calc(var(--y) - 26px)) rotate(var(--r)) scale(calc(var(--s) + .06));filter:brightness(1.08);z-index:30!important}
+.dm-hero{padding-bottom:0;align-items:stretch}
+.dm-hero .dm-hgrid{align-items:end}
+.dm-hero .dm-hgrid>div:first-child{padding-bottom:110px;align-self:center}
+.dm-char{position:relative;height:min(78vh,720px);min-height:520px}
+.dm-char:before{content:"";position:absolute;left:50%;top:44%;width:560px;height:560px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(77,181,255,.38),rgba(31,124,255,.14) 55%,transparent);filter:blur(10px);pointer-events:none}
+.dm-char:after{content:"";position:absolute;left:50%;top:44%;width:470px;height:470px;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(120,190,255,.18);box-shadow:0 0 0 60px rgba(120,190,255,.025),0 0 0 120px rgba(120,190,255,.015);pointer-events:none}
+.dm-char img{position:absolute;left:50%;bottom:0;height:100%;width:auto;max-width:none;transform:translateX(-50%);z-index:1;filter:hue-rotate(38deg) saturate(1.05) drop-shadow(0 0 70px rgba(77,181,255,.32));-webkit-mask:linear-gradient(180deg,#000 80%,transparent);mask:linear-gradient(180deg,#000 80%,transparent);animation:dmfloat 7s ease-in-out infinite}
+@keyframes dmfloat{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-14px)}}
+.dm-chip{position:absolute;z-index:2;display:flex;align-items:center;gap:10px;padding:11px 15px;border-radius:14px;border:1px solid rgba(160,210,255,.2);background:rgba(8,16,30,.62);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 18px 40px -16px rgba(0,0,0,.8);font:600 13.5px Urbanist,sans-serif;color:#fff;text-decoration:none;animation:dmfloat2 6s ease-in-out infinite}
+.dm-chip small{display:block;font-weight:500;font-size:11.5px;color:#8fb3d6}
+.dm-chip i{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-style:normal;background:linear-gradient(180deg,#4db5ff,#1f7cff);font-size:14px}
+.dm-chip i.g{background:rgba(53,224,138,.15);color:#35e08a}
+.dm-chip.c1{left:-2%;top:30%}
+.dm-chip.c2{right:-2%;top:58%;animation-delay:-3s}
+@keyframes dmfloat2{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .dm-logos{position:relative;border-top:1px solid var(--dm-line);border-bottom:1px solid var(--dm-line);background:rgba(255,255,255,.015);padding:26px 0;-webkit-mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 .dm-ltrk{display:flex;gap:70px;width:max-content;animation:dmscroll 34s linear infinite;align-items:center}
 .dm-logo{display:flex;align-items:center;gap:10px;font:800 26px Urbanist;color:#e9f2ff;white-space:nowrap;opacity:.88}
@@ -128,8 +134,8 @@ body.dmhome{background:var(--dm-bg);color:#fff}
 .dm-word{font:900 clamp(90px,19vw,280px)/.8 Urbanist;letter-spacing:-.04em;text-align:center;margin-top:60px;background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0) 80%);-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none}
 .dm-rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
 .dm-rv.in{opacity:1;transform:none}
-@media (max-width:980px){.dm-hgrid{grid-template-columns:1fr}.dm-stack{height:520px;margin-top:10px}.dm-games{grid-template-columns:repeat(2,1fr)}.dm-bento{grid-template-columns:1fr 1fr}.dm-t,.dm-t.w{grid-column:span 2}}
-@media (max-width:560px){.dm-hero{padding-top:120px}.dm-stack{height:430px}.dm-card{--w:150px}.dm-games{grid-template-columns:1fr}.dm-t.w .dm-split{grid-template-columns:1fr}.dm-chart,.dm-nodes{min-height:120px}.dm-sec{padding:80px 0}}
+@media (max-width:980px){.dm-hgrid{grid-template-columns:1fr}.dm-char{height:540px;min-height:0}.dm-hero .dm-hgrid>div:first-child{padding-bottom:0}.dm-games{grid-template-columns:repeat(2,1fr)}.dm-bento{grid-template-columns:1fr 1fr}.dm-t,.dm-t.w{grid-column:span 2}}
+@media (max-width:560px){.dm-hero{padding-top:120px}.dm-char{height:440px}.dm-char:before{width:380px;height:380px}.dm-char:after{width:320px;height:320px}.dm-chip.c1{left:0;top:18%}.dm-chip.c2{right:0;top:52%}.dm-games{grid-template-columns:1fr}.dm-t.w .dm-split{grid-template-columns:1fr}.dm-chart,.dm-nodes{min-height:120px}.dm-sec{padding:80px 0}}
 @media (prefers-reduced-motion:reduce){.dm-ltrk{animation:none}.dm-rv{opacity:1;transform:none}}
 </style>
 </head>
@@ -146,7 +152,7 @@ body.dmhome{background:var(--dm-bg);color:#fff}
       <div class="dm-btns"><a class="dm-b p" href="/products">Shop products <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="dm-b" data-discord href="#" target="_blank" rel="noopener">Join Discord</a></div>
       <div class="dm-proof"><div><b id="dmRate">4.9/5</b><small id="dmRateSub">Rated on Discord</small></div><div><b id="dmSold">25+</b><small>Products sold</small></div><div><b>24/7</b><small>Discord support</small></div></div>
     </div>
-    <div class="dm-stack" id="dmStack" aria-label="Products"></div>
+    <div class="dm-char" aria-hidden="false"><img src="/img/slime-v3.webp" alt="" fetchpriority="high"><a class="dm-chip c1" href="/status"><i class="g">&#9679;</i><span id="dmChipS">All operational<small>Live product status</small></span></a><a class="dm-chip c2" href="#reviews"><i>&#9733;</i><span id="dmChipR">Rated 5.0/5<small>Discord vouches</small></span></a></div>
   </div>
 </section>
 
@@ -226,16 +232,7 @@ body.dmhome{background:var(--dm-bg);color:#fff}
 <script src="/assets/pcards.js?v=1794262574"></script>
 <script>
 document.querySelectorAll("[data-discord]").forEach(function (a) { a.href = CONFIG.discord; });
-(function () {
-  var order = ["perm-spoofer", "r6-external", "fortnite-slotted", "fortnite-ai", "fortnite-private", "rust-private", "retrac-private"];
-  var list = order.map(function (s) { return CONFIG.products.find(function (p) { return p.slug === s; }); }).filter(Boolean);
-  var mid = (list.length - 1) / 2, narrow = window.innerWidth < 560;
-  document.getElementById("dmStack").innerHTML = list.map(function (p, i) {
-    var d = i - mid, a = Math.abs(d);
-    var x = d * (narrow ? 48 : 78), y = a * a * 7, r = d * 7.5, s = 1 - a * .07, b = 1 - a * .12;
-    return '<a class="dm-card" href="/' + p.slug + '" style="--x:' + x.toFixed(0) + 'px;--y:' + y.toFixed(0) + 'px;--r:' + r.toFixed(1) + 'deg;--s:' + s.toFixed(2) + ';--b:' + b.toFixed(2) + ';z-index:' + (10 - Math.round(a)) + '" aria-label="' + esc(p.name) + '"><img src="' + p.img + '" alt="" loading="eager"><span>' + esc(p.name) + '</span></a>';
-  }).join("");
-})();
+
 (function () {
   var L = [["P", "#0070e0,#003087", "PayPal"], ["$", "#00d64f,#008f35", "Cash App"], ["\u20bf", "#f7931a,#c46d00", "Bitcoin"], ["\u0141", "#4c7ad6,#2c4f9e", "Litecoin"], ["S", "#9945ff,#14f195", "Solana"], ["D", "#5865f2,#3b45c4", "Discord"], ["W", "#2a9df4,#0b5cad", "Windows 10/11"]];
   var one = L.map(function (l) { return '<span class="dm-logo"><i style="background:linear-gradient(135deg,' + l[1] + ')">' + l[0] + '</i>' + l[2] + '</span>'; }).join("");
@@ -294,7 +291,7 @@ document.getElementById("cats").addEventListener("click", e => {
 Api.status().then(function (live) {
   var k = Object.keys(live || {}).length;
   var bad = CONFIG.products.filter(function (p) { var s = statusOf(p, live); return !p.dev && (s === "detected" || s === "down"); }).length;
-  document.getElementById("dmStat").textContent = !k ? "Status unavailable" : bad ? bad + " need attention" : "All operational";
+  var t = !k ? "Status unavailable" : bad ? bad + " need attention" : "All operational"; document.getElementById("dmStat").textContent = t; document.getElementById("dmChipS").firstChild.textContent = t;
 });
 if (window.siteStats) window.siteStats.then(function (d) { if (d && d.sold != null) document.getElementById("dmSold").textContent = d.sold.toLocaleString() + "+"; });
 document.querySelectorAll("#fqa details").forEach(function (d) { d.addEventListener("toggle", function () { if (d.open) document.querySelectorAll("#fqa details").forEach(function (o) { if (o !== d) o.open = false; }); }); });
@@ -302,7 +299,7 @@ Api.get("/api/vouches").then(function (d) {
   if (d.total) {
     document.getElementById("dmRate").textContent = d.average.toFixed(1) + "/5";
     document.getElementById("dmRateSub").textContent = "from " + d.total + " Discord vouch" + (d.total === 1 ? "" : "es");
-    document.getElementById("dmBig").textContent = d.average.toFixed(1);
+    document.getElementById("dmBig").textContent = d.average.toFixed(1); document.getElementById("dmChipR").firstChild.textContent = "Rated " + d.average.toFixed(1) + "/5";
   }
   if (!d.total) { document.getElementById("rwempty").hidden = false; return; }
   var card = function (r) { return '<article class="rc"><div class="st">' + "\u2605".repeat(r.stars) + '<span style="opacity:.3">' + "\u2605".repeat(5 - r.stars) + '</span></div><p>' + esc(cleanMsg(r.message)) + '</p><small>' + esc(r.username || "Customer") + '</small></article>'; };
