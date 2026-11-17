@@ -41,7 +41,7 @@ body.dmhome{background:var(--dm-bg);color:#fff}
 .dmhome main{font-family:Urbanist,Manrope,system-ui,sans-serif;overflow:hidden}
 .dm-w{max-width:1180px;margin:0 auto;padding:0 24px;position:relative}
 .dm-glow{position:absolute;pointer-events:none;filter:blur(30px);opacity:.9}
-.dm-hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:150px 0 90px}
+.dm-hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:150px 0 90px;overflow:hidden}
 .dm-hero .dm-glow{inset:-10% -15% 0 -15%;background:radial-gradient(42% 48% at 26% 46%,rgba(31,124,255,.42),transparent 62%),radial-gradient(38% 46% at 74% 34%,rgba(77,181,255,.22),transparent 66%),radial-gradient(30% 30% at 60% 90%,rgba(31,124,255,.18),transparent 70%)}
 .dm-hgrid{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
 .dm-pill{display:inline-flex;gap:10px;align-items:center;padding:7px 14px 7px 10px;border:1px solid var(--dm-line);border-radius:999px;background:rgba(255,255,255,.04);font-size:13.5px;color:#d6e8ff;text-decoration:none;backdrop-filter:blur(8px)}
@@ -61,18 +61,9 @@ body.dmhome{background:var(--dm-bg);color:#fff}
 .dm-hero{padding-bottom:0;align-items:stretch}
 .dm-hero .dm-hgrid{align-items:end}
 .dm-hero .dm-hgrid>div:first-child{padding-bottom:110px;align-self:center}
-.dm-char{position:relative;height:min(78vh,720px);min-height:520px}
-.dm-char:before{content:"";position:absolute;left:50%;top:44%;width:560px;height:560px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(77,181,255,.38),rgba(31,124,255,.14) 55%,transparent);filter:blur(10px);pointer-events:none}
-.dm-char:after{content:"";position:absolute;left:50%;top:44%;width:470px;height:470px;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(120,190,255,.18);box-shadow:0 0 0 60px rgba(120,190,255,.025),0 0 0 120px rgba(120,190,255,.015);pointer-events:none}
-.dm-char img{position:absolute;left:50%;bottom:0;height:100%;width:auto;max-width:none;transform:translateX(-50%);z-index:1;filter:hue-rotate(38deg) saturate(1.05) drop-shadow(0 0 70px rgba(77,181,255,.32));-webkit-mask:linear-gradient(180deg,#000 80%,transparent);mask:linear-gradient(180deg,#000 80%,transparent);animation:dmfloat 7s ease-in-out infinite}
-@keyframes dmfloat{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-14px)}}
-.dm-chip{position:absolute;z-index:2;display:flex;align-items:center;gap:10px;padding:11px 15px;border-radius:14px;border:1px solid rgba(160,210,255,.2);background:rgba(8,16,30,.62);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 18px 40px -16px rgba(0,0,0,.8);font:600 13.5px Urbanist,sans-serif;color:#fff;text-decoration:none;animation:dmfloat2 6s ease-in-out infinite}
-.dm-chip small{display:block;font-weight:500;font-size:11.5px;color:#8fb3d6}
-.dm-chip i{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-style:normal;background:linear-gradient(180deg,#4db5ff,#1f7cff);font-size:14px}
-.dm-chip i.g{background:rgba(53,224,138,.15);color:#35e08a}
-.dm-chip.c1{left:-2%;top:30%}
-.dm-chip.c2{right:-2%;top:58%;animation-delay:-3s}
-@keyframes dmfloat2{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.dm-char{position:relative;height:min(80vh,740px);min-height:520px}
+.dm-char img{position:absolute;left:50%;bottom:0;height:100%;width:auto;max-width:none;transform:translateX(-50%);filter:hue-rotate(38deg) saturate(1.05) drop-shadow(0 0 60px rgba(77,181,255,.28));animation:dmfloat 7s ease-in-out infinite}
+@keyframes dmfloat{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-12px)}}
 .dm-logos{position:relative;border-top:1px solid var(--dm-line);border-bottom:1px solid var(--dm-line);background:rgba(255,255,255,.015);padding:26px 0;-webkit-mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 .dm-ltrk{display:flex;gap:70px;width:max-content;animation:dmscroll 34s linear infinite;align-items:center}
 .dm-logo{display:flex;align-items:center;gap:10px;font:800 26px Urbanist;color:#e9f2ff;white-space:nowrap;opacity:.88}
@@ -135,7 +126,7 @@ body.dmhome{background:var(--dm-bg);color:#fff}
 .dm-rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
 .dm-rv.in{opacity:1;transform:none}
 @media (max-width:980px){.dm-hgrid{grid-template-columns:1fr}.dm-char{height:540px;min-height:0}.dm-hero .dm-hgrid>div:first-child{padding-bottom:0}.dm-games{grid-template-columns:repeat(2,1fr)}.dm-bento{grid-template-columns:1fr 1fr}.dm-t,.dm-t.w{grid-column:span 2}}
-@media (max-width:560px){.dm-hero{padding-top:120px}.dm-char{height:440px}.dm-char:before{width:380px;height:380px}.dm-char:after{width:320px;height:320px}.dm-chip.c1{left:0;top:18%}.dm-chip.c2{right:0;top:52%}.dm-games{grid-template-columns:1fr}.dm-t.w .dm-split{grid-template-columns:1fr}.dm-chart,.dm-nodes{min-height:120px}.dm-sec{padding:80px 0}}
+@media (max-width:560px){.dm-hero{padding-top:120px}.dm-char{height:440px}.dm-games{grid-template-columns:1fr}.dm-t.w .dm-split{grid-template-columns:1fr}.dm-chart,.dm-nodes{min-height:120px}.dm-sec{padding:80px 0}}
 @media (prefers-reduced-motion:reduce){.dm-ltrk{animation:none}.dm-rv{opacity:1;transform:none}}
 </style>
 </head>
@@ -152,7 +143,7 @@ body.dmhome{background:var(--dm-bg);color:#fff}
       <div class="dm-btns"><a class="dm-b p" href="/products">Shop products <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="dm-b" data-discord href="#" target="_blank" rel="noopener">Join Discord</a></div>
       <div class="dm-proof"><div><b id="dmRate">4.9/5</b><small id="dmRateSub">Rated on Discord</small></div><div><b id="dmSold">25+</b><small>Products sold</small></div><div><b>24/7</b><small>Discord support</small></div></div>
     </div>
-    <div class="dm-char" aria-hidden="false"><img src="/img/slime-v3.webp" alt="" fetchpriority="high"><a class="dm-chip c1" href="/status"><i class="g">&#9679;</i><span id="dmChipS">All operational<small>Live product status</small></span></a><a class="dm-chip c2" href="#reviews"><i>&#9733;</i><span id="dmChipR">Rated 5.0/5<small>Discord vouches</small></span></a></div>
+    <div class="dm-char" aria-hidden="true"><img src="/img/slime-v3.webp" alt="" fetchpriority="high"></div>
   </div>
 </section>
 
@@ -291,7 +282,7 @@ document.getElementById("cats").addEventListener("click", e => {
 Api.status().then(function (live) {
   var k = Object.keys(live || {}).length;
   var bad = CONFIG.products.filter(function (p) { var s = statusOf(p, live); return !p.dev && (s === "detected" || s === "down"); }).length;
-  var t = !k ? "Status unavailable" : bad ? bad + " need attention" : "All operational"; document.getElementById("dmStat").textContent = t; document.getElementById("dmChipS").firstChild.textContent = t;
+  var t = !k ? "Status unavailable" : bad ? bad + " need attention" : "All operational"; document.getElementById("dmStat").textContent = t;
 });
 if (window.siteStats) window.siteStats.then(function (d) { if (d && d.sold != null) document.getElementById("dmSold").textContent = d.sold.toLocaleString() + "+"; });
 document.querySelectorAll("#fqa details").forEach(function (d) { d.addEventListener("toggle", function () { if (d.open) document.querySelectorAll("#fqa details").forEach(function (o) { if (o !== d) o.open = false; }); }); });
@@ -299,7 +290,7 @@ Api.get("/api/vouches").then(function (d) {
   if (d.total) {
     document.getElementById("dmRate").textContent = d.average.toFixed(1) + "/5";
     document.getElementById("dmRateSub").textContent = "from " + d.total + " Discord vouch" + (d.total === 1 ? "" : "es");
-    document.getElementById("dmBig").textContent = d.average.toFixed(1); document.getElementById("dmChipR").firstChild.textContent = "Rated " + d.average.toFixed(1) + "/5";
+    document.getElementById("dmBig").textContent = d.average.toFixed(1);
   }
   if (!d.total) { document.getElementById("rwempty").hidden = false; return; }
   var card = function (r) { return '<article class="rc"><div class="st">' + "\u2605".repeat(r.stars) + '<span style="opacity:.3">' + "\u2605".repeat(5 - r.stars) + '</span></div><p>' + esc(cleanMsg(r.message)) + '</p><small>' + esc(r.username || "Customer") + '</small></article>'; };
