@@ -43,7 +43,7 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
   <div id="groups"></div>
   <div class="sv-note"><span>Statuses are set by our team as game patches land. Something look wrong? Open a ticket in our Discord and we will check it right away.</span><a id="rep" href="#" target="_blank" rel="noopener">Report an issue</a></div>
 </main>
-<script src="/assets/site.js?v=1794952575708"></script>
+<script src="/assets/site.js?v=1794952864846"></script>
 <script>
 const catName = p => p.game === "Spoofer" ? "HWID Spoofers" : p.game;
 const LABEL = { undetected: ["Operational", "ok"], updating: ["Updating", "warn"], maintenance: ["Maintenance", "warn"], detected: ["Detected", "bad"], down: ["Down", "bad"], development: ["In Development", "warn"], unknown: ["Unavailable", "idle"] };
@@ -65,7 +65,7 @@ function show(live) {
         const key = p.dev ? "development" : p.down ? "down" : (have && rec ? rec.status : have && DEFAULT_STATUS[p.slug] ? DEFAULT_STATUS[p.slug] : "unknown");
         [name, k] = LABEL[key] || LABEL.unknown; if (k === "ok" || k === "warn" || k === "bad") count[k]++;
         if (k === "warn" || k === "bad") attention.push(p.name + " is " + name.toLowerCase());
-        up = ING[p.slug] || ago(Math.max(SHOWN[p.slug] || 0, (rec && rec.updated) || 0));
+        up = ING[p.slug] || (UPDATED_TEXT[p.slug] ? "Updated " + UPDATED_TEXT[p.slug] : ago(rec && rec.updated));
         const ps = (p.plans || []).map(x => x.p).filter(Number.isFinite); from = ps.length ? money(Math.min(...ps)) : "";
       }
       return `<a class="sc ${k}" href="${p.soon ? "#" : "/" + p.slug}">
