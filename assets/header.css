@@ -123,3 +123,6 @@ html body .nav .nav-sub::before{top:-2px;height:2px;background:linear-gradient(9
 html body .nav .nav-in,html body.home .nav .nav-in,html body .nav .nav-in2{width:clamp(1000px,68vw,1560px)!important;max-width:none!important;margin-left:auto!important;margin-right:auto!important;padding-left:0!important;padding-right:0!important}
 html body .nav .brand{margin-left:0!important}
 }
+
+/* 1000-1220px: the centred links overlap the wordmark, so show just the logo there */
+@media (min-width:1000px) and (max-width:1220px){html body .nav .brand .wm{display:none!important}}
