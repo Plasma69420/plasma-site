@@ -131,7 +131,7 @@ const CONFIG = {
       plans: [{ n: "3 Days", p: 7.00, v: 425025 }, { n: "7 Days", p: 14.99, v: 425026 }, { n: "30 Days", p: 25.00, v: 425027 }, { n: "Lifetime", p: 50.00, v: 425028 }]
     },
     {
-      slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, updated: "October 11", img: "/img/box-accounts.webp", gallery: ["/img/box-accounts.webp", "/img/accounts-example.png"],
+      slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, img: "/img/box-accounts.webp", gallery: ["/img/box-accounts.webp", "/img/accounts-example.png"],
       desc: "Full access Fortnite accounts with verified inventories.",
       features: ["Verified skin & item counts", "Original email full access", "Login details + recovery email"],
       details: "Hand-picked full access Fortnite accounts with verified inventories. Pick a package, then open a ticket in our Discord to pay with PayPal, Cash App or Solana and get your account.",
@@ -165,6 +165,23 @@ const FA_PACKAGES = [
 // Accounts are sold through Discord tickets only (no on-site card checkout), so no package has a variant id.
 const FA_VARIANTS = [];
 CONFIG.products.find(p => p.slug === "fortnite-accounts").plans = FA_PACKAGES.map(([g, s, p, stock], i) => ({ n: g + " · " + s, g, s, p, stock, v: FA_VARIANTS[i] || null }));
+
+// When each product was last updated (ms). Shown as "Updated X ago" on the status page and product pages; a newer time from the bot wins.
+const UPDATED_AT = {
+  "fortnite-private": 1794948900000,
+  "fortnite-slotted": 1794866100000,
+  "r6-external": 1794945300000,
+  "rust-private": 1794952500000,
+  "arc-raiders": 1794930900000,
+  "roblox-external": 1794952500000,
+  "temp-spoofer": 1794952500000,
+  "perm-spoofer": 1794952500000,
+  "retrac-private": 1794952500000,
+  "fortnite-ai": 1794952500000,
+  "fortnite-accounts": 1794952500000
+};
+const updatedAgo = ms => { if (!ms) return "No changes yet"; const m = Math.max(0, Math.floor((Date.now() - ms) / 60000)); if (m < 2) return "Updated just now"; if (m < 60) return "Updated " + m + " minutes ago"; const h = Math.floor(m / 60); if (h < 24) return "Updated " + h + (h === 1 ? " hour ago" : " hours ago"); const d = Math.floor(h / 24); return "Updated " + d + (d === 1 ? " day ago" : " days ago"); };
+CONFIG.products.forEach(p => { if (UPDATED_AT[p.slug]) p.updated = updatedAgo(UPDATED_AT[p.slug]).replace(/^Updated /, ""); });
 
 // optional add-on sold next to any product (a separate SellApp product, filled in by variant id)
 CONFIG.addon = {

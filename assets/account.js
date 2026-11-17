@@ -75,7 +75,7 @@
     main.innerHTML = `<div class="ac-sec">${head(I.cart, "My products", `Manage your purchased products. ${list.length} product${list.length === 1 ? "" : "s"}.`)}` + list.map(p => {
       const url = (CONFIG.downloads || {})[p.slug];
       return `<div class="ac-prod"><div class="ac-pt">${p.img ? `<img src="${p.img}" alt="">` : ""}<div><h3>${esc(p.name)}</h3><span class="ac-tag">${esc(p.game === "Spoofer" ? "HWID Spoofer" : p.game)}</span></div></div>
-        <div class="ac-line"><div><small>License key</small><b>Sent to your email</b><em>Shown on the payment page and emailed when your payment confirms.</em></div>${btn("/orders", "View orders", false, "ghost")}</div>
+        <div class="ac-line"><div><small>License key</small><b>Open a ticket to claim product</b><em>Open a ticket in our Discord with your order number and we will send your key.</em></div>${btn(CONFIG.tickets, "Open a ticket", true)}</div>
         <div class="ac-line"><div><small>Download</small><b>Loader for your product</b></div>${url ? btn(url, svg(I.dl, 15) + "Download", true) : btn(CONFIG.tickets, "Request download", true, "ghost")}</div>
         <div class="ac-line"><div><small>Setup guide</small><b>Get started with your product</b><em>Step by step install and troubleshooting.</em></div>${btn(GUIDE[p.slug] ? "/guides?g=" + GUIDE[p.slug] : "/guides", svg(I.book, 15) + "Open guide", false, "ghost")}</div>
         <div class="ac-line"><div><small>Review</small><b>How is your product?</b><em>Rate it with /vouch in our Discord.</em></div>${btn(CONFIG.discord, svg(I.star, 15) + "Write a review", true)}</div>
