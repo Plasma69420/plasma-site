@@ -166,22 +166,23 @@ const FA_PACKAGES = [
 const FA_VARIANTS = [];
 CONFIG.products.find(p => p.slug === "fortnite-accounts").plans = FA_PACKAGES.map(([g, s, p, stock], i) => ({ n: g + " · " + s, g, s, p, stock, v: FA_VARIANTS[i] || null }));
 
-// When each product was last updated (ms). Shown as "Updated X ago" on the status page and product pages; a newer time from the bot wins.
-const UPDATED_AT = {
-  "fortnite-private": 1794948900000,
-  "fortnite-slotted": 1794866100000,
-  "r6-external": 1794945300000,
-  "rust-private": 1794952500000,
-  "arc-raiders": 1794930900000,
-  "roblox-external": 1794952500000,
-  "temp-spoofer": 1794952500000,
-  "perm-spoofer": 1794952500000,
-  "retrac-private": 1794952500000,
-  "fortnite-ai": 1794952500000,
-  "fortnite-accounts": 1794952500000
+// Fixed "last updated" labels shown on the status page and product pages. Frozen on purpose: edit the text here to change them.
+const UPDATED_TEXT = {
+  "fortnite-private": "1 hour ago",
+  "fortnite-slotted": "1 day ago",
+  "r6-external": "2 hours ago",
+  "rust-private": "just now",
+  "arc-raiders": "6 hours ago",
+  "roblox-external": "just now",
+  "temp-spoofer": "just now",
+  "perm-spoofer": "8 hours ago",
+  "retrac-private": "7 hours ago",
+  "fortnite-ai": "just now",
+  "fortnite-accounts": "just now"
 };
+const UPDATED_AT = {};
 const updatedAgo = ms => { if (!ms) return "No changes yet"; const m = Math.max(0, Math.floor((Date.now() - ms) / 60000)); if (m < 2) return "Updated just now"; if (m < 60) return "Updated " + m + " minutes ago"; const h = Math.floor(m / 60); if (h < 24) return "Updated " + h + (h === 1 ? " hour ago" : " hours ago"); const d = Math.floor(h / 24); return "Updated " + d + (d === 1 ? " day ago" : " days ago"); };
-CONFIG.products.forEach(p => { if (UPDATED_AT[p.slug]) p.updated = updatedAgo(UPDATED_AT[p.slug]).replace(/^Updated /, ""); });
+CONFIG.products.forEach(p => { if (UPDATED_TEXT[p.slug]) p.updated = UPDATED_TEXT[p.slug]; });
 
 // optional add-on sold next to any product (a separate SellApp product, filled in by variant id)
 CONFIG.addon = {
