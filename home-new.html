@@ -167,8 +167,8 @@ body.dmhome{background:var(--dm-bg);color:#fff}
 
 <section class="dm-sec" id="games" style="padding-top:40px">
   <div class="dm-w">
-    <div class="dm-hd dm-rv"><span class="dm-tag"><i></i>Products</span><h2>Pick your game</h2><p>Every product is built for its game and kept up to date.</p></div>
-    <div class="dm-games" id="dmGames"></div>
+    <div class="dm-hd dm-rv"><span class="dm-tag"><i></i>Products</span><h2>Premium Gaming Products</h2><p>Explore our products, built for your satisfaction.</p></div>
+    <div class="cats" id="cats"></div>
     <p class="dm-more dm-rv">Not sure which one is right for you?<a href="/products">See all products</a></p>
   </div>
 </section>
@@ -223,6 +223,7 @@ body.dmhome{background:var(--dm-bg);color:#fff}
 </section>
 </main>
 <script src="/assets/site.js?v=1794771997"></script>
+<script src="/assets/pcards.js?v=1794262574"></script>
 <script>
 document.querySelectorAll("[data-discord]").forEach(function (a) { a.href = CONFIG.discord; });
 (function () {
@@ -243,25 +244,53 @@ document.querySelectorAll("[data-discord]").forEach(function (a) { a.href = CONF
   var s = S.map(function (x) { return "<span>" + x + "</span>"; }).join("");
   document.getElementById("dmStrip").innerHTML = s + s + s + s;
 })();
-(function () {
-  var G = [
-    ["Fortnite", "/img/icons/f.png", 1, ["fortnite-private", "fortnite-slotted", "fortnite-ai"], "/products?category=fortnite", "Private, Slotted and the new AI Aim."],
-    ["Rainbow Six", "/img/icons/six.png", 1, ["r6-external"], "/r6-external", null],
-    ["Rust", "/img/blue/rust-blue.png", 0, ["rust-private"], "/rust-private", null],
-    ["Arc Raiders", "/img/blue/arc-blue.png", 0, ["arc-raiders"], "/arc-raiders", null],
-    ["Retrac", "/img/icons/duck.png", 1, ["retrac-private"], "/retrac-private", null],
-    ["HWID Spoofers", "/img/icons/chip.png", 1, ["temp-spoofer", "perm-spoofer"], "/products?category=hwid-spoofer", "Temp and Perm spoofers to get you back in after a ban."],
-    ["Fortnite Accounts", "/img/blue/accounts-blue.png", 0, ["fortnite-accounts"], "/fortnite-accounts", null],
-    ["Roblox", "/img/blue/roblox-blue.png", 0, ["roblox-external"], "/roblox-external", null]
-  ];
-  document.getElementById("dmGames").innerHTML = G.map(function (g) {
-    var ps = CONFIG.products.filter(function (p) { return g[3].indexOf(p.slug) >= 0; });
-    var prices = []; ps.forEach(function (p) { p.plans.forEach(function (x) { if (Number.isFinite(x.p)) prices.push(x.p); }); });
-    var soon = ps.every(function (p) { return p.dev || p.down || p.soon; });
-    var desc = g[5] || (ps[0] && ps[0].desc) || "";
-    return '<a class="dm-g dm-rv' + (soon ? " soon" : "") + '" href="' + g[4] + '"><span class="gi"><img class="' + (g[2] ? "ic" : "") + '" src="' + g[1] + '" alt=""></span><h3>' + esc(g[0]) + '</h3><p>' + esc(desc) + '</p><span class="go">' + (soon ? "In development" : prices.length ? "From " + money(Math.min.apply(null, prices)) : "Open a ticket") + '<em>' + (soon ? "" : "View \u2192") + '</em></span></a>';
-  }).join("");
-})();
+// ---- categories ----
+const catName = p => p.account ? "Fortnite Accounts" : p.game === "Spoofer" ? "HWID Spoofer" : p.game;
+const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const Wf = 'fill="#eef1f3"';
+const ICON = {
+  duck: '<svg viewBox="0 0 64 64"><path ' + Wf + ' d="M38 10c-6.6 0-12 5.4-12 12 0 2.4.7 4.6 1.9 6.5C21.6 29 14 30.6 9 26c-1 6 0 12 4 17 4.2 5.2 10.5 8 17.5 8C42.6 51 52 43.6 52 33c0-4.6-1.7-8.4-4.4-11.2.3-1.2.4-2.4.4-3.8 0-.6 0-1.2-.1-1.8L56 14l-8.6-1.4C45.3 11 41.8 10 38 10Zm2 7a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z"/></svg>',
+  six: '<svg viewBox="0 0 64 64"><path ' + Wf + ' d="M22 6h20v12H34v8h6c6.6 0 10 4 10 10v12c0 6-4 10-10 10H24c-6 0-10-4-10-10V18C14 10 17 6 22 6Zm6 30v10h8v-6h-3v-4Z"/><path fill="#0d1114" d="M30 38h9v3h-3v6h-3v-4h-3z"/></svg>',
+  chip: '<svg viewBox="0 0 64 64"><g fill="none" stroke="#eef1f3" stroke-width="4" stroke-linecap="round"><rect x="12" y="12" width="32" height="32" rx="9"/><path d="M22 6v6M30 6v6M38 6v6M6 22h6M6 30h6M6 38h6"/></g><circle cx="44" cy="44" r="13" fill="#eef1f3"/><circle cx="44" cy="44" r="5" fill="#0d1114"/><g stroke="#eef1f3" stroke-width="5"><path d="M44 27v5M44 56v5M27 44h5M56 44h5"/></g></svg>',
+  f: '<svg viewBox="0 0 64 64"><path ' + Wf + ' d="M21 6h24v12H34v9h10v11H34v17l-13 4z"/></svg>',
+  rust: '<svg viewBox="0 0 64 64"><path ' + Wf + ' d="M8 8h48v48H8zm8 8v14h14V16zm18 18v14h14V34zM34 16v8h8v6h6V16z"/></svg>',
+  arc: '<svg viewBox="0 0 64 64"><path ' + Wf + ' d="M6 10h8l14 44h-8zM20 10h8l14 44h-8zM34 10h8l14 44h-8z"/></svg>',
+  roblox: '<svg viewBox="0 0 64 64"><path ' + Wf + ' d="M16 6 58 16 48 58 6 48zm10 18-3 13 13 3 3-13z"/></svg>',
+  user: '<svg viewBox="0 0 64 64"><circle cx="32" cy="22" r="12" ' + Wf + '/><path ' + Wf + ' d="M10 56c0-12 10-20 22-20s22 8 22 20z"/></svg>'
+};
+const arrowI = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+// [category, title, subtitle, art, blue art?, icon, product slug (card links to that product instead of the category)]
+const CARDS = [
+  ["Fortnite", "Fortnite Private", "Epic Games", "/img/blue/fnpriv-blue.png", 1, "f", "fortnite-private"],
+  ["Fortnite", "Fortnite Slotted", "Epic Games", "/img/blue/fnslot-blue.png", 1, "f", "fortnite-slotted"],
+  ["Rainbow Six Siege", "Rainbow Six", "Ubisoft", "/img/blue/operator-blue.png", 1, "six"],
+  ["HWID Spoofer", "HWID Spoofer", "Temp & Perm", "/img/blue/motherboard-blue.png", 1, "chip"],
+  ["Rust", "Rust", "Facepunch", "/img/blue/rust-blue.png", 1, "rust"],
+  ["Fortnite Accounts", "FN Accounts", "Full access", "/img/blue/accounts-blue.png", 1, "f"],
+  ["Roblox", "Roblox", "Roblox Corp", "/img/blue/roblox-blue.png", 1, "roblox"],
+  ["Arc Raiders", "Arc Raiders", "Embark Studios", "/img/blue/arc-blue.png", 1, "arc"],
+  ["Retrac", "Retrac", "Community Project", "/img/blue/retrac-blue.png", 1, "duck"]
+];
+// the real icon files where we have them, drawn ones for the rest
+const ICON_IMG = { six: 1, duck: 1, chip: 1, f: 1 };
+const v = Date.now() % 1e6;
+document.getElementById("cats").classList.add("bcg");
+document.getElementById("cats").innerHTML = CARDS.map(([c, t, s, art, blue, ic, slug]) => {
+  const ps = CONFIG.products.filter(p => slug ? p.slug === slug : catName(p) === c).flatMap(p => p.plans.map(x => x.p));
+  const price = ps.length ? "<small>From</small>" + money(Math.min(...ps)) : "SOON";
+  return '<a class="bc' + (blue ? "" : " cat") + '" href="' + (slug ? "/" + slug : "/products?category=" + slugify(c)) + '"><img src="' + art + '?v=' + v + '" alt="' + esc(c) + '" loading="lazy"><div class="bc-p"><div class="bc-r"><span class="bc-i' + (ICON_IMG[ic] ? " real" : "") + '">' + (ICON_IMG[ic] ? '<img src="/img/icons/' + ic + '.png" alt="">' : ICON[ic]) + '</span><span class="bc-t"><b>' + esc(t) + '</b><small>' + esc(s) + '</small></span></div><div class="bc-f"><span class="bc-pr">' + price + '</span><span class="bc-a">' + arrowI + '</span></div></div></a>';
+}).join("");
+
+// cards open the product popup (single-product cards); multi-product cards keep their link
+document.getElementById("cats").addEventListener("click", e => {
+  const a = e.target.closest("a.bc"); if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+  const card = CARDS[[...a.parentNode.children].indexOf(a)]; if (!card) return;
+  const list = CONFIG.products.filter(p => card[6] ? p.slug === card[6] : catName(p) === card[0]);
+  if (list.length !== 1) return;
+  e.preventDefault();
+  if (list[0].soon) return;
+  location.href = "/" + list[0].slug;
+});
 Api.status().then(function (live) {
   var k = Object.keys(live || {}).length;
   var bad = CONFIG.products.filter(function (p) { var s = statusOf(p, live); return !p.dev && (s === "detected" || s === "down"); }).length;
@@ -287,8 +316,7 @@ Api.get("/api/vouches").then(function (d) {
   if (!("IntersectionObserver" in window)) { els.forEach(function (e) { e.classList.add("in"); }); return; }
   var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { threshold: .12 });
   els.forEach(function (e) { io.observe(e); });
-  setTimeout(function () { document.querySelectorAll(".dm-games .dm-rv").forEach(function (e) { io.observe(e); }); }, 0);
-})();
+  })();
 </script>
 <script src="/assets/globe.js?v=1794195434"></script>
 <script src="/assets/xmas.js"></script>
