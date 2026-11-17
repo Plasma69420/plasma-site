@@ -125,4 +125,4 @@ html body .nav .brand{margin-left:0!important}
 }
 
 /* 1000-1220px: the centred links overlap the wordmark, so show just the logo there */
-@media (min-width:1000px) and (max-width:1220px){html body .nav .brand .wm{display:none!important}}
+@media (min-width:1000px) and (max-width:1220px){html body .nav .brand .wm{display:none!important}html body header.nav#nav .nav-links a{padding-left:10px!important;padding-right:10px!important}}
