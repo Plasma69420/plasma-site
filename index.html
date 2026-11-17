@@ -37,7 +37,8 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
 <style>
 :root{--dm-bg:#02050a;--dm-acc:#4db5ff;--dm-acc2:#1f7cff;--dm-card:rgba(10,18,30,.72);--dm-line:rgba(120,175,255,.13);--dm-mut:#8d9bb0}
 body.dmhome{background:var(--dm-bg);color:#fff}
-.dmhome main{font-family:Urbanist,Manrope,system-ui,sans-serif;overflow:hidden}
+.dmhome main{font-family:Urbanist,Manrope,system-ui,sans-serif;overflow:hidden;overflow:clip}
+.dm-hero,.dm-logos,.dm-strip,.dm-cta{overflow:hidden;overflow:clip}
 .dm-w{max-width:1240px;margin:0 auto;padding:0 clamp(20px,3vw,48px);position:relative}
 .dm-hero .dm-w{max-width:1680px;width:100%}
 .dm-glow{position:absolute;pointer-events:none;filter:blur(30px);opacity:.9}
