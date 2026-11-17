@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <script>/*sg*/(function(){try{var h=location.hostname,ok=/^(www\.)?strivecheats\.store$/.test(h)||h==='localhost'||h==='127.0.0.1'||/\.github\.io$/.test(h)&&h.indexOf('recro')<0&&false;if(!ok){document.documentElement.innerHTML='';location.replace('https://strivecheats.store/');return}if(top!==self){try{top.location=self.location}catch(e){document.documentElement.innerHTML='';location.replace('https://strivecheats.store/')}}}catch(e){}
@@ -43,12 +43,13 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
   <div id="groups"></div>
   <div class="sv-note"><span>Statuses are set by our team as game patches land. Something look wrong? Open a ticket in our Discord and we will check it right away.</span><a id="rep" href="#" target="_blank" rel="noopener">Report an issue</a></div>
 </main>
-<script src="/assets/site.js?v=1794261295"></script>
+<script src="/assets/site.js?v=1794952575708"></script>
 <script>
 const catName = p => p.game === "Spoofer" ? "HWID Spoofers" : p.game;
 const LABEL = { undetected: ["Operational", "ok"], updating: ["Updating", "warn"], maintenance: ["Maintenance", "warn"], detected: ["Detected", "bad"], down: ["Down", "bad"], development: ["In Development", "warn"], unknown: ["Unavailable", "idle"] };
-const ago = ms => { if (!ms) return "No changes yet"; const d = new Date(ms), n = new Date(); const days = Math.round((new Date(n.toDateString()) - new Date(d.toDateString())) / 864e5); return days <= 0 ? "Updated today" : days === 1 ? "Updated yesterday" : "Updated " + days + " days ago"; };
-const SHOWN = {}, ING = {"roblox-external": "In development"};
+const ago = updatedAgo;
+const SHOWN = UPDATED_AT, ING = {"roblox-external": "In development"};
+const DEFAULT_STATUS = {"fortnite-ai": "undetected"};
 document.getElementById("rep").href = CONFIG.tickets || CONFIG.discord;
 function show(live) {
   const have = live && Object.keys(live).length > 0;
@@ -61,10 +62,10 @@ function show(live) {
       let name, k, up, from = "";
       if (p.soon) { name = "Coming soon"; k = "soon"; up = "Not released yet"; count.soon++; }
       else {
-        const key = p.dev ? "development" : p.down ? "down" : (have && rec ? rec.status : "unknown");
+        const key = p.dev ? "development" : p.down ? "down" : (have && rec ? rec.status : have && DEFAULT_STATUS[p.slug] ? DEFAULT_STATUS[p.slug] : "unknown");
         [name, k] = LABEL[key] || LABEL.unknown; if (k === "ok" || k === "warn" || k === "bad") count[k]++;
         if (k === "warn" || k === "bad") attention.push(p.name + " is " + name.toLowerCase());
-        up = ING[p.slug] || ago(SHOWN[p.slug] || (rec && rec.updated));
+        up = ING[p.slug] || ago(Math.max(SHOWN[p.slug] || 0, (rec && rec.updated) || 0));
         const ps = (p.plans || []).map(x => x.p).filter(Number.isFinite); from = ps.length ? money(Math.min(...ps)) : "";
       }
       return `<a class="sc ${k}" href="${p.soon ? "#" : "/" + p.slug}">
@@ -77,7 +78,7 @@ function show(live) {
   document.getElementById("hero").className = "sv-hero " + k;
   document.getElementById("eb").textContent = { ok: "Live", warn: "Heads up", bad: "Incident", idle: "Offline" }[k];
   document.getElementById("hT").textContent = !have ? "Status unavailable" : bad ? "Some products have problems" : warn ? warn + " product" + (warn > 1 ? "s" : "") + " updating" : "All products updated";
-  document.getElementById("hS").textContent = !have ? "We could not reach the status service. Try again in a minute." : warn || bad ? attention.join(" • ") : "Every product was updated today" + (devN ? " · " + CONFIG.products.filter(p => p.dev).map(p => p.name).join(", ") + " is in development" : "") + ".";
+  document.getElementById("hS").textContent = !have ? "We could not reach the status service. Try again in a minute." : warn || bad ? attention.join(" • ") : "Every product is up to date" + (devN ? " · " + CONFIG.products.filter(p => p.dev).map(p => p.name).join(", ") + " is in development" : "") + ".";
   document.getElementById("hTime").textContent = "Checked " + new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) + " · refreshes every minute";
   document.getElementById("counts").innerHTML = [["ok", "Operational", ok], ["warn", "Updating", warn], ["bad", "Down", bad], devN && !count.soon ? ["soon", "In development", devN] : ["soon", "Coming soon", count.soon]].map(([c, n, v]) => '<div class="' + c + '"><b>' + v + '</b><small>' + n + '</small></div>').join("");
 }
