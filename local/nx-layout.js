@@ -155,7 +155,20 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
   // ---- /products: Fortnite AI Aim is the highlighted Fortnite pick ("Most Undetected") instead of Fortnite Private.
   // The page draws its grid itself (and again on every filter), so the badge is moved after each draw.
   if (seg === "products") {
+    // a game picked (?category=… or the Game filter): that game's scene behind the top, like the product pages
+    const CAT_BG = { "fortnite": "fortnite", "fortnite-accounts": "fortnite", "retrac": "fortnite", "rainbow-six-siege": "r6", "rust": "rust", "call-of-duty": "cod", "valorant": "valorant" };
+    let lastBg = null;
+    const catBg = () => {
+      const sel = document.getElementById("game"), key = CAT_BG[sel ? sel.value : (new URLSearchParams(location.search).get("category") || "")] || "";
+      if (key === lastBg) return; lastBg = key;
+      let el = document.querySelector(".nx-gamebg");
+      if (!key) { if (el) el.remove(); document.body.classList.remove("nx-has-gamebg"); return; }
+      if (!el) { document.body.insertAdjacentHTML("afterbegin", '<div class="nx-gamebg" aria-hidden="true"></div>'); el = document.querySelector(".nx-gamebg"); }
+      el.style.setProperty("--bg-img", `url('/local/cards/bg-${key}.webp')`);
+      document.body.classList.add("nx-has-gamebg");
+    };
     const fixRec = () => {
+      catBg();
       const grid = document.getElementById("grid"); if (!grid) return;
       grid.querySelectorAll('.ap-c[data-slug="fortnite-private"]').forEach(c => { c.classList.remove("rec"); const r = c.querySelector(".ap-rec"); if (r) r.remove(); });
       const star = (grid.querySelector(".ap-rec svg") || {}).outerHTML || "★";
