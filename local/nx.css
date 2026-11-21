@@ -120,7 +120,7 @@ body.nx, body.nx.has-annc { padding-top: 0 !important; }
 /* team shot (local/heromaker.html renders it, transparent background) */
 /* as wide as before, but never taller than the hero (on wide screens the heads would run off the top):
    the picture shrinks inside its box, pinned to the bottom right */
-body.nx .nx-hero-art > img { position: absolute; right: -15%; bottom: 0; width: 134%; height: auto; max-width: none; max-height: 108%; object-fit: contain; object-position: right bottom; }
+body.nx .nx-hero-art > img { position: absolute; right: -4%; bottom: 0; width: 108%; height: auto; max-width: none; max-height: 96%; object-fit: contain; object-position: right bottom; }
 @media (min-width: 981px) { .nx-hero .nx-w, .nx-hero-art { min-height: 400px; } }
 /* the bottom fade only covered the art column and left a hard vertical edge; the hero image fades out itself */
 .nx-hero-art::after { display: none; }
