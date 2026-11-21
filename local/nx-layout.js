@@ -154,21 +154,37 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
 
   // ---- /products: Fortnite AI Aim is the highlighted Fortnite pick ("Most Undetected") instead of Fortnite Private.
   // The page draws its grid itself (and again on every filter), so the badge is moved after each draw.
+  // game scene behind the top of product and store-category pages. It starts under the menu bar (not behind the
+  // header) and fades out downward. Images: local/cards/bg-<key>.webp (sources in local/src/dl-bg).
+  const setGameBg = key => {
+    let wrap = document.querySelector(".nx-gamebg-wrap");
+    if (!key) { if (wrap) wrap.remove(); document.body.classList.remove("nx-has-gamebg"); return; }
+    if (!wrap) { $("#nxNav").insertAdjacentHTML("afterend", '<div class="nx-gamebg-wrap" aria-hidden="true"><div class="nx-gamebg"></div></div>'); wrap = document.querySelector(".nx-gamebg-wrap"); }
+    wrap.firstChild.style.setProperty("--bg-img", `url('/local/cards/bg-${key}.webp')`);
+    document.body.classList.add("nx-has-gamebg");
+  };
+  const GAME_BG = { "Fortnite": "fortnite", "Fortnite Accounts": "fortnite", "Retrac": "retrac", "Rainbow Six Siege": "r6",
+    "Rust": "rust", "Call of Duty": "cod", "Valorant": "valorant" };   // Retrac: Chapter 2 Season 4 key art
+
   if (seg === "products") {
     // a game picked (?category=… or the Game filter): that game's scene behind the top, like the product pages
-    const CAT_BG = { "fortnite": "fortnite", "fortnite-accounts": "fortnite", "retrac": "fortnite", "rainbow-six-siege": "r6", "rust": "rust", "call-of-duty": "cod", "valorant": "valorant" };
+    const CAT_BG = { "fortnite": "fortnite", "fortnite-accounts": "fortnite", "retrac": "retrac", "rainbow-six-siege": "r6", "rust": "rust", "call-of-duty": "cod", "valorant": "valorant" };
     let lastBg = null;
     const catBg = () => {
       const sel = document.getElementById("game"), key = CAT_BG[sel ? sel.value : (new URLSearchParams(location.search).get("category") || "")] || "";
       if (key === lastBg) return; lastBg = key;
-      let el = document.querySelector(".nx-gamebg");
-      if (!key) { if (el) el.remove(); document.body.classList.remove("nx-has-gamebg"); return; }
-      if (!el) { document.body.insertAdjacentHTML("afterbegin", '<div class="nx-gamebg" aria-hidden="true"></div>'); el = document.querySelector(".nx-gamebg"); }
-      el.style.setProperty("--bg-img", `url('/local/cards/bg-${key}.webp')`);
-      document.body.classList.add("nx-has-gamebg");
+      setGameBg(key);
+    };
+    // game categories read "Fortnite Cheats" / "Browse Fortnite cheats" (the page rewrites the title on each filter)
+    const catTitle = () => {
+      const sel = document.getElementById("game"), t = document.getElementById("title"), s = document.getElementById("sub");
+      if (!sel || !t || !CAT_BG[sel.value] || sel.value === "fortnite-accounts") return;
+      const name = sel.options[sel.selectedIndex].text;
+      if (t.textContent !== name + " Cheats") t.textContent = name + " Cheats";
+      if (s && s.textContent !== "Browse " + name + " cheats") s.textContent = "Browse " + name + " cheats";
     };
     const fixRec = () => {
-      catBg();
+      catBg(); catTitle();
       const grid = document.getElementById("grid"); if (!grid) return;
       grid.querySelectorAll('.ap-c[data-slug="fortnite-private"]').forEach(c => { c.classList.remove("rec"); const r = c.querySelector(".ap-rec"); if (r) r.remove(); });
       const star = (grid.querySelector(".ap-rec svg") || {}).outerHTML || "★";
@@ -224,15 +240,9 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
     const keyName = n => prod.account || /key$/i.test(n) ? n : (/^(day|week|month|year)$/i.test(n) ? "1 " + n : n) + " Key";
     const from = prod.plans && prod.plans.length ? Math.min(...prod.plans.map(x => x.p)) : null;
 
-    // the game's own scene, darkened, behind the top of the page (local/src/dl-bg: Steam library art for R6 / Rust /
-    // COD, a Valorant map splash, a Fortnite screen); HWID spoofers have no game, so they keep the plain background
-    // (sources in local/src/dl-bg, shrunk to local/cards/bg-*.webp)
-    const BG = { "Fortnite": "fortnite", "Fortnite Accounts": "fortnite", "Retrac": "fortnite", "Rainbow Six Siege": "r6",
-      "Rust": "rust", "Call of Duty": "cod", "Valorant": "valorant" }[gameOf(prod)];
-    if (BG && !document.querySelector(".nx-gamebg")) {
-      document.body.insertAdjacentHTML("afterbegin", `<div class="nx-gamebg" aria-hidden="true" style="--bg-img:url('/local/cards/bg-${BG}.webp')"></div>`);
-      document.body.classList.add("nx-has-gamebg");
-    }
+    // the game's own scene behind the top (Steam library art for R6 / Rust / COD, a Valorant map splash, a Fortnite
+    // screen, Chapter 2 Season 4 for Retrac); HWID spoofers have no game, so they keep the plain background
+    setGameBg(GAME_BG[gameOf(prod)] || "");
 
     const enhance = () => {
       const root = document.getElementById("root"); if (!root || !root.querySelector(".lp")) return;

@@ -53,12 +53,12 @@ body.nx main.rv .rv-tabs button.on, body.nx main.rv .rv-cta a { background: var(
 
 /* ---------- product page (extra sections built in nx-layout.js) ---------- */
 /* game scene behind the top of the page: darkened, a touch of the site teal, fading into the page background */
-body.nx .nx-gamebg { position: absolute; left: 0; right: 0; top: 0; height: 760px; z-index: 0; pointer-events: none; overflow: hidden; }
+body.nx .nx-gamebg-wrap { position: relative; height: 0; z-index: 0; pointer-events: none; }   /* sits right under the menu bar */
+body.nx .nx-gamebg { position: absolute; left: 0; right: 0; top: 0; height: 640px; overflow: hidden; }
 body.nx .nx-gamebg::before { content: ""; position: absolute; inset: 0; background: var(--bg-img) center 30% / cover no-repeat; filter: grayscale(.75) brightness(.36) contrast(1.05);
   -webkit-mask-image: linear-gradient(180deg, #000 45%, transparent 100%); mask-image: linear-gradient(180deg, #000 45%, transparent 100%); }
 body.nx .nx-gamebg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(18, 20, 24, .55), rgba(18, 20, 24, .2) 40%, var(--bg) 100%), radial-gradient(60% 80% at 50% 20%, rgba(var(--accent-rgb), .12), transparent 70%); }
-body.nx.nx-has-gamebg main.lwrap, body.nx.nx-has-gamebg main.ap, body.nx.nx-has-gamebg .nx-top, body.nx.nx-has-gamebg .nx-promo { position: relative; z-index: 1; }
-body.nx.nx-has-gamebg .nx-top { background: transparent; }
+body.nx.nx-has-gamebg main.lwrap, body.nx.nx-has-gamebg main.ap { position: relative; z-index: 1; }
 body.nx.nx-has-gamebg .nx-nav { z-index: 50; }
 body.nx main.lwrap { padding-top: 34px !important; }
 /* gallery thumbnails */
