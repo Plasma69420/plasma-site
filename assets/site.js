@@ -514,3 +514,14 @@ addEventListener("DOMContentLoaded", revealAll);
   document.addEventListener("click", e => { const a = e.target.closest && e.target.closest("a[data-support]"); if (a) { e.preventDefault(); open(); } });
   window.openSupport = open;
 })();
+
+/* ---- new store design (files in /local) ----
+   Appended to the end of /assets/site.js, which every page loads (in <body>, not async), so every page gets the
+   new look without editing each page: the theme stylesheets plus /local/nx-layout.js (header, footer, page tweaks)
+   are written in right after this script. nx-layout.js ignores a second copy (the homepage also links it). */
+(function () {
+  if (window.__nxBoot) return; window.__nxBoot = true;
+  document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">' +
+    '<link rel="stylesheet" href="/local/nx.css"><link rel="stylesheet" href="/local/nx-theme.css">' +
+    '<script src="/local/nx-layout.js"><\/script>');
+})();

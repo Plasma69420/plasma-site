@@ -1,0 +1,132 @@
+/* Re-skins the existing pages (products, status, reviews, product pages, cart...) to the new look.
+   Loaded after the old stylesheets; the old CSS is built on these variables, so most of the work is here. */
+:root, body.nx {
+  --bg: #121418 !important; --card: #1b1e24 !important; --card-2: #22262d !important;
+  --line: rgba(255, 255, 255, .06) !important; --line-2: rgba(255, 255, 255, .1) !important;
+  --text: #f4f6f8 !important; --body: #d5dae2 !important; --muted: #8d95a3 !important; --dim: #6b7380 !important;
+  --accent: #4aa3c2 !important; --accent-2: #6bb8d3 !important; --accent-rgb: 74, 163, 194 !important; --on-accent: #fff !important;
+  --display: "Poppins", system-ui, sans-serif !important; --hf: "Poppins", system-ui, sans-serif !important; --disp: "Poppins", system-ui, sans-serif !important;
+  --v3: #4aa3c2 !important; --v3b: #4aa3c2 !important; --v3-rgb: 74, 163, 194 !important;
+}
+body.nx { background: var(--bg) !important; font-family: var(--font) !important; color: var(--body); }
+/* old seasonal bar + snow + background glows */
+body.nx .xmas-bar, body.nx #xmas-snow, body.nx .bgfx, body.nx #stars { display: none !important; }
+body.nx.has-xmas-bar { padding-top: 0 !important; }
+/* the old header's dark strip (a fixed 14px bar drawn by body::before) showed as a black line under the header */
+body.nx::before { display: none !important; }
+
+/* products taken off the storefront */
+body.nx [data-slug="arc-raiders"], body.nx a[href="/arc-raiders"]:not(.nx-menu a) { display: none !important; }
+
+/* ---------- status page sections (built in nx-layout.js) ---------- */
+body.nx .nx-svsec { margin-bottom: 30px; }
+body.nx .nx-svsec .sv-h h3 { display: flex; align-items: center; gap: 10px; }
+body.nx .nx-svsec .sv-h h3 i { width: 9px; height: 9px; border-radius: 50%; background: var(--dot); box-shadow: 0 0 0 4px rgba(var(--dot-rgb), .16); }
+body.nx .s-ok { --dot: #3ddc84; --dot-rgb: 61, 220, 132; }
+body.nx .s-warn { --dot: #ffc94d; --dot-rgb: 255, 201, 77; }
+body.nx .s-soon, body.nx .s-idle { --dot: #4db5ff; --dot-rgb: 77, 181, 255; }
+body.nx .s-bad { --dot: #ff6b6b; --dot-rgb: 255, 107, 107; }
+body.nx .s-gone { --dot: #6b7380; --dot-rgb: 107, 115, 128; }
+body.nx .sv-empty { margin: 0; padding: 18px 20px; border: 1px dashed var(--line-2); border-radius: 12px; color: var(--muted); font-size: 13.5px; }
+body.nx .sc.gone { cursor: default; }
+body.nx .sc.gone:hover { transform: none; border-color: var(--line); }
+body.nx .sc.gone::before { background: #6b7380; }
+body.nx .sc.gone .sc-i img { filter: grayscale(1) brightness(.6); }
+body.nx .sc.gone .sc-b b { color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(255, 255, 255, .25); }
+body.nx .sc.gone .sc-pill { background: rgba(255, 255, 255, .06); color: var(--muted); }
+
+/* ---------- reviews page (hero, breadcrumb and header added in nx-layout.js) ---------- */
+body.nx .nx-hero-sub .nx-hero-copy { padding: 48px 0; }
+body.nx .nx-crumb span { display: inline-flex; align-items: center; padding: 0 16px; color: var(--muted); }
+body.nx .nx-rvhead { margin-top: 18px; padding: 22px 26px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+body.nx .nx-rvhead h1 { margin: 0; font-size: 24px; font-weight: 700; color: #fff; }
+body.nx .nx-rvhead h1 span { color: var(--accent); }
+body.nx .nx-rvhead p { margin: 4px 0 0; font-size: 13.5px; color: var(--muted); }
+body.nx main.rv.nx-w { margin-top: 16px; padding: 24px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; grid-template-columns: 300px minmax(0, 1fr); gap: 24px; }
+body.nx main.rv .rv-side { top: 84px; }
+body.nx main.rv .rv-score, body.nx main.rv .rv-cta, body.nx main.rv .rc, body.nx main.rv .rv-tabs { background: var(--card-2) !important; border-color: var(--line-2) !important; border-radius: 10px !important; }
+body.nx main.rv .rv-score { background: radial-gradient(300px 180px at 0 0, rgba(var(--accent-rgb), .16), transparent 70%), var(--card-2) !important; }
+body.nx main.rv .rv-bars i u { background: var(--accent) !important; }
+body.nx main.rv .rv-tabs button.on, body.nx main.rv .rv-cta a { background: var(--accent) !important; color: #fff !important; }
+@media (max-width: 1100px) { body.nx main.rv.nx-w { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { body.nx main.rv.nx-w { padding: 14px; } }
+
+/* ---------- product page (extra sections built in nx-layout.js) ---------- */
+/* game scene behind the top of the page: darkened, a touch of the site teal, fading into the page background */
+body.nx .nx-gamebg { position: absolute; left: 0; right: 0; top: 0; height: 760px; z-index: 0; pointer-events: none; overflow: hidden; }
+body.nx .nx-gamebg::before { content: ""; position: absolute; inset: 0; background: var(--bg-img) center 30% / cover no-repeat; filter: grayscale(.55) brightness(.42) contrast(1.05);
+  -webkit-mask-image: linear-gradient(180deg, #000 45%, transparent 100%); mask-image: linear-gradient(180deg, #000 45%, transparent 100%); }
+body.nx .nx-gamebg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(18, 20, 24, .55), rgba(18, 20, 24, .2) 40%, var(--bg) 100%), radial-gradient(60% 80% at 50% 20%, rgba(var(--accent-rgb), .12), transparent 70%); }
+body.nx.nx-has-gamebg main.lwrap, body.nx.nx-has-gamebg .nx-top, body.nx.nx-has-gamebg .nx-promo { position: relative; z-index: 1; }
+body.nx.nx-has-gamebg .nx-top { background: transparent; }
+body.nx.nx-has-gamebg .nx-nav { z-index: 50; }
+body.nx main.lwrap { padding-top: 34px !important; }
+/* gallery thumbnails */
+body.nx .nx-thumbs { display: flex; gap: 10px; margin-top: 12px; }
+body.nx .nx-thumbs button { width: 92px; aspect-ratio: 16 / 9; padding: 0; border-radius: 8px; overflow: hidden; border: 1.5px solid var(--line-2); background: #0d1013; cursor: pointer; opacity: .6; transition: opacity .15s, border-color .15s; }
+body.nx .nx-thumbs button:hover { opacity: .9; }
+body.nx .nx-thumbs button.on { opacity: 1; border-color: var(--accent); }
+body.nx .nx-thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* variants: one per row, radio on the left, price + stock on the right */
+body.nx .lp-vars { display: flex !important; flex-direction: column; gap: 8px !important; }
+body.nx .lp-v { flex-direction: row !important; align-items: center !important; gap: 12px !important; min-height: 0 !important; padding: 14px 16px 14px 46px !important; border-radius: 10px !important; background: var(--card) !important; border: 1.5px solid var(--line-2) !important; box-shadow: none !important; }
+body.nx .lp-v:hover { border-color: rgba(255, 255, 255, .2) !important; }
+body.nx .lp-v.on { border-color: var(--accent) !important; background: rgba(var(--accent-rgb), .08) !important; box-shadow: 0 0 0 1px rgba(var(--accent-rgb), .35) !important; }
+body.nx .lp-v::before { display: block !important; content: "" !important; position: absolute; left: 16px; top: 50%; width: 18px; height: 18px; margin-top: -9px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .22); box-sizing: border-box; }
+body.nx .lp-v.on::before { border-color: var(--accent); background: radial-gradient(circle, var(--accent) 0 4px, transparent 4.5px); }
+body.nx .lp-v > div { flex: 1; width: auto !important; min-width: 0; }
+body.nx .lp-v b { font-size: 14.5px !important; color: #fff !important; }
+body.nx .lp-v small { display: none !important; }
+body.nx .lp-v .bv { position: static !important; order: 1; background: var(--accent) !important; color: #fff !important; }
+body.nx .lp-v strong { order: 2; margin: 0 !important; font-size: 16px !important; text-align: right; }
+body.nx .lp-v .nx-stk { order: 3; display: inline-flex; align-items: center; gap: 6px; min-width: 76px; font-size: 12px; font-weight: 600; color: #3ddc84; }
+body.nx .lp-v .nx-stk::before { content: "·"; color: var(--dim); margin-right: 2px; }
+body.nx .lp-v .nx-stk.low { color: #ffc94d; }
+/* Buy Now + Add to Cart side by side */
+body.nx .lp-buy { grid-template-columns: 1fr 1fr !important; }
+body.nx .lp-buy .btn-main { background: var(--accent) !important; color: #fff !important; box-shadow: 0 8px 26px -10px var(--accent) !important; }
+body.nx .lp-tabs span { background: var(--accent) !important; box-shadow: none !important; }
+body.nx .lp-addon input { accent-color: var(--accent) !important; }
+/* about: intro + three boxes */
+body.nx .nx-ab-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+body.nx .nx-box { padding: 22px 22px 20px; border-radius: 12px; background: var(--card); border: 1px solid var(--line); }
+body.nx .nx-box h4 { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; font-size: 16px; font-weight: 700; color: #fff; }
+body.nx .nx-box h4 i { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; background: rgba(var(--accent-rgb), .14); color: var(--accent); }
+body.nx .nx-box h4 i svg { width: 16px; height: 16px; }
+body.nx .nx-box ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+body.nx .nx-box li { position: relative; padding-left: 16px; font-size: 13.5px; line-height: 1.5; color: var(--body); }
+body.nx .nx-box li::before { content: ""; position: absolute; left: 0; top: .6em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+body.nx .nx-box li b { color: #fff; font-weight: 600; }
+body.nx .nx-fl-h { margin: 34px 0 14px; font-size: 18px; font-weight: 700; color: #fff; }
+/* call to action + 1-1 support */
+body.nx .nx-cta { margin-top: 34px; padding: 40px 28px; border-radius: 14px; text-align: center; border: 1px solid rgba(var(--accent-rgb), .3); background: radial-gradient(60% 120% at 50% 0%, rgba(var(--accent-rgb), .22), transparent 70%), var(--card); }
+body.nx .nx-cta h3 { margin: 0 0 8px; font-size: clamp(22px, 2.6vw, 30px); font-weight: 800; color: #fff; }
+body.nx .nx-cta p { margin: 0 auto 20px; max-width: 520px; color: var(--muted); font-size: 14.5px; }
+body.nx .nx-cta .nx-btn { display: inline-flex; }
+body.nx .nx-sup { display: flex; align-items: center; gap: 18px; margin: 16px 0 10px; padding: 20px 24px; border-radius: 14px; background: linear-gradient(90deg, rgba(var(--accent-rgb), .18), rgba(var(--accent-rgb), .04)), var(--card); border: 1px solid var(--line-2); }
+body.nx .nx-sup > i { flex: 0 0 auto; width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: var(--accent); color: #fff; }
+body.nx .nx-sup > i svg { width: 22px; height: 22px; }
+body.nx .nx-sup div { flex: 1; min-width: 0; }
+body.nx .nx-sup b { display: block; font-size: 16px; color: #fff; }
+body.nx .nx-sup p { margin: 3px 0 0; font-size: 13.5px; color: var(--muted); }
+body.nx .nx-sup .nx-btn { flex: 0 0 auto; }
+@media (max-width: 900px) { body.nx .nx-ab-grid { grid-template-columns: 1fr; } }
+@media (max-width: 620px) { body.nx .nx-sup { flex-wrap: wrap; } body.nx .lp-buy { grid-template-columns: 1fr !important; } }
+
+/* ---------- store grid (/products) ---------- */
+body.nx .ap-c { background: var(--card) !important; border: 1px solid var(--line) !important; border-radius: 10px !important; box-shadow: none !important; overflow: hidden; transition: border-color .2s, transform .2s, box-shadow .2s !important; }
+body.nx .ap-c:hover { border-color: rgba(74, 163, 194, .5) !important; transform: translateY(-3px); box-shadow: 0 14px 40px -18px rgba(74, 163, 194, .6) !important; }
+body.nx .ap-c::before, body.nx .ap-c::after { display: none !important; }
+/* product box art (16:9) fills the card top */
+body.nx .ap-m { position: relative; aspect-ratio: 16 / 9; height: auto !important; padding: 0 !important; background: #0b1517 !important; overflow: hidden; border-radius: 0 !important; }
+body.nx .ap-m::before, body.nx .ap-m::after { display: none !important; }
+body.nx .ap-m > img { position: absolute; inset: 0; width: 100% !important; height: 100% !important; object-fit: cover; transform: none !important; filter: none !important; transition: transform .45s ease !important; }
+body.nx .ap-c:hover .ap-m > img { transform: scale(1.05) !important; }
+body.nx .ap-st, body.nx .ap-rec { background: rgba(20, 23, 28, .88) !important; border: 1px solid var(--line-2) !important; backdrop-filter: none !important; color: #fff !important; z-index: 2; }
+body.nx .ap-rec { background: var(--accent) !important; border-color: transparent !important; }
+body.nx .ap-b { background: transparent !important; }
+body.nx .ap-v { background: var(--accent) !important; color: #fff !important; border-color: transparent !important; }
+body.nx .ap-ib { background: var(--card-2) !important; border-color: var(--line-2) !important; }
+
+body.nx main h1, body.nx main h2 { text-transform: none !important; letter-spacing: -.01em !important; }
+body.nx main h1, body.nx main h2, body.nx main h3, body.nx main h4, body.nx main button, body.nx main input, body.nx main select, body.nx main textarea { font-family: var(--font) !important; }
