@@ -82,12 +82,29 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
     <div><h4>Important Information</h4><ul><li><a href="#support" data-support>Support</a></li><li><a href="/reviews">Reviews</a></li><li><a href="/status">Status</a></li><li><a href="/account">Client area</a></li><li><a href="/about">About us</a></li></ul></div>
     <div><h4>Legal</h4><ul><li><a href="/terms">Terms of Service</a></li><li><a href="/privacy">Privacy Policy</a></li><li><a href="/refund">Refund Policy</a></li></ul></div>
   </div>
+  <div class="nx-w nx-made"><button type="button" class="nx-madeby" id="nxMade" aria-haspopup="dialog">Made by <b>Punch</b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></div>
   <div class="nx-fbar"><div class="nx-w">
     <div class="l"><a href="${CONFIG.tickets || CONFIG.discord}" target="_blank" rel="noopener">Contact Us</a><a href="/privacy">Privacy</a></div>
     <button class="nx-up" type="button" aria-label="Back to top">${I.up}</button>
     <div class="r"><img src="/img/logo.png" alt="">STRIVE &copy; ${new Date().getFullYear()}</div>
   </div></div>
 </footer>`);
+
+  // "Made by Punch" (footer): click it to read a note from the owner
+  { const open = () => {
+      if (document.getElementById("nxPunch")) return;
+      document.body.insertAdjacentHTML("beforeend", `<div class="nx-pop" id="nxPunch" role="dialog" aria-modal="true" aria-labelledby="nxPunchT">
+        <div class="nx-pop-box"><button type="button" class="nx-pop-x" aria-label="Close">&times;</button>
+          <span class="nx-pop-tag">Made by Punch</span>
+          <h3 id="nxPunchT">Hey, I'm Punch, the owner of Strive.</h3>
+          <p>I founded everything, and everything you see here. I hope you enjoy it.</p>
+          <button type="button" class="nx-btn p nx-pop-ok">THANKS, PUNCH</button></div></div>`);
+      const pop = document.getElementById("nxPunch"), shut = () => { pop.remove(); document.removeEventListener("keydown", onKey); }, onKey = e => { if (e.key === "Escape") shut(); };
+      pop.addEventListener("click", e => { if (e.target === pop || e.target.closest(".nx-pop-x, .nx-pop-ok")) shut(); });
+      document.addEventListener("keydown", onKey);
+      pop.querySelector(".nx-pop-ok").focus();
+    };
+    $("#nxMade").addEventListener("click", open); }
 
   // dropdowns (nav menus + account): one open at a time, close on outside click / Esc
   const dds = [...document.querySelectorAll(".nx-dd, .nx-user")];

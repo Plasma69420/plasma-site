@@ -284,7 +284,22 @@ body.nx .nx-gen img { position: absolute; max-width: none; width: 165%; height: 
   .nx-fbar .nx-w { height: auto; padding: 18px 0 64px; flex-direction: column; gap: 10px; }
   .nx-up { top: auto; bottom: 14px; transform: translateX(-50%); }
 }
-@media (prefers-reduced-motion: reduce) { .nx-tile img { transition: none; } html { scroll-behavior: auto; } }
+/* "Made by Punch" band at the bottom of every page + the note it opens */
+.nx-made { display: flex; justify-content: center; padding: 26px 0 8px; border-top: 1px solid var(--line); }
+.nx-madeby { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line2); color: var(--mut); font: 500 14px var(--font); cursor: pointer; transition: border-color .2s, color .2s, transform .2s; }
+.nx-madeby b { color: var(--acc); font-weight: 700; }
+.nx-madeby svg { width: 14px; height: 14px; color: var(--acc); transition: transform .2s; }
+.nx-madeby:hover { border-color: var(--acc); color: var(--text); transform: translateY(-1px); }
+.nx-madeby:hover svg { transform: translateX(3px); }
+.nx-pop { position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center; padding: 20px; background: rgba(6, 8, 12, .78); backdrop-filter: blur(6px); animation: nxPopIn .18s ease-out; }
+.nx-pop-box { position: relative; width: min(460px, 100%); padding: 34px 30px 28px; text-align: center; border-radius: 14px; background: radial-gradient(70% 90% at 50% 0%, var(--acc-soft), transparent 70%), var(--panel); border: 1px solid var(--line2); box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .7); }
+.nx-pop-tag { display: inline-block; padding: 4px 12px; border-radius: 999px; background: var(--acc-soft); color: var(--acc); font: 700 11.5px var(--font); letter-spacing: .08em; text-transform: uppercase; }
+.nx-pop-box h3 { margin: 16px 0 10px; font: 700 22px/1.25 var(--font); color: #fff; }
+.nx-pop-box p { margin: 0 0 22px; color: #b6bdc9; font-size: 15px; line-height: 1.6; }
+.nx-pop-x { position: absolute; right: 12px; top: 8px; width: 34px; height: 34px; border: 0; background: none; color: var(--mut); font-size: 24px; line-height: 1; cursor: pointer; border-radius: 8px; }
+.nx-pop-x:hover { color: #fff; background: var(--panel2); }
+@keyframes nxPopIn { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .nx-tile img { transition: none; } html { scroll-behavior: auto; } .nx-pop { animation: none; } }
 
 /* ---------- Christmas touches (body.nx-xmas, switched on in nx-layout.js: set XMAS = false to remove) ----------
    Kept small: a red sale bar, a faint red/green glow and light snow in the hero, a red NEW badge. */
