@@ -89,7 +89,9 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
     ["Retrac", "/local/cards/card-retrac.webp", { cat: "Retrac" }],
     ["FN Accounts", "/local/cards/card-fn-accounts.webp", { cat: "Fortnite Accounts" }],
     ["Call of Duty", "/local/cards/card-call-of-duty.webp", { cat: "Call of Duty" }],
-    ["Valorant", "/local/cards/card-valorant.webp", { cat: "Valorant" }]
+    ["Valorant", "/local/cards/card-valorant.webp", { cat: "Valorant" }],
+    ["Chest Cheat", "/local/cards/card-chest-cheat.webp", "chest-cheat"],   // announced, not released: "SOON" + "In development", links to its page
+    ["Rob Run", "/local/cards/card-rob-run.webp", "rob-run"]
   ];
   const art = a => nxArt(a); // shared with the other pages (local/nx-layout.js)
   const listFor = t => typeof t[2] === "string" ? CONFIG.products.filter(p => p.slug === t[2]) : CONFIG.products.filter(p => gameOf(p) === t[2].cat);
@@ -106,10 +108,11 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
   const draw = live => {
     document.getElementById("tiles").innerHTML = TILES.map(t => {
       const list = listFor(t), price = from(list), st = worst(list, live);
+      const unreleased = list.length && list.every(p => p.dev && p.plans && p.plans.every(x => !x.p));
       const dot = st ? (st.cls || "") : "none";
       return `<a class="nx-tile" href="${hrefFor(t, list)}" aria-label="${esc(t[0])}">${art(t[1])}
         <span class="nx-price${price == null ? " soon" : ""}">${price == null ? "SOON" : "<small>From</small>" + money(price)}</span>
-        <span class="nx-chip"><i class="${dot}"></i>${st ? esc(st.label) : "Status"}</span></a>`;
+        <span class="nx-chip"><i class="${dot}"></i>${unreleased ? "In Development" : st ? esc(st.label) : "Status"}</span></a>`;
     }).join("");
   };
   draw({});
