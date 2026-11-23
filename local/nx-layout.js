@@ -163,6 +163,13 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
         + (GONE.length ? sec("gone", "Discontinued", "No longer sold or supported", GONE.length, `<div class="sv-grid">${GONE.map(card).join("")}</div>`) : "");
       holder.querySelectorAll(".sv-grid[data-i]").forEach(el => (el.dataset.i === "rest" ? rest : bins[+el.dataset.i]).forEach(c => el.appendChild(c)));
       g.replaceChildren(...holder.children);
+      // unreleased products (no price): "Coming soon" instead of "From $0.00" / "No changes yet"
+      CONFIG.products.filter(p => p.dev && p.plans && p.plans.every(x => !x.p)).forEach(p => {
+        g.querySelectorAll(`.sc[href="/${p.slug}"]`).forEach(c => {
+          const r = c.querySelector(".sc-r"); if (r) r.innerHTML = "<b>Coming soon</b>";
+          const sm = c.querySelector(".sc-b small"); if (sm) sm.textContent = gameOf(p) + " · Not released yet";
+        });
+      });
       const ok = document.querySelector(".sv-counts .ok small"); if (ok) ok.textContent = "Undetected";
     };
     new MutationObserver(regroup).observe(document.body, { childList: true, subtree: true });
@@ -181,11 +188,11 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
     document.body.classList.add("nx-has-gamebg");
   };
   const GAME_BG = { "Fortnite": "fortnite", "Fortnite Accounts": "fortnite", "Retrac": "retrac", "Rainbow Six Siege": "r6",
-    "Rust": "rust", "Call of Duty": "cod", "Valorant": "valorant" };   // Retrac: Chapter 2 Season 4 key art
+    "Rust": "rust", "Call of Duty": "cod", "Valorant": "valorant", "Rob Run": "robrun" };   // Retrac: Chapter 2 Season 4 key art
 
   if (seg === "products") {
     // a game picked (?category=… or the Game filter): that game's scene behind the top, like the product pages
-    const CAT_BG = { "fortnite": "fortnite", "fortnite-accounts": "fortnite", "retrac": "retrac", "rainbow-six-siege": "r6", "rust": "rust", "call-of-duty": "cod", "valorant": "valorant" };
+    const CAT_BG = { "fortnite": "fortnite", "fortnite-accounts": "fortnite", "retrac": "retrac", "rainbow-six-siege": "r6", "rust": "rust", "call-of-duty": "cod", "valorant": "valorant", "rob-run": "robrun" };
     let lastBg = null;
     const catBg = () => {
       const sel = document.getElementById("game"), key = CAT_BG[sel ? sel.value : (new URLSearchParams(location.search).get("category") || "")] || "";
@@ -200,8 +207,20 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
       if (t.textContent !== name + " Cheats") t.textContent = name + " Cheats";
       if (s && s.textContent !== "Browse " + name + " cheats") s.textContent = "Browse " + name + " cheats";
     };
+    // unreleased products (no price): "Coming soon" instead of "From $0.00", and no add-to-cart button
+    const soonCards = () => {
+      const grid = document.getElementById("grid"); if (!grid) return;
+      CONFIG.products.filter(p => p.dev && p.plans && p.plans.every(x => !x.p)).forEach(p => {
+        grid.querySelectorAll(`.ap-c[data-slug="${p.slug}"]`).forEach(c => {
+          const b = c.querySelector(".ap-p b"), sm = c.querySelector(".ap-p small");
+          if (b && b.textContent !== "Coming soon") b.textContent = "Coming soon";
+          if (sm && sm.style.display !== "none") sm.style.display = "none";
+          c.querySelectorAll("[data-cart]").forEach(e => e.remove());
+        });
+      });
+    };
     const fixRec = () => {
-      catBg(); catTitle();
+      catBg(); catTitle(); soonCards();
       const grid = document.getElementById("grid"); if (!grid) return;
       grid.querySelectorAll('.ap-c[data-slug="fortnite-private"]').forEach(c => { c.classList.remove("rec"); const r = c.querySelector(".ap-rec"); if (r) r.remove(); });
       const star = (grid.querySelector(".ap-rec svg") || {}).outerHTML || "★";
@@ -254,8 +273,19 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
       "<b>Live status page</b> so you always know it's safe", "<b>Secure checkout</b> with PayPal, Cash App or crypto"];
     const li = a => a.map(x => `<li>${x}</li>`).join("");
     const box = (icon, title, items) => `<div class="nx-box"><h4><i>${icon}</i>${title}</h4><ul>${items}</ul></div>`;
-    const keyName = n => prod.account || /key$/i.test(n) ? n : (/^(day|week|month|year)$/i.test(n) ? "1 " + n : n) + " Key";
-    const from = prod.plans && prod.plans.length ? Math.min(...prod.plans.map(x => x.p)) : null;
+    const keyName = n => prod.account || prod.dev || /key$/i.test(n) ? n : (/^(day|week|month|year)$/i.test(n) ? "1 " + n : n) + " Key";
+    // announced but not released (no price yet): "Coming soon" instead of prices, a Discord button instead of Buy
+    const isSoon = !!prod.dev && !!prod.plans && prod.plans.every(x => !x.p);
+    const from = prod.plans && prod.plans.length && !isSoon ? Math.min(...prod.plans.map(x => x.p)) : null;
+    const soonPatch = root => {
+      const set = (el, t) => { if (el && el.textContent !== t) el.textContent = t; };
+      set(root.querySelector(".lp-head .pr"), "Coming soon");
+      root.querySelectorAll(".lp-v strong").forEach(e => set(e, "Soon"));
+      root.querySelectorAll(".lp-v .nx-stk").forEach(e => set(e, "Not released yet"));
+      root.querySelectorAll(".lp-addon, .lp-vrow .qty, .lp-rate").forEach(e => e.remove());   // (no reviews for an unreleased product)
+      const buy = root.querySelector(".lp-buy a"); if (buy && !buy.dataset.soon) { buy.dataset.soon = "1"; buy.href = CONFIG.discord; buy.textContent = "Join our Discord for the release"; }
+      const fine = root.querySelector("#fine"); if (fine && !fine.dataset.soon) { fine.dataset.soon = "1"; fine.textContent = "Not released yet. Join our Discord and you'll hear first when it launches."; }
+    };
 
     // the game's own scene behind the top (Steam library art for R6 / Rust / COD, a Valorant map splash, a Fortnite
     // screen, Chapter 2 Season 4 for Retrac); HWID spoofers have no game, so they keep the plain background
@@ -270,6 +300,7 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
         if (b) b.textContent = keyName(b.textContent.trim());
         if (sm) v.insertAdjacentHTML("beforeend", `<span class="nx-stk${sm.classList.contains("low") || sm.classList.contains("lim") ? " low" : ""}">${esc(sm.textContent.trim())}</span>`);
       });
+      if (isSoon) soonPatch(root);
       if (root.querySelector(".nx-ab-grid")) return;
       // gallery thumbnails
       const gal = (prod.gallery || []).filter(Boolean), main = root.querySelector(".lp-img img"), ct = root.querySelector(".lp-img .ct");
@@ -289,13 +320,16 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
         ${box(IC.why, "Why Choose Strive", li(why))}</div>`);
       const fg = root.querySelector(".fgroups"); if (fg) fg.insertAdjacentHTML("beforebegin", `<h3 class="nx-fl-h">Full feature list</h3>`);
       // call to action + 1-1 support upsell (the AnyDesk add-on)
-      root.insertAdjacentHTML("beforeend", `<section class="nx-cta"><h3>What are you waiting for?</h3>
+      if (isSoon) root.insertAdjacentHTML("beforeend", `<section class="nx-cta"><h3>${esc(prod.name)} is coming soon</h3>
+        <p>We're working on it. Join our Discord to hear about the release date and pricing first.</p>
+        <a class="nx-btn p" id="nxCta" href="${CONFIG.discord}" target="_blank" rel="noopener">JOIN DISCORD</a></section>`);
+      else root.insertAdjacentHTML("beforeend", `<section class="nx-cta"><h3>What are you waiting for?</h3>
         <p>Get ${esc(prod.name)}${from != null ? " from " + money(from) : ""}. Your key arrives the moment you pay, and our team is in Discord if you need a hand.</p>
         <button type="button" class="nx-btn p" id="nxCta">PURCHASE NOW</button></section>
         ${prod.addon ? `<section class="nx-sup"><i>${IC.sup}</i><div><b>Get 1-1 Support</b><p>Someone from our team connects with AnyDesk and sets up the loader, spoofer and drivers for you.</p></div>
         <button type="button" class="nx-btn g" id="nxSup">ADD FOR +${money(prod.addon.price)}</button></section>` : ""}`);
       const toBuy = () => { const v = root.querySelector(".lp-vars"); if (v) v.scrollIntoView({ behavior: "smooth", block: "center" }); };
-      root.querySelector("#nxCta").addEventListener("click", toBuy);
+      if (!isSoon) root.querySelector("#nxCta").addEventListener("click", toBuy);
       // the page may redraw the add-on checkbox, so always look it up fresh
       const sb = root.querySelector("#nxSup"), anyEl = () => document.getElementById("any");
       if (sb) {

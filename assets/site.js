@@ -523,5 +523,5 @@ addEventListener("DOMContentLoaded", revealAll);
   if (window.__nxBoot) return; window.__nxBoot = true;
   document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">' +
     '<link rel="stylesheet" href="/local/nx.css"><link rel="stylesheet" href="/local/nx-theme.css">' +
-    '<script src="/local/nx-layout.js"><\/script>');
+    '<script src="/local/nx-products.js"><\/script><script src="/local/nx-layout.js"><\/script>');
 })();

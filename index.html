@@ -98,7 +98,8 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
   const RANK = { down: 3, updating: 2, "": 1 };
   const worst = (list, live) => {
     let best = null;
-    list.forEach(p => { const s = statusOf(p, live); const cls = s && STATUS[s] ? STATUS[s][1] : null; if (cls != null && (best == null || RANK[cls] > RANK[best.cls])) best = { cls, label: STATUS[s][0] }; });
+    // products still in development (announced, not released) don't set a game's status
+    list.filter(p => !(p.dev && p.plans && p.plans.every(x => !x.p))).forEach(p => { const s = statusOf(p, live); const cls = s && STATUS[s] ? STATUS[s][1] : null; if (cls != null && (best == null || RANK[cls] > RANK[best.cls])) best = { cls, label: STATUS[s][0] }; });
     return best;
   };
 
