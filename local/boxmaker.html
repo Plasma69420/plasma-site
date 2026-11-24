@@ -154,13 +154,19 @@ async function makeBox(j) {
   // soft fog where the character meets the bottom of the front (like the other boxes)
   const fg = x.createLinearGradient(0, 760, 0, 935); fg.addColorStop(0, "rgba(61,138,166,0)"); fg.addColorStop(1, "rgba(61,139,168,.9)"); x.fillStyle = fg; x.fillRect(690, 760, 532, 175);
   x.restore();
+  // replace the spine's "PRIVATE" with the product name: blend clean spine rows from above and below the word over it, then write the name
+  if (j.spineText) {
+    const y0 = 405, y1 = 675, a = x.getImageData(612, y0, 64, 1), b = x.getImageData(612, y1, 64, 1), o = x.createImageData(64, 1);
+    for (let y = y0 + 1; y < y1; y++) { const t = (y - y0) / (y1 - y0); for (let i = 0; i < 256; i++) o.data[i] = a.data[i] + (b.data[i] - a.data[i]) * t; x.putImageData(o, 612, y); }
+    x.save(); x.translate(644, 538); x.rotate(-Math.PI / 2); x.fillStyle = "#fff"; x.textAlign = "center"; x.textBaseline = "middle"; x.letterSpacing = "3px"; x.font = "800 40px Montserrat"; x.fillText(j.spineText, 0, 0); x.restore();
+  }
   // label bottom-left, like "FORTNITE" / "RETRAC" on the others
   x.fillStyle = "#fff"; x.textAlign = "center"; x.textBaseline = "alphabetic"; x.letterSpacing = "0.5px";
   const lines = j.tag.split("|"); x.font = "900 " + (lines.length > 1 ? 17 : 21) + "px Montserrat";
   lines.forEach((ln, i) => x.fillText(ln, 644, (lines.length > 1 ? 966 : 972) + i * 19));   // centred on the spine, near its bottom
   return c;
 }const JOBS = [
-  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", tag: "CHEST|CHEAT", subject: chestCut, maxW: 500, maxH: 420, dy: -35 },
+  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", spineText: "CHEST CHEAT", tag: "CHEST|CHEAT", subject: chestCut, maxW: 500, maxH: 420, dy: -35 },
   { out: "box-rob-run.webp", art: "/local/src/dl-bg/robrun-shot2.jpg", spine: "PRIVATE", tag: "ROB|RUN", sharpen: true, clone: [1066, 618, 70, 70, 1066, 538], subject: copCut, maxW: 530, maxH: 800, bottom: true }
 ];
 (async () => {
