@@ -32,6 +32,13 @@ function greyscale(src, lo = 20, span = 215) {
   for (let i = 0; i < d.length; i += 4) { let v = clamp((lum(d, i) - a) / (b - a)); v = v * v * (3 - 2 * v) * .5 + v * .5; d[i] = d[i + 1] = d[i + 2] = Math.round(lo + v * span); }
   gx.putImageData(id, 0, 0); return g;
 }
+// bring out detail in a (soft, upscaled) grey cut-out: unsharp mask at two radii (fine edges + local contrast), alpha untouched
+function detail(src, fine = 1.4, fineAmt = 1.1, wide = 22, wideAmt = .55) {
+  const w = src.width, h = src.height, mkBlur = r => { const b = mk(w, h), bx = b.getContext("2d", { willReadFrequently: true }); bx.filter = "blur(" + r + "px)"; bx.drawImage(src, 0, 0); return bx.getImageData(0, 0, w, h).data; };
+  const sx = src.getContext("2d", { willReadFrequently: true }), id = sx.getImageData(0, 0, w, h), d = id.data, b1 = mkBlur(fine), b2 = mkBlur(wide);
+  for (let i = 0; i < d.length; i += 4) { if (d[i + 3] < 8) continue; const v = d[i] + fineAmt * (d[i] - b1[i]) + wideAmt * (d[i] - b2[i]); d[i] = d[i + 1] = d[i + 2] = v < 0 ? 0 : v > 255 ? 255 : v; }
+  const out = mk(w, h); out.getContext("2d").putImageData(id, 0, 0); return out;
+}
 // the police officer from the Rob Run key art (outline traced like in recolor.html)
 async function copCut() {
   const im = await load("/local/src/dl-bg/robrun-key.webp");
@@ -83,9 +90,13 @@ async function makeBox(j) {
   const tpl = await template(), c = mk(W, H), x = c.getContext("2d"); x.drawImage(tpl, 0, 0);
   // the character, grey with the boxes' contrast, inside the front (x 690..1222, y 135..935)
   x.save(); x.beginPath(); x.rect(690, 135, 532, 800); x.clip();
-  const sub = await j.subject(), g = greyscale(sub), sc = Math.min(j.maxW / g.width, j.maxH / g.height), dw = g.width * sc, dh = g.height * sc, px = 956 - dw / 2 + (j.dx || 0), py = j.bottom ? 935 - dh : 535 - dh / 2 + (j.dy || 0);
+  const sub = await j.subject(), g0 = greyscale(sub), g = j.sharpen ? detail(g0) : g0, sc = Math.min(j.maxW / g.width, j.maxH / g.height), dw = g.width * sc, dh = g.height * sc, px = 956 - dw / 2 + (j.dx || 0), py = j.bottom ? 935 - dh : 535 - dh / 2 + (j.dy || 0);
   if (!j.bottom) { x.save(); x.filter = "blur(18px)"; x.fillStyle = "rgba(30,50,60,.55)"; x.beginPath(); x.ellipse(px + dw / 2, py + dh + 6, dw * .45, 22, 0, 0, Math.PI * 2); x.fill(); x.restore(); }
   x.drawImage(g, px, py, dw, dh);
+  // retouch: clone clean cloth over a leftover square (from painting the mouse cursor out of the source art), feathered edge
+  if (j.clone) { const [cx0, cy0, cw, ch, fx, fy] = j.clone, snap = mk(cw, ch), sx = snap.getContext("2d"); sx.drawImage(c, fx, fy, cw, ch, 0, 0, cw, ch);
+    sx.globalCompositeOperation = "destination-in"; const rg = sx.createRadialGradient(cw / 2, ch / 2, Math.min(cw, ch) * .25, cw / 2, ch / 2, Math.min(cw, ch) * .52); rg.addColorStop(0, "#000"); rg.addColorStop(1, "rgba(0,0,0,0)"); sx.fillStyle = rg; sx.fillRect(0, 0, cw, ch);
+    x.drawImage(snap, cx0, cy0); }
   // soft fog where the character meets the bottom of the front (like the other boxes)
   const fg = x.createLinearGradient(0, 760, 0, 935); fg.addColorStop(0, "rgba(61,138,166,0)"); fg.addColorStop(1, "rgba(61,139,168,.9)"); x.fillStyle = fg; x.fillRect(690, 760, 532, 175);
   x.restore();
@@ -95,8 +106,8 @@ async function makeBox(j) {
   lines.forEach((ln, i) => x.fillText(ln, 644, (lines.length > 1 ? 966 : 972) + i * 19));   // centred on the spine, near its bottom
   return c;
 }const JOBS = [
-  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", tag: "CHEST|CHEAT", subject: chestCut, maxW: 500, maxH: 420, dy: 10 },
-  { out: "box-rob-run.webp", art: "/local/src/dl-bg/robrun-shot2.jpg", spine: "PRIVATE", tag: "ROB RUN", subject: copCut, maxW: 530, maxH: 800, bottom: true }
+  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", tag: "CHEST|CHEAT", subject: chestCut, maxW: 500, maxH: 420, dy: -55 },
+  { out: "box-rob-run.webp", art: "/local/src/dl-bg/robrun-shot2.jpg", spine: "PRIVATE", tag: "ROB|RUN", sharpen: true, clone: [1066, 618, 70, 70, 1066, 538], subject: copCut, maxW: 530, maxH: 800, bottom: true }
 ];
 (async () => {
   try {
