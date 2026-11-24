@@ -18,7 +18,7 @@
       slotNote: "Chest Cheat is only available for a limited time.",
       groups: [["Chest Cheat", ["Made for Fortnite", "Available for a limited time only", "Delivered through our Discord", "Same Discord support as every Strive product"]]],
       os: "Windows 10/11",
-      plans: [{ n: "1 Day", p: 9.99, v: null, sold: true }, { n: "7 Days", p: 59.99, v: null, pop: true }, { n: "30 Days", p: 144.99, v: null }]
+      plans: [{ n: "1 Day", p: 9.99, v: null }, { n: "7 Days", p: 59.99, v: null, pop: true }, { n: "30 Days", p: 144.99, v: null }]
     },
     {
       slug: "rob-run", name: "Rob Run", type: "Private", game: "Rob Run", img: "/local/cards/box-rob-run.webp", ticketOnly: true,
