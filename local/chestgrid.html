@@ -1,13 +1,16 @@
 <!DOCTYPE html><html><body style="margin:0;background:#222">
 <canvas id="c"></canvas>
 <script>
-const S = 2.6, im = new Image();
+// source coordinates of the chest area; drawn 2.6x with a 10px grid (labelled every 50) to trace an outline from
+const q = new URLSearchParams(location.search), X0 = +(q.get("x") || 440), Y0 = +(q.get("y") || 120), W = +(q.get("w") || 300), H = +(q.get("h") || 260), S = +(q.get("s") || 2.6), im = new Image();
 im.onload = () => {
-  const c = document.getElementById("c"); c.width = im.width * S; c.height = im.height * S; const x = c.getContext("2d");
-  x.imageSmoothingQuality = "high"; x.drawImage(im, 0, 0, c.width, c.height);
-  x.font = "10px sans-serif";
-  for (let X = 0; X <= im.width; X += 20) { x.strokeStyle = X % 100 ? "rgba(255,255,255,.25)" : "rgba(255,255,0,.6)"; x.beginPath(); x.moveTo(X * S, 0); x.lineTo(X * S, c.height); x.stroke(); x.fillStyle = "#ff0"; x.fillText(X, X * S + 2, 10); }
-  for (let Y = 0; Y <= im.height; Y += 20) { x.strokeStyle = Y % 100 ? "rgba(255,255,255,.25)" : "rgba(255,255,0,.6)"; x.beginPath(); x.moveTo(0, Y * S); x.lineTo(c.width, Y * S); x.stroke(); x.fillStyle = "#ff0"; x.fillText(Y, 2, Y * S - 2); }
+  const c = document.getElementById("c"); c.width = W * S; c.height = H * S; const x = c.getContext("2d");
+  x.imageSmoothingQuality = "high"; x.drawImage(im, X0, Y0, W, H, 0, 0, c.width, c.height);
+  x.font = "11px sans-serif";
+  for (let X = Math.ceil(X0 / 10) * 10; X <= X0 + W; X += 10) { const big = X % 50 === 0; x.strokeStyle = big ? "rgba(255,255,0,.7)" : "rgba(255,255,255,.22)"; x.beginPath(); x.moveTo((X - X0) * S, 0); x.lineTo((X - X0) * S, c.height); x.stroke(); if (big) { x.fillStyle = "#ff0"; x.fillText(X, (X - X0) * S + 2, 11); } }
+  for (let Y = Math.ceil(Y0 / 10) * 10; Y <= Y0 + H; Y += 10) { const big = Y % 50 === 0; x.strokeStyle = big ? "rgba(255,255,0,.7)" : "rgba(255,255,255,.22)"; x.beginPath(); x.moveTo(0, (Y - Y0) * S); x.lineTo(c.width, (Y - Y0) * S); x.stroke(); if (big) { x.fillStyle = "#ff0"; x.fillText(Y, 2, (Y - Y0) * S - 2); } }
 };
-im.src = "/local/src/dl-bg/pirate-chest.png";
+const POLY = JSON.parse(q.get("poly") || "null");
+if (POLY) { const old = im.onload; im.onload = () => { old(); const x = document.getElementById("c").getContext("2d"); x.strokeStyle = "#f0f"; x.lineWidth = 2; x.beginPath(); POLY.forEach(([a, b], i) => { const px = (a - X0) * S, py = (b - Y0) * S; i ? x.lineTo(px, py) : x.moveTo(px, py); }); x.closePath(); x.stroke(); POLY.forEach(([a, b], i) => { x.fillStyle = "#0ff"; x.fillText(i, (a - X0) * S + 3, (b - Y0) * S - 3); }); }; }
+im.src ="/local/src/dl-bg/pirate-skull-chest.webp";
 </script></body></html>
