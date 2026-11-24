@@ -210,6 +210,8 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
     // unreleased products (no price): "Coming soon" instead of "From $0.00", and no add-to-cart button
     const soonCards = () => {
       const grid = document.getElementById("grid"); if (!grid) return;
+      // ticket-only products (no SellApp ids yet): no add-to-cart on the card, the page explains how to order
+      CONFIG.products.filter(p => p.ticketOnly).forEach(p => grid.querySelectorAll(`.ap-c[data-slug="${p.slug}"] [data-cart]`).forEach(e => e.remove()));
       CONFIG.products.filter(p => p.dev && p.plans && p.plans.every(x => !x.p)).forEach(p => {
         grid.querySelectorAll(`.ap-c[data-slug="${p.slug}"]`).forEach(c => {
           const b = c.querySelector(".ap-p b"), sm = c.querySelector(".ap-p small");
@@ -291,6 +293,18 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
     // screen, Chapter 2 Season 4 for Retrac); HWID spoofers have no game, so they keep the plain background
     setGameBg(GAME_BG[gameOf(prod)] || "");
 
+    // plans flagged pop (Most popular badge) or sold (sold out), and products sold through tickets until their SellApp ids exist
+    const flagPatch = root => {
+      const pop = prod.plans.findIndex(x => x.pop);
+      root.querySelectorAll(".lp-v").forEach(v => {
+        const j = +v.dataset.j, x = prod.plans[j], bv = v.querySelector(".bv");
+        if (pop >= 0) { if (j === pop) { if (!bv) v.insertAdjacentHTML("beforeend", '<span class="bv">Most popular</span>'); else if (bv.textContent !== "Most popular") bv.textContent = "Most popular"; } else if (bv) bv.remove(); }
+        if (x && x.sold) { v.classList.add("sold"); const s = v.querySelector(".nx-stk"); if (s && s.textContent !== "Sold out") { s.textContent = "Sold out"; s.classList.add("sold"); } }
+      });
+      const on = root.querySelector(".lp-v.on"), cur = on && prod.plans[+on.dataset.j], buy = root.querySelector(".lp-buy a"), fine = root.querySelector("#fine");
+      if (cur && cur.sold && buy && !buy.dataset.sold) { buy.dataset.sold = "1"; buy.removeAttribute("href"); buy.removeAttribute("target"); buy.classList.add("nx-disabled"); buy.textContent = "Sold out"; if (fine) fine.textContent = "This plan is sold out right now. Pick another plan, or join our Discord to hear about restocks."; }
+      if (prod.ticketOnly) root.querySelectorAll(".lp-addon").forEach(e => e.remove());
+    };
     const enhance = () => {
       const root = document.getElementById("root"); if (!root || !root.querySelector(".lp")) return;
       // variants
@@ -301,6 +315,7 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
         if (sm) v.insertAdjacentHTML("beforeend", `<span class="nx-stk${sm.classList.contains("low") || sm.classList.contains("lim") ? " low" : ""}">${esc(sm.textContent.trim())}</span>`);
       });
       if (isSoon) soonPatch(root);
+      flagPatch(root);
       if (root.querySelector(".nx-ab-grid")) return;
       // gallery thumbnails
       const gal = (prod.gallery || []).filter(Boolean), main = root.querySelector(".lp-img img"), ct = root.querySelector(".lp-img .ct");
@@ -324,9 +339,9 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
         <p>We're working on it. Join our Discord to hear about the release date and pricing first.</p>
         <a class="nx-btn p" id="nxCta" href="${CONFIG.discord}" target="_blank" rel="noopener">JOIN DISCORD</a></section>`);
       else root.insertAdjacentHTML("beforeend", `<section class="nx-cta"><h3>What are you waiting for?</h3>
-        <p>Get ${esc(prod.name)}${from != null ? " from " + money(from) : ""}. Your key arrives the moment you pay, and our team is in Discord if you need a hand.</p>
-        <button type="button" class="nx-btn p" id="nxCta">PURCHASE NOW</button></section>
-        ${prod.addon ? `<section class="nx-sup"><i>${IC.sup}</i><div><b>Get 1-1 Support</b><p>Someone from our team connects with AnyDesk and sets up the loader, spoofer and drivers for you.</p></div>
+        <p>Get ${esc(prod.name)}${from != null ? " from " + money(from) : ""}. ${prod.ticketOnly ? "Open a ticket in our Discord and our team will get your key to you." : "Your key arrives the moment you pay, and our team is in Discord if you need a hand."}</p>
+        <button type="button" class="nx-btn p" id="nxCta">${prod.ticketOnly ? "CHOOSE A PLAN" : "PURCHASE NOW"}</button></section>
+        ${prod.addon && !prod.ticketOnly ? `<section class="nx-sup"><i>${IC.sup}</i><div><b>Get 1-1 Support</b><p>Someone from our team connects with AnyDesk and sets up the loader, spoofer and drivers for you.</p></div>
         <button type="button" class="nx-btn g" id="nxSup">ADD FOR +${money(prod.addon.price)}</button></section>` : ""}`);
       const toBuy = () => { const v = root.querySelector(".lp-vars"); if (v) v.scrollIntoView({ behavior: "smooth", block: "center" }); };
       if (!isSoon) root.querySelector("#nxCta").addEventListener("click", toBuy);

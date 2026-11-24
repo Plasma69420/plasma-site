@@ -1,31 +1,41 @@
-/* Products that are announced but not released yet. Loaded right after /assets/site.js (see nx-boot.js), before any page
-   script runs, so every page (store, status, search, product pages) sees them in CONFIG.products.
-   They use the same "dev: true" setup as Roblox External: status "In development", no checkout. Their single plan has
-   no price and no SellApp variant (v: null), so the page offers "Open a ticket" instead of a Buy button; nx-layout.js
-   shows "Coming soon" where a price would be.
-   To release one: give it real plans with SellApp variant ids (v) and remove `dev: true`. */
+/* Chest Cheat (Fortnite) and Rob Run (Steam). Loaded right after /assets/site.js (see nx-boot.js), before any page script
+   runs, so every page (store, status, search, product pages) sees them in CONFIG.products.
+
+   Plans: n = name, p = price, pop = "Most popular" badge, sold = sold out.
+   v = SellApp variant id: NOT SET YET, so the Buy button isn't shown and the page offers "Open a ticket to buy" instead
+   (ticketOnly). When the SellApp products exist, put each plan's variant id in v and remove ticketOnly: Buy Now, Add to Cart
+   and the checkout then work like every other product. */
 (() => {
   if (typeof CONFIG === "undefined" || !CONFIG.products) return;
-  const soon = [
+  // "How it works" for ticket orders (the page's default steps describe the instant-checkout flow)
+  const ticketSteps = [["Pick your plan", "Choose the key length you want from the list on this page."], ["Open a ticket", "Open a ticket in our Discord and tell us the plan. Our team sends you the payment details."], ["Get your key", "Your key and the setup guide are sent to you once you've paid. Support is in the same ticket."]];
+  const items = [
     {
-      slug: "chest-cheat", name: "Chest Cheat", type: "Private", game: "Fortnite", img: "/local/cards/box-chest-cheat.webp", dev: true,
-      desc: "Chest Cheat for Fortnite. Coming soon.",
-      features: ["In development", "Details and release date announced in our Discord", "Instant key delivery and support like every Strive product"],
-      details: "Chest Cheat for Fortnite is in development. Pricing, features and the release date will be announced in our Discord, and this page will update when it is ready.",
-      groups: [["Coming soon", ["In development right now", "Release date announced in our Discord", "Instant key delivery once it launches", "Same Discord support as every Strive product"]]],
+      slug: "chest-cheat", name: "Chest Cheat", type: "Private", game: "Fortnite", img: "/local/cards/box-chest-cheat.webp", ticketOnly: true,
+      desc: "Chest Cheat for Fortnite. Available for a limited time.",
+      features: ["Chest Cheat for Fortnite", "Limited time only", "Instant key delivery and Discord support"],
+      details: "Chest Cheat for Fortnite is only available for a limited time. Keys are delivered through our Discord, and our team is there if you need a hand with setup.",
+      slotNote: "Chest Cheat is only available for a limited time.",
+      groups: [["Chest Cheat", ["Made for Fortnite", "Available for a limited time only", "Delivered through our Discord", "Same Discord support as every Strive product"]]],
       os: "Windows 10/11",
-      plans: [{ n: "Coming soon", p: 0, v: null }]
+      plans: [{ n: "1 Day", p: 9.99, v: null, sold: true }, { n: "7 Days", p: 59.99, v: null, pop: true }, { n: "30 Days", p: 144.99, v: null }]
     },
     {
-      slug: "rob-run", name: "Rob Run", type: "Private", game: "Rob Run", img: "/local/cards/box-rob-run.webp", dev: true,
-      desc: "Rob Run (Steam) tool. Coming soon.",
-      features: ["In development", "Details and release date announced in our Discord", "Instant key delivery and support like every Strive product"],
-      details: "Our Rob Run tool is in development. Rob Run is a multiplayer crime game on Steam. Pricing, features and the release date will be announced in our Discord, and this page will update when it is ready.",
-      groups: [["Coming soon", ["In development right now", "Release date announced in our Discord", "Instant key delivery once it launches", "Same Discord support as every Strive product"]]],
+      slug: "rob-run", name: "Rob Run", type: "Private", game: "Rob Run", img: "/local/cards/box-rob-run.webp", ticketOnly: true,
+      desc: "Rob Run (Steam) tool.",
+      features: ["Made for Rob Run on Steam", "Day, week, month and lifetime keys", "Instant key delivery and Discord support"],
+      details: "Our Rob Run tool is made for Rob Run, the multiplayer crime game on Steam. Pick a day, week, month or lifetime key. Keys are delivered through our Discord, and our team is there if you need a hand with setup.",
+      groups: [["Rob Run", ["Made for Rob Run on Steam", "Day, 3 day, week, month and lifetime keys", "Delivered through our Discord", "Same Discord support as every Strive product"]]],
       os: "Windows 10/11",
-      plans: [{ n: "Coming soon", p: 0, v: null }]
+      plans: [{ n: "1 Day", p: 4.99, v: null }, { n: "3 Day", p: 8.99, v: null }, { n: "1 Week", p: 15.99, v: null, pop: true }, { n: "1 Month", p: 32.99, v: null }, { n: "Lifetime", p: 109.99, v: null }]
     }
   ];
   // site.js gives every product its add-on (AnyDesk support) when it loads, before these exist: do the same here
-  soon.forEach(p => { if (!CONFIG.products.some(x => x.slug === p.slug)) { p.addon = Object.assign({ price: CONFIG.addon.price, v: CONFIG.addon.v }, p.addon); CONFIG.products.push(p); } });
+  // the live status (set by the team's bot, per product slug) doesn't know these two yet: until it does, show them as Undetected,
+  // which is also what the store page assumes for any product without a status
+  if (typeof Api !== "undefined" && Api.status) {
+    const orig = Api.status.bind(Api);
+    Api.status = (...a) => orig(...a).then(d => { d = d || {}; items.forEach(p => { if (!d[p.slug]) d[p.slug] = { status: "undetected" }; }); return d; });
+  }
+  items.forEach(p => { p.steps = ticketSteps; if (!CONFIG.products.some(x => x.slug === p.slug)) { p.addon = Object.assign({ price: CONFIG.addon.price, v: CONFIG.addon.v }, p.addon); CONFIG.products.push(p); } });
 })();

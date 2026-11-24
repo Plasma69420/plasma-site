@@ -82,6 +82,10 @@ body.nx .lp-v strong { order: 2; margin: 0 !important; font-size: 16px !importan
 body.nx .lp-v .nx-stk { order: 3; display: inline-flex; align-items: center; gap: 6px; min-width: 76px; font-size: 12px; font-weight: 600; color: #3ddc84; }
 body.nx .lp-v .nx-stk::before { content: "·"; color: var(--dim); margin-right: 2px; }
 body.nx .lp-v .nx-stk.low { color: #ffc94d; }
+body.nx .lp-v.sold b, body.nx .lp-v.sold strong { opacity: .5; }
+body.nx .lp-v .nx-stk.sold { color: #ff6b6b; }
+body.nx .lp-v .nx-stk.sold::before { color: #ff6b6b; }
+body.nx .lp-buy .btn.nx-disabled, body.nx .nx-disabled { background: var(--card-2) !important; color: var(--muted) !important; border: 1px solid var(--line-2) !important; box-shadow: none !important; transform: none !important; cursor: not-allowed; pointer-events: none; }
 /* Buy Now + Add to Cart side by side */
 body.nx .lp-buy { grid-template-columns: 1fr 1fr !important; }
 body.nx .lp-buy .btn-main { background: var(--accent) !important; color: #fff !important; box-shadow: 0 8px 26px -10px var(--accent) !important; }
