@@ -1,0 +1,13 @@
+<!DOCTYPE html><html><body style="margin:0;background:#222">
+<canvas id="c"></canvas>
+<script>
+const S = 2.6, im = new Image();
+im.onload = () => {
+  const c = document.getElementById("c"); c.width = im.width * S; c.height = im.height * S; const x = c.getContext("2d");
+  x.imageSmoothingQuality = "high"; x.drawImage(im, 0, 0, c.width, c.height);
+  x.font = "10px sans-serif";
+  for (let X = 0; X <= im.width; X += 20) { x.strokeStyle = X % 100 ? "rgba(255,255,255,.25)" : "rgba(255,255,0,.6)"; x.beginPath(); x.moveTo(X * S, 0); x.lineTo(X * S, c.height); x.stroke(); x.fillStyle = "#ff0"; x.fillText(X, X * S + 2, 10); }
+  for (let Y = 0; Y <= im.height; Y += 20) { x.strokeStyle = Y % 100 ? "rgba(255,255,255,.25)" : "rgba(255,255,0,.6)"; x.beginPath(); x.moveTo(0, Y * S); x.lineTo(c.width, Y * S); x.stroke(); x.fillStyle = "#ff0"; x.fillText(Y, 2, Y * S - 2); }
+};
+im.src = "/local/src/dl-bg/pirate-chest.png";
+</script></body></html>

@@ -62,6 +62,15 @@ async function copCut() {
   const x0 = Math.min(...P.map(p => p[0])) - SX, x1 = Math.max(...P.map(p => p[0])) - SX, y0 = Math.min(...P.map(p => p[1])) - SY, y1 = SH;
   const out = mk(Math.round(x1 - x0), Math.round(y1 - y0)); out.getContext("2d").drawImage(cut, x0, y0, out.width, out.height, 0, 0, out.width, out.height); return out;
 }
+// the Treasure Hunt (pirate) chest: a small screenshot, upscaled 4x first, then cut out along a traced outline
+async function pirateChestCut() {
+  const im = await load("/local/src/dl-bg/pirate-chest.png"), K = 4, P = [[76, 36], [90, 26], [112, 23], [134, 33], [182, 33], [198, 24], [222, 23], [240, 30], [245, 52], [244, 80], [244, 112], [236, 126], [247, 141], [244, 158], [236, 166], [200, 167], [170, 166], [136, 165], [96, 165], [74, 150], [72, 137], [78, 124], [77, 90], [75, 55]];
+  const big = mk(im.width * K, im.height * K), bx = big.getContext("2d"); bx.imageSmoothingQuality = "high"; bx.drawImage(im, 0, 0, big.width, big.height);
+  const m = mk(big.width, big.height), mx = m.getContext("2d"); mx.fillStyle = "#fff"; mx.filter = "blur(2px)"; mx.beginPath(); P.forEach(([x, y], i) => { i ? mx.lineTo(x * K, y * K) : mx.moveTo(x * K, y * K); }); mx.closePath(); mx.fill();
+  bx.globalCompositeOperation = "destination-in"; bx.drawImage(m, 0, 0);
+  const x0 = Math.min(...P.map(p => p[0])) * K, x1 = Math.max(...P.map(p => p[0])) * K, y0 = Math.min(...P.map(p => p[1])) * K, y1 = Math.max(...P.map(p => p[1])) * K;
+  const out = mk(x1 - x0, y1 - y0); out.getContext("2d").drawImage(big, x0, y0, out.width, out.height, 0, 0, out.width, out.height); return out;
+}
 async function chestCut() {
   const img = await load("/local/src/dl-bg/chest-b.webp"), t = mk(img.naturalWidth, img.naturalHeight), tx = t.getContext("2d", { willReadFrequently: true }); tx.drawImage(img, 0, 0);
   const td = tx.getImageData(0, 0, t.width, t.height).data; let x0 = t.width, x1 = 0, y0 = t.height, y1 = 0;
@@ -100,7 +109,7 @@ async function makeBox(j) {
   const tpl = await template(), c = mk(W, H), x = c.getContext("2d"); x.drawImage(tpl, 0, 0);
   // the character, grey with the boxes' contrast, inside the front (x 690..1222, y 135..935)
   x.save(); x.beginPath(); x.rect(690, 135, 532, 800); x.clip();
-  const sub = await j.subject(), g0 = greyscale(sub), g = j.sharpen ? detail(g0) : g0, sc = Math.min(j.maxW / g.width, j.maxH / g.height), dw = g.width * sc, dh = g.height * sc, px = 956 - dw / 2 + (j.dx || 0), py = j.bottom ? 935 - dh : 535 - dh / 2 + (j.dy || 0);
+  const sub = await j.subject(), g0 = greyscale(sub), g = j.sharpen === "soft" ? detail(g0, 2.4, .7, 30, .12) : j.sharpen ? detail(g0) : g0, sc = Math.min(j.maxW / g.width, j.maxH / g.height), dw = g.width * sc, dh = g.height * sc, px = 956 - dw / 2 + (j.dx || 0), py = j.bottom ? 935 - dh : 535 - dh / 2 + (j.dy || 0);
   if (!j.bottom) { x.save(); x.filter = "blur(18px)"; x.fillStyle = "rgba(30,50,60,.55)"; x.beginPath(); x.ellipse(px + dw / 2, py + dh + 6, dw * .45, 22, 0, 0, Math.PI * 2); x.fill(); x.restore(); }
   x.drawImage(g, px, py, dw, dh);
   // retouch: clone clean cloth over a leftover square (from painting the mouse cursor out of the source art), feathered edge
@@ -116,7 +125,7 @@ async function makeBox(j) {
   lines.forEach((ln, i) => x.fillText(ln, 644, (lines.length > 1 ? 966 : 972) + i * 19));   // centred on the spine, near its bottom
   return c;
 }const JOBS = [
-  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", tag: "CHEST|CHEAT", subject: chestCut, maxW: 500, maxH: 420, dy: -35 },
+  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", tag: "CHEST|CHEAT", subject: pirateChestCut, sharpen: "soft", maxW: 470, maxH: 420, dy: -25 },
   { out: "box-rob-run.webp", art: "/local/src/dl-bg/robrun-shot2.jpg", spine: "PRIVATE", tag: "ROB|RUN", sharpen: true, clone: [1066, 618, 70, 70, 1066, 538], subject: copCut, maxW: 530, maxH: 800, bottom: true }
 ];
 (async () => {
