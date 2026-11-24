@@ -93,6 +93,19 @@ async function skullChestCut() {
   const x0 = Math.floor((Math.min(...P.map(p => p[0])) - SX) * K), x1 = Math.ceil((Math.max(...P.map(p => p[0])) - SX) * K), y0 = Math.floor((Math.min(...P.map(p => p[1])) - SY) * K), y1 = Math.ceil((Math.max(...P.map(p => p[1])) - SY) * K);
   const out = mk(x1 - x0, y1 - y0); out.getContext("2d").drawImage(big, x0, y0, out.width, out.height, 0, 0, out.width, out.height); return out;
 }
+// the Fortnite "Pirate Shop Access" token (gold compass medallion with the F) from the reward screen: a clean 400px-wide object on a flat gold
+// background, cut out with a round-plus-compass-points outline around its centre
+async function pirateTokenCut() {
+  const im = await load("/local/src/dl-bg/pirate-token.webp"), CX = 631, CY = 264, R0 = 162, K = 2, S = 215;
+  const prof = deg => { const a = ((deg % 360) + 360) % 360, d90 = Math.min(a % 90, 90 - (a % 90)), main = (a % 90 === 0 ? 0 : d90), dd = Math.abs(((a + 45) % 90) - 45);
+    // main points on the axes (tip r 195, half-width ~7deg), small points on the diagonals (tip r 176, half-width ~5deg)
+    const ax = Math.max(0, 1 - Math.min(a % 90, 90 - (a % 90)) / 7) * 33, dg = Math.max(0, 1 - Math.abs(((a + 45) % 90) - 45 === 0 ? 0 : Math.abs((a % 90) - 45)) / 5) * 14; return R0 + ax + dg; };
+  const big = mk(2 * S * K, 2 * S * K), bx = big.getContext("2d"); bx.imageSmoothingQuality = "high"; bx.drawImage(im, CX - S, CY - S, 2 * S, 2 * S, 0, 0, big.width, big.height);
+  const m = mk(big.width, big.height), mx = m.getContext("2d"); mx.fillStyle = "#fff"; mx.filter = "blur(1.2px)"; mx.beginPath();
+  for (let a = 0; a < 360; a += 1) { const r = prof(a) * K, t = (a - 90) * Math.PI / 180, x = S * K + Math.cos(t) * r, y = S * K + Math.sin(t) * r; a ? mx.lineTo(x, y) : mx.moveTo(x, y); } mx.closePath(); mx.fill();
+  bx.globalCompositeOperation = "destination-in"; bx.drawImage(m, 0, 0);
+  const pad = Math.round((S - 198) * K), out = mk(big.width - 2 * pad, big.height - 2 * pad); out.getContext("2d").drawImage(big, pad, pad, out.width, out.height, 0, 0, out.width, out.height); return out;
+}
 async function chestCut() {
   const img = await load("/local/src/dl-bg/chest-b.webp"), t = mk(img.naturalWidth, img.naturalHeight), tx = t.getContext("2d", { willReadFrequently: true }); tx.drawImage(img, 0, 0);
   const td = tx.getImageData(0, 0, t.width, t.height).data; let x0 = t.width, x1 = 0, y0 = t.height, y1 = 0;
@@ -147,7 +160,7 @@ async function makeBox(j) {
   lines.forEach((ln, i) => x.fillText(ln, 644, (lines.length > 1 ? 966 : 972) + i * 19));   // centred on the spine, near its bottom
   return c;
 }const JOBS = [
-  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", tag: "CHEST|CHEAT", subject: skullChestCut, sharpen: "soft", maxW: 410, maxH: 380, dy: -20 },
+  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", tag: "CHEST|CHEAT", subject: pirateTokenCut, sharpen: "soft", maxW: 400, maxH: 400, dy: -15 },
   { out: "box-rob-run.webp", art: "/local/src/dl-bg/robrun-shot2.jpg", spine: "PRIVATE", tag: "ROB|RUN", sharpen: true, clone: [1066, 618, 70, 70, 1066, 538], subject: copCut, maxW: 530, maxH: 800, bottom: true }
 ];
 (async () => {

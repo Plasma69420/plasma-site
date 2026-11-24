@@ -12,5 +12,5 @@ im.onload = () => {
 };
 const POLY = JSON.parse(q.get("poly") || "null");
 if (POLY) { const old = im.onload; im.onload = () => { old(); const x = document.getElementById("c").getContext("2d"); x.strokeStyle = "#f0f"; x.lineWidth = 2; x.beginPath(); POLY.forEach(([a, b], i) => { const px = (a - X0) * S, py = (b - Y0) * S; i ? x.lineTo(px, py) : x.moveTo(px, py); }); x.closePath(); x.stroke(); POLY.forEach(([a, b], i) => { x.fillStyle = "#0ff"; x.fillText(i, (a - X0) * S + 3, (b - Y0) * S - 3); }); }; }
-im.src ="/local/src/dl-bg/pirate-skull-chest.webp";
+im.src = q.get("img") || "/local/src/dl-bg/pirate-skull-chest.webp";
 </script></body></html>
