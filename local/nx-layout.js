@@ -299,6 +299,7 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
       root.querySelectorAll(".lp-v").forEach(v => {
         const j = +v.dataset.j, x = prod.plans[j], bv = v.querySelector(".bv");
         if (pop >= 0) { if (j === pop) { if (!bv) v.insertAdjacentHTML("beforeend", '<span class="bv">Most popular</span>'); else if (bv.textContent !== "Most popular") bv.textContent = "Most popular"; } else if (bv) bv.remove(); }
+        if (prod.keyTicket && !(x && x.sold)) { const s = v.querySelector(".nx-stk"); if (s && s.textContent !== "Open a ticket for key") s.textContent = "Open a ticket for key"; }
         if (x && x.sold) { v.classList.add("sold"); const s = v.querySelector(".nx-stk"); if (s && s.textContent !== "Sold out") { s.textContent = "Sold out"; s.classList.add("sold"); } }
       });
       const on = root.querySelector(".lp-v.on"), cur = on && prod.plans[+on.dataset.j], buy = root.querySelector(".lp-buy a"), fine = root.querySelector("#fine");

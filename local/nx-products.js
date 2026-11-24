@@ -35,5 +35,5 @@
     const orig = Api.status.bind(Api);
     Api.status = (...a) => orig(...a).then(d => { d = d || {}; items.forEach(p => { if (!d[p.slug]) d[p.slug] = { status: "undetected" }; }); return d; });
   }
-  items.forEach(p => { p.steps = ticketSteps; if (!CONFIG.products.some(x => x.slug === p.slug)) { p.addon = Object.assign({ price: CONFIG.addon.price, v: CONFIG.addon.v }, p.addon); CONFIG.products.push(p); } });
+  items.forEach(p => { p.steps = ticketSteps; p.keyTicket = true; if (!CONFIG.products.some(x => x.slug === p.slug)) { p.addon = Object.assign({ price: CONFIG.addon.price, v: CONFIG.addon.v }, p.addon); CONFIG.products.push(p); } });
 })();
