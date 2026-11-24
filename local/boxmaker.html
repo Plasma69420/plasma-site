@@ -48,6 +48,16 @@ async function copCut() {
   const m = mk(SW, SH), mx = m.getContext("2d"); mx.fillStyle = "#fff"; mx.beginPath(); P.forEach(([sx, sy], i) => { i ? mx.lineTo(sx - SX, sy - SY) : mx.moveTo(sx - SX, sy - SY); }); mx.closePath(); mx.fill();
   const mb = mk(SW, SH), mbx = mb.getContext("2d"); mbx.filter = "blur(1.4px)"; mbx.drawImage(m, 0, 0);
   cx.globalCompositeOperation = "destination-in"; cx.drawImage(mb, 0, 0);
+  // remove the pale background left inside the outline: near-white pixels connected to the outside (flood fill from the cut edge),
+  // then a few more rounds eating a lighter fringe along the edge
+  { const id = cx.getImageData(0, 0, SW, SH), d = id.data, N = SW * SH, L = i => .299 * d[i * 4] + .587 * d[i * 4 + 1] + .114 * d[i * 4 + 2], out = i => d[i * 4 + 3] < 20;
+    const grow = (thr, maxDepth) => { let q = []; for (let i = 0; i < N; i++) if (!out(i)) { const x = i % SW; if ((x > 0 && out(i - 1)) || (x < SW - 1 && out(i + 1)) || (i >= SW && out(i - SW)) || (i < N - SW && out(i + SW))) q.push(i); }
+      for (let depth = 0; q.length && depth < maxDepth; depth++) { const nq = []; for (const i of q) { if (out(i) || L(i) < thr) continue; d[i * 4 + 3] = 0; const x = i % SW; if (x > 0) nq.push(i - 1); if (x < SW - 1) nq.push(i + 1); if (i >= SW) nq.push(i - SW); if (i < N - SW) nq.push(i + SW); } q = nq; } };
+    grow(205, 400); grow(165, 4);
+    // the pale grey-blue wedge of background beside the neck (left of the jaw, above the shoulder): cold-toned (blue >= red) and not dark;
+    // the officer's skin and khaki shirt are warm (red > blue) and the tie is dark, so they stay
+    for (let y = 125; y < 290; y++) for (let x = 195; x < 300; x++) { const i = y * SW + x; if (out(i)) continue; if (d[i * 4 + 2] >= d[i * 4] - 2 && L(i) > 85) d[i * 4 + 3] = 0; }
+    cx.putImageData(id, 0, 0); }
   // crop to the figure's box
   const x0 = Math.min(...P.map(p => p[0])) - SX, x1 = Math.max(...P.map(p => p[0])) - SX, y0 = Math.min(...P.map(p => p[1])) - SY, y1 = SH;
   const out = mk(Math.round(x1 - x0), Math.round(y1 - y0)); out.getContext("2d").drawImage(cut, x0, y0, out.width, out.height, 0, 0, out.width, out.height); return out;
@@ -106,7 +116,7 @@ async function makeBox(j) {
   lines.forEach((ln, i) => x.fillText(ln, 644, (lines.length > 1 ? 966 : 972) + i * 19));   // centred on the spine, near its bottom
   return c;
 }const JOBS = [
-  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", tag: "CHEST|CHEAT", subject: chestCut, maxW: 500, maxH: 420, dy: -55 },
+  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", tag: "CHEST|CHEAT", subject: chestCut, maxW: 500, maxH: 420, dy: -35 },
   { out: "box-rob-run.webp", art: "/local/src/dl-bg/robrun-shot2.jpg", spine: "PRIVATE", tag: "ROB|RUN", sharpen: true, clone: [1066, 618, 70, 70, 1066, 538], subject: copCut, maxW: 530, maxH: 800, bottom: true }
 ];
 (async () => {
