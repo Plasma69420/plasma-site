@@ -160,7 +160,7 @@ async function makeBox(j) {
   lines.forEach((ln, i) => x.fillText(ln, 644, (lines.length > 1 ? 966 : 972) + i * 19));   // centred on the spine, near its bottom
   return c;
 }const JOBS = [
-  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", tag: "CHEST|CHEAT", subject: pirateTokenCut, sharpen: "soft", maxW: 400, maxH: 400, dy: -15 },
+  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", tag: "CHEST|CHEAT", subject: chestCut, maxW: 500, maxH: 420, dy: -35 },
   { out: "box-rob-run.webp", art: "/local/src/dl-bg/robrun-shot2.jpg", spine: "PRIVATE", tag: "ROB|RUN", sharpen: true, clone: [1066, 618, 70, 70, 1066, 538], subject: copCut, maxW: 530, maxH: 800, bottom: true }
 ];
 (async () => {
