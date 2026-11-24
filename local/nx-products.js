@@ -8,7 +8,7 @@
 (() => {
   if (typeof CONFIG === "undefined" || !CONFIG.products) return;
   // "How it works" for ticket orders (the page's default steps describe the instant-checkout flow)
-  const ticketSteps = [["Buy your key", "Pick your plan and pay with PayPal, Cash App or Solana. About 30 seconds."], ["Open a ticket", "Open a ticket in our Discord and send your invoice ID. Our team sends you your key and the setup guide."], ["Queue and play", "Launch the game and play like normal. Support is in the same ticket if you need a hand."]];
+  const ticketSteps = [["Buy your key", "Pick your plan and pay with PayPal, Cash App or Solana. About 30 seconds."], ["Get your key", "Once you've paid, your order page shows how to get your key and the setup guide."], ["Queue and play", "Launch the game and play like normal. Our Discord support team is there if you need a hand."]];
   const items = [
     {
       slug: "chest-cheat", name: "Chest Cheat", type: "Private", game: "Fortnite", img: "/local/cards/box-chest-cheat.webp", desc: "Chest Cheat for Fortnite. Available for a limited time.",
@@ -35,5 +35,5 @@
     const orig = Api.status.bind(Api);
     Api.status = (...a) => orig(...a).then(d => { d = d || {}; items.forEach(p => { if (!d[p.slug]) d[p.slug] = { status: "undetected" }; }); return d; });
   }
-  items.forEach(p => { p.steps = ticketSteps; p.keyTicket = true; if (!CONFIG.products.some(x => x.slug === p.slug)) { p.addon = Object.assign({ price: CONFIG.addon.price, v: CONFIG.addon.v }, p.addon); CONFIG.products.push(p); } });
+  items.forEach(p => { p.steps = ticketSteps; if (!CONFIG.products.some(x => x.slug === p.slug)) { p.addon = Object.assign({ price: CONFIG.addon.price, v: CONFIG.addon.v }, p.addon); CONFIG.products.push(p); } });
 })();
