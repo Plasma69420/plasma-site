@@ -71,6 +71,18 @@ async function pirateChestCut() {
   const x0 = Math.min(...P.map(p => p[0])) * K, x1 = Math.max(...P.map(p => p[0])) * K, y0 = Math.min(...P.map(p => p[1])) * K, y1 = Math.max(...P.map(p => p[1])) * K;
   const out = mk(x1 - x0, y1 - y0); out.getContext("2d").drawImage(big, x0, y0, out.width, out.height, 0, 0, out.width, out.height); return out;
 }
+// the same chest as a clean 512x512 render on a flat grey backdrop (fortnite.gg): key the backdrop out by flood-filling the neutral grey
+// in from the edges (the chest itself is purple and gold, so the fill can't get in), then crop to the chest
+async function pirateChestHD() {
+  const im = await load("/local/src/dl-bg/pirate-chest-hd.webp"), W0 = im.width, H0 = im.height, c = mk(W0, H0), x = c.getContext("2d", { willReadFrequently: true }); x.drawImage(im, 0, 0);
+  const id = x.getImageData(0, 0, W0, H0), d = id.data, N = W0 * H0, seen = new Uint8Array(N), bg = [d[0], d[1], d[2]];
+  const near = i => { const r = d[i * 4], g = d[i * 4 + 1], b = d[i * 4 + 2], mx = Math.max(r, g, b), mn = Math.min(r, g, b); return mx - mn < 26 && Math.abs(r - bg[0]) < 70; };
+  const q = []; for (let X = 0; X < W0; X++) { q.push(X, N - W0 + X); } for (let Y = 0; Y < H0; Y++) { q.push(Y * W0, Y * W0 + W0 - 1); }
+  while (q.length) { const i = q.pop(); if (seen[i] || !near(i)) continue; seen[i] = 1; d[i * 4 + 3] = 0; const X = i % W0; if (X > 0) q.push(i - 1); if (X < W0 - 1) q.push(i + 1); if (i >= W0) q.push(i - W0); if (i < N - W0) q.push(i + W0); }
+  x.putImageData(id, 0, 0);
+  let x0 = W0, x1 = 0, y0 = H0, y1 = 0; for (let i = 0; i < N; i++) if (d[i * 4 + 3] > 40) { const X = i % W0, Y = (i / W0) | 0; if (X < x0) x0 = X; if (X > x1) x1 = X; if (Y < y0) y0 = Y; if (Y > y1) y1 = Y; }
+  const out = mk(x1 - x0 + 1, y1 - y0 + 1); out.getContext("2d").drawImage(c, x0, y0, out.width, out.height, 0, 0, out.width, out.height); return out;
+}
 async function chestCut() {
   const img = await load("/local/src/dl-bg/chest-b.webp"), t = mk(img.naturalWidth, img.naturalHeight), tx = t.getContext("2d", { willReadFrequently: true }); tx.drawImage(img, 0, 0);
   const td = tx.getImageData(0, 0, t.width, t.height).data; let x0 = t.width, x1 = 0, y0 = t.height, y1 = 0;
@@ -125,7 +137,7 @@ async function makeBox(j) {
   lines.forEach((ln, i) => x.fillText(ln, 644, (lines.length > 1 ? 966 : 972) + i * 19));   // centred on the spine, near its bottom
   return c;
 }const JOBS = [
-  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", tag: "CHEST|CHEAT", subject: pirateChestCut, sharpen: "soft", maxW: 470, maxH: 420, dy: -25 },
+  { out: "box-chest-cheat.webp", art: "/local/cards/bg-fortnite.webp", spine: "PRIVATE", tag: "CHEST|CHEAT", subject: pirateChestHD, sharpen: true, maxW: 480, maxH: 420, dy: -25 },
   { out: "box-rob-run.webp", art: "/local/src/dl-bg/robrun-shot2.jpg", spine: "PRIVATE", tag: "ROB|RUN", sharpen: true, clone: [1066, 618, 70, 70, 1066, 538], subject: copCut, maxW: 530, maxH: 800, bottom: true }
 ];
 (async () => {
