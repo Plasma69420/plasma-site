@@ -16,7 +16,8 @@ body.nx.has-xmas-bar { padding-top: 0 !important; }
 body.nx::before { display: none !important; }
 
 /* products taken off the storefront */
-body.nx [data-slug="arc-raiders"], body.nx a[href="/arc-raiders"]:not(.nx-menu a) { display: none !important; }
+body.nx [data-slug="arc-raiders"], body.nx a[href="/arc-raiders"]:not(.nx-menu a),
+body.nx [data-slug="roblox-external"], body.nx a[href="/roblox-external"]:not(.nx-menu a) { display: none !important; }
 
 /* ---------- status page sections (built in nx-layout.js) ---------- */
 body.nx .nx-svsec { margin-bottom: 30px; }

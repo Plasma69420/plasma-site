@@ -29,7 +29,7 @@
   const seg = location.pathname.replace(/^\/|\/$|\.html$/g, "") || "index";
   const on = k => (k === seg || (k === "products" && productBy(seg))) ? ' class="on"' : "";
   // products taken off the storefront (still in the shared product list on the live site until removed there)
-  const HIDDEN = window.NX_HIDDEN = ["arc-raiders"];
+  const HIDDEN = window.NX_HIDDEN = ["arc-raiders", "roblox-external"];
   const GONE = window.NX_GONE = CONFIG.products.filter(p => HIDDEN.includes(p.slug));   // shown under "Discontinued" on /status
   CONFIG.products = CONFIG.products.filter(p => !HIDDEN.includes(p.slug));
   const live = CONFIG.products.filter(p => !p.soon && !p.dev);
