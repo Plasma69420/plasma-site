@@ -272,7 +272,7 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
     ].filter(Boolean);
     const rest = feats.filter(f => f !== winF && f !== acF && f !== ldF);
     const why = ["<b>Instant delivery:</b> your key arrives the moment you pay", "<b>24/7 support:</b> real people in our Discord", "<b>Free updates</b> for as long as your key is active",
-      "<b>Live status page</b> so you always know it's safe", "<b>Secure checkout</b> with PayPal, Cash App or crypto"];
+      "<b>Live status page</b> so you always know it's safe", "<b>Secure checkout</b> with Cash App or crypto"];
     const li = a => a.map(x => `<li>${x}</li>`).join("");
     const box = (icon, title, items) => `<div class="nx-box"><h4><i>${icon}</i>${title}</h4><ul>${items}</ul></div>`;
     const keyName = n => prod.account || prod.dev || /key$/i.test(n) ? n : (/^(day|week|month|year)$/i.test(n) ? "1 " + n : n) + " Key";

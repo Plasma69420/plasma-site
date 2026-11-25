@@ -192,7 +192,7 @@ body.dmhome{background:var(--dm-bg);color:#fff}
     <div class="vxq">
       <aside class="vxbig" aria-hidden="true"><b>FAQ</b><img src="/img/logo.png" alt=""></aside>
       <div class="fqa fq2" id="fqa">
-        <details open><summary><span class="fqn">01</span><span class="vfq">Which payment methods can I use?</span><i class="fqx"></i></summary><div class="fqd">PayPal, Cash App and crypto (Bitcoin, Litecoin and Solana). Need something else? Open a ticket in our Discord and we'll work it out.</div></details>
+        <details open><summary><span class="fqn">01</span><span class="vfq">Which payment methods can I use?</span><i class="fqx"></i></summary><div class="fqd">Cash App and crypto (Bitcoin, Litecoin and Solana). Need something else? Open a ticket in our Discord and we'll work it out.</div></details>
         <details><summary><span class="fqn">02</span><span class="vfq">When do I get my key?</span><i class="fqx"></i></summary><div class="fqd">Straight away. As soon as the payment goes through, your key and the setup guide land in your email. Didn't get it? Open a ticket with your order ID.</div></details>
         <details><summary><span class="fqn">03</span><span class="vfq">What if something doesn't work?</span><i class="fqx"></i></summary><div class="fqd">Open a ticket first, most problems get fixed fast. Refunds are handled under our <a href="/refund">refund policy</a>.</div></details>
         <details><summary><span class="fqn">04</span><span class="vfq">Is it safe to use?</span><i class="fqx"></i></summary><div class="fqd">Every build is tested before it goes out, and the <a href="/status">status page</a> shows the live state of each product. Nothing is ever 100% risk free, so check the status before you play.</div></details>
@@ -225,7 +225,7 @@ body.dmhome{background:var(--dm-bg);color:#fff}
 document.querySelectorAll("[data-discord]").forEach(function (a) { a.href = CONFIG.discord; });
 
 (function () {
-  var L = [["P", "#0070e0,#003087", "PayPal"], ["$", "#00d64f,#008f35", "Cash App"], ["\u20bf", "#f7931a,#c46d00", "Bitcoin"], ["\u0141", "#4c7ad6,#2c4f9e", "Litecoin"], ["S", "#9945ff,#14f195", "Solana"], ["D", "#5865f2,#3b45c4", "Discord"], ["W", "#2a9df4,#0b5cad", "Windows 10/11"]];
+  var L = [["$", "#00d64f,#008f35", "Cash App"], ["\u20bf", "#f7931a,#c46d00", "Bitcoin"], ["\u0141", "#4c7ad6,#2c4f9e", "Litecoin"], ["S", "#9945ff,#14f195", "Solana"], ["D", "#5865f2,#3b45c4", "Discord"], ["W", "#2a9df4,#0b5cad", "Windows 10/11"]];
   var one = L.map(function (l) { return '<span class="dm-logo"><i style="background:linear-gradient(135deg,' + l[1] + ')">' + l[0] + '</i>' + l[2] + '</span>'; }).join("");
   document.getElementById("dmLogos").innerHTML = one + one + one + one;
   var S = ["UNDETECTED FOCUS", "STREAM-PROOF", "INSTANT CHECKOUT", "24/7 HUMAN SUPPORT", "FREE UPDATES", "HWID SPOOFERS"];

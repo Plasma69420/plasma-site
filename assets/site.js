@@ -39,7 +39,7 @@ const CONFIG = {
         ["Misc", ["Slot guarantees performance, no overcrowded servers", "Discord support included", "Lifetime updates on slotted plan"]]
       ],
       os: "Windows 10/11",
-      steps: [["Buy your slot", "Pick your tier and pay with PayPal, Cash App or Solana. About 30 seconds."], ["Activate your slot", "Right after payment you will see exactly how to activate your slot and get the loader."], ["Queue and play", "Launch the game and play like normal. No sketchy accounts or extra steps."]],
+      steps: [["Buy your slot", "Pick your tier and pay with Cash App or Solana. About 30 seconds."], ["Activate your slot", "Right after payment you will see exactly how to activate your slot and get the loader."], ["Queue and play", "Launch the game and play like normal. No sketchy accounts or extra steps."]],
       // slots = max slots in that tier, days = for the per-day price. v = SellApp variant id (null until the product is created in SellApp)
       plans: [{ n: "Week", p: 29.99, v: 416783, slots: 15, days: 7 }, { n: "Month", p: 69.99, v: 416784, slots: 10, days: 30 }, { n: "3 Months", p: 129.99, v: 416785, slots: 5, days: 90 }]
     },
@@ -134,7 +134,7 @@ const CONFIG = {
       slug: "fortnite-accounts", name: "Fortnite Accounts", type: "Accounts", game: "Fortnite", account: true, img: "/img/box-accounts.webp", gallery: ["/img/box-accounts.webp", "/img/accounts-example.png"],
       desc: "Full access Fortnite accounts with verified inventories.",
       features: ["Verified skin & item counts", "Original email full access", "Login details + recovery email"],
-      details: "Hand-picked full access Fortnite accounts with verified inventories. Pick a package, then open a ticket in our Discord to pay with PayPal, Cash App or Solana and get your account.",
+      details: "Hand-picked full access Fortnite accounts with verified inventories. Pick a package, then open a ticket in our Discord to pay with Cash App or Solana and get your account.",
       groups: [
         ["Account Quality", ["Verified skin & item counts", "Original email full access", "Account age & V-Bucks listed up front"]],
         ["Delivery", ["Delivered in a ticket after purchase (include your invoice ID)", "Login credentials + recovery email", "Cross-platform compatible"]],

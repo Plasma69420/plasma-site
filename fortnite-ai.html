@@ -45,7 +45,7 @@ if (!p) {
       <p>Buying ${esc(p.name)}? Exactly what happens after you click Purchase.</p>
       <div class="hsteps">${steps.map((s, i) => `<div class="hstep"><i>${i + 1}</i><b>${s[0]}</b><p>${s[1]}</p></div>`).join("")}</div>
       <a class="btn btn-ghost abtn2" href="${CONFIG.discord}" target="_blank" rel="noopener">${ico.headset}Need help?</a></div>`;
-  const softSteps = [["Buy your key", "Pick your plan and pay with PayPal, Cash App or Solana. About 30 seconds."], ["Get the loader", "Your key is emailed to you instantly. Grab the loader in our Discord and follow the 2-minute setup."], ["Queue and play", "Launch the game and play like normal. No sketchy accounts or extra steps."]];
+  const softSteps = [["Buy your key", "Pick your plan and pay with Cash App or Solana. About 30 seconds."], ["Get the loader", "Your key is emailed to you instantly. Grab the loader in our Discord and follow the 2-minute setup."], ["Queue and play", "Launch the game and play like normal. No sketchy accounts or extra steps."]];
   const totalSlots = p.plans.reduce((s, x) => s + (x.slots || 0), 0);
   let rate = null;
   Api.get("/api/vouches").then(d => { rate = d; if (!p.account) draw(); }).catch(() => { });

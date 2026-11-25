@@ -1,4 +1,4 @@
-﻿/* Chest Cheat (Fortnite) and Rob Run (Steam). Loaded right after /assets/site.js (see nx-boot.js), before any page script
+/* Chest Cheat (Fortnite) and Rob Run (Steam). Loaded right after /assets/site.js (see nx-boot.js), before any page script
    runs, so every page (store, status, search, product pages) sees them in CONFIG.products.
 
    Plans: n = name, p = price, pop = "Most popular" badge, sold = sold out.
@@ -8,7 +8,7 @@
 (() => {
   if (typeof CONFIG === "undefined" || !CONFIG.products) return;
   // "How it works" for ticket orders (the page's default steps describe the instant-checkout flow)
-  const ticketSteps = [["Buy your key", "Pick your plan and pay with PayPal, Cash App or Solana. About 30 seconds."], ["Get your key", "Once you've paid, your order page shows how to get your key and the setup guide."], ["Queue and play", "Launch the game and play like normal. Our Discord support team is there if you need a hand."]];
+  const ticketSteps = [["Buy your key", "Pick your plan and pay with Cash App or Solana. About 30 seconds."], ["Get your key", "Once you've paid, your order page shows how to get your key and the setup guide."], ["Queue and play", "Launch the game and play like normal. Our Discord support team is there if you need a hand."]];
   const items = [
     {
       slug: "chest-cheat", name: "Chest Cheat", type: "Private", game: "Fortnite", img: "/local/cards/box-chest-cheat.webp", desc: "Chest Cheat for Fortnite. Available for a limited time.",
