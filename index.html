@@ -79,8 +79,8 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
   const from = list => { const ps = list.filter(p => !p.soon && !p.dev).flatMap(p => p.plans.map(x => x.p)); return ps.length ? Math.min(...ps) : null; };
 
   // [name, card art, product slug | category]. The store's own cards in the product boxes' colours, Retrac made in
-  // the same style (all from /local/recolor.html). Call of Duty and Valorant have no product yet, so they show "SOON"
-  // and link to the store until a product with that game exists.
+  // the same style (all from /local/recolor.html). Call of Duty and Valorant tiles are taken off for now
+  // (their cards are still in local/cards: card-call-of-duty.webp, card-valorant.webp).
   const TILES = [
     ["Fortnite", "/local/cards/card-fortnite.webp", { cat: "Fortnite" }],   // all Fortnite cheats: Private, AI Aim, Slotted
     ["Rainbow Six", "/local/cards/card-rainbow-six.webp", { cat: "Rainbow Six Siege" }],
@@ -88,8 +88,6 @@ document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
     ["Rust", "/local/cards/card-rust.webp", { cat: "Rust" }],
     ["Retrac", "/local/cards/card-retrac.webp", { cat: "Retrac" }],
     ["FN Accounts", "/local/cards/card-fn-accounts.webp", { cat: "Fortnite Accounts" }],
-    ["Call of Duty", "/local/cards/card-call-of-duty.webp", { cat: "Call of Duty" }],
-    ["Valorant", "/local/cards/card-valorant.webp", { cat: "Valorant" }],
     ["Chest Cheat", "/local/cards/card-chest-cheat.webp", "chest-cheat"],   // announced, not released: "SOON" + "In development", links to its page
     ["Rob Run", "/local/cards/card-rob-run.webp", "rob-run"]
   ];

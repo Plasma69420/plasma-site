@@ -81,17 +81,17 @@ const CONFIG = {
       plans: [{ n: "1 Day", p: 5.99, v: 416741 }, { n: "1 Week", p: 22.99, v: 416742 }, { n: "1 Month", p: 44.99, v: 416743 }]
     },
     {
-      slug: "roblox-external", name: "Roblox External", type: "External", game: "Roblox", img: "/img/box-roblox.webp", down: true, dev: true,
+      slug: "roblox-external", name: "Roblox External", type: "External", game: "Roblox", img: "/img/box-roblox.webp", dev: true,
       desc: "Secure, stable and silent Roblox external with a built-in menu.",
       features: ["Smooth UI & built-in menu", "Cloud-based loader, no FPS loss", "Auto-updates & maintenance included"],
-      details: "Strive Cheats Roblox is a premium Roblox external built to be secure, stable and silent. It ships with a smooth built-in menu, a lightweight cloud-based loader with no FPS or lag issues, and auto-updates included. Lifetime license is $7.99 or 1,000 Robux. NOTICE: this product is currently down, so purchases will not work until it is back online. Join our Discord for updates.",
+      details: "Strive Cheats Roblox is a premium Roblox external built to be secure, stable and silent. It ships with a smooth built-in menu, a lightweight cloud-based loader with no FPS or lag issues, and auto-updates included. It is currently in development and not released yet. Join our Discord to hear first when it launches.",
       groups: [
         ["Why Strive Cheats?", ["Active support team, help available when you need it", "Smooth UI & built-in menu with clean visuals", "Built to avoid Roblox detection systems", "Instant setup & fast launch", "Legit-friendly & exploit-safe"]],
         ["Secure & Lightweight", ["Cloud-based loader", "No FPS or lag issues", "Auto-updates & maintenance included"]],
         ["Compatibility", ["Windows 10 & 11", "Intel & AMD CPUs"]]
       ],
       os: "Windows 10/11",
-      plans: [{ n: "Lifetime", p: 7.99, v: null, alt: "or 1,000 Robux" }]
+      plans: [{ n: "Lifetime", p: 0, v: null }]   // in development: no price yet, so the pages show "Coming soon" / "In development"
     },
     {
       slug: "temp-spoofer", name: "Temp Spoofer", type: "Spoofer", game: "Spoofer", img: "/img/box-temp.webp",
