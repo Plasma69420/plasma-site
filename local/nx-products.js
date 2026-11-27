@@ -35,5 +35,19 @@
     const orig = Api.status.bind(Api);
     Api.status = (...a) => orig(...a).then(d => { d = d || {}; items.forEach(p => { if (!d[p.slug]) d[p.slug] = { status: "undetected" }; }); return d; });
   }
+  // fake vouches taken off the site, matched on their exact post time (the bot's vouch numbers can be reused).
+  // The count and average shown on the pages leave them out too.
+  const FAKE_VOUCHES = [1795759643364];
+  if (typeof Api !== "undefined" && Api.get) {
+    const get = Api.get.bind(Api);
+    Api.get = (path, ...rest) => get(path, ...rest).then(d => {
+      if (!String(path).startsWith("/api/vouches") || !d || !Array.isArray(d.reviews)) return d;
+      const gone = d.reviews.filter(r => FAKE_VOUCHES.includes(+new Date(r.at)));
+      if (!gone.length) return d;
+      const reviews = d.reviews.filter(r => !gone.includes(r)), total = d.total - gone.length;
+      const stars = gone.reduce((s, r) => s + r.stars, 0), average = total > 0 ? (d.reviews.length === d.total ? reviews.reduce((s, r) => s + r.stars, 0) : d.average * d.total - stars) / total : 0;
+      return Object.assign({}, d, { reviews, total, average: Math.round(average * 100) / 100 });
+    });
+  }
   items.forEach(p => { p.steps = ticketSteps; if (!CONFIG.products.some(x => x.slug === p.slug)) { p.addon = Object.assign({ price: CONFIG.addon.price, v: CONFIG.addon.v }, p.addon); CONFIG.products.push(p); } });
 })();
