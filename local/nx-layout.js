@@ -23,12 +23,12 @@
     telegram: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.2-8.3c.4-.4-.1-.6-.6-.2L6.2 13 1.3 11.5c-1-.3-1.1-1 .2-1.5L20.6 2.6c.9-.3 1.6.2 1.3 1.7Z"/></svg>'
   };
 
-  // Black Friday sale: the top bar and the homepage / store banner show only while the bot accepts the code (it checks
-  // SellApp's coupons), with the percentage it reports. So the site never advertises a code that fails at checkout, and
-  // the sale leaves the site by itself once the coupon is removed. null = no sale.
+  // Black Friday sale: the homepage / store banner and the checkout hint show only while the bot accepts the code (it
+  // checks SellApp's coupons), with the percentage it reports. So the site never advertises a code that fails at
+  // checkout, and the sale leaves the site by itself once the coupon is removed. null = no sale.
   const SALE = { name: "Black Friday Sale", code: "BLACKFRIDAY25" };
-  // seasonal red/green touches (styles in nx.css under body.nx-xmas); true turns them on
-  const XMAS = false;
+  // seasonal red/green touches (styles in nx.css under body.nx-xmas) and the red holiday bar; false turns them off
+  const XMAS = true;
   if (XMAS) document.body.classList.add("nx-xmas");
   const seg = location.pathname.replace(/^\/|\/$|\.html$/g, "") || "index";
   const on = k => (k === seg || (k === "products" && productBy(seg))) ? ' class="on"' : "";
@@ -119,14 +119,14 @@
   // promo bar (top of the page): click the code to copy it, x hides it for this visit
   const copyCode = (el, code) => el.addEventListener("click", () => { navigator.clipboard && navigator.clipboard.writeText(code); el.textContent = "Copied!"; setTimeout(() => el.textContent = code, 1200); });
   const showPromo = promo => {
-    const id = promo.text + promo.code;
+    const id = promo.text + (promo.code || "");
     try { if (sessionStorage.getItem("nx_promo_x") === id) return; } catch { }
     const atTop = scrollY < 1;
-    document.body.insertAdjacentHTML("afterbegin", `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <code title="Click to copy">${esc(promo.code)}</code> ${esc(promo.after || "")}<button type="button" aria-label="Hide">&times;</button></div>`);
+    document.body.insertAdjacentHTML("afterbegin", `<div class="nx-promo" id="nxPromo">${esc(promo.text)}${promo.code ? ` <code title="Click to copy">${esc(promo.code)}</code>` : ""} ${esc(promo.after || "")}<button type="button" aria-label="Hide">&times;</button></div>`);
     // the bar arrives after the page has drawn: don't let the browser scroll it out of view
     if (atTop) requestAnimationFrame(() => scrollTo({ top: 0, behavior: "instant" }));
     const pr = $("#nxPromo");
-    copyCode(pr.querySelector("code"), promo.code);
+    if (promo.code) copyCode(pr.querySelector("code"), promo.code);
     pr.querySelector("button").addEventListener("click", () => { pr.remove(); try { sessionStorage.setItem("nx_promo_x", id); } catch { } });
   };
   // percent off for a code, 0 if checkout wouldn't accept it; a working answer is remembered for 5 minutes
@@ -139,9 +139,14 @@
     } catch { return 0; }
   };
   if (CONFIG.promo) showPromo(CONFIG.promo);
-  else if (SALE) salePercent(SALE.code).then(percent => {
+  else if (XMAS) showPromo({ text: "\u{1F384} Happy holidays from Strive" });
+  if (SALE) salePercent(SALE.code).then(percent => {
     if (!percent) return;
-    showPromo({ text: SALE.name + ": use", code: SALE.code, after: "at checkout for " + percent + "% off" });
+    const box = seg === "checkout" && $("#dcode");
+    if (box) {
+      box.insertAdjacentHTML("beforebegin", `<p class="nx-salehint">Black Friday ${percent}% off: <button type="button" class="nx-sale-code" title="Click to copy">${esc(SALE.code)}</button></p>`);
+      copyCode($(".nx-salehint .nx-sale-code"), SALE.code);
+    }
     if (seg !== "index" && seg !== "products") return;
     $("#nxNav").insertAdjacentHTML("afterend", `<section class="nx-sale" aria-label="${esc(SALE.name)}"><div class="nx-w"><div class="nx-sale-box">
   <div><h2>${esc(SALE.name)}: <span>${percent}% off</span></h2><p>Enter the code at checkout.</p></div>

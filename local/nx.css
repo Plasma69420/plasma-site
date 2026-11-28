@@ -320,6 +320,8 @@ body.nx-xmas .nx-badge b { background: var(--xr); }
 @media (prefers-reduced-motion: reduce) { body.nx-xmas .nx-hero::before { animation: none; } }
 
 /* ---------- sale banner (homepage + store, added by nx-layout.js while the sale code works) ---------- */
+body.nx .nx-salehint { margin: 0 0 4px; font-size: 13px; line-height: 2.4; color: var(--muted); }
+body.nx .nx-salehint .nx-sale-code { padding: 5px 10px; font-size: 12px; margin: 0 2px; }
 body.nx .nx-sale { padding-top: 18px; }
 body.nx .nx-sale-box { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px 28px; padding: 20px 24px; border-radius: 12px; background: radial-gradient(60% 160% at 100% 50%, rgba(74, 163, 194, .2), transparent 70%), var(--panel); border: 1px solid var(--line); }
 body.nx .nx-sale h2 { margin: 0; font: 700 clamp(20px, 3.2vw, 27px)/1.3 var(--font); color: var(--text); text-align: left; }
