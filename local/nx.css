@@ -33,6 +33,8 @@ body.nx {
 .nx svg.i { width: 16px; height: 16px; flex: none; }
 /* hide the old shared layout pieces that site.js draws */
 body.nx .bgfx, body.nx #stars, body.nx .snow, body.nx .xmas-snow { display: none !important; }
+/* the old header/footer would show unstyled (giant cart icon) until nx-layout.js removes them */
+body.nx #nav, body.nx footer.foot { display: none !important; }
 body.nx, body.nx.has-annc { padding-top: 0 !important; }
 
 /* ---------- promo bar ---------- */
