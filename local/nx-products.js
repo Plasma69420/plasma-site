@@ -50,4 +50,8 @@
     });
   }
   items.forEach(p => { p.steps = ticketSteps; if (!CONFIG.products.some(x => x.slug === p.slug)) { p.addon = Object.assign({ price: CONFIG.addon.price, v: CONFIG.addon.v }, p.addon); CONFIG.products.push(p); } });
+  // plans with no keys left in SellApp: checkout refuses them ("maximum purchase quantity of 0"), so they show as
+  // sold out. After adding keys in SellApp, take the plan off this list.
+  const SOLD_OUT = { "fortnite-private": ["Day"], "r6-external": ["3 Day"], "fortnite-ai": ["3 Days"] };
+  CONFIG.products.forEach(p => (p.plans || []).forEach(x => { if ((SOLD_OUT[p.slug] || []).includes(x.n)) { x.sold = true; x.stock = 0; } }));
 })();

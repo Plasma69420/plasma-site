@@ -318,3 +318,12 @@ body.nx-xmas .nx-hero::before {
 @keyframes nxSnow { from { transform: translateY(0); } to { transform: translateY(200px); } }
 body.nx-xmas .nx-badge b { background: var(--xr); }
 @media (prefers-reduced-motion: reduce) { body.nx-xmas .nx-hero::before { animation: none; } }
+
+/* ---------- sale banner (homepage + store, added by nx-layout.js while the sale code works) ---------- */
+body.nx .nx-sale { padding-top: 18px; }
+body.nx .nx-sale-box { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px 28px; padding: 20px 24px; border-radius: 12px; background: radial-gradient(60% 160% at 100% 50%, rgba(74, 163, 194, .2), transparent 70%), var(--panel); border: 1px solid var(--line); }
+body.nx .nx-sale h2 { margin: 0; font: 700 clamp(20px, 3.2vw, 27px)/1.3 var(--font); color: var(--text); text-align: left; }
+body.nx .nx-sale h2 span { color: var(--acc); }
+body.nx .nx-sale p { margin: 4px 0 0; font-size: 13.5px; color: var(--muted); }
+body.nx .nx-sale-act { display: flex; flex-wrap: wrap; gap: 10px; }
+body.nx .nx-sale-code { font: 700 13.5px var(--font); letter-spacing: .08em; color: var(--text); background: var(--panel2); border: 1px dashed var(--acc); border-radius: 8px; padding: 11px 18px; cursor: pointer; }

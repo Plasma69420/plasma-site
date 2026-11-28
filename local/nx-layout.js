@@ -23,8 +23,12 @@
     telegram: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.2-8.3c.4-.4-.1-.6-.6-.2L6.2 13 1.3 11.5c-1-.3-1.1-1 .2-1.5L20.6 2.6c.9-.3 1.6.2 1.3 1.7Z"/></svg>'
   };
 
-  // seasonal red/green touches (styles in nx.css under body.nx-xmas); false turns them off
-  const XMAS = true;
+  // Black Friday sale: the top bar and the homepage / store banner show only while the bot accepts the code (it checks
+  // SellApp's coupons), with the percentage it reports. So the site never advertises a code that fails at checkout, and
+  // the sale leaves the site by itself once the coupon is removed. null = no sale.
+  const SALE = { name: "Black Friday Sale", code: "BLACKFRIDAY25" };
+  // seasonal red/green touches (styles in nx.css under body.nx-xmas); true turns them on
+  const XMAS = false;
   if (XMAS) document.body.classList.add("nx-xmas");
   const seg = location.pathname.replace(/^\/|\/$|\.html$/g, "") || "index";
   const on = k => (k === seg || (k === "products" && productBy(seg))) ? ' class="on"' : "";
@@ -42,11 +46,7 @@
         <div class="nx-menu" role="menu"><a href="/account">Client area</a><a href="/orders">My orders</a><a href="/keys">My keys</a><a href="/downloads">Downloads</a><a href="/guides">Guides</a><button type="button" id="nxOut">Log out</button></div></div>`
     : `<a class="nx-link signin" href="/login"><span>Existing user?</span> Sign in</a>`;
 
-  const promo = CONFIG.promo || { text: "Christmas Sale: use", code: "CHRISTMAS25", after: "at checkout for 25% off everything" };
-  let promoHidden = false; try { promoHidden = sessionStorage.getItem("nx_promo_x") === promo.code; } catch { }
-
   document.body.insertAdjacentHTML("afterbegin", `
-${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <code title="Click to copy">${esc(promo.code)}</code> ${esc(promo.after || "")}<button type="button" aria-label="Hide">&times;</button></div>`}
 <header class="nx-top"><div class="nx-w">
   <a class="nx-brand" href="/" aria-label="Strive Cheats"><img src="/img/logo.png" alt=""><b>Strive <em>Cheats</em></b></a>
   <div class="nx-acts">
@@ -116,13 +116,38 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
   $("#nxBurger").addEventListener("click", () => $("#nxNav").classList.toggle("open"));
   $(".nx-up").addEventListener("click", () => scrollTo({ top: 0 }));
 
-  // promo: click code to copy, x hides it for this visit
-  const pr = $("#nxPromo");
-  if (pr) {
-    pr.querySelector("code").addEventListener("click", e => { navigator.clipboard && navigator.clipboard.writeText(promo.code); e.target.textContent = "Copied!"; setTimeout(() => e.target.textContent = promo.code, 1200); });
-    pr.querySelector("button").addEventListener("click", () => { pr.remove(); try { sessionStorage.setItem("nx_promo_x", promo.code); } catch { } });
-  }
-
+  // promo bar (top of the page): click the code to copy it, x hides it for this visit
+  const copyCode = (el, code) => el.addEventListener("click", () => { navigator.clipboard && navigator.clipboard.writeText(code); el.textContent = "Copied!"; setTimeout(() => el.textContent = code, 1200); });
+  const showPromo = promo => {
+    const id = promo.text + promo.code;
+    try { if (sessionStorage.getItem("nx_promo_x") === id) return; } catch { }
+    const atTop = scrollY < 1;
+    document.body.insertAdjacentHTML("afterbegin", `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <code title="Click to copy">${esc(promo.code)}</code> ${esc(promo.after || "")}<button type="button" aria-label="Hide">&times;</button></div>`);
+    // the bar arrives after the page has drawn: don't let the browser scroll it out of view
+    if (atTop) requestAnimationFrame(() => scrollTo({ top: 0, behavior: "instant" }));
+    const pr = $("#nxPromo");
+    copyCode(pr.querySelector("code"), promo.code);
+    pr.querySelector("button").addEventListener("click", () => { pr.remove(); try { sessionStorage.setItem("nx_promo_x", id); } catch { } });
+  };
+  // percent off for a code, 0 if checkout wouldn't accept it; a working answer is remembered for 5 minutes
+  const salePercent = async code => {
+    try { const c = JSON.parse(sessionStorage.getItem("nx_sale") || "null"); if (c && c.code === code && Date.now() - c.t < 3e5) return c.percent; } catch { }
+    try {
+      const r = await Api.get("/api/discount?code=" + encodeURIComponent(code)), percent = r.valid ? Number(r.percent) || 0 : 0;
+      if (percent) try { sessionStorage.setItem("nx_sale", JSON.stringify({ code, percent, t: Date.now() })); } catch { }
+      return percent;
+    } catch { return 0; }
+  };
+  if (CONFIG.promo) showPromo(CONFIG.promo);
+  else if (SALE) salePercent(SALE.code).then(percent => {
+    if (!percent) return;
+    showPromo({ text: SALE.name + ": use", code: SALE.code, after: "at checkout for " + percent + "% off" });
+    if (seg !== "index" && seg !== "products") return;
+    $("#nxNav").insertAdjacentHTML("afterend", `<section class="nx-sale" aria-label="${esc(SALE.name)}"><div class="nx-w"><div class="nx-sale-box">
+  <div><h2>${esc(SALE.name)}: <span>${percent}% off</span></h2><p>Enter the code at checkout.</p></div>
+  <div class="nx-sale-act"><button type="button" class="nx-sale-code" title="Click to copy">${esc(SALE.code)}</button><a class="nx-btn p" href="${seg === "products" ? "#grid" : "/products"}">SHOP THE SALE</a></div></div></div></section>`);
+    copyCode($(".nx-sale-code"), SALE.code);
+  });
   // search: live product matches, Enter opens the first one (or the store filtered by the text)
   const sf = $("#nxSearch"), si = sf.querySelector("input"), sm = sf.querySelector(".nx-menu");
   const match = q => { q = q.trim().toLowerCase(); return q ? CONFIG.products.filter(p => (p.name + " " + p.game + " " + (p.type || "")).toLowerCase().includes(q)).slice(0, 7) : []; };
@@ -294,7 +319,17 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
     setGameBg(GAME_BG[gameOf(prod)] || "");
 
     // plans flagged pop (Most popular badge) or sold (sold out), and products sold through tickets until their SellApp ids exist
+    let firstPick = true;
     const flagPatch = root => {
+      // the page opens on one plan: if that one is sold out, switch (once) to one that can be bought
+      const shown = root.querySelector(".lp-v.on");
+      if (firstPick && shown) {
+        firstPick = false;
+        if ((prod.plans[+shown.dataset.j] || {}).sold) {
+          let j = prod.plans.findIndex(x => x.pop && !x.sold); if (j < 0) j = prod.plans.findIndex(x => !x.sold);
+          if (j >= 0) setTimeout(() => { const b = root.querySelector('.lp-v[data-j="' + j + '"]'); if (b) b.click(); }, 0);
+        }
+      }
       const pop = prod.plans.findIndex(x => x.pop);
       root.querySelectorAll(".lp-v").forEach(v => {
         const j = +v.dataset.j, x = prod.plans[j], bv = v.querySelector(".bv");
@@ -302,8 +337,8 @@ ${promoHidden ? "" : `<div class="nx-promo" id="nxPromo">${esc(promo.text)} <cod
         if (prod.keyTicket && !(x && x.sold)) { const s = v.querySelector(".nx-stk"); if (s && s.textContent !== "Open a ticket for key") s.textContent = "Open a ticket for key"; }
         if (x && x.sold) { v.classList.add("sold"); const s = v.querySelector(".nx-stk"); if (s && s.textContent !== "Sold out") { s.textContent = "Sold out"; s.classList.add("sold"); } }
       });
-      const on = root.querySelector(".lp-v.on"), cur = on && prod.plans[+on.dataset.j], buy = root.querySelector(".lp-buy a"), fine = root.querySelector("#fine");
-      if (cur && cur.sold && buy && !buy.dataset.sold) { buy.dataset.sold = "1"; buy.removeAttribute("href"); buy.removeAttribute("target"); buy.classList.add("nx-disabled"); buy.textContent = "Sold out"; if (fine) fine.textContent = "This plan is sold out right now. Pick another plan, or join our Discord to hear about restocks."; }
+      const on = root.querySelector(".lp-v.on"), cur = on && prod.plans[+on.dataset.j], buy = root.querySelector(".lp-buy a, .lp-buy #buy"), fine = root.querySelector("#fine");
+      if (cur && cur.sold && buy && !buy.dataset.sold) { buy.dataset.sold = "1"; buy.removeAttribute("href"); buy.removeAttribute("target"); buy.onclick = null; buy.disabled = true; buy.classList.add("nx-disabled"); buy.textContent = "Sold out"; const add = root.querySelector(".lp-buy #add"); if (add) { add.remove(); buy.style.gridColumn = "1 / -1"; buy.style.width = "100%"; } if (fine) fine.textContent = "This plan is sold out right now. Pick another plan, or join our Discord to hear about restocks."; }
       if (prod.ticketOnly) root.querySelectorAll(".lp-addon").forEach(e => e.remove());
     };
     const enhance = () => {

@@ -95,7 +95,7 @@ const applyCode = async () => {
   if (!code) return setDmsg("Enter a discount code first.", false);
   applyBtn.disabled = true;
   try {
-    const LOCAL_DISCOUNTS = {"CHRISTMAS25":25}; const r = LOCAL_DISCOUNTS[code] ? {valid:true,code:code,percent:LOCAL_DISCOUNTS[code]} : await Api.get("/api/discount?code=" + encodeURIComponent(code));
+    const r = await Api.get("/api/discount?code=" + encodeURIComponent(code));
     if (!r.valid) return setDmsg("That discount code isn't valid.", false);
     applied = { code: r.code, percent: r.percent };
     codeInput.disabled = true; applyBtn.textContent = "Remove";
@@ -122,6 +122,12 @@ document.getElementById("methods").addEventListener("click", e => {
 
 const msg = document.getElementById("msg"), pay = document.getElementById("pay");
 const say = (t, k = "err") => { msg.className = "msg " + k; msg.textContent = t; msg.scrollIntoView({ behavior: "smooth", block: "center" }); };
+// a plan that has sold out since it went into the cart can't be paid for: say which one up front
+const gone = items.filter(i => productBy(i.slug).plans[i.plan].sold).map(i => productBy(i.slug).name + " · " + productBy(i.slug).plans[i.plan].n);
+if (gone.length) {
+  msg.className = "msg err"; msg.innerHTML = esc(gone.join(", ")) + ' is sold out right now. <a href="/cart" style="color:inherit;text-decoration:underline">Remove it from your cart</a> and pick another plan, or open a ticket in our Discord.';
+  pay.disabled = true; pay.textContent = "Sold out"; pay.style.opacity = ".45"; pay.style.cursor = "not-allowed";
+}
 pay.addEventListener("click", async () => {
   const email = document.getElementById("email").value.trim();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return say("Enter a valid email address.");
@@ -137,7 +143,10 @@ pay.addEventListener("click", async () => {
     say("Redirecting to secure payment...", "ok");
     location.href = r.url;
   } catch (e) {
-    say(e.message + " If this keeps happening, open a ticket in our Discord.");
+    // SellApp's stock errors, in plain words ("...maximum purchase quantity of 0" = no keys left)
+    const stock = /maximum purchase quantity of (\d+)/i.exec(e.message || "");
+    say(stock ? (+stock[1] ? "Only " + stock[1] + " left of a plan in your cart. Lower the quantity and try again." : "A plan in your cart is sold out right now. Pick another plan, or open a ticket in our Discord.")
+      : e.message + " If this keeps happening, open a ticket in our Discord.");
     pay.disabled = false; pay.textContent = "Pay securely →";
   }
 });

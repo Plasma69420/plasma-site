@@ -2,14 +2,6 @@
    To add a post: copy blog-retrac-private.html, write the article, add an entry here. */
 const POSTS = [
   {
-    url: "/blog-christmas-2024",
-    title: "Merry Christmas from Strive",
-    tag: "News",
-    date: "2026-11-12",
-    cover: "/img/blog/christmas-2024.png",
-    excerpt: "The holidays are here. We're celebrating with a Christmas discount on every product in the store — use code Christmas25 at checkout."
-  },
-  {
     url: "/blog-retrac-private",
     title: "Retrac Private is here",
     tag: "New product",
