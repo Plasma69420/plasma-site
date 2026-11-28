@@ -140,6 +140,14 @@ body.nx .nx-hero-art > img { position: absolute; right: -4%; bottom: 0; width: 1
 .nx-crumb a, .nx-crumb span { position: relative; height: 100%; display: flex; align-items: center; padding: 0 22px 0 16px; }
 .nx-crumb a { background: var(--panel2); clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%); }
 .nx-crumb a:hover { color: var(--text); }
+/* homepage breadcrumb: quick links right after "Home", styled like the header's nav links */
+.nx-crumb .nx-cx { margin: 0; padding: 0 4px; display: flex; align-items: center; height: 100%; overflow-x: auto; scrollbar-width: none; }
+.nx-crumb .nx-cx::-webkit-scrollbar { display: none; }
+.nx-crumb .nx-cx a { gap: 7px; padding: 0 14px; background: none; clip-path: none; white-space: nowrap; flex: none; color: var(--mut); font-weight: 500; transition: color .15s; }
+.nx-crumb .nx-cx a + a::before { content: ""; position: absolute; left: 0; top: 50%; height: 14px; margin-top: -7px; width: 1px; background: var(--line2); }
+.nx-crumb .nx-cx a:hover { color: var(--text); }
+.nx-crumb .nx-cx svg { width: 15px; height: 15px; flex: none; color: var(--mut); transition: color .15s; }
+.nx-crumb .nx-cx a:hover svg { color: var(--acc); }
 
 /* ---------- panels + main grid ---------- */
 .nx-main { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 22px; margin-top: 22px; align-items: start; }
